@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Profile /> verify snapshot 1`] = `
+<SideEffect(DocumentTitle)
+  title="Profile"
+>
+  <div>
+    <form
+      noValidate={true}
+      onSubmit={[Function]}
+    >
+      <div>
+        <label
+          htmlFor="username"
+        >
+          Username
+        </label>
+        <Field
+          controls={Object {}}
+          disabled={false}
+          id="username"
+          type="text"
+        />
+      </div>
+      <div>
+        <label
+          htmlFor="displayName"
+        >
+          Display Name
+        </label>
+        <Field
+          controls={Object {}}
+          disabled={false}
+          id="displayName"
+          type="text"
+        />
+      </div>
+      <div>
+        <label
+          htmlFor="email"
+        >
+          Email
+        </label>
+        <Field
+          controls={Object {}}
+          disabled={false}
+          id="email"
+          type="email"
+        />
+      </div>
+      <button
+        disabled={false}
+        type="submit"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</SideEffect(DocumentTitle)>
+`;

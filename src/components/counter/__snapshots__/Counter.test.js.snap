@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Counter /> verify snapshot 1`] = `
+<SideEffect(DocumentTitle)
+  title="Counter"
+>
+  <h2>
+    <button
+      className="decButton"
+      onClick={[Function]}
+      type="button"
+    >
+      -
+    </button>
+    Counter: 
+    0
+    <button
+      className="incButton"
+      onClick={[Function]}
+      type="button"
+    >
+      +
+    </button>
+    <button
+      className="dblButton"
+      onClick={[Function]}
+      type="button"
+    >
+      * 2
+    </button>
+  </h2>
+</SideEffect(DocumentTitle)>
+`;
