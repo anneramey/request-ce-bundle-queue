@@ -8,7 +8,6 @@ var webpackEnvConfig = process.env.NODE_ENV === 'production'
 module.exports = {
   entry: [
     'babel-polyfill',
-    'isomorphic-fetch',
     './src/index.js',
   ],
   devtool: webpackEnvConfig.devtool,

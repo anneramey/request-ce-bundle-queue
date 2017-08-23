@@ -1,7 +1,5 @@
 import { compose, createStore, combineReducers, applyMiddleware } from 'redux';
-import promiseMiddleware from 'redux-promise';
 import createSagaMiddleware from 'redux-saga';
-import { reducer as formReducer } from 'redux-form';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import reducers from './reducers';
 import { sagas } from './sagas';
@@ -18,11 +16,10 @@ export const configureStore = history => {
   // module.  Note that we also have some connected react router and redux form
   // setup going on here as well.
   const store = createStore(
-    connectRouter(history)(combineReducers({ ...reducers, form: formReducer })),
+    connectRouter(history)(combineReducers({ ...reducers })),
     composeEnhancers(
       applyMiddleware(
         routerMiddleware(history),
-        promiseMiddleware,
         sagaMiddleware,
       ),
     ),
