@@ -20,6 +20,12 @@
     border-right: 1px solid rgb(213, 213, 213);
 }
 
+.dropdown-toggle::after {
+    border-top: 0.4em solid rgb(168, 183, 199);
+    border-right: 0.19em solid transparent;
+    border-left: 0.19em solid transparent;;
+}
+
 .main {
     /* will vary based on the .navigation a properties above */
     margin-top: 47px;
