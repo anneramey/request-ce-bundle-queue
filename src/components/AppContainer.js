@@ -14,7 +14,7 @@ export const App = () =>
     <Navbar color="faded" light fixed="top">
       <Nav className="nav-header">
         <NavItem>
-          <NavLink className="drawer-button" onClick={window.console.log}>
+          <NavLink className="drawer-button" role="button" tabIndex="0">
             <SVGInline svg={hamburgerIcon} className="icon" cleanup={['height', 'width']} />
           </NavLink>
         </NavItem>
