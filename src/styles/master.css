@@ -1,0 +1,44 @@
+.navigation {
+    background-color: rgb(241, 241, 241);
+    /*border-bottom: 1px solid rgb(162, 162, 162);*/
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.navigation a, .navigation .btn.btn-link {
+    font-size: 18px;
+    float: left;
+    display: block;
+    color: rgb(102, 125, 159);
+    padding: 10px 16px;
+    text-decoration: none;
+}
+
+/* Changes to make btn-links match a tags better, if we switch to a pure bootstrap
+   header this should not be necessary should it? */
+.navigation .btn.btn-link {
+    border: none;
+    cursor: pointer;
+    line-height: 1.5em;
+}
+
+.navigation a.right, .navigation .btn-link.right {
+    float: right;
+}
+
+.navigation .btn.btn-link.drawer-button {
+    border-right: 1px solid rgb(213, 213, 213);
+}
+
+.main {
+    /* will vary based on the .navigation a properties above */
+    margin-top: 47px;
+}
+
+.icon-svg {
+    fill: rgb(168, 183, 199);
+    height: 1.2em;
+    vertical-align: text-top;
+}
