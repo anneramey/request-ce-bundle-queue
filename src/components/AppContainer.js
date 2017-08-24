@@ -4,34 +4,43 @@ import SVGInline from 'react-svg-inline';
 import 'bootstrap/scss/bootstrap.scss';
 import personIcon from 'open-iconic/svg/person.svg';
 import bellIcon from 'open-iconic/svg/bell.svg';
-import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem,
+  Navbar, Nav, NavItem, NavLink } from 'reactstrap';
 import hamburgerIcon from '../images/hamburger.svg';
 import '../styles/master.css';
 
 export const App = () =>
   <div>
-    <nav className="navigation">
-      <button className="btn btn-link drawer-button">
-        <SVGInline svg={hamburgerIcon} className="icon" cleanup={['height', 'width']} />
-      </button>
-      <UncontrolledDropdown>
-        <DropdownToggle caret nav>
-          Queue
-        </DropdownToggle>
-        <DropdownMenu left>
-          <DropdownItem>Services</DropdownItem>
-          <DropdownItem>Teams</DropdownItem>
-          <DropdownItem divider />
-          <DropdownItem>Admin</DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
-      <button className="btn btn-link right">
-        <SVGInline svg={personIcon} className="icon" cleanup={['height', 'width']} />
-      </button>
-      <button className="btn btn-link right">
-        <SVGInline svg={bellIcon} className="icon" cleanup={['height', 'width']} />
-      </button>
-    </nav>
+    <Navbar color="faded" light fixed="top">
+      <Nav className="nav-header">
+        <NavItem>
+          <NavLink className="drawer-button" onClick={window.console.log}>
+            <SVGInline svg={hamburgerIcon} className="icon" cleanup={['height', 'width']} />
+          </NavLink>
+        </NavItem>
+        <UncontrolledDropdown>
+          <DropdownToggle caret nav role="button">
+            Queue
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem>Services</DropdownItem>
+            <DropdownItem>Teams</DropdownItem>
+            <DropdownItem divider />
+            <DropdownItem>Admin</DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+        <NavItem className="nav-item-right">
+          <NavLink role="button" tabIndex="0">
+            <SVGInline svg={bellIcon} className="icon" cleanup={['height', 'width']} />
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink role="button" tabIndex="0">
+            <SVGInline svg={personIcon} className="icon" cleanup={['height', 'width']} />
+          </NavLink>
+        </NavItem>
+      </Nav>
+    </Navbar>
     <div className="main">
       <h1>Fixed Top Menu</h1>
       <h2>Scroll this page to see the effect</h2>
