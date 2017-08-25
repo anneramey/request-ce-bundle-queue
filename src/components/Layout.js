@@ -39,6 +39,9 @@ export class Layout extends Component {
   }
 
   render() {
+    const sidebarClass = this.state.desktop
+      ? 'sidebar-content-drawer'
+      : 'sidebar-content-overlay';
     return (
       <div className="layout">
         <Header toggleSidebarOpen={this.toggleSidebarOpen} />
@@ -48,7 +51,7 @@ export class Layout extends Component {
           open={this.state.open && !this.state.desktop}
           docked={this.state.open && this.state.desktop}
           onSetOpen={this.onSetSidebarOpen}
-          sidebarClassName="sidebar-content"
+          sidebarClassName={`sidebar-content ${sidebarClass}`}
         >
           <Content />
         </Sidebar>

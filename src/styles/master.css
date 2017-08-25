@@ -28,7 +28,7 @@
 
 .main {
     /* will vary based on the .navigation a properties above */
-    margin-top: 47px;
+    margin-top: 48px;
 }
 
 .icon-svg {
@@ -39,5 +39,9 @@
 
 .sidebar-content {
     background-color: #fff;
-    padding: 70px 10px 20px 10px;
+    margin-top: 48px;
+    padding: 20px;
+}
+.sidebar-content.sidebar-content-overlay {
+    border-top: 1px solid rgb(162, 162, 162);
 }
