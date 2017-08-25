@@ -39,9 +39,10 @@
 
 .sidebar-content {
     background-color: #fff;
+    border-top: 1px solid white;
     margin-top: 48px;
     padding: 20px;
 }
 .sidebar-content.sidebar-content-overlay {
-    border-top: 1px solid rgb(162, 162, 162);
+    border-color: rgb(162, 162, 162);
 }

@@ -8,6 +8,7 @@ import { createHashHistory } from 'history';
 import './globals';
 import { AppContainer } from './components/AppContainer';
 import { configureStore } from './redux/store';
+import { actions } from './redux/modules/layout';
 
 // This src/index.js file is the main entry into the React application.  It does
 // not contain much application code, instead it is mostly boilerplate code that
@@ -56,3 +57,8 @@ render();
 
 // Triggers subsequent re-renders after code changes are detected.
 if (module.hot) module.hot.accept('./components/AppContainer', render);
+
+// Add global listeners
+const mql = window.matchMedia('(min-width: 800px)');
+store.dispatch(actions.setIsLayoutLarge(mql.matches));
+mql.addListener(event => store.dispatch(actions.setIsLayoutLarge(event.matches)));

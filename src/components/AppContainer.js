@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import 'bootstrap/scss/bootstrap.scss';
 import '../styles/master.css';
-import { Layout } from './Layout';
+import { LayoutContainer } from './Layout';
 
 export const App = () =>
   <div className="app">
-    <Layout />
+    <LayoutContainer />
   </div>;
 
 export const AppContainer = compose(
