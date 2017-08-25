@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import Sidebar from 'react-sidebar';
-import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem,
-  Navbar, Nav, NavItem, NavLink } from 'reactstrap';
-import SVGInline from 'react-svg-inline';
-import personIcon from 'open-iconic/svg/person.svg';
-import bellIcon from 'open-iconic/svg/bell.svg';
+import { Header } from './Header';
 import { Content } from './Content';
-import hamburgerIcon from '../images/hamburger.svg';
+import { Sidebar as SidebarContent } from './Sidebar';
 
 // https://github.com/balloob/react-sidebar
 
@@ -45,38 +41,9 @@ export class Layout extends Component {
   render() {
     return (
       <div className="layout">
-        <Navbar color="faded" light fixed="top">
-          <Nav className="nav-header">
-            <NavItem>
-              <NavLink className="drawer-button" role="button" tabIndex="0" onClick={this.toggleSidebarOpen}>
-                <SVGInline svg={hamburgerIcon} className="icon" cleanup={['height', 'width']} />
-              </NavLink>
-            </NavItem>
-            <UncontrolledDropdown>
-              <DropdownToggle caret nav role="button">
-                Queue
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem>Services</DropdownItem>
-                <DropdownItem>Teams</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>Admin</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-            <NavItem className="nav-item-right">
-              <NavLink role="button" tabIndex="0">
-                <SVGInline svg={bellIcon} className="icon" cleanup={['height', 'width']} />
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink role="button" tabIndex="0">
-                <SVGInline svg={personIcon} className="icon" cleanup={['height', 'width']} />
-              </NavLink>
-            </NavItem>
-          </Nav>
-        </Navbar>
+        <Header toggleSidebarOpen={this.toggleSidebarOpen} />
         <Sidebar
-          sidebar={<div>Hello World, Shayne</div>}
+          sidebar={<SidebarContent />}
           shadow={false}
           open={this.state.open && !this.state.desktop}
           docked={this.state.open && this.state.desktop}
