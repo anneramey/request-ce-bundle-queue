@@ -43,6 +43,7 @@
     margin-top: 48px;
     padding: 20px;
 }
-.sidebar-content.sidebar-content-overlay {
+.sidebar-content.overlay {
+    border-right: 1px solid;
     border-color: rgb(162, 162, 162);
 }
