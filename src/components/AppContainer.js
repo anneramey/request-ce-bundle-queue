@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import 'bootstrap/scss/bootstrap.scss';
-import '../styles/master.css';
+import '../styles/master.scss';
 import { LayoutContainer } from './Layout';
 
 export const App = () =>

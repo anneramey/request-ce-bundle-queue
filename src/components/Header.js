@@ -2,8 +2,8 @@ import React from 'react';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem,
   Navbar, Nav, NavItem, NavLink } from 'reactstrap';
 import SVGInline from 'react-svg-inline';
-import personIcon from 'open-iconic/svg/person.svg';
-import bellIcon from 'open-iconic/svg/bell.svg';
+import personIcon from 'font-awesome-svg-png/white/svg/user.svg';
+import bellIcon from 'font-awesome-svg-png/white/svg/bell.svg';
 import hamburgerIcon from '../images/hamburger.svg';
 
 export const Header = ({ toggleSidebarOpen }) =>
