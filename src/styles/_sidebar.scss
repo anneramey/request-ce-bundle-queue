@@ -38,8 +38,9 @@
       font-weight: 400;
       margin: 5px 0;
       padding: 2.5px 25px 2.5px 22px;
-      .icon-svg {
-        margin-right: 10px;
+      .icon {
+        display: inline-block;
+        width: 35px;
       }
       &.active {
         border-left-color: rgb(85, 106, 140);
