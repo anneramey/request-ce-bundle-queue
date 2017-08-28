@@ -90,4 +90,3 @@ export const App = () =>
     </div>
   </div>;
 
-export const AppContainer = connect(null)(App);
