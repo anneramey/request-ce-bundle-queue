@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import 'npm-font-open-sans/open-sans.scss';
 import 'bootstrap/scss/bootstrap.scss';
+import 'typeface-open-sans/index.css';
 import '../styles/master.scss';
 import { LayoutContainer } from './Layout';
 import { Content } from './Content';

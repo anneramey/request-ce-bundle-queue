@@ -3,17 +3,16 @@
 }
 
 .sidebar {
-  border-right: 1px solid rgb(223, 226, 229);
+  border-right: 1px solid $gray3;
   display: flex;
   flex-direction: column;
   margin-top: 48px;
-  min-height: calc(100vh - 48px);
+  min-height: $page-height;
   padding: 20px 0;
 
   h6 {
-    color: rgb(183, 196, 209);
+    color: $blue2;
     font-size: 12px;
-    font-weight: 600;
     padding: 0 25px;
     margin: 20px 0 0 0;
     text-transform: uppercase;
@@ -23,21 +22,20 @@
     font-size: 14px;
     margin: 0 25px;
     &.btn-primary {
-      background-color: rgb(168, 183, 198);
-      border-color: rgb(168, 183, 198);
+      background-color: $blue2;
+      border-color: $blue2;
     }
   }
 
   .nav-link {
-    color: rgb(183, 196, 209);
+    color: $blue2;
   }
 
   .filter-nav {
     margin-top: 10px;
     .nav-link {
       border-left: 3px solid white;
-      font-size: 15px;
-      font-weight: 400;
+      font-size: 14px;
       margin: 5px 0;
       padding: 2.5px 25px 2.5px 22px;
       transition: border-left-color 0.5s, color 0.5s;
@@ -46,10 +44,10 @@
         width: 35px;
       }
       &.active {
-        border-left-color: rgb(85, 106, 140);
-        color: rgb(85, 106, 140);
+        border-left-color: $blue1;
+        color: $blue1;
         .icon-svg, path {
-          fill: rgb(85, 106, 140);
+          fill: $blue1;
         }
       }
     }
@@ -58,9 +56,8 @@
   .bottom-nav {
     margin-top: 2.5px;
     .nav-link {
-      border-bottom: 1px solid rgb(242, 244, 246);
-      font-size: 12px;
-      font-weight: 600;
+      border-bottom: 1px solid $gray3;
+      font-size: 14px;
       padding: 10px;
       margin: 5px 15px;
       text-transform: uppercase;

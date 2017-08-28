@@ -1,3 +1,9 @@
+@import 'variables';
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
 .navbar {
   padding: 0;
 }
@@ -12,32 +18,41 @@
 
 .navbar .nav-link {
   font-size: 16px;
-  color: rgb(102, 125, 159);
+  color: $blue2;
   padding: 0.75em 1em;
 }
 
 .navbar .drawer-button {
-  border-right: 1px solid rgb(213, 213, 213);
+  border-right: 1px solid $transparent-gray1;
 }
 
 .dropdown-toggle::after {
-  border-top: 0.4em solid rgb(168, 183, 199);
+  border-top: 0.4em solid $blue2;
   border-right: 0.19em solid transparent;
   border-left: 0.19em solid transparent;;
 }
 
-.content {
-  /* will vary based on the .navigation a properties above */
-  margin-top: 48px;
-}
-
 .icon-svg {
-  height: 1.2em;
+  height: 1.4em;
   vertical-align: text-top;
 
   path {
-    fill: rgb(168, 183, 199);
+    fill: $blue2;
+  }
+}
+
+.list-group-item {
+  border: none;
+  margin-bottom: 0;
+  &:first-child {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+  }
+  &:last-child {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
   }
 }
 
 @import 'sidebar';
+@import 'content';

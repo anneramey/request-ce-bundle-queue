@@ -1,0 +1,108 @@
+.content {
+  margin-top: $header-height;
+
+  .two-panels {
+    display: flex;
+    min-height: $page-height;
+
+    .left-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      .controls {
+        border-bottom: 2px solid $gray4;
+        display: flex;
+
+        h6 {
+          color: $blue1;
+          font-size: 14px;
+          margin-bottom: 0;
+          padding: 10px 15px;
+          small {
+            font-size: 11px;
+          }
+        }
+
+        .buttons {
+          display: flex;
+          margin-left: auto;
+
+          .icon-svg path {
+            fill: $blue2;
+          }
+        }
+      }
+
+      .submissions {
+        flex: 1;
+
+        .list-group .list-group-item {
+        }
+
+        .submission {
+          border-bottom: 1px solid $gray4;
+          color: $blue1;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 10px 15px;
+
+          .status {
+            text-transform: uppercase;
+            font-size: 10px;
+            line-height: 13px;
+            .icon-svg {
+              margin-right: 3px;
+              path {
+                fill: $blue1;
+              }
+            }
+          }
+
+          .label {
+            font-size: 16px;
+            line-height: 20px;
+          }
+
+          .summary {
+            font-size: 11px;
+            line-height: 14px;
+            margin: 5px 0;
+          }
+
+          .assignment, .timestamps {
+            font-size: 10px;
+            font-weight: 300;
+            line-height: 13px;
+            margin-top: 5px;
+          }
+
+          .timestamps {
+            display: flex;
+            flex-direction: row;
+
+            .list-group-item {
+              padding: 0;
+
+              &.separator {
+                margin: 0 5px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .right-panel {
+      align-items: center;
+      background-color: $blue3;
+      color: $blue1;
+      display: none;
+      flex-direction: column;
+      font-size: 18px;
+      justify-content: center;
+      min-width: 400px;
+    }
+  }
+}

@@ -56,7 +56,6 @@
     "font-awesome-svg-png": "^1.2.2",
     "history": "^4.7.2",
     "immutable": "4.0.0-rc.2",
-    "npm-font-open-sans": "^1.0.3",
     "react": "^15.6.1",
     "react-document-title": "^2.0.3",
     "react-dom": "^15.6.1",
@@ -69,7 +68,8 @@
     "reactstrap": "^4.8.0",
     "recompose": "^0.25.0",
     "redux": "^3.7.2",
-    "redux-saga": "^0.15.6"
+    "redux-saga": "^0.15.6",
+    "typeface-open-sans": "^0.0.35"
   },
   "jest": {
     "moduleNameMapper": {
