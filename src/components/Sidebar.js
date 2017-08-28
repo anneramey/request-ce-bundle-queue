@@ -7,7 +7,7 @@ import usersIcon from 'font-awesome-svg-png/white/svg/users.svg';
 import inboxIcon from 'font-awesome-svg-png/white/svg/inbox.svg';
 import starIcon from 'font-awesome-svg-png/white/svg/star-o.svg';
 
-export const Sidebar = () =>
+export const Sidebar = ({ documentationUrl, supportUrl }) =>
   <div className="sidebar">
     <a href="#foo" className="btn btn-primary">
       Create New Task
@@ -62,14 +62,14 @@ export const Sidebar = () =>
     </Nav>
     <Nav vertical className="bottom-nav">
       <NavItem>
-        <NavLink to="/documentation" className="nav-link" activeClassName="active">
+        <a href={documentationUrl} className="nav-link" target="_blank">
           Documentation
-        </NavLink>
+        </a>
       </NavItem>
       <NavItem>
-        <NavLink to="/need-help" className="nav-link" activeClassName="active">
+        <a href={supportUrl} className="nav-link" target="_blank">
           Need Help?
-        </NavLink>
+        </a>
       </NavItem>
       <NavItem>
         <NavLink to="/settings" className="nav-link" activeClassName="active">
