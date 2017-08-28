@@ -1,48 +1,9 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 
 export const Content = () =>
-  <div className="main">
-    <h1>Fixed Top Menu</h1>
-    <h2>Scroll this page to see the effect</h2>
-    <h2>The navigation bar will stay at the top of the page while scrolling</h2>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
-    <p>Some text some text some text some text..</p>
+  <div className="content">
+    <Route path="/" exact render={() => <div>/</div>} />
+    <Route path="/mine" render={() => <div>/mine</div>} />
+    <Route path="/teammates" render={() => <div>/teammates</div>} />
   </div>;

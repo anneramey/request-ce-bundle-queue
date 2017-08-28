@@ -5,10 +5,15 @@ import 'npm-font-open-sans/open-sans.scss';
 import 'bootstrap/scss/bootstrap.scss';
 import '../styles/master.scss';
 import { LayoutContainer } from './Layout';
+import { Content } from './Content';
+import { Sidebar } from './Sidebar';
 
 export const App = () =>
   <div className="app">
-    <LayoutContainer />
+    <LayoutContainer
+      sidebarContent={<Sidebar />}
+      mainContent={<Content />}
+    />
   </div>;
 
 export const AppContainer = compose(
