@@ -1,12 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import SVGInline from 'react-svg-inline';
+import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem,
+  Navbar, Nav, NavItem, NavLink } from 'reactstrap';
+
 import 'bootstrap/scss/bootstrap.scss';
 import personIcon from 'open-iconic/svg/person.svg';
 import bellIcon from 'open-iconic/svg/bell.svg';
-import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem,
-  Navbar, Nav, NavItem, NavLink } from 'reactstrap';
 import hamburgerIcon from '../images/hamburger.svg';
+
 import '../styles/master.css';
 
 export const App = () =>
