@@ -1,16 +1,20 @@
 import React from 'react';
+import { compose, lifecycle } from 'recompose';
+import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
 import SVGInline from 'react-svg-inline';
 import refreshIcon from 'font-awesome-svg-png/white/svg/refresh.svg';
 import solidCircle from 'font-awesome-svg-png/white/svg/circle.svg';
 import emptyCircle from 'font-awesome-svg-png/white/svg/circle-o.svg';
 
-const StaticContent = () =>
+import { actions as queueActions } from '../redux/modules/queue';
+
+const StaticContent = ({ filter }) =>
   <div className="two-panels">
     <div className="left-panel">
       <div className="controls">
         <h6>
-          Mine
+          {filter.name}
           <br />
           <small>by Due Date</small>
         </h6>
@@ -201,9 +205,42 @@ const StaticContent = () =>
     </div>
   </div>;
 
-export const Content = () =>
-  <div className="content">
-    <Route path="/" exact render={() => <div>Please select a list</div>} />
-    <Route path="/mine" render={() => <StaticContent />} />
-    <Route path="/teammates" render={() => <StaticContent />} />
+const mapStateToProps = state => ({
+  filter: state.queue.currentFilter,
+  filters: state.app.filters.merge(state.app.myFilters),
+});
+
+const mapDispatchToProps = {
+  setCurrentFilter: queueActions.setCurrentFilter,
+};
+
+const selectFilter = (filters, filter) => filters.find(f => f.slug === filter);
+
+const StaticContentContainer = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  lifecycle({
+    componentWillMount() {
+      const filter = selectFilter(this.props.filters, this.props.match.params.filter);
+      if (filter) {
+        this.props.setCurrentFilter(filter);
+      }
+    },
+    componentWillReceiveProps(nextProps) {
+      if (this.props.match.params.filter !== nextProps.match.params.filter) {
+        const filter = selectFilter(this.props.filters, nextProps.match.params.filter);
+        if (filter) {
+          this.props.setCurrentFilter(filter);
+        }
+      }
+    },
+  }),
+)(StaticContent);
+
+export const Content = ({ loading }) =>
+  <div>
+    {loading && <div>Loading</div>}
+    {!loading && <div className="content">
+      <Route path="/" exact render={() => <div>Please select a list</div>} />
+      <Route path="/:filter" render={routeProps => <StaticContentContainer {...routeProps} />} />
+    </div>}
   </div>;
