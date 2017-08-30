@@ -59,6 +59,6 @@ render();
 if (module.hot) module.hot.accept('./components/AppContainer', render);
 
 // Add global listeners
-const mql = window.matchMedia('(min-width: 800px)');
+const mql = window.matchMedia('(min-width: 700px)');
 store.dispatch(actions.setIsLayoutLarge(mql.matches));
 mql.addListener(event => store.dispatch(actions.setIsLayoutLarge(event.matches)));

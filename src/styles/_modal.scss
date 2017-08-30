@@ -1,0 +1,26 @@
+@media (max-width: 700px) {
+  .modal-dialog {
+    height: 100%;
+    margin: 0;
+    max-width: none;
+    .modal-content {
+      border: none;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      .modal-body {
+        flex: 1;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+  }
+}
+
+.modal-dialog {
+  .modal-content {
+    border-radius: 0;
+    .modal-body {
+    }
+  }
+}
