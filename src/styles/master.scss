@@ -62,6 +62,9 @@ body {
 
 .btn.btn-link {
   color: $blue1;
+  &:hover, &:focus, &:active {
+    text-decoration: none;
+  }
 }
 .btn.btn-primary {
   color: white;
