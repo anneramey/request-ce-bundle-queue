@@ -16,19 +16,19 @@ export const Sidebar = ({ documentationUrl, supportUrl }) =>
     <Nav vertical className="filter-nav">
       <NavItem>
         <NavLink to="/mine" className="nav-link" activeClassName="active">
-          <SVGInline svg={userIcon} className="icon" cleanup={['height', 'width']} />
+          <SVGInline svg={userIcon} className="icon" />
           Mine (6)
         </NavLink>
       </NavItem>
       <NavItem>
         <NavLink to="/teammates" className="nav-link" activeClassName="active">
-          <SVGInline svg={usersIcon} className="icon" cleanup={['height', 'width']} />
+          <SVGInline svg={usersIcon} className="icon" />
           Teammates (999+)
         </NavLink>
       </NavItem>
       <NavItem>
         <NavLink to="/unassigned" className="nav-link" activeClassName="active">
-          <SVGInline svg={inboxIcon} className="icon" cleanup={['height', 'width']} />
+          <SVGInline svg={inboxIcon} className="icon" />
           Unassigned (9)
         </NavLink>
       </NavItem>
@@ -37,25 +37,25 @@ export const Sidebar = ({ documentationUrl, supportUrl }) =>
     <Nav vertical className="filter-nav">
       <NavItem>
         <NavLink to="/custom-filter/0" className="nav-link" activeClassName="active">
-          <SVGInline svg={starIcon} className="icon" cleanup={['height', 'width']} />
+          <SVGInline svg={starIcon} className="icon" />
           Dev Team Open
         </NavLink>
       </NavItem>
       <NavItem>
         <NavLink to="/custom-filter/1" className="nav-link" activeClassName="active">
-          <SVGInline svg={starIcon} className="icon" cleanup={['height', 'width']} />
+          <SVGInline svg={starIcon} className="icon" />
           Dev Team Mine
         </NavLink>
       </NavItem>
       <NavItem>
         <NavLink to="/custom-filter/2" className="nav-link" activeClassName="active">
-          <SVGInline svg={starIcon} className="icon" cleanup={['height', 'width']} />
+          <SVGInline svg={starIcon} className="icon" />
           Consulting by Due Date
         </NavLink>
       </NavItem>
       <NavItem>
         <NavLink to="/custom-filter/3" className="nav-link" activeClassName="active">
-          <SVGInline svg={starIcon} className="icon" cleanup={['height', 'width']} />
+          <SVGInline svg={starIcon} className="icon" />
           HR Pending
         </NavLink>
       </NavItem>

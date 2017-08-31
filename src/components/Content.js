@@ -20,13 +20,13 @@ const StaticContent = ({ filter }) =>
         </h6>
         <div className="buttons">
           <button type="button" className="btn btn-link">
-            <SVGInline svg={refreshIcon} className="icon" cleanup={['height', 'width']} />
+            <SVGInline svg={refreshIcon} className="icon" />
           </button>
           <button type="button" className="btn btn-link">
-            <SVGInline svg={refreshIcon} className="icon" cleanup={['height', 'width']} />
+            <SVGInline svg={refreshIcon} className="icon" />
           </button>
           <button type="button" className="btn btn-link">
-            <SVGInline svg={refreshIcon} className="icon" cleanup={['height', 'width']} />
+            <SVGInline svg={refreshIcon} className="icon" />
           </button>
         </div>
       </div>
@@ -34,7 +34,7 @@ const StaticContent = ({ filter }) =>
         <ul className="list-group">
           <li className="submission list-group-item">
             <p className="status">
-              <SVGInline svg={solidCircle} className="icon" cleanup={['height', 'width']} />
+              <SVGInline svg={solidCircle} className="icon" />
               Complete
             </p>
             <h1>Send Message To Requester</h1>
@@ -51,7 +51,7 @@ const StaticContent = ({ filter }) =>
           </li>
           <li className="submission list-group-item">
             <p className="status">
-              <SVGInline svg={emptyCircle} className="icon" cleanup={['height', 'width']} />
+              <SVGInline svg={emptyCircle} className="icon" />
               Open
             </p>
             <h1>Work Order (9247AF)</h1>
@@ -67,7 +67,7 @@ const StaticContent = ({ filter }) =>
           </li>
           <li className="submission list-group-item">
             <p className="status">
-              <SVGInline svg={emptyCircle} className="icon" cleanup={['height', 'width']} />
+              <SVGInline svg={emptyCircle} className="icon" />
               Pending (Approved)
             </p>
             <h1>Work Order (9247AF</h1>
@@ -83,7 +83,7 @@ const StaticContent = ({ filter }) =>
           </li>
           <li className="submission list-group-item">
             <p className="status">
-              <SVGInline svg={solidCircle} className="icon" cleanup={['height', 'width']} />
+              <SVGInline svg={solidCircle} className="icon" />
               Complete
             </p>
             <h1>Send Message To Requester</h1>
@@ -100,7 +100,7 @@ const StaticContent = ({ filter }) =>
           </li>
           <li className="submission list-group-item">
             <p className="status">
-              <SVGInline svg={emptyCircle} className="icon" cleanup={['height', 'width']} />
+              <SVGInline svg={emptyCircle} className="icon" />
               Open
             </p>
             <h1>Work Order (9247AF)</h1>
@@ -116,7 +116,7 @@ const StaticContent = ({ filter }) =>
           </li>
           <li className="submission list-group-item">
             <p className="status">
-              <SVGInline svg={emptyCircle} className="icon" cleanup={['height', 'width']} />
+              <SVGInline svg={emptyCircle} className="icon" />
               Pending (Approved)
             </p>
             <h1>Work Order (9247AF</h1>
@@ -132,7 +132,7 @@ const StaticContent = ({ filter }) =>
           </li>
           <li className="submission list-group-item">
             <p className="status">
-              <SVGInline svg={solidCircle} className="icon" cleanup={['height', 'width']} />
+              <SVGInline svg={solidCircle} className="icon" />
               Complete
             </p>
             <h1>Send Message To Requester</h1>
@@ -149,7 +149,7 @@ const StaticContent = ({ filter }) =>
           </li>
           <li className="submission list-group-item">
             <p className="status">
-              <SVGInline svg={emptyCircle} className="icon" cleanup={['height', 'width']} />
+              <SVGInline svg={emptyCircle} className="icon" />
               Open
             </p>
             <h1>Work Order (9247AF)</h1>
@@ -165,7 +165,7 @@ const StaticContent = ({ filter }) =>
           </li>
           <li className="submission list-group-item">
             <p className="status">
-              <SVGInline svg={emptyCircle} className="icon" cleanup={['height', 'width']} />
+              <SVGInline svg={emptyCircle} className="icon" />
               Pending (Approved)
             </p>
             <h1>Work Order (9247AF</h1>
