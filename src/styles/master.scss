@@ -35,7 +35,7 @@ body {
 .icon-svg {
   height: 1.4em;
   vertical-align: text-top;
-  width: auto;
+  width: 1.4em;
 
   path, .primary-fill {
     fill: $blue2;
@@ -58,6 +58,20 @@ body {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
   }
+}
+
+.btn.btn-link {
+  color: $blue1;
+}
+.btn.btn-primary {
+  color: white;
+  background-color: $blue1;
+  border-color: $blue1;
+}
+.btn.btn-inverse.btn-primary {
+  color: $blue1;
+  background-color: white;
+  border: 2px solid $blue1;
 }
 
 @import 'sidebar';
