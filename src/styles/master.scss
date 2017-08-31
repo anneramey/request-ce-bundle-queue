@@ -37,8 +37,13 @@ body {
   vertical-align: text-top;
   width: auto;
 
-  path {
+  path, .primary-fill {
     fill: $blue2;
+  }
+
+  .primary-stroke {
+    stroke: $blue2;
+    fill: none;
   }
 }
 

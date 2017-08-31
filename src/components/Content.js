@@ -6,6 +6,8 @@ import SVGInline from 'react-svg-inline';
 import refreshIcon from 'font-awesome-svg-png/white/svg/refresh.svg';
 import solidCircle from 'font-awesome-svg-png/white/svg/circle.svg';
 import emptyCircle from 'font-awesome-svg-png/white/svg/circle-o.svg';
+import filterIcon from '../images/filter.svg';
+import sortIcon from '../images/sort.svg';
 
 import { actions as queueActions } from '../redux/modules/queue';
 
@@ -23,10 +25,10 @@ const StaticContent = ({ filter }) =>
             <SVGInline svg={refreshIcon} className="icon" />
           </button>
           <button type="button" className="btn btn-link">
-            <SVGInline svg={refreshIcon} className="icon" />
+            <SVGInline svg={sortIcon} className="icon" />
           </button>
           <button type="button" className="btn btn-link">
-            <SVGInline svg={refreshIcon} className="icon" />
+            <SVGInline svg={filterIcon} className="icon" />
           </button>
         </div>
       </div>
