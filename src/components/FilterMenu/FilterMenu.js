@@ -4,7 +4,6 @@ import { Modal, ModalBody, ModalFooter } from 'reactstrap';
 import SVGInline from 'react-svg-inline';
 import chevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg';
 import chevronLeftIcon from 'font-awesome-svg-png/black/svg/chevron-left.svg';
-import checkIcon from 'font-awesome-svg-png/black/svg/check.svg';
 
 export const DefaultSection = ({ showSection }) =>
   <ModalBody>
@@ -108,19 +107,16 @@ export const TeamsSection = () =>
   <ModalBody className="teams-filter">
     <h5>Teams</h5>
     <label>
-      <SVGInline svg={checkIcon} className="icon" />
-      IT
       <input type="checkbox" value="IT" onChange={handleClick} />
+      IT
     </label>
     <label>
-      <SVGInline svg={checkIcon} className="icon" />
-      HR
       <input type="checkbox" value="IT" onChange={handleClick} />
+      HR
     </label>
     <label className="checked">
-      <SVGInline svg={checkIcon} className="icon" />
-      Facilities
       <input type="checkbox" value="IT" onChange={handleClick} />
+      Facilities
     </label>
   </ModalBody>;
 
