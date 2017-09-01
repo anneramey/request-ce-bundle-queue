@@ -2,6 +2,7 @@ import errorsReducer from './modules/errors';
 import { reducer as layout } from './modules/layout';
 import { reducer as app } from './modules/app';
 import { reducer as queue } from './modules/queue';
+import { reducer as filterMenu } from './modules/filterMenu';
 import submissionsReducer from './modules/submissions';
 
 export default {
@@ -9,5 +10,6 @@ export default {
   app,
   layout,
   queue,
+  filterMenu,
   submissions: submissionsReducer,
 };
