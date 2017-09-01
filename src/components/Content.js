@@ -218,11 +218,8 @@ const StaticContentContainer = compose(
   }),
 )(StaticContent);
 
-export const Content = ({ loading }) =>
-  <div>
-    {loading && <div>Loading</div>}
-    {!loading && <div className="content">
-      <Route path="/" exact render={() => <div>Please select a list</div>} />
-      <Route path="/:filter" render={routeProps => <StaticContentContainer {...routeProps} />} />
-    </div>}
+export const Content = () =>
+  <div className="content">
+    <Route path="/" exact render={() => <div>Please select a list</div>} />
+    <Route path="/:filter" render={routeProps => <StaticContentContainer {...routeProps} />} />
   </div>;

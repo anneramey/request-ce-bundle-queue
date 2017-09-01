@@ -28,24 +28,27 @@ export function* fetchAppSettingsSaga() {
     kapp: { kapp },
     profile: { profile },
     forms: { forms },
-    teams: { teams },
   } = yield all({
     kapp: call(CoreAPI.fetchKapp, { include: 'attributes' }),
     space: call(CoreAPI.fetchSpace, { include: 'attributes' }),
     profile: call(CoreAPI.fetchProfile, {
-      include: 'attributes,profileAttributes,memberships,memberships.team,memberships.team.attributes',
+      include: 'attributes,profileAttributes,memberships,memberships.team,memberships.team.attributes,memberships.team.memberships,memberships.team.memberships.user',
     }),
     forms: call(CoreAPI.fetchForms, {
       include: 'details,attributes',
-    }),
-    teams: call(CoreAPI.fetchTeams, {
-      include: 'attributes',
     }),
   });
 
   const myTeams = profile.memberships
     .map(membership => membership.team)
     .filter(isAssignable);
+  const myTeammates = myTeams
+    // Get all of the users from all of the teams.
+    .flatMap(t => t.memberships)
+    // Clean up the odd 'memberships' wrapper on user.
+    .map(u => u.user)
+    // Ditch any of those users that are me.
+    .filter(u => u.username !== profile.username);
 
   const appSettings = {
     documentationUrl: getAttributeValue(
@@ -60,10 +63,9 @@ export function* fetchAppSettingsSaga() {
     )[0],
     profile,
     myTeams,
-    teams,
+    myTeammates,
     forms,
   };
-  window.console.log('appSettings', appSettings);
 
   yield put(actions.setAppSettings(appSettings));
 }

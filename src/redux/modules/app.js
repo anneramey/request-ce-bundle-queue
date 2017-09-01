@@ -16,29 +16,58 @@ export const actions = {
 
 export const Profile = Record({
   displayName: '',
+  username: '',
+  email: '',
 });
 
 export const VALID_STATUSES = List([
   'Open',
   'Pending',
+  'Canceled',
   'Completed',
 ]);
 
-export const isActiveStatus = status => status !== 'Completed';
+export const isActiveStatus = status => status !== 'Completed' && status !== 'Canceled';
+
+export const AssignmentCriteria = Record({
+  mine: false,
+  teammates: false,
+  unassigned: false,
+  byIndividuals: false,
+  individuals: List(),
+});
+
+export const DateRangeCriteria = Record({
+  // createdAt, updatedAt, closedAt
+  timeline: 'createdAt',
+  // 7days, 30days, 60days, 90days
+  presetRange: '',
+  custom: false,
+  start: new Date(),
+  end: new Date(),
+});
 
 export const Filter = Record({
   name: '',
   slug: '',
 
-  // Filter sort order.
+  // Filter sort order: createdAt, updatedAt, Due Date.
   sortBy: 'createdAt',
   sortDir: 'ASC',
 
   // Search Criteria.
-  status: List([VALID_STATUSES.filter(isActiveStatus)]),
-  assignment: List(),
+  status: VALID_STATUSES.filter(isActiveStatus),
   teams: List(),
+  assignments: AssignmentCriteria(),
+  dateRange: DateRangeCriteria(),
 });
+
+/*
+ *
+ * Mine (only assigned to me)
+ * Teammates (members of all of my teams except me)
+ * Unassigned (assigned to one of my teams but not to an individual)
+ */
 
 export const State = Record({
   profile: Profile(),
@@ -46,47 +75,44 @@ export const State = Record({
     Filter({
       name: 'Mine',
       slug: 'mine',
+      assignments: AssignmentCriteria({
+        mine: true,
+      }),
     }),
     Filter({
       name: 'Teammates',
       slug: 'teammates',
+      assignments: AssignmentCriteria({
+        teammates: true,
+      }),
     }),
     Filter({
       name: 'Unassigned',
       slug: 'unassigned',
+      assignments: AssignmentCriteria({
+        unassigned: true,
+      }),
     }),
   ]),
   documentationUrl: DEFAULT_DOCUMENTATION_URL,
   supportUrl: DEFAULT_SUPPORT_URL,
   myTeams: List(),
-  teams: List(),
+  myTeammates: List(),
   forms: List(),
   loading: true,
 });
 
 export const reducer = (state = State(), { type, payload }) => {
   switch (type) {
-    case types.LOAD_APP_SETTINGS:
-      return state.set('loading', true);
     case types.SET_APP_SETTINGS:
       return state
         .set('documentationUrl', payload.documentationUrl)
         .set('supportUrl', payload.supportUrl)
         .set('profile', payload.profile)
-        .set('teams', payload.teams)
+        .set('myTeams', List(payload.myTeams))
+        .set('myTeammates', payload.myTeammates)
         .set('forms', payload.forms)
-        .set('loading', false)
-        // We're going to map all of the prefined filters to my teams and then
-        // we're going to set the 'mine' filter to be for me.
-        .update('filters', filters =>
-          filters.map(
-            f => f.set('teams', payload.myTeams.map(t => t.slug)),
-          ).update(
-            // Update the Mine filter to be for me.
-            filters.findIndex(f => f.slug === 'mine'),
-            f => f.set('assignment', List([payload.profile.username])),
-          ),
-        );
+        .set('loading', false);
     default:
       return state;
   }

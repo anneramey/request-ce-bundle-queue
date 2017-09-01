@@ -6,10 +6,12 @@ import { LayoutContainer } from './Layout';
 import { Content } from './Content';
 import { SidebarContainer } from './SidebarContainer';
 
-export const App = () =>
-  <div className="app">
-    <LayoutContainer
-      sidebarContent={<SidebarContainer />}
-      mainContent={<Content />}
-    />
-  </div>;
+export const App = ({ loading }) =>
+  loading ?
+    <div /> :
+    <div className="app">
+      <LayoutContainer
+        sidebarContent={<SidebarContainer />}
+        mainContent={<Content />}
+      />
+    </div>;
