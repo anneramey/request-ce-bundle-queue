@@ -1,15 +1,18 @@
 import React from 'react';
-import { compose, lifecycle } from 'recompose';
+import { compose, lifecycle, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
 import SVGInline from 'react-svg-inline';
 import refreshIcon from 'font-awesome-svg-png/white/svg/refresh.svg';
 import solidCircle from 'font-awesome-svg-png/white/svg/circle.svg';
 import emptyCircle from 'font-awesome-svg-png/white/svg/circle-o.svg';
-
+import filterIcon from '../images/filter.svg';
+import sortIcon from '../images/sort.svg';
+import { FilterMenuContainer } from './FilterMenuContainer';
 import { actions as queueActions } from '../redux/modules/queue';
+import { actions as filterMenuActions } from '../redux/modules/filterMenu';
 
-const StaticContent = ({ filter }) =>
+const StaticContent = ({ filter, openFilterMenu }) =>
   <div className="two-panels">
     <div className="left-panel">
       <div className="controls">
@@ -20,13 +23,13 @@ const StaticContent = ({ filter }) =>
         </h6>
         <div className="buttons">
           <button type="button" className="btn btn-link">
-            <SVGInline svg={refreshIcon} className="icon" cleanup={['height', 'width']} />
+            <SVGInline svg={refreshIcon} className="icon" />
           </button>
           <button type="button" className="btn btn-link">
-            <SVGInline svg={refreshIcon} className="icon" cleanup={['height', 'width']} />
+            <SVGInline svg={sortIcon} className="icon" />
           </button>
-          <button type="button" className="btn btn-link">
-            <SVGInline svg={refreshIcon} className="icon" cleanup={['height', 'width']} />
+          <button type="button" className="btn btn-link" onClick={openFilterMenu}>
+            <SVGInline svg={filterIcon} className="icon" />
           </button>
         </div>
       </div>
@@ -34,7 +37,7 @@ const StaticContent = ({ filter }) =>
         <ul className="list-group">
           <li className="submission list-group-item">
             <p className="status">
-              <SVGInline svg={solidCircle} className="icon" cleanup={['height', 'width']} />
+              <SVGInline svg={solidCircle} className="icon" />
               Complete
             </p>
             <h1>Send Message To Requester</h1>
@@ -51,7 +54,7 @@ const StaticContent = ({ filter }) =>
           </li>
           <li className="submission list-group-item">
             <p className="status">
-              <SVGInline svg={emptyCircle} className="icon" cleanup={['height', 'width']} />
+              <SVGInline svg={emptyCircle} className="icon" />
               Open
             </p>
             <h1>Work Order (9247AF)</h1>
@@ -67,7 +70,7 @@ const StaticContent = ({ filter }) =>
           </li>
           <li className="submission list-group-item">
             <p className="status">
-              <SVGInline svg={emptyCircle} className="icon" cleanup={['height', 'width']} />
+              <SVGInline svg={emptyCircle} className="icon" />
               Pending (Approved)
             </p>
             <h1>Work Order (9247AF</h1>
@@ -83,7 +86,7 @@ const StaticContent = ({ filter }) =>
           </li>
           <li className="submission list-group-item">
             <p className="status">
-              <SVGInline svg={solidCircle} className="icon" cleanup={['height', 'width']} />
+              <SVGInline svg={solidCircle} className="icon" />
               Complete
             </p>
             <h1>Send Message To Requester</h1>
@@ -100,7 +103,7 @@ const StaticContent = ({ filter }) =>
           </li>
           <li className="submission list-group-item">
             <p className="status">
-              <SVGInline svg={emptyCircle} className="icon" cleanup={['height', 'width']} />
+              <SVGInline svg={emptyCircle} className="icon" />
               Open
             </p>
             <h1>Work Order (9247AF)</h1>
@@ -116,7 +119,7 @@ const StaticContent = ({ filter }) =>
           </li>
           <li className="submission list-group-item">
             <p className="status">
-              <SVGInline svg={emptyCircle} className="icon" cleanup={['height', 'width']} />
+              <SVGInline svg={emptyCircle} className="icon" />
               Pending (Approved)
             </p>
             <h1>Work Order (9247AF</h1>
@@ -132,7 +135,7 @@ const StaticContent = ({ filter }) =>
           </li>
           <li className="submission list-group-item">
             <p className="status">
-              <SVGInline svg={solidCircle} className="icon" cleanup={['height', 'width']} />
+              <SVGInline svg={solidCircle} className="icon" />
               Complete
             </p>
             <h1>Send Message To Requester</h1>
@@ -149,7 +152,7 @@ const StaticContent = ({ filter }) =>
           </li>
           <li className="submission list-group-item">
             <p className="status">
-              <SVGInline svg={emptyCircle} className="icon" cleanup={['height', 'width']} />
+              <SVGInline svg={emptyCircle} className="icon" />
               Open
             </p>
             <h1>Work Order (9247AF)</h1>
@@ -165,7 +168,7 @@ const StaticContent = ({ filter }) =>
           </li>
           <li className="submission list-group-item">
             <p className="status">
-              <SVGInline svg={emptyCircle} className="icon" cleanup={['height', 'width']} />
+              <SVGInline svg={emptyCircle} className="icon" />
               Pending (Approved)
             </p>
             <h1>Work Order (9247AF</h1>
@@ -194,12 +197,16 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setCurrentFilter: queueActions.setCurrentFilter,
+  openFilterMenu: filterMenuActions.open,
 };
 
 const selectFilter = (filters, filter) => filters.find(f => f.slug === filter);
 
 const StaticContentContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
+  withHandlers({
+    openFilterMenu: props => () => props.openFilterMenu(),
+  }),
   lifecycle({
     componentWillMount() {
       const filter = selectFilter(this.props.filters, this.props.match.params.filter);
@@ -222,4 +229,5 @@ export const Content = () =>
   <div className="content">
     <Route path="/" exact render={() => <div>Please select a list</div>} />
     <Route path="/:filter" render={routeProps => <StaticContentContainer {...routeProps} />} />
+    <FilterMenuContainer />
   </div>;

@@ -1,0 +1,117 @@
+@media (max-width: 700px) {
+  .modal-dialog {
+    height: 100%;
+    margin: 0;
+    max-width: none;
+    .modal-content {
+      border: none;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      .modal-body {
+        flex: 1;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+  }
+}
+
+@media (min-width: 701px) {
+  .modal-dialog {
+    .modal-content {
+      border: none;
+      box-shadow: 0 2px 14px 0 rgba(0,0,0,0.5);
+      min-height: 600px;
+    }
+  }
+}
+
+.modal-dialog {
+  .modal-content {
+    border-radius: 0;
+
+    .modal-header {
+      align-items: stretch;
+      border-bottom: 1px solid rgba(211,220,231,1);
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      .modal-title {
+        display: flex;
+        justify-content: space-between;
+        flex: 1;
+        font-size: 16px;
+        font-weight: bold;
+        span { padding: 1rem; }
+      }
+      .btn.btn-link {
+        font-size: 14px;
+        padding: 1rem;
+      }
+      .btn.back-button {
+        border-top: 1px solid rgba(211,220,231,1);
+        font-size: 14px;
+        padding: 1rem;
+        text-align: left;
+        .icon { margin-right: 5px; }
+      }
+    }
+
+    .modal-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 0;
+      .list-group.button-list {
+        .list-group-item {
+          border-bottom: 1px solid rgba(244,246,249,1);
+          padding: 0;
+          .btn.btn-link {
+            font-size: 14px;
+            padding: 1rem;
+            flex: 1;
+            display: flex;
+            .icon {  margin-left: auto;  }
+            .icon-svg path { fill: $blue1; }
+          }
+        }
+      }
+      .btn.btn-inverse {
+        font-size: 14px;
+        margin: 1rem;
+      }
+      &.teams-filter {
+        justify-content: flex-start;
+        padding: 1rem;
+        h5 {
+          color: $blue1;
+          font-size: 16px;
+        }
+        label {
+          color: $blue1;
+          font-size: 14px;
+          .icon {
+            margin-right: 10px;
+            opacity: 0;
+            .icon-svg path {
+              fill: $blue1;
+            }
+          }
+          &.checked .icon {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    .modal-footer {
+      padding: 0;
+      .btn.btn-primary {
+        flex: 1;
+        border-radius: 0;
+        padding: 1rem;
+      }
+    }
+  }
+}
