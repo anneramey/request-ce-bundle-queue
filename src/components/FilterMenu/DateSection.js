@@ -1,7 +1,7 @@
 import React from 'react';
 import { ModalBody } from 'reactstrap';
 
-export const StatusSection = () =>
+export const DateSection = () =>
   <ModalBody>
-    Status Section
+    Date Section
   </ModalBody>;
