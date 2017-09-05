@@ -8,7 +8,7 @@ import solidCircle from 'font-awesome-svg-png/white/svg/circle.svg';
 import emptyCircle from 'font-awesome-svg-png/white/svg/circle-o.svg';
 import filterIcon from '../images/filter.svg';
 import sortIcon from '../images/sort.svg';
-import { FilterMenuContainer } from './FilterMenuContainer';
+import { FilterMenuContainer } from './FilterMenu/FilterMenuContainer';
 import { actions as queueActions } from '../redux/modules/queue';
 import { actions as filterMenuActions } from '../redux/modules/filterMenu';
 

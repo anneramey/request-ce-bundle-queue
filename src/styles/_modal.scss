@@ -61,7 +61,6 @@
     .modal-body {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       padding: 0;
       .list-group.button-list {
         .list-group-item {
@@ -81,26 +80,27 @@
         font-size: 14px;
         margin: 1rem;
       }
-      &.teams-filter {
-        justify-content: flex-start;
-        padding: 1rem;
+      &.main-section {
+        justify-content: space-between;
+      }
+      &.filter-section {
         h5 {
           color: $blue1;
           font-size: 16px;
+          padding: 1rem;
         }
         label {
+          border-bottom: 1px solid rgba(244,246,249,1);
           color: $blue1;
           font-size: 14px;
-          .icon {
-            margin-right: 10px;
-            opacity: 0;
-            .icon-svg path {
-              fill: $blue1;
-            }
-          }
-          &.checked .icon {
-            opacity: 1;
-          }
+          margin-bottom: 0;
+          padding: 1rem;
+        }
+        input[type=checkbox], input[type=radio] {
+          margin-right: 10px;
+        }
+        select {
+          margin: 1rem;
         }
       }
     }

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { is } from 'immutable';
 import { FilterMenu } from './FilterMenu';
-import { actions } from '../redux/modules/filterMenu';
+import { actions } from '../../redux/modules/filterMenu';
 
 export const mapStateToProps = state => ({
   isOpen: state.filterMenu.get('isOpen'),
