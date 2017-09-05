@@ -41,7 +41,7 @@ export const DateRangeCriteria = Record({
   // createdAt, updatedAt, closedAt
   timeline: 'createdAt',
   // 7days, 30days, 60days, 90days
-  presetRange: '',
+  preset: '',
   custom: false,
   start: new Date(),
   end: new Date(),

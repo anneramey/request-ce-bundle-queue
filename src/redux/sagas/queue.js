@@ -1,7 +1,7 @@
 import { takeEvery } from 'redux-saga';
 import { select, call } from 'redux-saga/effects';
 import { List } from 'immutable';
-import { moment } from 'moment';
+import moment from 'moment';
 import { CoreAPI } from 'react-kinetic-core';
 
 import { types } from '../modules/queue';
@@ -53,14 +53,14 @@ const prepareAssignmentFilter = (searcher, filter, appSettings) => {
       searcher.eq('values[Assigned Individual]', null);
     }
   } else {
-    const assignments = List();
+    let assignments = List();
     if (filter.assignments.mine) {
-      assignments.push(appSettings.profile.username);
+      assignments = assignments.push(appSettings.profile.username);
     }
     if (filter.assignments.teammates) {
-      assignments.merge(appSettings.myTeammates);
+      assignments = assignments.merge(appSettings.myTeammates);
     }
-    searcher.in('values[Assigned Individual]', assignments.toJS());
+    searcher.in('values[Assigned Individual]', assignments.toArray());
   }
 
   return searcher;
@@ -71,7 +71,7 @@ const prepareDateRangeFilter = (searcher, filter) => {
     searcher.sortBy(filter.dateRange.timeline);
     searcher.startDate(filter.dateRange.start);
     searcher.endDate(filter.dateRange.end);
-  } else if (filter.preset !== '') {
+  } else if (filter.dateRange.preset !== '') {
     searcher.sortBy(filter.dateRange.timeline);
     searcher.endDate(new Date());
     switch (filter.dateRange.preset) {
