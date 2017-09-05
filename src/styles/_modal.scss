@@ -84,17 +84,23 @@
         justify-content: space-between;
       }
       &.filter-section {
-        padding: 1rem;
         h5 {
           color: $blue1;
           font-size: 16px;
+          padding: 1rem;
         }
         label {
+          border-bottom: 1px solid rgba(244,246,249,1);
           color: $blue1;
           font-size: 14px;
+          margin-bottom: 0;
+          padding: 1rem;
         }
         input[type=checkbox], input[type=radio] {
           margin-right: 10px;
+        }
+        select {
+          margin: 1rem;
         }
       }
     }
