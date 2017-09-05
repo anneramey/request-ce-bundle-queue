@@ -6,7 +6,7 @@ import { MainSection } from './MainSection';
 import { AssignmentSection } from './AssignmentSection';
 import { TeamsSection } from './TeamsSection';
 import { StatusSection } from './StatusSection';
-import { DateSection } from './DateSection';
+import { DateRangeSection } from './DateRangeSection';
 import { SortedBySection } from './SortedBySection';
 
 export const FilterMenu = ({ isOpen, close, activeSection, showSection }) =>
@@ -33,7 +33,7 @@ export const FilterMenu = ({ isOpen, close, activeSection, showSection }) =>
     { activeSection === 'assignment' && <AssignmentSection /> }
     { activeSection === 'teams' && <TeamsSection /> }
     { activeSection === 'status' && <StatusSection /> }
-    { activeSection === 'date' && <DateSection /> }
+    { activeSection === 'date' && <DateRangeSection /> }
     { activeSection === 'sort' && <SortedBySection /> }
     {
       activeSection === null &&

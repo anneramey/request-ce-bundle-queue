@@ -5,7 +5,7 @@ import { ModalBody } from 'reactstrap';
 const handleClick = event => window.console.log(event.target.value);
 
 export const TeamsSection = () =>
-  <ModalBody className="teams-filter">
+  <ModalBody className="filter-section">
     <h5>Teams</h5>
     <label>
       <input type="checkbox" value="IT" onChange={handleClick} />
