@@ -1,10 +1,10 @@
 import { takeEvery } from 'redux-saga';
-import { select, call } from 'redux-saga/effects';
+import { select, call, put } from 'redux-saga/effects';
 import { List } from 'immutable';
 import moment from 'moment';
 import { CoreAPI } from 'react-kinetic-core';
 
-import { types } from '../modules/queue';
+import { types, actions } from '../modules/queue';
 
 const getAppSettings = state => state.app;
 
@@ -58,7 +58,7 @@ const prepareAssignmentFilter = (searcher, filter, appSettings) => {
       assignments = assignments.push(appSettings.profile.username);
     }
     if (filter.assignments.teammates) {
-      assignments = assignments.merge(appSettings.myTeammates);
+      assignments = assignments.merge(appSettings.myTeammates.map(u => u.username));
     }
     searcher.in('values[Assigned Individual]', assignments.toArray());
   }
@@ -115,14 +115,7 @@ const getSubmissionDate = (submission, key) => {
   }
 };
 
-export function* fetchCurrentFiltersSaga(action) {
-  const filter = action.payload;
-  const appSettings = yield select(getAppSettings);
-  const search = buildSearch(filter, appSettings).include('values').build();
-
-  const { submissions } = yield call(CoreAPI.searchSubmissions, { search });
-
-  // Post-process results:
+const sortSubmissions = (submissions, filter) =>
   submissions.sort((s1, s2) => {
     const s1Date = getSubmissionDate(s1, filter.sortBy);
     const s2Date = getSubmissionDate(s2, filter.sortBy);
@@ -146,6 +139,29 @@ export function* fetchCurrentFiltersSaga(action) {
     }
     return 0;
   });
+
+export function* fetchCurrentFiltersSaga(action) {
+  const filter = action.payload;
+  const appSettings = yield select(getAppSettings);
+  const search = buildSearch(filter, appSettings).include('values').build();
+
+  const {
+    submissions,
+    messages,
+    nextPageToken,
+    serverError,
+  } = yield call(CoreAPI.searchSubmissions, { search });
+
+  if (serverError || (messages && messages.length > 0)) {
+    yield put(actions.setListStatus('There was a problem retrieving items.'));
+  } else if (nextPageToken) {
+    yield put(actions.setListStatus('Your filter matches too many items.'));
+  } else {
+    // Post-process results:
+    const sortedSubmissions = sortSubmissions(submissions, filter);
+
+    yield put(actions.setListItems(sortedSubmissions));
+  }
 }
 
 export function* watchQueue() {
