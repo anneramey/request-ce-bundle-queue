@@ -1,22 +1,49 @@
-/* eslint-disable jsx-a11y/label-has-for */
 import React from 'react';
+import { connect } from 'react-redux';
+import { compose, withHandlers } from 'recompose';
 import { ModalBody } from 'reactstrap';
+import { actions } from '../../redux/modules/filterMenu';
 
-const handleClick = event => window.console.log(event.target.value);
-
-export const AssignmentSection = () =>
+export const AssignmentSection = ({ filter, toggleAssignmentHandler }) =>
   <ModalBody className="filter-section">
     <h5>Assignment</h5>
-    <label>
-      <input type="checkbox" value="mine" onChange={handleClick} />
+    <label htmlFor="mine">
+      <input
+        type="checkbox"
+        id="mine"
+        value="mine"
+        checked={filter.assignments.mine}
+        onChange={toggleAssignmentHandler}
+      />
       Mine
     </label>
-    <label>
-      <input type="checkbox" value="teammates" onChange={handleClick} />
+    <label htmlFor="teammates">
+      <input
+        type="checkbox"
+        id="teammates"
+        value="teammates"
+        checked={filter.assignments.teammates}
+        onChange={toggleAssignmentHandler}
+      />
       Teammates
     </label>
-    <label className="checked">
-      <input type="checkbox" value="unassigned" onChange={handleClick} />
+    <label htmlFor="unassigned">
+      <input
+        type="checkbox"
+        id="unassigned"
+        value="unassigned"
+        checked={filter.assignments.unassigned}
+        onChange={toggleAssignmentHandler}
+      />
       Unassigned
     </label>
   </ModalBody>;
+
+export const AssignmentSectionContainer = compose(
+  connect(null, {
+    toggleAssignment: actions.toggleAssignment,
+  }),
+  withHandlers({
+    toggleAssignmentHandler: props => event => props.toggleAssignment(event.target.value),
+  }),
+)(AssignmentSection);
