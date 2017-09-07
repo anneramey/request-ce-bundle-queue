@@ -3,9 +3,28 @@ import { ModalBody } from 'reactstrap';
 import SVGInline from 'react-svg-inline';
 import chevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg';
 
-export const MainSection = ({ showSection }) =>
+const ListSummary = ({ type, list }) =>
+  list.size > 0 &&
+  (
+    list.size === 1
+      ? <span>{list.get(0)}</span>
+      : <span>{list.size} {type}</span>
+  );
+
+export const MainSection = ({ filter, showSection }) =>
   <ModalBody className="main-section">
     <ul className="list-group button-list">
+      <li className="list-group-item">
+        <button
+          type="button"
+          className="btn btn-link"
+          onClick={() => showSection('teams')}
+        >
+          Teams
+          <ListSummary type="Teams" list={filter.teams} />
+          <SVGInline svg={chevronRightIcon} className="icon" />
+        </button>
+      </li>
       <li className="list-group-item">
         <button
           type="button"
@@ -20,19 +39,10 @@ export const MainSection = ({ showSection }) =>
         <button
           type="button"
           className="btn btn-link"
-          onClick={() => showSection('teams')}
-        >
-          Teams
-          <SVGInline svg={chevronRightIcon} className="icon" />
-        </button>
-      </li>
-      <li className="list-group-item">
-        <button
-          type="button"
-          className="btn btn-link"
           onClick={() => showSection('status')}
         >
           Status
+          <ListSummary type="Statuses" list={filter.status} />
           <SVGInline svg={chevronRightIcon} className="icon" />
         </button>
       </li>
@@ -42,7 +52,7 @@ export const MainSection = ({ showSection }) =>
           className="btn btn-link"
           onClick={() => showSection('date')}
         >
-          Date
+          Date Range
           <SVGInline svg={chevronRightIcon} className="icon" />
         </button>
       </li>

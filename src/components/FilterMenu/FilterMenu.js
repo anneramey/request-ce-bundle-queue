@@ -3,19 +3,35 @@ import { Modal, ModalFooter } from 'reactstrap';
 import SVGInline from 'react-svg-inline';
 import chevronLeftIcon from 'font-awesome-svg-png/black/svg/chevron-left.svg';
 import { MainSection } from './MainSection';
-import { AssignmentSection } from './AssignmentSection';
-import { TeamsSection } from './TeamsSection';
-import { StatusSection } from './StatusSection';
-import { DateRangeSection } from './DateRangeSection';
+import { AssignmentSectionContainer } from './AssignmentSection';
+import { TeamsSectionContainer } from './TeamsSection';
+import { StatusSectionContainer } from './StatusSection';
+import { DateRangeSectionContainer } from './DateRangeSection';
 import { SortedBySection } from './SortedBySection';
 
-export const FilterMenu = ({ isOpen, close, activeSection, showSection }) =>
+export const FilterMenu = ({
+  teams,
+  isOpen,
+  isDirty,
+  close,
+  reset,
+  activeSection,
+  showSection,
+  currentFilter,
+}) =>
   <Modal isOpen={isOpen} toggle={close}>
     <div className="modal-header">
       <h4 className="modal-title">
         <button type="button" className="btn btn-link" onClick={close}>Cancel</button>
         <span>Filters</span>
-        <button type="button" className="btn btn-link disabled">Reset</button>
+        <button
+          type="button"
+          className="btn btn-link"
+          disabled={!isDirty}
+          onClick={reset}
+        >
+          Reset
+        </button>
       </h4>
       {
         activeSection !== null &&
@@ -29,16 +45,16 @@ export const FilterMenu = ({ isOpen, close, activeSection, showSection }) =>
         </button>
       }
     </div>
-    { activeSection === null && <MainSection showSection={showSection} />}
-    { activeSection === 'assignment' && <AssignmentSection /> }
-    { activeSection === 'teams' && <TeamsSection /> }
-    { activeSection === 'status' && <StatusSection /> }
-    { activeSection === 'date' && <DateRangeSection /> }
-    { activeSection === 'sort' && <SortedBySection /> }
+    { activeSection === null && <MainSection filter={currentFilter} showSection={showSection} />}
+    { activeSection === 'teams' && <TeamsSectionContainer filter={currentFilter} teams={teams} /> }
+    { activeSection === 'assignment' && <AssignmentSectionContainer filter={currentFilter} /> }
+    { activeSection === 'status' && <StatusSectionContainer filter={currentFilter} /> }
+    { activeSection === 'date' && <DateRangeSectionContainer filter={currentFilter} /> }
+    { activeSection === 'sort' && <SortedBySection filter={currentFilter} /> }
     {
       activeSection === null &&
       <ModalFooter>
-        <button type="button" className="btn btn-primary" disabled>Apply Filter</button>
+        <button type="button" className="btn btn-primary" disabled={!isDirty}>Apply Filter</button>
       </ModalFooter>
     }
   </Modal>;
