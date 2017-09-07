@@ -1,40 +1,103 @@
-/* eslint-disable jsx-a11y/label-has-for */
 import React from 'react';
+import { connect } from 'react-redux';
+import { compose, withHandlers } from 'recompose';
 import { ModalBody } from 'reactstrap';
+import { actions } from '../../redux/modules/filterMenu';
 
-const handleClick = event => window.console.log(event.target.value);
-
-export const DateRangeSection = () =>
+export const DateRangeSection = ({
+  filter,
+  setDateRangeTimelineHandler,
+  radioClickHandler,
+  setDateRangeStartHandler,
+  setDateRangeEndHandler,
+}) =>
   <ModalBody className="filter-section">
     <h5>Date Range</h5>
-    <select value="">
-      <option disabled value="">Sort Timeline</option>
+    <select
+      value={filter.dateRange.timeline}
+      onChange={setDateRangeTimelineHandler}
+    >
       <option value="createdAt">Created At</option>
       <option value="updatedAt">Updated At</option>
       <option value="completedAt">Completed At</option>
     </select>
-    <label>
-      <input type="radio" value="7days" name="dateRangeSize" onChange={handleClick} />
-      Last 7 Days
+    <label htmlFor="date-range-none">
+      <input
+        type="radio"
+        id="date-range-none"
+        value=""
+        name="date-range"
+        checked={filter.dateRange.preset === '' && !filter.dateRange.custom}
+        onChange={radioClickHandler}
+      />
+      None
     </label>
-    <label>
-      <input type="radio" value="14days" name="dateRangeSize" onChange={handleClick} />
-      Last 14 Days
-    </label>
-    <label>
-      <input type="radio" value="30days" name="dateRangeSize" onChange={handleClick} />
-      Last 30 Days
-    </label>
-    <label>
-      <input type="radio" value="60days" name="dateRangeSize" onChange={handleClick} />
-      Last 60 Days
-    </label>
-    <label>
-      <input type="radio" value="90days" name="dateRangeSize" onChange={handleClick} />
-      Last 90 Days
-    </label>
-    <label>
-      <input type="radio" value="custom" name="dateRangeSize" onChange={handleClick} />
+    {
+      [7, 14, 30, 60, 90].map(numberOfDays =>
+        <label htmlFor={`date-range-${numberOfDays}days`}>
+          <input
+            type="radio"
+            id={`date-range-${numberOfDays}days`}
+            value={`${numberOfDays}days`}
+            name="date-range"
+            checked={filter.dateRange.preset === `${numberOfDays}days`}
+            onChange={radioClickHandler}
+          />
+          Last {numberOfDays} Days
+        </label>)
+    }
+    <label htmlFor="date-range-custom">
+      <input
+        type="radio"
+        id="date-range-custom"
+        value="custom"
+        name="date-range"
+        checked={filter.dateRange.custom}
+        onChange={radioClickHandler}
+      />
       Custom
     </label>
+    <div>
+      <label htmlFor="date-range-custom-start">Start Date*</label>
+      <input
+        type="text"
+        id="date-range-custom-start"
+        value={filter.dateRange.start}
+        onChange={setDateRangeStartHandler}
+      />
+    </div>
+    <div>
+      <label htmlFor="date-range-custom-end">End Date</label>
+      <input
+        type="text"
+        id="date-range-custom-end"
+        value={filter.dateRange.end}
+        onChange={setDateRangeEndHandler}
+      />
+    </div>
   </ModalBody>;
+
+export const DateRangeSectionContainer = compose(
+  connect(null, {
+    setDateRangeTimeline: actions.setDateRangeTimeline,
+    setDateRangePreset: actions.setDateRangePreset,
+    toggleDateRangeCustom: actions.toggleDateRangeCustom,
+    setDateRangeStart: actions.setDateRangeStart,
+    setDateRangeEnd: actions.setDateRangeEnd,
+  }),
+  withHandlers({
+    setDateRangeTimelineHandler: props => event =>
+      props.setDateRangeTimeline(event.target.value),
+    radioClickHandler: props => event => {
+      if (event.target.value === 'custom') {
+        props.toggleDateRangeCustom();
+      } else {
+        props.setDateRangePreset(event.target.value);
+      }
+    },
+    setDateRangeStartHandler: props => event =>
+      props.setDateRangeStart(new Date(event.target.value)),
+    setDateRangeEndHandler: props => event =>
+      props.setDateRangeEnd(new Date(event.target.value)),
+  }),
+)(DateRangeSection);

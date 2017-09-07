@@ -205,7 +205,7 @@ const selectFilter = (filters, filter) => filters.find(f => f.slug === filter);
 const StaticContentContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
-    openFilterMenu: props => () => props.openFilterMenu(),
+    openFilterMenu: props => () => props.openFilterMenu(props.filter),
   }),
   lifecycle({
     componentWillMount() {
