@@ -9,10 +9,10 @@ import { types, actions } from '../modules/queue';
 const getAppSettings = state => state.app;
 
 /* eslint-disable no-param-reassign */
-const prepareStatusFilter = (searcher, filter) => {
+export const prepareStatusFilter = (searcher, filter) => {
   // There is at least one status add the criteria.
   if (filter.status.size > 0) {
-    if (filter.status.length === 1) {
+    if (filter.status.size === 1) {
       searcher = searcher.eq('values[Status]', filter.status.first());
     } else {
       searcher = searcher.in('values[Status]', filter.status.toJS());
@@ -23,7 +23,7 @@ const prepareStatusFilter = (searcher, filter) => {
 };
 
 /* eslint-disable no-param-reassign */
-const prepareTeamsFilter = (searcher, filter, appSettings) => {
+export const prepareTeamsFilter = (searcher, filter, appSettings) => {
   // If there are selected teams then add them to the in-list. Otherwise implicitly
   // add all of my teams to the list.
   if (filter.teams.size > 0) {
@@ -36,29 +36,30 @@ const prepareTeamsFilter = (searcher, filter, appSettings) => {
 };
 
 /* eslint-disable no-param-reassign */
-const prepareAssignmentFilter = (searcher, filter, appSettings) => {
+export const prepareAssignmentFilter = (searcher, filter, appSettings) => {
   // If we're searching by individuals we won't process any of the preset flags,
   // we'll just process the list they've chosen.
   if (filter.assignments.byIndividuals) {
     searcher.in('values[Assigned Individual]', filter.assignments.individuals.toJS());
   } if (filter.assignments.unassigned) {
-    // if mine and teammates
+    let assignments = List([null]);
     if (filter.assignments.mine && filter.assignments.teammates) {
-      // this means... everyone and no one too?
+      assignments = assignments
+        .concat(appSettings.myTeammates.map(u => u.username))
+        .push(appSettings.profile.username);
     } else if (filter.assignments.mine) {
-      searcher.in('values[Assigned Individual]', [appSettings.profile.username, null]);
+      assignments = assignments.push(appSettings.profile.username);
     } else if (filter.assignments.teammates) {
-      searcher.in('values[Assigned Individual]', appSettings.myTeammates.push(null).toJS());
-    } else {
-      searcher.eq('values[Assigned Individual]', null);
+      assignments = assignments.concat(appSettings.myTeammates.map(u => u.username));
     }
+    searcher.in('values[Assigned Individual]', assignments.toJS());
   } else {
     let assignments = List();
     if (filter.assignments.mine) {
       assignments = assignments.push(appSettings.profile.username);
     }
     if (filter.assignments.teammates) {
-      assignments = assignments.merge(appSettings.myTeammates.map(u => u.username));
+      assignments = assignments.concat(appSettings.myTeammates.map(u => u.username));
     }
     searcher.in('values[Assigned Individual]', assignments.toArray());
   }
@@ -66,7 +67,7 @@ const prepareAssignmentFilter = (searcher, filter, appSettings) => {
   return searcher;
 };
 
-const prepareDateRangeFilter = (searcher, filter) => {
+export const prepareDateRangeFilter = (searcher, filter) => {
   if (filter.dateRange.custom) {
     searcher.sortBy(filter.dateRange.timeline);
     searcher.startDate(filter.dateRange.start);
@@ -76,20 +77,20 @@ const prepareDateRangeFilter = (searcher, filter) => {
     searcher.endDate(new Date());
     switch (filter.dateRange.preset) {
       case '7days':
-        searcher.startDate(moment().subtract(7, 'days'));
+        searcher.startDate(moment().subtract(7, 'days').toDate());
         break;
       case '30days':
-        searcher.startDate(moment().subtract(30, 'days'));
+        searcher.startDate(moment().subtract(30, 'days').toDate());
         break;
       case '60days':
-        searcher.startDate(moment().subtract(60, 'days'));
+        searcher.startDate(moment().subtract(60, 'days').toDate());
         break;
       case '90days':
-        searcher.startDate(moment().subtract(90, 'days'));
+        searcher.startDate(moment().subtract(90, 'days').toDate());
         break;
       default:
         window.console.warn(`Invalid date ranger filter preset '${filter.dateRange.preset}'.`);
-        searcher.startDate(moment().subtract(7, 'days'));
+        searcher.startDate(moment().subtract(7, 'days').toDate());
         break;
     }
   }
