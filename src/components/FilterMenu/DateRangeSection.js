@@ -27,7 +27,7 @@ export const DateRangeSection = ({
         id="date-range-none"
         value=""
         name="date-range"
-        checked={filter.dateRange.presetRange === '' && !filter.dateRange.custom}
+        checked={filter.dateRange.preset === '' && !filter.dateRange.custom}
         onChange={radioClickHandler}
       />
       None
@@ -40,7 +40,7 @@ export const DateRangeSection = ({
             id={`date-range-${numberOfDays}days`}
             value={`${numberOfDays}days`}
             name="date-range"
-            checked={filter.dateRange.presetRange === `${numberOfDays}days`}
+            checked={filter.dateRange.preset === `${numberOfDays}days`}
             onChange={radioClickHandler}
           />
           Last {numberOfDays} Days
@@ -80,7 +80,7 @@ export const DateRangeSection = ({
 export const DateRangeSectionContainer = compose(
   connect(null, {
     setDateRangeTimeline: actions.setDateRangeTimeline,
-    setDateRangePresetRange: actions.setDateRangePresetRange,
+    setDateRangePreset: actions.setDateRangePreset,
     toggleDateRangeCustom: actions.toggleDateRangeCustom,
     setDateRangeStart: actions.setDateRangeStart,
     setDateRangeEnd: actions.setDateRangeEnd,
@@ -92,7 +92,7 @@ export const DateRangeSectionContainer = compose(
       if (event.target.value === 'custom') {
         props.toggleDateRangeCustom();
       } else {
-        props.setDateRangePresetRange(event.target.value);
+        props.setDateRangePreset(event.target.value);
       }
     },
     setDateRangeStartHandler: props => event =>
