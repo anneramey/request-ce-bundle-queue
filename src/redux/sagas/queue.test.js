@@ -1,5 +1,7 @@
 import { List } from 'immutable';
 import moment from 'moment';
+import { select, call, put } from 'redux-saga/effects';
+import { actions } from '../modules/queue';
 
 global.bundle = {
   apiLocation: () => '/acme/app/api/v1',
@@ -7,12 +9,17 @@ global.bundle = {
 const { CoreAPI } = require('react-kinetic-core');
 const { Filter, Profile } = require('../modules/app');
 const {
+  ERROR_STATUS_STRING,
+  TOO_MANY_STATUS_STRING,
+  getAppSettings,
+  fetchCurrentFilterSaga,
   prepareStatusFilter,
   prepareTeamsFilter,
   prepareAssignmentFilter,
   prepareDateRangeFilter,
   getSubmissionDate,
   sortSubmissions,
+  buildSearch,
 } = require('./queue');
 
 const findQuery = (searcher, value) => searcher.query.find(q => q.lvalue === value);
@@ -256,15 +263,116 @@ describe('queue saga', () => {
       });
 
       describe('when sorting by values', () => {
-        test('when all submissions have the value', () => {
-          filter = filter.set('sortBy', 'scheduled').set('sortDir', 'ASC');
+        describe('when all submissions have the value', () => {
+          test('scheduled value ascending', () => {
+            filter = filter.set('sortBy', 'scheduled').set('sortDir', 'ASC');
 
-          const sorted = sortSubmissions(submissions, filter).map(s => s.id);
-          expect(sorted).toEqual(['3', '2', '1']);
+            const sorted = sortSubmissions(submissions, filter).map(s => s.id);
+            expect(sorted).toEqual(['3', '2', '1']);
+          });
+
+          test('scheduled value descending', () => {
+            filter = filter.set('sortBy', 'scheduled').set('sortDir', 'DESC');
+
+            const sorted = sortSubmissions(submissions, filter).map(s => s.id);
+            expect(sorted).toEqual(['1', '2', '3']);
+          });
         });
       });
 
-      test('when only some submissions have the value', () => {
+      describe('when only some submissions have the value', () => {
+        test('due value ascending', () => {
+          filter = filter.set('sortBy', 'due').set('sortDir', 'ASC');
+
+          const sorted = sortSubmissions(submissions, filter).map(s => s.id);
+          expect(sorted).toEqual(['3', '1', '2']);
+        });
+
+        test('due value descending', () => {
+          filter = filter.set('sortBy', 'due').set('sortDir', 'DESC');
+
+          const sorted = sortSubmissions(submissions, filter).map(s => s.id);
+          expect(sorted).toEqual(['2', '1', '3']);
+        });
+      });
+
+      describe('when none of the submissions have the value', () => {
+        test('sorts by createdAt', () => {
+          filter = filter.set('sortBy', 'fake').set('sortDir', 'DESC');
+
+          const sorted = sortSubmissions(submissions, filter).map(s => s.id);
+          expect(sorted).toEqual(['1', '3', '2']);
+        });
+      });
+    });
+  });
+
+  describe('#fetchCurrentFilterSaga', () => {
+    let action;
+    let appSettings;
+    let search;
+    let response;
+
+    beforeEach(() => {
+      action = { payload: {} };
+      appSettings = {};
+      search = {};
+      response = { submissions: [] };
+    });
+
+    describe('when there are server errors', () => {
+      test('it sets the list status to indicate an error', () => {
+        const saga = fetchCurrentFilterSaga(action);
+
+        // First get the app settings out of the state.
+        expect(saga.next().value).toEqual(select(getAppSettings));
+        // Build the search criteria.
+        expect(saga.next(appSettings).value)
+          .toEqual(call(buildSearch, action.payload, appSettings));
+        // Execute the search.
+        expect(saga.next(search).value)
+          .toEqual(call(CoreAPI.searchSubmissions, { search }));
+        // Return an error.
+        expect(saga.next({ serverError: 'some error' }).value)
+          .toEqual(put(actions.setListStatus(ERROR_STATUS_STRING)));
+      });
+    });
+
+    describe('when there are too many items', () => {
+      test('it sets the list status to indicate an error', () => {
+        const saga = fetchCurrentFilterSaga(action);
+
+        // First get the app settings out of the state.
+        expect(saga.next().value).toEqual(select(getAppSettings));
+        // Build the search criteria.
+        expect(saga.next(appSettings).value)
+          .toEqual(call(buildSearch, action.payload, appSettings));
+        // Execute the search.
+        expect(saga.next(search).value)
+          .toEqual(call(CoreAPI.searchSubmissions, { search }));
+        // Return an error.
+        expect(saga.next({ nextPageToken: 'some token' }).value)
+          .toEqual(put(actions.setListStatus(TOO_MANY_STATUS_STRING)));
+      });
+    });
+
+    describe('when request is successful', () => {
+      test('it sets the list status to indicate an error', () => {
+        const saga = fetchCurrentFilterSaga(action);
+
+        // First get the app settings out of the state.
+        expect(saga.next().value).toEqual(select(getAppSettings));
+        // Build the search criteria.
+        expect(saga.next(appSettings).value)
+          .toEqual(call(buildSearch, action.payload, appSettings));
+        // Execute the search.
+        expect(saga.next(search).value)
+          .toEqual(call(CoreAPI.searchSubmissions, { search }));
+        // It sorts the submissions
+        expect(saga.next(response).value)
+          .toEqual(call(sortSubmissions, response.submissions, action.payload));
+        expect(saga.next(response.submissions).value)
+          .toEqual(put(actions.setListItems(response.submissions)));
       });
     });
   });

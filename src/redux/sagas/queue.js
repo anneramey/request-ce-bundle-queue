@@ -5,7 +5,10 @@ import { CoreAPI } from 'react-kinetic-core';
 
 import { types, actions } from '../modules/queue';
 
-const getAppSettings = state => state.app;
+export const ERROR_STATUS_STRING = 'There was a problem retrieving items.';
+export const TOO_MANY_STATUS_STRING = 'Your filter matches too many items.';
+
+export const getAppSettings = state => state.app;
 
 /* eslint-disable no-param-reassign */
 export const prepareStatusFilter = (searcher, filter) => {
@@ -89,7 +92,7 @@ export const prepareDateRangeFilter = (searcher, filter) => {
   return searcher;
 };
 
-const buildSearch = (filter, appSettings) => {
+export const buildSearch = (filter, appSettings) => {
   let searcher = new CoreAPI.SubmissionSearch();
 
   searcher = prepareStatusFilter(searcher, filter);
@@ -97,7 +100,7 @@ const buildSearch = (filter, appSettings) => {
   searcher = prepareAssignmentFilter(searcher, filter, appSettings);
   searcher = prepareDateRangeFilter(searcher, filter);
 
-  return searcher;
+  return searcher.include('values').build();
 };
 
 export const getSubmissionDate = (submission, key) => {
@@ -116,11 +119,17 @@ export const sortSubmissions = (submissions, filter) =>
     const beforeIndex = filter.sortDir === 'ASC' ? -1 : 1;
     const afterIndex = filter.sortDir === 'ASC' ? 1 : -1;
 
-    if (moment(s1Date).isBefore(s2Date)) {
-      return beforeIndex;
-    } else if (moment(s1Date).isAfter(s2Date)) {
+    if (s1Date && s2Date) {
+      if (moment(s1Date).isBefore(s2Date)) {
+        return beforeIndex;
+      } else if (moment(s1Date).isAfter(s2Date)) {
+        return afterIndex;
+      }
+    } else if (s1Date && !s2Date) {
       return afterIndex;
-    } else if (filter.sortedBy !== 'createdAt') {
+    } else if (!s1Date && s2Date) {
+      return beforeIndex;
+    } else {
       const s1Created = getSubmissionDate(s1, 'createdAt');
       const s2Created = getSubmissionDate(s2, 'createdAt');
 
@@ -130,13 +139,14 @@ export const sortSubmissions = (submissions, filter) =>
         return afterIndex;
       }
     }
+
     return 0;
   });
 
-export function* fetchCurrentFiltersSaga(action) {
+export function* fetchCurrentFilterSaga(action) {
   const filter = action.payload;
   const appSettings = yield select(getAppSettings);
-  const search = buildSearch(filter, appSettings).include('values').build();
+  const search = yield call(buildSearch, filter, appSettings);
 
   const {
     submissions,
@@ -146,17 +156,17 @@ export function* fetchCurrentFiltersSaga(action) {
   } = yield call(CoreAPI.searchSubmissions, { search });
 
   if (serverError || (messages && messages.length > 0)) {
-    yield put(actions.setListStatus('There was a problem retrieving items.'));
+    yield put(actions.setListStatus(ERROR_STATUS_STRING));
   } else if (nextPageToken) {
-    yield put(actions.setListStatus('Your filter matches too many items.'));
+    yield put(actions.setListStatus(TOO_MANY_STATUS_STRING));
   } else {
     // Post-process results:
-    const sortedSubmissions = sortSubmissions(submissions, filter);
+    const sortedSubmissions = yield call(sortSubmissions, submissions, filter);
 
     yield put(actions.setListItems(sortedSubmissions));
   }
 }
 
 export function* watchQueue() {
-  yield takeEvery(types.SET_CURRENT_FILTER, fetchCurrentFiltersSaga);
+  yield takeEvery(types.SET_CURRENT_FILTER, fetchCurrentFilterSaga);
 }
