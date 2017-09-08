@@ -1,6 +1,5 @@
 import { takeEvery } from 'redux-saga';
 import { select, call, put } from 'redux-saga/effects';
-import { List } from 'immutable';
 import moment from 'moment';
 import { CoreAPI } from 'react-kinetic-core';
 
@@ -35,34 +34,24 @@ const prepareTeamsFilter = (searcher, filter, appSettings) => {
   return searcher;
 };
 
-/* eslint-disable no-param-reassign */
 const prepareAssignmentFilter = (searcher, filter, appSettings) => {
   // If we're searching by individuals we won't process any of the preset flags,
   // we'll just process the list they've chosen.
   if (filter.assignments.byIndividuals) {
     searcher.in('values[Assigned Individual]', filter.assignments.individuals.toJS());
-  } if (filter.assignments.unassigned) {
-    // if mine and teammates
-    if (filter.assignments.mine && filter.assignments.teammates) {
-      // this means... everyone and no one too?
-    } else if (filter.assignments.mine) {
-      searcher.in('values[Assigned Individual]', [appSettings.profile.username, null]);
-    } else if (filter.assignments.teammates) {
-      searcher.in('values[Assigned Individual]', appSettings.myTeammates.push(null).toJS());
-    } else {
-      searcher.eq('values[Assigned Individual]', null);
-    }
   } else {
-    let assignments = List();
+    searcher.or();
     if (filter.assignments.mine) {
-      assignments = assignments.push(appSettings.profile.username);
+      searcher.eq('values[Assigned Individual]', appSettings.profile.username);
     }
     if (filter.assignments.teammates) {
-      assignments = assignments.merge(appSettings.myTeammates.map(u => u.username));
+      searcher.in('values[Assigned Individual]', appSettings.myTeammates.map(u => u.username));
     }
-    searcher.in('values[Assigned Individual]', assignments.toArray());
+    if (filter.assignments.unassigned) {
+      searcher.eq('values[Assigned Individual]', null);
+    }
+    searcher.end();
   }
-
   return searcher;
 };
 
