@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import { compose, withHandlers } from 'recompose';
 import { is } from 'immutable';
 import { FilterMenu } from './FilterMenu';
 import { actions } from '../../redux/modules/filterMenu';
+import { actions as queueActions } from '../../redux/modules/queue';
 
 export const mapStateToProps = state => ({
   teams: state.app.myTeams,
@@ -18,8 +19,15 @@ export const mapDispatchToProps = {
   close: actions.close,
   reset: actions.reset,
   showSection: actions.showSection,
+  setCurrentFilter: queueActions.setCurrentFilter,
 };
 
 export const FilterMenuContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
+  withHandlers({
+    applyFilterHandler: props => () => {
+      props.setCurrentFilter(props.currentFilter);
+      props.close();
+    },
+  }),
 )(FilterMenu);

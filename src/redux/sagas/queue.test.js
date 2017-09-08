@@ -81,86 +81,64 @@ describe('queue saga', () => {
       });
 
       test('when "unassigned" is checked', () => {
-        filter = filter.updateIn(['assignments', 'unassigned'], () => true);
+        filter = filter.setIn(['assignments', 'unassigned'], true);
         searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-        const query = findQuery(searcher, 'values[Assigned Individual]');
-        expect(query.op).toBe('in');
-        expect(query.rvalue).toContain(null);
-        expect(query.rvalue).toHaveLength(1);
+        expect(searcher.query.length).toBe(1);
+        expect(searcher.query[0].op).toBe('or');
+        expect(searcher.query[0].context.length).toBe(1);
+        expect(searcher.query[0].context[0].op).toBe('eq');
+        expect(searcher.query[0].context[0].lvalue).toBe('values[Assigned Individual]');
+        expect(searcher.query[0].context[0].rvalue).toBe(null);
       });
 
       test('when "mine" is checked', () => {
-        filter = filter.updateIn(['assignments', 'mine'], () => true);
+        filter = filter.setIn(['assignments', 'mine'], true);
         searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-        const query = findQuery(searcher, 'values[Assigned Individual]');
-        expect(query.op).toBe('in');
-        expect(query.rvalue).toContain('me@mine.com');
-        expect(query.rvalue).toHaveLength(1);
+        expect(searcher.query.length).toBe(1);
+        expect(searcher.query[0].op).toBe('or');
+        expect(searcher.query[0].context.length).toBe(1);
+        expect(searcher.query[0].context[0].op).toBe('eq');
+        expect(searcher.query[0].context[0].lvalue).toBe('values[Assigned Individual]');
+        expect(searcher.query[0].context[0].rvalue).toBe('me@mine.com');
       });
 
       test('when "teammates" is checked', () => {
-        filter = filter.updateIn(['assignments', 'teammates'], () => true);
+        filter = filter.setIn(['assignments', 'teammates'], true);
         searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-        const query = findQuery(searcher, 'values[Assigned Individual]');
-        expect(query.op).toBe('in');
-        expect(query.rvalue).toContain('you@yours.com');
-        expect(query.rvalue).toHaveLength(1);
+        expect(searcher.query.length).toBe(1);
+        expect(searcher.query[0].op).toBe('or');
+        expect(searcher.query[0].context.length).toBe(1);
+        expect(searcher.query[0].context[0].op).toBe('in');
+        expect(searcher.query[0].context[0].lvalue).toBe('values[Assigned Individual]');
+        expect(searcher.query[0].context[0].rvalue.toJS()).toEqual(['you@yours.com']);
       });
 
-      // All combinations:
-      // 1. Mine + Teammates
-      // 2. Unassigned + Mine
-      // 3. Unassigned + Teammates
-      // 4. Unassigned + Mine + Teammates
       describe('when a combination is checked', () => {
         test('mine and teammates', () => {
           filter = filter
-            .updateIn(['assignments', 'mine'], () => true)
-            .updateIn(['assignments', 'teammates'], () => true);
+            .setIn(['assignments', 'mine'], true)
+            .setIn(['assignments', 'teammates'], true);
           searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-          const query = findQuery(searcher, 'values[Assigned Individual]');
-          expect(query.op).toBe('in');
-          expect(query.rvalue).toContain('me@mine.com');
-          expect(query.rvalue).toContain('you@yours.com');
-          expect(query.rvalue).toHaveLength(2);
+          expect(searcher.query.length).toBe(1);
+          expect(searcher.query[0].op).toBe('or');
+          expect(searcher.query[0].context.length).toBe(2);
+          expect(searcher.query[0].context[0].op).toBe('eq');
+          expect(searcher.query[0].context[0].lvalue).toBe('values[Assigned Individual]');
+          expect(searcher.query[0].context[0].rvalue).toEqual('me@mine.com');
+          expect(searcher.query[0].context[1].op).toBe('in');
+          expect(searcher.query[0].context[1].lvalue).toBe('values[Assigned Individual]');
+          expect(searcher.query[0].context[1].rvalue.toJS()).toEqual(['you@yours.com']);
         });
 
-        test('unassigned and teammates', () => {
-          filter = filter
-            .updateIn(['assignments', 'unassigned'], () => true)
-            .updateIn(['assignments', 'teammates'], () => true);
-          searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-          const query = findQuery(searcher, 'values[Assigned Individual]');
-          expect(query.op).toBe('in');
-          expect(query.rvalue).toContain(null);
-          expect(query.rvalue).toContain('you@yours.com');
-          expect(query.rvalue).toHaveLength(2);
-        });
-
-        test('unassigned and mine', () => {
-          filter = filter
-            .updateIn(['assignments', 'unassigned'], () => true)
-            .updateIn(['assignments', 'mine'], () => true);
-          searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-          const query = findQuery(searcher, 'values[Assigned Individual]');
-          expect(query.op).toBe('in');
-          expect(query.rvalue).toContain(null);
-          expect(query.rvalue).toContain('me@mine.com');
-          expect(query.rvalue).toHaveLength(2);
-        });
-
-        test('unassigned, teammates, and mine', () => {
-          filter = filter
-            .updateIn(['assignments', 'unassigned'], () => true)
-            .updateIn(['assignments', 'teammates'], () => true)
-            .updateIn(['assignments', 'mine'], () => true);
-          searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-          const query = findQuery(searcher, 'values[Assigned Individual]');
-          expect(query.op).toBe('in');
-          expect(query.rvalue).toContain(null);
-          expect(query.rvalue).toContain('me@mine.com');
-          expect(query.rvalue).toContain('you@yours.com');
-          expect(query.rvalue).toHaveLength(3);
+        describe('when none are checked', () => {
+          test('mine and teammates', () => {
+            filter = filter
+              .setIn(['assignments', 'mine'], false)
+              .setIn(['assignments', 'teammates'], false)
+              .setIn(['assignments', 'unassigned'], false);
+            searcher = prepareAssignmentFilter(searcher, filter, appSettings);
+            expect(searcher.query.length).toBe(0);
+          });
         });
       });
     });
