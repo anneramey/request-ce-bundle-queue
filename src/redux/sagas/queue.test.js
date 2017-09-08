@@ -151,52 +151,46 @@ describe('queue saga', () => {
     });
 
     describe('#prepareDateRangeFilter', () => {
-      test('when custom range', () => {
-        const startDate = moment().subtract(7, 'days').toDate();
-        const endDate = new Date();
+      test('no preset or custom range', () => {
         filter = filter
-          .updateIn(['dateRange', 'custom'], () => true)
-          .updateIn(['dateRange', 'timeline'], () => 'updatedAt')
-          .updateIn(['dateRange', 'start'], () => startDate)
-          .updateIn(['dateRange', 'end'], () => endDate);
-        searcher = prepareDateRangeFilter(searcher, filter);
-        expect(searcher.searchMeta.timeline).toBe('updatedAt');
-        expect(searcher.searchMeta.start).toEqual(startDate.toISOString());
-        expect(searcher.searchMeta.end).toEqual(endDate.toISOString());
+          .setIn(['dateRange', 'preset'], '')
+          .setIn(['dateRange', 'custom'], false);
+        searcher = prepareDateRangeFilter(searcher, filter, moment());
+        expect(searcher.searchMeta.timeline).toBeUndefined();
+        expect(searcher.searchMeta.start).toBeUndefined();
+        expect(searcher.searchMeta.end).toBeUndefined();
       });
 
-      describe('when using presents', () => {
-        test('end date is automatically set', () => {
-          filter = filter
-            .updateIn(['dateRange', 'preset'], () => '7days');
-          expect(searcher.searchMeta.end).toBeUndefined();
-          searcher = prepareDateRangeFilter(searcher, filter);
-          expect(searcher.searchMeta.end).toBeDefined();
-        });
-        test('timeline to be set', () => {
-          filter = filter
-            .updateIn(['dateRange', 'timeline'], () => 'closedAt')
-            .updateIn(['dateRange', 'preset'], () => '7days');
-          searcher = prepareDateRangeFilter(searcher, filter);
-          expect(searcher.searchMeta.timeline).toBe('closedAt');
-        });
-        [
-          { label: '7days', num: 7 },
-          { label: '30days', num: 30 },
-          { label: '60days', num: 60 },
-          { label: '90days', num: 90 },
-          { label: 'default/catchall', num: 7 }, // test the default.
-        ].forEach(preset => {
-          test(preset.label, () => {
-            filter = filter
-              .updateIn(['dateRange', 'preset'], () => preset.label);
-            searcher = prepareDateRangeFilter(searcher, filter);
-            expect(typeof searcher.searchMeta.start).toBe('string');
-            const startDate = moment(searcher.searchMeta.start);
-            const daysAgo = moment().subtract(preset.num, 'days');
-            expect(startDate.isSame(daysAgo, 'day')).toBe(true);
-          });
-        });
+      test('when custom range', () => {
+        filter = filter
+          .setIn(['dateRange', 'custom'], true)
+          .setIn(['dateRange', 'timeline'], 'updatedAt')
+          .setIn(['dateRange', 'start'], '2017-09-02')
+          .setIn(['dateRange', 'end'], '2017-09-05');
+        searcher = prepareDateRangeFilter(searcher, filter, moment());
+        expect(searcher.searchMeta.timeline).toBe('updatedAt');
+        expect(searcher.searchMeta.start).toEqual('2017-09-02T05:00:00.000Z');
+        expect(searcher.searchMeta.end).toEqual('2017-09-06T05:00:00.000Z');
+      });
+
+      test('when using presets', () => {
+        filter = filter
+          .setIn(['dateRange', 'timeline'], 'closedAt')
+          .setIn(['dateRange', 'preset'], '3days');
+        searcher = prepareDateRangeFilter(searcher, filter, moment('2017-09-08T15:30:00.000'));
+        expect(searcher.searchMeta.timeline).toBe('closedAt');
+        expect(searcher.searchMeta.start).toBe('2017-09-05T05:00:00.000Z');
+        expect(searcher.searchMeta.end).toBe('2017-09-08T20:30:00.000Z');
+      });
+
+      test('when there is an invalid preset defaults to 7 days', () => {
+        filter = filter
+          .setIn(['dateRange', 'timeline'], 'closedAt')
+          .setIn(['dateRange', 'preset'], 'foo');
+        searcher = prepareDateRangeFilter(searcher, filter, moment('2017-09-08T15:30:00.000'));
+        expect(searcher.searchMeta.timeline).toBe('closedAt');
+        expect(searcher.searchMeta.start).toBe('2017-09-01T05:00:00.000Z');
+        expect(searcher.searchMeta.end).toBe('2017-09-08T20:30:00.000Z');
       });
     });
 

@@ -62,32 +62,23 @@ export const prepareAssignmentFilter = (searcher, filter, appSettings) => {
   return searcher;
 };
 
-export const prepareDateRangeFilter = (searcher, filter) => {
+export const prepareDateRangeFilter = (searcher, filter, now) => {
   if (filter.dateRange.custom) {
     searcher.sortBy(filter.dateRange.timeline);
-    searcher.startDate(filter.dateRange.start);
-    searcher.endDate(filter.dateRange.end);
+    searcher.startDate(moment(filter.dateRange.start).toDate());
+    searcher.endDate(moment(filter.dateRange.end).add(1, 'day').toDate());
   } else if (filter.dateRange.preset !== '') {
-    searcher.sortBy(filter.dateRange.timeline);
-    searcher.endDate(new Date());
-    switch (filter.dateRange.preset) {
-      case '7days':
-        searcher.startDate(moment().subtract(7, 'days').toDate());
-        break;
-      case '30days':
-        searcher.startDate(moment().subtract(30, 'days').toDate());
-        break;
-      case '60days':
-        searcher.startDate(moment().subtract(60, 'days').toDate());
-        break;
-      case '90days':
-        searcher.startDate(moment().subtract(90, 'days').toDate());
-        break;
-      default:
-        window.console.warn(`Invalid date ranger filter preset '${filter.dateRange.preset}'.`);
-        searcher.startDate(moment().subtract(7, 'days').toDate());
-        break;
+    // Compute the number of days specified in the preset date range, just use
+    // regex to get the number. If the string does not match the pattern log a
+    // warning and default to 7.
+    const match = filter.dateRange.preset.match(/^(\d+)days$/);
+    const numberOfDays = match ? parseInt(match[1], 10) : 7;
+    if (!match) {
+      window.console.warn(`Invalid date range filter preset: ${filter.dateRange.preset}`);
     }
+    searcher.sortBy(filter.dateRange.timeline);
+    searcher.startDate(now.clone().startOf('day').subtract(numberOfDays, 'days').toDate());
+    searcher.endDate(now.toDate());
   }
   return searcher;
 };
@@ -98,7 +89,7 @@ export const buildSearch = (filter, appSettings) => {
   searcher = prepareStatusFilter(searcher, filter);
   searcher = prepareTeamsFilter(searcher, filter, appSettings);
   searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-  searcher = prepareDateRangeFilter(searcher, filter);
+  searcher = prepareDateRangeFilter(searcher, filter, moment());
 
   return searcher.include('values').build();
 };

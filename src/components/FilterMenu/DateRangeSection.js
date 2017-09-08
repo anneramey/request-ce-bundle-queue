@@ -60,7 +60,7 @@ export const DateRangeSection = ({
     <div>
       <label htmlFor="date-range-custom-start">Start Date*</label>
       <input
-        type="text"
+        type="date"
         id="date-range-custom-start"
         value={filter.dateRange.start}
         onChange={setDateRangeStartHandler}
@@ -69,7 +69,7 @@ export const DateRangeSection = ({
     <div>
       <label htmlFor="date-range-custom-end">End Date</label>
       <input
-        type="text"
+        type="date"
         id="date-range-custom-end"
         value={filter.dateRange.end}
         onChange={setDateRangeEndHandler}
@@ -96,8 +96,8 @@ export const DateRangeSectionContainer = compose(
       }
     },
     setDateRangeStartHandler: props => event =>
-      props.setDateRangeStart(new Date(event.target.value)),
+      props.setDateRangeStart(event.target.value),
     setDateRangeEndHandler: props => event =>
-      props.setDateRangeEnd(new Date(event.target.value)),
+      props.setDateRangeEnd(event.target.value),
   }),
 )(DateRangeSection);
