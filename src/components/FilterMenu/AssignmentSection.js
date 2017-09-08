@@ -7,30 +7,30 @@ import { actions } from '../../redux/modules/filterMenu';
 export const AssignmentSection = ({ filter, toggleAssignmentHandler }) =>
   <ModalBody className="filter-section">
     <h5>Assignment</h5>
-    <label htmlFor="mine">
+    <label htmlFor="assignment-mine">
       <input
         type="checkbox"
-        id="mine"
+        id="assignment-mine"
         value="mine"
         checked={filter.assignments.mine}
         onChange={toggleAssignmentHandler}
       />
       Mine
     </label>
-    <label htmlFor="teammates">
+    <label htmlFor="assignment-teammates">
       <input
         type="checkbox"
-        id="teammates"
+        id="assignment-teammates"
         value="teammates"
         checked={filter.assignments.teammates}
         onChange={toggleAssignmentHandler}
       />
       Teammates
     </label>
-    <label htmlFor="unassigned">
+    <label htmlFor="assignment-unassigned">
       <input
         type="checkbox"
-        id="unassigned"
+        id="assignment-unassigned"
         value="unassigned"
         checked={filter.assignments.unassigned}
         onChange={toggleAssignmentHandler}
