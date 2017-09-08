@@ -108,7 +108,7 @@ const buildSearch = (filter, appSettings) => {
   return searcher;
 };
 
-const getSubmissionDate = (submission, key) => {
+export const getSubmissionDate = (submission, key) => {
   if (['createdAt', 'updatedAt', 'closedAt'].includes(key)) {
     return submission[key];
   } else {
@@ -116,7 +116,7 @@ const getSubmissionDate = (submission, key) => {
   }
 };
 
-const sortSubmissions = (submissions, filter) =>
+export const sortSubmissions = (submissions, filter) =>
   submissions.sort((s1, s2) => {
     const s1Date = getSubmissionDate(s1, filter.sortBy);
     const s2Date = getSubmissionDate(s2, filter.sortBy);
@@ -126,7 +126,7 @@ const sortSubmissions = (submissions, filter) =>
 
     if (moment(s1Date).isBefore(s2Date)) {
       return beforeIndex;
-    } else if (moment(s1Date.isAfter(s2Date))) {
+    } else if (moment(s1Date).isAfter(s2Date)) {
       return afterIndex;
     } else if (filter.sortedBy !== 'createdAt') {
       const s1Created = getSubmissionDate(s1, 'createdAt');
@@ -134,7 +134,7 @@ const sortSubmissions = (submissions, filter) =>
 
       if (moment(s1Created).isBefore(s2Created)) {
         return beforeIndex;
-      } else if (moment(s1Created.isAfter(s2Created))) {
+      } else if (moment(s1Created).isAfter(s2Created)) {
         return afterIndex;
       }
     }

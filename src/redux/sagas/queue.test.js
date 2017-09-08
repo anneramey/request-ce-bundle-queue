@@ -11,6 +11,8 @@ const {
   prepareTeamsFilter,
   prepareAssignmentFilter,
   prepareDateRangeFilter,
+  getSubmissionDate,
+  sortSubmissions,
 } = require('./queue');
 
 const findQuery = (searcher, value) => searcher.query.find(q => q.lvalue === value);
@@ -210,6 +212,81 @@ describe('queue saga', () => {
             expect(startDate.isSame(daysAgo, 'day')).toBe(true);
           });
         });
+      });
+    });
+
+    describe('#getSubmissionDate', () => {
+      const submission = {
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt',
+        closedAt: 'closedAt',
+        values: {
+          due: 'due',
+        },
+      };
+
+      ['createdAt', 'updatedAt', 'closedAt'].forEach(timeline =>
+        test(`gets timeline date '${timeline}'`, () => {
+          expect(getSubmissionDate(submission, timeline)).toBe(timeline);
+        }));
+      test('gets value date', () => {
+        expect(getSubmissionDate(submission, 'due')).toBe('due');
+      });
+    });
+
+    describe('#sortSubmissions', () => {
+      let submissions;
+
+      const today = () => new Date().toISOString();
+      const weekAgo = () => moment().subtract(7, 'days').toDate().toISOString();
+      const fiveDaysAgo = () => moment().subtract(5, 'days').toDate().toISOString();
+
+      beforeEach(() => {
+        submissions = [
+          {
+            id: '1',
+            createdAt: today(),
+            values: { scheduled: today() },
+          },
+          {
+            id: '2',
+            createdAt: weekAgo(),
+            values: { scheduled: fiveDaysAgo(), due: today() },
+          },
+          {
+            id: '3',
+            createdAt: fiveDaysAgo(),
+            values: { scheduled: weekAgo() },
+          },
+        ];
+      });
+
+      describe('when sorting by a timeline', () => {
+        test('createdAt ascending', () => {
+          filter = filter.set('sortBy', 'createdAt').set('sortDir', 'ASC');
+
+          const sorted = sortSubmissions(submissions, filter).map(s => s.id);
+          expect(sorted).toEqual(['2', '3', '1']);
+        });
+
+        test('createdAt descending', () => {
+          filter = filter.set('sortBy', 'createdAt').set('sortDir', 'DESC');
+
+          const sorted = sortSubmissions(submissions, filter).map(s => s.id);
+          expect(sorted).toEqual(['1', '3', '2']);
+        });
+      });
+
+      describe('when sorting by values', () => {
+        test('when all submissions have the value', () => {
+          filter = filter.set('sortBy', 'scheduled').set('sortDir', 'ASC');
+
+          const sorted = sortSubmissions(submissions, filter).map(s => s.id);
+          expect(sorted).toEqual(['3', '2', '1']);
+        });
+      });
+
+      test('when only some submissions have the value', () => {
       });
     });
   });
