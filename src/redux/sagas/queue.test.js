@@ -7,7 +7,7 @@ global.bundle = {
   apiLocation: () => '/acme/app/api/v1',
 };
 const { CoreAPI } = require('react-kinetic-core');
-const { Filter, Profile } = require('../modules/app');
+const { Filter, Profile } = require('../../records');
 const {
   ERROR_STATUS_STRING,
   TOO_MANY_STATUS_STRING,
