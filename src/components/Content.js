@@ -35,7 +35,7 @@ const StaticContent = ({ filter, queueItems, openFilterMenu }) =>
       <div className="submissions">
         <ul className="list-group">
           {
-            queueItems.map(queueItem => <QueueItem queueItem={queueItem} />)
+            queueItems.map(queueItem => <QueueItem key={queueItem.id} queueItem={queueItem} />)
           }
         </ul>
       </div>
