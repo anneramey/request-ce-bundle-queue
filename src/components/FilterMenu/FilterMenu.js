@@ -16,6 +16,7 @@ export const FilterMenu = ({
   close,
   reset,
   activeSection,
+  applyFilterHandler,
   showSection,
   currentFilter,
 }) =>
@@ -54,7 +55,14 @@ export const FilterMenu = ({
     {
       activeSection === null &&
       <ModalFooter>
-        <button type="button" className="btn btn-primary" disabled={!isDirty}>Apply Filter</button>
+        <button
+          type="button"
+          className="btn btn-primary"
+          disabled={!isDirty}
+          onClick={applyFilterHandler}
+        >
+          Apply Filter
+        </button>
       </ModalFooter>
     }
   </Modal>;

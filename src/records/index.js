@@ -29,8 +29,8 @@ export const DateRangeCriteria = Record({
   // 7days, 30days, 60days, 90days
   preset: '',
   custom: false,
-  start: new Date(),
-  end: new Date(),
+  start: '',
+  end: '',
 });
 
 export const Filter = Record({

@@ -88,137 +88,109 @@ describe('queue saga', () => {
       });
 
       test('when "unassigned" is checked', () => {
-        filter = filter.updateIn(['assignments', 'unassigned'], () => true);
+        filter = filter.setIn(['assignments', 'unassigned'], true);
         searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-        const query = findQuery(searcher, 'values[Assigned Individual]');
-        expect(query.op).toBe('in');
-        expect(query.rvalue).toContain(null);
-        expect(query.rvalue).toHaveLength(1);
+        expect(searcher.query.length).toBe(1);
+        expect(searcher.query[0].op).toBe('or');
+        expect(searcher.query[0].context.length).toBe(1);
+        expect(searcher.query[0].context[0].op).toBe('eq');
+        expect(searcher.query[0].context[0].lvalue).toBe('values[Assigned Individual]');
+        expect(searcher.query[0].context[0].rvalue).toBe(null);
       });
 
       test('when "mine" is checked', () => {
-        filter = filter.updateIn(['assignments', 'mine'], () => true);
+        filter = filter.setIn(['assignments', 'mine'], true);
         searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-        const query = findQuery(searcher, 'values[Assigned Individual]');
-        expect(query.op).toBe('in');
-        expect(query.rvalue).toContain('me@mine.com');
-        expect(query.rvalue).toHaveLength(1);
+        expect(searcher.query.length).toBe(1);
+        expect(searcher.query[0].op).toBe('or');
+        expect(searcher.query[0].context.length).toBe(1);
+        expect(searcher.query[0].context[0].op).toBe('eq');
+        expect(searcher.query[0].context[0].lvalue).toBe('values[Assigned Individual]');
+        expect(searcher.query[0].context[0].rvalue).toBe('me@mine.com');
       });
 
       test('when "teammates" is checked', () => {
-        filter = filter.updateIn(['assignments', 'teammates'], () => true);
+        filter = filter.setIn(['assignments', 'teammates'], true);
         searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-        const query = findQuery(searcher, 'values[Assigned Individual]');
-        expect(query.op).toBe('in');
-        expect(query.rvalue).toContain('you@yours.com');
-        expect(query.rvalue).toHaveLength(1);
+        expect(searcher.query.length).toBe(1);
+        expect(searcher.query[0].op).toBe('or');
+        expect(searcher.query[0].context.length).toBe(1);
+        expect(searcher.query[0].context[0].op).toBe('in');
+        expect(searcher.query[0].context[0].lvalue).toBe('values[Assigned Individual]');
+        expect(searcher.query[0].context[0].rvalue.toJS()).toEqual(['you@yours.com']);
       });
 
-      // All combinations:
-      // 1. Mine + Teammates
-      // 2. Unassigned + Mine
-      // 3. Unassigned + Teammates
-      // 4. Unassigned + Mine + Teammates
       describe('when a combination is checked', () => {
         test('mine and teammates', () => {
           filter = filter
-            .updateIn(['assignments', 'mine'], () => true)
-            .updateIn(['assignments', 'teammates'], () => true);
+            .setIn(['assignments', 'mine'], true)
+            .setIn(['assignments', 'teammates'], true);
           searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-          const query = findQuery(searcher, 'values[Assigned Individual]');
-          expect(query.op).toBe('in');
-          expect(query.rvalue).toContain('me@mine.com');
-          expect(query.rvalue).toContain('you@yours.com');
-          expect(query.rvalue).toHaveLength(2);
+          expect(searcher.query.length).toBe(1);
+          expect(searcher.query[0].op).toBe('or');
+          expect(searcher.query[0].context.length).toBe(2);
+          expect(searcher.query[0].context[0].op).toBe('eq');
+          expect(searcher.query[0].context[0].lvalue).toBe('values[Assigned Individual]');
+          expect(searcher.query[0].context[0].rvalue).toEqual('me@mine.com');
+          expect(searcher.query[0].context[1].op).toBe('in');
+          expect(searcher.query[0].context[1].lvalue).toBe('values[Assigned Individual]');
+          expect(searcher.query[0].context[1].rvalue.toJS()).toEqual(['you@yours.com']);
         });
 
-        test('unassigned and teammates', () => {
-          filter = filter
-            .updateIn(['assignments', 'unassigned'], () => true)
-            .updateIn(['assignments', 'teammates'], () => true);
-          searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-          const query = findQuery(searcher, 'values[Assigned Individual]');
-          expect(query.op).toBe('in');
-          expect(query.rvalue).toContain(null);
-          expect(query.rvalue).toContain('you@yours.com');
-          expect(query.rvalue).toHaveLength(2);
-        });
-
-        test('unassigned and mine', () => {
-          filter = filter
-            .updateIn(['assignments', 'unassigned'], () => true)
-            .updateIn(['assignments', 'mine'], () => true);
-          searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-          const query = findQuery(searcher, 'values[Assigned Individual]');
-          expect(query.op).toBe('in');
-          expect(query.rvalue).toContain(null);
-          expect(query.rvalue).toContain('me@mine.com');
-          expect(query.rvalue).toHaveLength(2);
-        });
-
-        test('unassigned, teammates, and mine', () => {
-          filter = filter
-            .updateIn(['assignments', 'unassigned'], () => true)
-            .updateIn(['assignments', 'teammates'], () => true)
-            .updateIn(['assignments', 'mine'], () => true);
-          searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-          const query = findQuery(searcher, 'values[Assigned Individual]');
-          expect(query.op).toBe('in');
-          expect(query.rvalue).toContain(null);
-          expect(query.rvalue).toContain('me@mine.com');
-          expect(query.rvalue).toContain('you@yours.com');
-          expect(query.rvalue).toHaveLength(3);
+        describe('when none are checked', () => {
+          test('mine and teammates', () => {
+            filter = filter
+              .setIn(['assignments', 'mine'], false)
+              .setIn(['assignments', 'teammates'], false)
+              .setIn(['assignments', 'unassigned'], false);
+            searcher = prepareAssignmentFilter(searcher, filter, appSettings);
+            expect(searcher.query.length).toBe(0);
+          });
         });
       });
     });
 
     describe('#prepareDateRangeFilter', () => {
-      test('when custom range', () => {
-        const startDate = moment().subtract(7, 'days').toDate();
-        const endDate = new Date();
+      test('no preset or custom range', () => {
         filter = filter
-          .updateIn(['dateRange', 'custom'], () => true)
-          .updateIn(['dateRange', 'timeline'], () => 'updatedAt')
-          .updateIn(['dateRange', 'start'], () => startDate)
-          .updateIn(['dateRange', 'end'], () => endDate);
-        searcher = prepareDateRangeFilter(searcher, filter);
-        expect(searcher.searchMeta.timeline).toBe('updatedAt');
-        expect(searcher.searchMeta.start).toEqual(startDate.toISOString());
-        expect(searcher.searchMeta.end).toEqual(endDate.toISOString());
+          .setIn(['dateRange', 'preset'], '')
+          .setIn(['dateRange', 'custom'], false);
+        searcher = prepareDateRangeFilter(searcher, filter, moment());
+        expect(searcher.searchMeta.timeline).toBeUndefined();
+        expect(searcher.searchMeta.start).toBeUndefined();
+        expect(searcher.searchMeta.end).toBeUndefined();
       });
 
-      describe('when using presents', () => {
-        test('end date is automatically set', () => {
-          filter = filter
-            .updateIn(['dateRange', 'preset'], () => '7days');
-          expect(searcher.searchMeta.end).toBeUndefined();
-          searcher = prepareDateRangeFilter(searcher, filter);
-          expect(searcher.searchMeta.end).toBeDefined();
-        });
-        test('timeline to be set', () => {
-          filter = filter
-            .updateIn(['dateRange', 'timeline'], () => 'closedAt')
-            .updateIn(['dateRange', 'preset'], () => '7days');
-          searcher = prepareDateRangeFilter(searcher, filter);
-          expect(searcher.searchMeta.timeline).toBe('closedAt');
-        });
-        [
-          { label: '7days', num: 7 },
-          { label: '30days', num: 30 },
-          { label: '60days', num: 60 },
-          { label: '90days', num: 90 },
-          { label: 'default/catchall', num: 7 }, // test the default.
-        ].forEach(preset => {
-          test(preset.label, () => {
-            filter = filter
-              .updateIn(['dateRange', 'preset'], () => preset.label);
-            searcher = prepareDateRangeFilter(searcher, filter);
-            expect(typeof searcher.searchMeta.start).toBe('string');
-            const startDate = moment(searcher.searchMeta.start);
-            const daysAgo = moment().subtract(preset.num, 'days');
-            expect(startDate.isSame(daysAgo, 'day')).toBe(true);
-          });
-        });
+      test('when custom range', () => {
+        filter = filter
+          .setIn(['dateRange', 'custom'], true)
+          .setIn(['dateRange', 'timeline'], 'updatedAt')
+          .setIn(['dateRange', 'start'], '2017-09-02')
+          .setIn(['dateRange', 'end'], '2017-09-05');
+        searcher = prepareDateRangeFilter(searcher, filter, moment());
+        expect(searcher.searchMeta.timeline).toBe('updatedAt');
+        expect(searcher.searchMeta.start).toEqual('2017-09-02T05:00:00.000Z');
+        expect(searcher.searchMeta.end).toEqual('2017-09-06T05:00:00.000Z');
+      });
+
+      test('when using presets', () => {
+        filter = filter
+          .setIn(['dateRange', 'timeline'], 'closedAt')
+          .setIn(['dateRange', 'preset'], '3days');
+        searcher = prepareDateRangeFilter(searcher, filter, moment('2017-09-08T15:30:00.000'));
+        expect(searcher.searchMeta.timeline).toBe('closedAt');
+        expect(searcher.searchMeta.start).toBe('2017-09-05T05:00:00.000Z');
+        expect(searcher.searchMeta.end).toBe('2017-09-08T20:30:00.000Z');
+      });
+
+      test('when there is an invalid preset defaults to 7 days', () => {
+        filter = filter
+          .setIn(['dateRange', 'timeline'], 'closedAt')
+          .setIn(['dateRange', 'preset'], 'foo');
+        searcher = prepareDateRangeFilter(searcher, filter, moment('2017-09-08T15:30:00.000'));
+        expect(searcher.searchMeta.timeline).toBe('closedAt');
+        expect(searcher.searchMeta.start).toBe('2017-09-01T05:00:00.000Z');
+        expect(searcher.searchMeta.end).toBe('2017-09-08T20:30:00.000Z');
       });
     });
 
