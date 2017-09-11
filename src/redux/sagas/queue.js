@@ -91,7 +91,7 @@ export const buildSearch = (filter, appSettings) => {
   searcher = prepareAssignmentFilter(searcher, filter, appSettings);
   searcher = prepareDateRangeFilter(searcher, filter, moment());
 
-  return searcher.include('values').build();
+  return searcher.include('details,values').build();
 };
 
 export const getSubmissionDate = (submission, key) => {

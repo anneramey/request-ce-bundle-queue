@@ -3,6 +3,7 @@ import { List } from 'immutable';
 import { ModalBody } from 'reactstrap';
 import SVGInline from 'react-svg-inline';
 import chevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg';
+import { SORT_OPTIONS } from '../FilterMenu/SortedBySection';
 
 const ListSummary = ({ type, list }) =>
   list.size > 0 &&
@@ -79,6 +80,7 @@ export const MainSection = ({ filter, showSection }) =>
           onClick={() => showSection('sort')}
         >
           <span className="button-title">Sorted By</span>
+          <span>{SORT_OPTIONS.get(filter.sortBy).label} {filter.sortDir}</span>
           <SVGInline svg={chevronRightIcon} className="icon" />
         </button>
       </li>

@@ -13,6 +13,7 @@ export const types = {
   TOGGLE_DATE_RANGE_CUSTOM: '@kd/queue/filterMenu/TOGGLE_DATE_RANGE_CUSTOM',
   SET_DATE_RANGE_START: '@kd/queue/filterMenu/SET_DATE_RANGE_START',
   SET_DATE_RANGE_END: '@kd/queue/filterMenu/SET_DATE_RANGE_END',
+  SET_SORTED_BY: '@kd/queue/filterMenu/SET_SORTED_BY',
 };
 
 export const actions = {
@@ -28,6 +29,7 @@ export const actions = {
   toggleDateRangeCustom: () => ({ type: types.TOGGLE_DATE_RANGE_CUSTOM }),
   setDateRangeStart: payload => ({ type: types.SET_DATE_RANGE_START, payload }),
   setDateRangeEnd: payload => ({ type: types.SET_DATE_RANGE_END, payload }),
+  setSortedBy: payload => ({ type: types.SET_SORTED_BY, payload }),
 };
 
 export const defaultState = Map({
@@ -74,6 +76,8 @@ export const reducer = (state = defaultState, { type, payload }) => {
       return state.setIn(['currentFilter', 'dateRange', 'start'], payload);
     case types.SET_DATE_RANGE_END:
       return state.setIn(['currentFilter', 'dateRange', 'end'], payload);
+    case types.SET_SORTED_BY:
+      return state.setIn(['currentFilter', 'sortBy'], payload);
     default:
       return state;
   }
