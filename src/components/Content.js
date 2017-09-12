@@ -7,7 +7,7 @@ import refreshIcon from 'font-awesome-svg-png/white/svg/refresh.svg';
 import filterIcon from '../images/filter.svg';
 import sortIcon from '../images/sort.svg';
 import { FilterMenuContainer } from './FilterMenu/FilterMenuContainer';
-import { QueueItem } from './QueueItem';
+import { QueueListItem } from './QueueListItem';
 import { actions as queueActions } from '../redux/modules/queue';
 import { actions as filterMenuActions } from '../redux/modules/filterMenu';
 
@@ -35,7 +35,7 @@ const StaticContent = ({ filter, queueItems, openFilterMenu }) =>
       <div className="submissions">
         <ul className="list-group">
           {
-            queueItems.map(queueItem => <QueueItem key={queueItem.id} queueItem={queueItem} />)
+            queueItems.map(queueItem => <QueueListItem key={queueItem.id} queueItem={queueItem} />)
           }
         </ul>
       </div>

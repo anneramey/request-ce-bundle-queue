@@ -36,7 +36,7 @@ const Timestamp = ({ label, value }) =>
     {`${label} ${moment(value).fromNow()}`}
   </li>;
 
-export const QueueItem = (
+export const QueueListItem = (
   {
     queueItem: { createdAt, updatedAt, id, values },
   },
