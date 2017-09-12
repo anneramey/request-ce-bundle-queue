@@ -84,6 +84,6 @@ const StaticContentContainer = compose(
 export const Content = () =>
   <div className="content">
     <Route path="/" exact render={() => <div>Please select a list</div>} />
-    <Route path="/:filter" render={routeProps => <StaticContentContainer {...routeProps} />} />
+    <Route path="/list/:filter" render={routeProps => <StaticContentContainer {...routeProps} />} />
     <FilterMenuContainer />
   </div>;
