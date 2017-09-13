@@ -1,5 +1,6 @@
 import { takeEvery } from 'redux-saga';
 import { all, call, put } from 'redux-saga/effects';
+import { List } from 'immutable';
 import { CoreAPI } from 'react-kinetic-core';
 
 import { getAttributeValue } from '../../utils';
@@ -49,6 +50,9 @@ export function* fetchAppSettingsSaga() {
     .map(u => u.user)
     // Ditch any of those users that are me.
     .filter(u => u.username !== profile.username);
+  const myFilters = profile.profileAttributes['Queue Personal Filters']
+    ? profile.profileAttributes['Queue Personal Filters'].values.map(f => f)
+    : List();
 
   const appSettings = {
     documentationUrl: getAttributeValue(
@@ -64,6 +68,7 @@ export function* fetchAppSettingsSaga() {
     profile,
     myTeams,
     myTeammates,
+    myFilters,
     forms,
   };
 

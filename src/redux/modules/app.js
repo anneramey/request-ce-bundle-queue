@@ -8,11 +8,15 @@ export const DEFAULT_SUPPORT_URL = 'https://kinops.io/support';
 export const types = {
   LOAD_APP_SETTINGS: namespace('app', 'LOAD_APP_SETTINGS'),
   SET_APP_SETTINGS: namespace('app', 'SET_APP_SETTINGS'),
+  ADD_PERSONAL_FILTER: namespace('app', 'ADD_PERSONAL_FILTER'),
+  REMOVE_PERSONAL_FILTER: namespace('app', 'REMOVE_PERSONAL_FILTER'),
 };
 
 export const actions = {
   loadAppSettings: noPayload(types.LOAD_APP_SETTINGS),
   setAppSettings: withPayload(types.SET_APP_SETTINGS),
+  addPersonalFilter: withPayload(types.ADD_PERSONAL_FILTER),
+  removePersonalFilter: withPayload(types.REMOVE_PERSONAL_FILTER),
 };
 
 /*
@@ -27,21 +31,18 @@ export const State = Record({
   filters: List([
     Filter({
       name: 'Mine',
-      slug: 'mine',
       assignments: AssignmentCriteria({
         mine: true,
       }),
     }),
     Filter({
       name: 'Teammates',
-      slug: 'teammates',
       assignments: AssignmentCriteria({
         teammates: true,
       }),
     }),
     Filter({
       name: 'Unassigned',
-      slug: 'unassigned',
       assignments: AssignmentCriteria({
         unassigned: true,
       }),
@@ -51,6 +52,7 @@ export const State = Record({
   supportUrl: DEFAULT_SUPPORT_URL,
   myTeams: List(),
   myTeammates: List(),
+  myFilters: List(),
   forms: List(),
   loading: true,
 });
@@ -64,8 +66,13 @@ export const reducer = (state = State(), { type, payload }) => {
         .set('profile', payload.profile)
         .set('myTeams', List(payload.myTeams))
         .set('myTeammates', payload.myTeammates)
+        .set('myFilters', payload.myFilters)
         .set('forms', payload.forms)
         .set('loading', false);
+    case types.ADD_PERSONAL_FILTER:
+      return state.update('myFilters', filters => filters.push(payload));
+    case types.REMOVE_PERSONAL_FILTER:
+      return state.update('myFilters', filters => filters.name === filters.payload);
     default:
       return state;
   }

@@ -19,7 +19,8 @@ export const actions = {
 
 export const State = Record({
   currentFilter: Filter(),
-  // currentItem: Item(),
+  currentItem: {},
+  currentItemLoading: false,
   listItems: List(),
   listStatus: null,
 });
@@ -32,6 +33,10 @@ export const reducer = (state = State(), { type, payload }) => {
       return state.set('listItems', payload).set('listStatus', null);
     case types.SET_LIST_STATUS:
       return state.set('listStatus', payload);
+    case types.FETCH_CURRENT_ITEM:
+      return state.set('currentItemLoading', true);
+    case types.SET_CURRENT_ITEM:
+      return state.set('currentItemLoading', false).set('currentItem', payload);
     default:
       return state;
   }

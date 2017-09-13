@@ -200,7 +200,7 @@ const mapDispatchToProps = {
   openFilterMenu: filterMenuActions.open,
 };
 
-const selectFilter = (filters, filter) => filters.find(f => f.slug === filter);
+const selectFilter = (filters, filter) => filters.find(f => f.name === filter);
 
 const StaticContentContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),

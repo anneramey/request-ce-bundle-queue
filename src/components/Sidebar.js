@@ -15,19 +15,19 @@ export const Sidebar = ({ documentationUrl, supportUrl }) =>
     <h6>Filters</h6>
     <Nav vertical className="filter-nav">
       <NavItem>
-        <NavLink to="/mine" className="nav-link" activeClassName="active">
+        <NavLink to="/Mine" className="nav-link" activeClassName="active">
           <SVGInline svg={userIcon} className="icon" />
           Mine (6)
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink to="/teammates" className="nav-link" activeClassName="active">
+        <NavLink to="/Teammates" className="nav-link" activeClassName="active">
           <SVGInline svg={usersIcon} className="icon" />
           Teammates (999+)
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink to="/unassigned" className="nav-link" activeClassName="active">
+        <NavLink to="/Unassigned" className="nav-link" activeClassName="active">
           <SVGInline svg={inboxIcon} className="icon" />
           Unassigned (9)
         </NavLink>
