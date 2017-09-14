@@ -47,3 +47,4 @@ export const Filter = Record({
   assignments: AssignmentCriteria(),
   dateRange: DateRangeCriteria(),
 });
+

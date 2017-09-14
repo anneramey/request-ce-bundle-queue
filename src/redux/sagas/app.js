@@ -1,11 +1,14 @@
-import { takeEvery } from 'redux-saga';
-import { all, call, put } from 'redux-saga/effects';
+import { takeEvery, takeLatest } from 'redux-saga';
+import { all, call, put, select } from 'redux-saga/effects';
 import { List } from 'immutable';
 import { CoreAPI } from 'react-kinetic-core';
 
 import { getAttributeValue } from '../../utils';
 
 import { actions, types, DEFAULT_DOCUMENTATION_URL, DEFAULT_SUPPORT_URL } from '../modules/app';
+
+export const selectPersonalFilters = ({ app }) => app.myFilters;
+export const selectProfile = ({ app }) => app.profile;
 
 // We'll implicitly believe teams to be assignable.
 export const isAssignable = team => {
@@ -23,7 +26,7 @@ export const isAssignable = team => {
 };
 
 // TODO decide on error handling for these calls.
-export function* fetchAppSettingsSaga() {
+export function* fetchAppSettingsTask() {
   const {
     space: { space },
     kapp: { kapp },
@@ -51,7 +54,7 @@ export function* fetchAppSettingsSaga() {
     // Ditch any of those users that are me.
     .filter(u => u.username !== profile.username);
   const myFilters = profile.profileAttributes['Queue Personal Filters']
-    ? profile.profileAttributes['Queue Personal Filters'].values.map(f => f)
+    ? profile.profileAttributes['Queue Personal Filters'].map(f => f)
     : List();
 
   const appSettings = {
@@ -75,6 +78,25 @@ export function* fetchAppSettingsSaga() {
   yield put(actions.setAppSettings(appSettings));
 }
 
+export function* updatePersonalFilterTask() {
+  const myFilters = yield select(selectPersonalFilters);
+  const profile = yield select(selectProfile);
+
+  profile.profileAttributes['Queue Personal Filters'] = myFilters.toJS();
+
+  const { profile: newProfile, serverError } = yield call(CoreAPI.updateProfile, { profile });
+  if (!serverError) {
+    const newFilters = newProfile.profileAttributes['Queue Personal Filters']
+      ? newProfile.profileAttributes['Queue Personal Filters'].values.map(f => f)
+      : List();
+    window.console.log(newFilters);
+  }
+}
+
 export function* watchApp() {
-  yield takeEvery(types.LOAD_APP_SETTINGS, fetchAppSettingsSaga);
+  yield takeEvery(types.LOAD_APP_SETTINGS, fetchAppSettingsTask);
+  yield takeLatest([
+    types.ADD_PERSONAL_FILTER,
+    types.REMOVE_PERSONAL_FILTER,
+  ], updatePersonalFilterTask);
 }
