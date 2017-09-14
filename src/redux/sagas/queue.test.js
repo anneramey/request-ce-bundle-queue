@@ -12,7 +12,8 @@ const {
   ERROR_STATUS_STRING,
   TOO_MANY_STATUS_STRING,
   getAppSettings,
-  fetchCurrentFilterSaga,
+  fetchCurrentFilterTask,
+  fetchCurrentItemTask,
   prepareStatusFilter,
   prepareTeamsFilter,
   prepareAssignmentFilter,
@@ -316,7 +317,7 @@ describe('queue saga', () => {
 
     describe('when there are server errors', () => {
       test('it sets the list status to indicate an error', () => {
-        const saga = fetchCurrentFilterSaga(action);
+        const saga = fetchCurrentFilterTask(action);
 
         // First get the app settings out of the state.
         expect(saga.next().value).toEqual(select(getAppSettings));
@@ -334,7 +335,7 @@ describe('queue saga', () => {
 
     describe('when there are too many items', () => {
       test('it sets the list status to indicate an error', () => {
-        const saga = fetchCurrentFilterSaga(action);
+        const saga = fetchCurrentFilterTask(action);
 
         // First get the app settings out of the state.
         expect(saga.next().value).toEqual(select(getAppSettings));
@@ -351,8 +352,8 @@ describe('queue saga', () => {
     });
 
     describe('when request is successful', () => {
-      test('it sets the list status to indicate an error', () => {
-        const saga = fetchCurrentFilterSaga(action);
+      test('it sets the list items', () => {
+        const saga = fetchCurrentFilterTask(action);
 
         // First get the app settings out of the state.
         expect(saga.next().value).toEqual(select(getAppSettings));
@@ -367,6 +368,28 @@ describe('queue saga', () => {
           .toEqual(call(sortSubmissions, response.submissions, action.payload));
         expect(saga.next(response.submissions).value)
           .toEqual(put(actions.setListItems(response.submissions)));
+      });
+    });
+  });
+
+  describe('#fetchCurrentItemTask', () => {
+    let action;
+    let response;
+
+    beforeEach(() => {
+      action = { payload: 'abc' };
+      response = { submission: {} };
+    });
+
+    describe('when request is successful', () => {
+      test('it sets the list items', () => {
+        const saga = fetchCurrentItemTask(action);
+
+        // Execute the search.
+        expect(saga.next().value)
+          .toEqual(call(CoreAPI.fetchSubmission, { id: action.payload, include: 'details,values,attributes' }));
+        expect(saga.next(response).value)
+          .toEqual(put(actions.setCurrentItem(response.submission)));
       });
     });
   });

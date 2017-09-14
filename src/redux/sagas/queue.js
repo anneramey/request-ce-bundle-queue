@@ -134,7 +134,7 @@ export const sortSubmissions = (submissions, filter) =>
     return 0;
   });
 
-export function* fetchCurrentFilterSaga(action) {
+export function* fetchCurrentFilterTask(action) {
   const filter = action.payload;
   const appSettings = yield select(getAppSettings);
   const search = yield call(buildSearch, filter, appSettings);
@@ -158,6 +158,18 @@ export function* fetchCurrentFilterSaga(action) {
   }
 }
 
+export function* fetchCurrentItemTask(action) {
+  const { submission, serverError } = yield call(CoreAPI.fetchSubmission, {
+    id: action.payload,
+    include: 'details,values,attributes',
+  });
+
+  if (!serverError) {
+    yield put(actions.setCurrentItem(submission));
+  }
+}
+
 export function* watchQueue() {
-  yield takeEvery(types.SET_CURRENT_FILTER, fetchCurrentFilterSaga);
+  yield takeEvery(types.SET_CURRENT_FILTER, fetchCurrentFilterTask);
+  yield takeEvery(types.FETCH_CURRENT_ITEM, fetchCurrentItemTask);
 }
