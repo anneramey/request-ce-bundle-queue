@@ -71,8 +71,17 @@
             padding: 1rem;
             flex: 1;
             display: flex;
-            .icon {  margin-left: auto;  }
-            .icon-svg path { fill: $blue1; }
+            justify-content: flex-end;
+            .button-title {
+              font-weight: 600;
+              margin-right: auto;
+            }
+            .icon-svg {
+              margin-left: 10px;
+              path {
+                fill: $blue1;
+              }
+            }
           }
         }
       }

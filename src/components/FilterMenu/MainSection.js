@@ -1,7 +1,9 @@
 import React from 'react';
+import { List } from 'immutable';
 import { ModalBody } from 'reactstrap';
 import SVGInline from 'react-svg-inline';
 import chevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg';
+import { SORT_OPTIONS } from '../FilterMenu/SortedBySection';
 
 const ListSummary = ({ type, list }) =>
   list.size > 0 &&
@@ -10,6 +12,20 @@ const ListSummary = ({ type, list }) =>
       ? <span>{list.get(0)}</span>
       : <span>{list.size} {type}</span>
   );
+
+const AssignmentSummary = ({ assignments }) => {
+  const appliedAssignments = List([
+    assignments.mine && 'Mine',
+    assignments.teammates && 'Teammates',
+    assignments.unassigned && 'Unassigned',
+  ]).filter(assignmentType => !!assignmentType);
+  return appliedAssignments.size > 0 &&
+    (
+      appliedAssignments.size === 1
+        ? <span>{appliedAssignments.get(0)}</span>
+        : <span>{appliedAssignments.size} Presets</span>
+    );
+};
 
 export const MainSection = ({ filter, showSection }) =>
   <ModalBody className="main-section">
@@ -20,7 +36,7 @@ export const MainSection = ({ filter, showSection }) =>
           className="btn btn-link"
           onClick={() => showSection('teams')}
         >
-          Teams
+          <span className="button-title">Teams</span>
           <ListSummary type="Teams" list={filter.teams} />
           <SVGInline svg={chevronRightIcon} className="icon" />
         </button>
@@ -31,7 +47,8 @@ export const MainSection = ({ filter, showSection }) =>
           className="btn btn-link"
           onClick={() => showSection('assignment')}
         >
-          Assignment
+          <span className="button-title">Assignment</span>
+          <AssignmentSummary assignments={filter.assignments} />
           <SVGInline svg={chevronRightIcon} className="icon" />
         </button>
       </li>
@@ -41,7 +58,7 @@ export const MainSection = ({ filter, showSection }) =>
           className="btn btn-link"
           onClick={() => showSection('status')}
         >
-          Status
+          <span className="button-title">Status</span>
           <ListSummary type="Statuses" list={filter.status} />
           <SVGInline svg={chevronRightIcon} className="icon" />
         </button>
@@ -52,7 +69,7 @@ export const MainSection = ({ filter, showSection }) =>
           className="btn btn-link"
           onClick={() => showSection('date')}
         >
-          Date Range
+          <span className="button-title">Date Range</span>
           <SVGInline svg={chevronRightIcon} className="icon" />
         </button>
       </li>
@@ -62,7 +79,8 @@ export const MainSection = ({ filter, showSection }) =>
           className="btn btn-link"
           onClick={() => showSection('sort')}
         >
-          Sorted By
+          <span className="button-title">Sorted By</span>
+          <span>{SORT_OPTIONS.get(filter.sortBy).label} {filter.sortDir}</span>
           <SVGInline svg={chevronRightIcon} className="icon" />
         </button>
       </li>

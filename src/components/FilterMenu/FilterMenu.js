@@ -7,7 +7,7 @@ import { AssignmentSectionContainer } from './AssignmentSection';
 import { TeamsSectionContainer } from './TeamsSection';
 import { StatusSectionContainer } from './StatusSection';
 import { DateRangeSectionContainer } from './DateRangeSection';
-import { SortedBySection } from './SortedBySection';
+import { SortedBySectionContainer } from './SortedBySection';
 
 export const FilterMenu = ({
   teams,
@@ -51,7 +51,7 @@ export const FilterMenu = ({
     { activeSection === 'assignment' && <AssignmentSectionContainer filter={currentFilter} /> }
     { activeSection === 'status' && <StatusSectionContainer filter={currentFilter} /> }
     { activeSection === 'date' && <DateRangeSectionContainer filter={currentFilter} /> }
-    { activeSection === 'sort' && <SortedBySection filter={currentFilter} /> }
+    { activeSection === 'sort' && <SortedBySectionContainer filter={currentFilter} /> }
     {
       activeSection === null &&
       <ModalFooter>
