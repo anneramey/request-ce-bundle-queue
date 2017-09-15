@@ -13,6 +13,7 @@ export const types = {
 
 export const actions = {
   setCurrentFilter: withPayload(types.SET_CURRENT_FILTER),
+  fetchCurrentItem: withPayload(types.FETCH_CURRENT_ITEM),
   setCurrentItem: withPayload(types.SET_CURRENT_ITEM),
   setListItems: withPayload(types.SET_LIST_ITEMS),
   setListStatus: withPayload(types.SET_LIST_STATUS),
@@ -20,7 +21,7 @@ export const actions = {
 
 export const State = Record({
   currentFilter: Filter(),
-  currentItem: {},
+  currentItem: null,
   currentItemLoading: false,
   listItems: List(),
   listStatus: null,

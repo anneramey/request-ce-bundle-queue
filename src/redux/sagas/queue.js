@@ -161,7 +161,7 @@ export function* fetchCurrentFilterTask(action) {
 export function* fetchCurrentItemTask(action) {
   const { submission, serverError } = yield call(CoreAPI.fetchSubmission, {
     id: action.payload,
-    include: 'details,values,attributes',
+    include: 'details,values,attributes,form,children,children.form,children.values',
   });
 
   if (!serverError) {
