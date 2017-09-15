@@ -15,19 +15,19 @@ export const Sidebar = ({ documentationUrl, supportUrl }) =>
     <h6>Filters</h6>
     <Nav vertical className="filter-nav">
       <NavItem>
-        <NavLink to="/Mine" className="nav-link" activeClassName="active">
+        <NavLink to="/list/Mine" className="nav-link" activeClassName="active">
           <SVGInline svg={userIcon} className="icon" />
           Mine (6)
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink to="/Teammates" className="nav-link" activeClassName="active">
+        <NavLink to="/list/Teammates" className="nav-link" activeClassName="active">
           <SVGInline svg={usersIcon} className="icon" />
           Teammates (999+)
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink to="/Unassigned" className="nav-link" activeClassName="active">
+        <NavLink to="/list/Unassigned" className="nav-link" activeClassName="active">
           <SVGInline svg={inboxIcon} className="icon" />
           Unassigned (9)
         </NavLink>
@@ -36,25 +36,25 @@ export const Sidebar = ({ documentationUrl, supportUrl }) =>
     <h6>My Filters</h6>
     <Nav vertical className="filter-nav">
       <NavItem>
-        <NavLink to="/custom-filter/0" className="nav-link" activeClassName="active">
+        <NavLink to="/custom-list/0" className="nav-link" activeClassName="active">
           <SVGInline svg={starIcon} className="icon" />
           Dev Team Open
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink to="/custom-filter/1" className="nav-link" activeClassName="active">
+        <NavLink to="/custom-list/1" className="nav-link" activeClassName="active">
           <SVGInline svg={starIcon} className="icon" />
           Dev Team Mine
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink to="/custom-filter/2" className="nav-link" activeClassName="active">
+        <NavLink to="/custom-list/2" className="nav-link" activeClassName="active">
           <SVGInline svg={starIcon} className="icon" />
           Consulting by Due Date
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink to="/custom-filter/3" className="nav-link" activeClassName="active">
+        <NavLink to="/custom-list/3" className="nav-link" activeClassName="active">
           <SVGInline svg={starIcon} className="icon" />
           HR Pending
         </NavLink>

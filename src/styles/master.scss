@@ -74,9 +74,10 @@ body {
 .btn.btn-inverse.btn-primary {
   color: $blue1;
   background-color: white;
-  border: 2px solid $blue1;
+  border: 1px solid $blue1;
 }
 
 @import 'sidebar';
 @import 'content';
 @import 'modal';
+@import 'queue_item_details';

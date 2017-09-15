@@ -101,13 +101,11 @@
     }
 
     .right-panel {
-      align-items: center;
-      background-color: $blue3;
+      border-left: 2px solid $blue3;
       color: $blue1;
-      display: none;
+      display: flex;
       flex-direction: column;
       font-size: 18px;
-      justify-content: center;
       min-width: 400px;
     }
   }

@@ -1,0 +1,147 @@
+.queue-item-details {
+  .left-panel {
+    .controls {
+      .back-link {
+        color: $blue1;
+        font-size: 14px;
+        padding: .5rem 1rem;
+        .icon {
+          margin-right: .5em;
+        }
+      }
+    }
+
+    .details {
+      color: $blue1;
+      padding: 2rem 2rem 1rem 2rem;
+
+      .status {
+        font-size: 10px;
+        margin-bottom: .25rem;
+        text-transform: uppercase;
+        .icon {
+          margin-right: .5em;
+        }
+      }
+
+      h1 {
+        font-size: 16px;
+      }
+
+      .summary {
+        font-size: 11px;
+      }
+
+      pre {
+        color: $blue1;
+        font-size: 11px;
+        margin-bottom: 0;
+      }
+
+    }
+
+    .assignment {
+      align-items: center;
+      border-top: 1px solid $blue3;
+      border-bottom: 1px solid $blue3;
+      color: $blue1;
+      display: flex;
+      margin: 1rem 0 1rem 1rem;
+      padding: .5rem 1rem;
+      .assignment-badge {
+        background-color: #A8B7C7;
+        border-radius: 50%;
+        color: #F7F9FB;
+        font-size: 18px;
+        font-weight: 600;
+        margin-right: .5em;
+        padding-top: .125em;
+        height: 2rem;
+        width: 2em;
+        text-align: center;
+      }
+      .team {
+        font-size: 10px;
+        font-weight: 300;
+      }
+      .individual {
+        font-size: 14px;
+      }
+      .icon {
+        margin-left: auto;
+      }
+    }
+
+    .request-button {
+      margin: 1rem 3rem;
+    }
+
+    .subtasks-section, .discussion-section {
+      margin: 1rem 1rem 1rem 2rem;
+      hr {
+        border-top-color: $gray4;
+        border-top-width: 2px;
+        margin: 0;
+      }
+
+      h2 {
+        align-items: center;
+        color: $blue1;
+        display: flex;
+        font-size: 16px;
+        font-weight: 600;
+        padding-left: 2rem;
+        span {
+          padding: .75rem 0;
+        }
+        button {
+          margin-left: auto;
+        }
+      }
+
+      .subtasks {
+        .subtask {
+          border-bottom: 2px solid $gray4;
+          color: $blue1;
+          display: flex;
+          flex-wrap: nowrap;
+          font-size: 13px;
+          padding-left: 4rem;
+          .handle {
+            font-weight: 600;
+          }
+          .summary {
+            flex: 1;
+            margin: 0 1em;
+          }
+          .icon {
+            margin-left: auto;
+          }
+        }
+      }
+    }
+
+    .timestamps {
+      margin: 1rem 0;
+      .timestamp {
+        font-size: 10px;
+        padding: .15rem 2rem;
+        .label {
+          color: $blue2;
+          width: 70px;
+        }
+        .value {
+          color: $blue1;
+        }
+      }
+    }
+  }
+
+  .right-panel {
+    .work-grab-button {
+      border-radius: 0;
+      margin: 5rem 3rem;
+      padding: .75rem 1rem;
+    }
+  }
+}

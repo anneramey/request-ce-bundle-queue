@@ -7,7 +7,8 @@ import refreshIcon from 'font-awesome-svg-png/white/svg/refresh.svg';
 import filterIcon from '../images/filter.svg';
 import sortIcon from '../images/sort.svg';
 import { FilterMenuContainer } from './FilterMenu/FilterMenuContainer';
-import { QueueItem } from './QueueItem';
+import { QueueListItem } from './QueueListItem';
+import { QueueItemDetailsContainer } from './QueueItemDetails/QueueItemDetails';
 import { actions as queueActions } from '../redux/modules/queue';
 import { actions as filterMenuActions } from '../redux/modules/filterMenu';
 
@@ -35,7 +36,7 @@ const StaticContent = ({ filter, queueItems, openFilterMenu }) =>
       <div className="submissions">
         <ul className="list-group">
           {
-            queueItems.map(queueItem => <QueueItem queueItem={queueItem} />)
+            queueItems.map(queueItem => <QueueListItem key={queueItem.id} queueItem={queueItem} />)
           }
         </ul>
       </div>
@@ -84,6 +85,7 @@ const StaticContentContainer = compose(
 export const Content = () =>
   <div className="content">
     <Route path="/" exact render={() => <div>Please select a list</div>} />
-    <Route path="/:filter" render={routeProps => <StaticContentContainer {...routeProps} />} />
+    <Route path="/list/:filter" render={routeProps => <StaticContentContainer {...routeProps} />} />
+    <Route path="/item/:id" component={QueueItemDetailsContainer} />
     <FilterMenuContainer />
   </div>;
