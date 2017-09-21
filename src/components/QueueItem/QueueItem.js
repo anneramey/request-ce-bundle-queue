@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose, lifecycle, withState, withHandlers } from 'recompose';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import { Nav, NavItem } from 'reactstrap';
 import SVGInline from 'react-svg-inline';
 import moment from 'moment';
 import chevronLeftIcon from 'font-awesome-svg-png/black/svg/chevron-left.svg';
@@ -14,7 +15,7 @@ import { AssignmentSelector } from './AssignmentSelector';
 import { AssignmentBadge } from './AssignmentBadge';
 import { WorkItemMenu } from './WorkItemMenu';
 
-export const QueueItemDetails = ({
+export const QueueItem = ({
   queueItem,
   isAssigning,
   toggleAssigning,
@@ -31,12 +32,24 @@ export const QueueItemDetails = ({
       <WorkItemMenu close={closeWorkMenu} isOpen={workMenuOpen} queueItem={queueItem} />}
     <div className="left-panel">
       <div className="controls">
-        <Link to="/list/mine" className="back-link">
-          <div>
+        <Link to="/list/Mine" className="back-link">
+          <div className="icon-wrapper">
             <SVGInline svg={chevronLeftIcon} className="icon" />
-            Back to Mine
+            Mine
           </div>
         </Link>
+        <Nav horizontal className="tabs">
+          <NavItem>
+            <NavLink exact to={`/item/${queueItem.id}`} className="nav-link" activeClassName="active">
+              Details
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to={`/item/${queueItem.id}/discussions`} className="nav-link" activeClassName="active">
+              Discussions
+            </NavLink>
+          </NavItem>
+        </Nav>
       </div>
       <div className="details">
         <p className="status">
@@ -129,7 +142,7 @@ export const mapDispatchToProps = {
   closeWorkMenu: actions.closeWorkMenu,
 };
 
-export const QueueItemDetailsContainer = compose(
+export const QueueItemContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
   withState('isAssigning', 'setIsAssigning', false),
   withHandlers({
@@ -157,4 +170,4 @@ export const QueueItemDetailsContainer = compose(
       }
     },
   }),
-)(QueueItemDetails);
+)(QueueItem);

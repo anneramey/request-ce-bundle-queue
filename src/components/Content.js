@@ -8,7 +8,7 @@ import filterIcon from '../images/filter.svg';
 import sortIcon from '../images/sort.svg';
 import { FilterMenuContainer } from './FilterMenu/FilterMenuContainer';
 import { QueueListItem } from './QueueListItem';
-import { QueueItemDetailsContainer } from './QueueItemDetails/QueueItemDetails';
+import { QueueItemContainer } from './QueueItem/QueueItem';
 import { actions as queueActions } from '../redux/modules/queue';
 import { actions as filterMenuActions } from '../redux/modules/filterMenu';
 
@@ -86,6 +86,6 @@ export const Content = () =>
   <div className="content">
     <Route path="/" exact render={() => <div>Please select a list</div>} />
     <Route path="/list/:filter" render={routeProps => <StaticContentContainer {...routeProps} />} />
-    <Route path="/item/:id" component={QueueItemDetailsContainer} />
+    <Route path="/item/:id" component={QueueItemContainer} />
     <FilterMenuContainer />
   </div>;
