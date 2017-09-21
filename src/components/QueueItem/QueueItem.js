@@ -13,7 +13,7 @@ import circleOpenIcon from 'font-awesome-svg-png/black/svg/circle-o.svg';
 import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
 import { actions } from '../../redux/modules/queue';
 
-export const QueueItemDetails = ({ queueItem }) =>
+export const QueueItem = ({ queueItem }) =>
   queueItem !== null &&
   <div className="queue-item-details two-panels">
     <div className="left-panel">
@@ -116,7 +116,7 @@ export const mapDispatchToProps = {
   fetchCurrentItem: actions.fetchCurrentItem,
 };
 
-export const QueueItemDetailsContainer = compose(
+export const QueueItemContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
     componentWillMount() {
@@ -128,4 +128,4 @@ export const QueueItemDetailsContainer = compose(
       }
     },
   }),
-)(QueueItemDetails);
+)(QueueItem);
