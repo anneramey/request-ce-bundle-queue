@@ -7,7 +7,14 @@
 // Note that the example below shows jquery but jquery is not currently
 // configured as a dependency so for this code to work jquery needs to be added
 // as a dependency and installed.
+import jquery from 'jquery';
+import moment from 'moment';
+import underscore from 'underscore';
+import './lib/kd-typeahead/kd-typeahead.css';
 
-// import jquery from 'jquery';
-// window.$ = jquery;
-// window.jQuery = jquery;
+window.$ = jquery;
+window.jQuery = jquery;
+window.moment = moment;
+window._ = underscore;
+
+require('./lib/kd-typeahead/kd-typeahead');

@@ -3,7 +3,9 @@ import { compose, withState, withHandlers } from 'recompose';
 import { Modal, ModalBody, ModalFooter } from 'reactstrap';
 import { CoreForm } from 'react-kinetic-core';
 
-export const WorkItemMenu = ({ isOpen, close, queueItem }) =>
+const globals = import('../../globals');
+
+export const WorkItemMenu = ({ isOpen, close, queueItem, handleSave }) =>
   <Modal isOpen={isOpen} toggle={close}>
     <div className="modal-header">
       <h4 className="modal-title">
@@ -13,12 +15,13 @@ export const WorkItemMenu = ({ isOpen, close, queueItem }) =>
       </h4>
     </div>
     <ModalBody>
-      <CoreForm submission={queueItem.id} loaded={this.onFormLoaded} />
+      <CoreForm submission={queueItem.id} loaded={this.onFormLoaded} globals={globals} />
     </ModalBody>
     <ModalFooter>
       <button
         type="button"
         className="btn btn-primary"
+        onClick={handleSave}
       >
         Save Thing
       </button>
@@ -27,9 +30,14 @@ export const WorkItemMenu = ({ isOpen, close, queueItem }) =>
 
 export const WorkItemMenuContainer = compose(
   withState('visible', 'setVisible', false),
+  withState('form', 'setForm', null),
   withHandlers({
-    onFormLoaded: ({ setVisible }) => () => {
+    onFormLoaded: ({ setVisible, setForm }) => form => {
       setVisible(true);
+      setForm(form);
+    },
+    handleSave: ({ form }) => () => {
+      form.submitPage();
     },
   }),
 )(WorkItemMenu);
