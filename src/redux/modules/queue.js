@@ -1,6 +1,6 @@
 import { Record, List } from 'immutable';
 
-import { namespace, withPayload } from '../../utils';
+import { namespace, withPayload, noPayload } from '../../utils';
 import { Filter } from '../../records';
 
 export const types = {
@@ -10,6 +10,9 @@ export const types = {
   UPDATE_CURRENT_ITEM: namespace('queue', 'UPDATE_CURRENT_ITEM'),
   SET_LIST_ITEMS: namespace('queue', 'SET_LIST_ITEMS'),
   SET_LIST_STATUS: namespace('queue', 'SET_LIST_STATUS'),
+
+  OPEN_WORK_MENU: namespace('queue', 'OPEN_WORK_MENU'),
+  CLOSE_WORK_MENU: namespace('queue', 'CLOSE_WORK_MENU'),
 };
 
 export const actions = {
@@ -19,6 +22,9 @@ export const actions = {
   updateCurrentItem: withPayload(types.UPDATE_CURRENT_ITEM),
   setListItems: withPayload(types.SET_LIST_ITEMS),
   setListStatus: withPayload(types.SET_LIST_STATUS),
+
+  openWorkMenu: noPayload(types.OPEN_WORK_MENU),
+  closeWorkMenu: noPayload(types.CLOSE_WORK_MENU),
 };
 
 export const State = Record({
@@ -27,6 +33,8 @@ export const State = Record({
   currentItemLoading: false,
   listItems: List(),
   listStatus: null,
+
+  workMenuOpen: false,
 });
 
 export const reducer = (state = State(), { type, payload }) => {
@@ -41,6 +49,11 @@ export const reducer = (state = State(), { type, payload }) => {
       return state.set('currentItemLoading', true);
     case types.SET_CURRENT_ITEM:
       return state.set('currentItemLoading', false).set('currentItem', payload);
+
+    case types.OPEN_WORK_MENU:
+      return state.set('workMenuOpen', true);
+    case types.CLOSE_WORK_MENU:
+      return state.set('workMenuOpen', false);
     default:
       return state;
   }

@@ -12,6 +12,7 @@ import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
 import { actions } from '../../redux/modules/queue';
 import { AssignmentSelector } from './AssignmentSelector';
 import { AssignmentBadge } from './AssignmentBadge';
+import { WorkItemMenu } from './WorkItemMenu';
 
 export const QueueItemDetails = ({
   queueItem,
@@ -20,9 +21,14 @@ export const QueueItemDetails = ({
   setIsAssigning,
   setAssignment,
   assignments,
+  workMenuOpen,
+  openWorkMenu,
+  closeWorkMenu,
 }) =>
   queueItem !== null &&
   <div className="queue-item-details two-panels">
+    {workMenuOpen &&
+      <WorkItemMenu close={closeWorkMenu} isOpen={workMenuOpen} queueItem={queueItem} />}
     <div className="left-panel">
       <div className="controls">
         <Link to="/list/mine" className="back-link">
@@ -94,8 +100,11 @@ export const QueueItemDetails = ({
       </div>
     </div>
     <div className="right-panel">
-      <button className="btn btn-primary work-grab-button">
-        Work / Grab It
+      <button
+        className="btn btn-primary work-grab-button"
+        onClick={openWorkMenu}
+      >
+        Works / Grab It
       </button>
     </div>
   </div>;
@@ -110,11 +119,14 @@ export const mapStateToProps = (state, props) => ({
       return user;
     }))
     .toJS(),
+  workMenuOpen: state.queue.workMenuOpen,
 });
 
 export const mapDispatchToProps = {
   fetchCurrentItem: actions.fetchCurrentItem,
   updateCurrentItem: actions.updateCurrentItem,
+  openWorkMenu: actions.openWorkMenu,
+  closeWorkMenu: actions.closeWorkMenu,
 };
 
 export const QueueItemDetailsContainer = compose(
