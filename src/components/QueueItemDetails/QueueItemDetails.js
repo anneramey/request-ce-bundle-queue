@@ -1,18 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose, lifecycle } from 'recompose';
+import { compose, lifecycle, withState, withHandlers } from 'recompose';
 import { Link } from 'react-router-dom';
 import SVGInline from 'react-svg-inline';
 import moment from 'moment';
 import chevronLeftIcon from 'font-awesome-svg-png/black/svg/chevron-left.svg';
-import chevronRightIcon from 'font-awesome-svg-png/black/svg/chevron-right.svg';
 import thinChevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg';
 import circleOpenIcon from 'font-awesome-svg-png/black/svg/circle-o.svg';
 // import circleClosedIcon from 'font-awesome-svg-png/black/svg/circle.svg';
 import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
 import { actions } from '../../redux/modules/queue';
+import { AssignmentSelector } from './AssignmentSelector';
+import { AssignmentBadge } from './AssignmentBadge';
 
-export const QueueItemDetails = ({ queueItem }) =>
+export const QueueItemDetails = ({
+  queueItem,
+  isAssigning,
+  toggleAssigning,
+  setIsAssigning,
+  setAssignment,
+  assignments,
+}) =>
   queueItem !== null &&
   <div className="queue-item-details two-panels">
     <div className="left-panel">
@@ -33,16 +41,14 @@ export const QueueItemDetails = ({ queueItem }) =>
         <p className="summary">{queueItem.values.Summary}</p>
         <pre>{queueItem.values.Details}</pre>
       </div>
-      <div className="assignment">
-        <span className="assignment-badge">
-          {queueItem.values['Assigned Team Display Name'].charAt(0)}
-        </span>
-        <div>
-          <div className="team">{queueItem.values['Assigned Team Display Name']}</div>
-          <div className="individual">{queueItem.values['Assigned Individual Display Name']}</div>
-        </div>
-        <SVGInline svg={chevronRightIcon} className="icon" />
-      </div>
+      {!isAssigning && <AssignmentBadge queueItem={queueItem} toggle={toggleAssigning} />}
+      {isAssigning &&
+        <AssignmentSelector
+          toggle={setIsAssigning}
+          onSelect={setAssignment}
+          isAssigning={isAssigning}
+          assignments={assignments}
+        />}
       <button className="btn btn-primary btn-inverse request-button">
         View Original Request
       </button>
@@ -97,14 +103,38 @@ export const QueueItemDetails = ({ queueItem }) =>
 export const mapStateToProps = (state, props) => ({
   queueItem: state.queue.currentItem,
   id: props.match.params.id,
+  assignments: state.app.allTeams
+    .flatMap(t => t.memberships.map(m => {
+      const user = m.user;
+      user.team = t.name;
+      return user;
+    }))
+    .toJS(),
 });
 
 export const mapDispatchToProps = {
   fetchCurrentItem: actions.fetchCurrentItem,
+  updateCurrentItem: actions.updateCurrentItem,
 };
 
 export const QueueItemDetailsContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
+  withState('isAssigning', 'setIsAssigning', false),
+  withHandlers({
+    toggleAssigning: ({ setIsAssigning, isAssigning }) => () =>
+      setIsAssigning(!isAssigning),
+    setAssignment: ({ updateCurrentItem }) => (_v, assignment) => {
+      const teamParts = assignment.team.split('::');
+      const values = {
+        'Assigned Individual': assignment.username,
+        'Assigned Individual Display Name': assignment.displayName,
+        'Assigned Team': assignment.team,
+        'Assigned Team Display Name': teamParts[teamParts.length - 1],
+      };
+
+      updateCurrentItem(values);
+    },
+  }),
   lifecycle({
     componentWillMount() {
       this.props.fetchCurrentItem(this.props.id);

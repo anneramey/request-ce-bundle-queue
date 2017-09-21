@@ -8,7 +8,10 @@ import { types, actions } from '../modules/queue';
 export const ERROR_STATUS_STRING = 'There was a problem retrieving items.';
 export const TOO_MANY_STATUS_STRING = 'Your filter matches too many items.';
 
+export const SUBMISSION_INCLUDES = 'details,values,attributes,form,children,children.form,children.values';
+
 export const getAppSettings = state => state.app;
+export const getCurrentItem = state => state.queue.currentItem;
 
 /* eslint-disable no-param-reassign */
 export const prepareStatusFilter = (searcher, filter) => {
@@ -161,7 +164,7 @@ export function* fetchCurrentFilterTask(action) {
 export function* fetchCurrentItemTask(action) {
   const { submission, serverError } = yield call(CoreAPI.fetchSubmission, {
     id: action.payload,
-    include: 'details,values,attributes,form,children,children.form,children.values',
+    include: SUBMISSION_INCLUDES,
   });
 
   if (!serverError) {
@@ -169,7 +172,21 @@ export function* fetchCurrentItemTask(action) {
   }
 }
 
+export function* updateCurrentItemTask(action) {
+  const currentItem = yield select(getCurrentItem);
+  const { submission } = yield call(CoreAPI.updateSubmission, {
+    id: currentItem.id,
+    values: action.payload,
+    include: SUBMISSION_INCLUDES,
+  });
+
+  if (submission) {
+    yield put(actions.setCurrentItem(submission));
+  }
+}
+
 export function* watchQueue() {
   yield takeEvery(types.SET_CURRENT_FILTER, fetchCurrentFilterTask);
   yield takeEvery(types.FETCH_CURRENT_ITEM, fetchCurrentItemTask);
+  yield takeEvery(types.UPDATE_CURRENT_ITEM, updateCurrentItemTask);
 }

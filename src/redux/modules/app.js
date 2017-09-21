@@ -50,6 +50,7 @@ export const State = Record({
   ]),
   documentationUrl: DEFAULT_DOCUMENTATION_URL,
   supportUrl: DEFAULT_SUPPORT_URL,
+  allTeams: List(),
   myTeams: List(),
   myTeammates: List(),
   myFilters: List(),
@@ -64,6 +65,7 @@ export const reducer = (state = State(), { type, payload }) => {
         .set('documentationUrl', payload.documentationUrl)
         .set('supportUrl', payload.supportUrl)
         .set('profile', payload.profile)
+        .set('allTeams', List(payload.allTeams))
         .set('myTeams', List(payload.myTeams))
         .set('myTeammates', payload.myTeammates)
         .set('myFilters', payload.myFilters)

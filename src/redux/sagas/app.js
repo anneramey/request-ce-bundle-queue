@@ -17,8 +17,13 @@ export const isAssignable = team => {
   }
 
   // Fetch the assignable attribute and determine if it is false.
-  const assignable = team.attributes.find(a => a.name === 'Assignable');
-  if (assignable && assignable.values[0].toUpperCase() === 'FALSE') {
+  if (team.attributes instanceof Array) {
+    // When we're dealing with sub-elements they're not "translated" for us.
+    const assignable = team.attributes.find(a => a.name === 'Assignable');
+    if (assignable && assignable.values[0].toUpperCase() === 'FALSE') {
+      return false;
+    }
+  } else if (team.attributes.Assignable && team.attributes.Assignable[0].toUpperCase() === 'FALSE') {
     return false;
   }
 
@@ -32,6 +37,7 @@ export function* fetchAppSettingsTask() {
     kapp: { kapp },
     profile: { profile },
     forms: { forms },
+    teams: { teams },
   } = yield all({
     kapp: call(CoreAPI.fetchKapp, { include: 'attributes' }),
     space: call(CoreAPI.fetchSpace, { include: 'attributes' }),
@@ -41,8 +47,12 @@ export function* fetchAppSettingsTask() {
     forms: call(CoreAPI.fetchForms, {
       include: 'details,attributes',
     }),
+    teams: call(CoreAPI.fetchTeams, {
+      include: 'details,attributes,memberships.memberships.user,memberships.user.details',
+    }),
   });
 
+  const allTeams = teams.filter(isAssignable);
   const myTeams = profile.memberships
     .map(membership => membership.team)
     .filter(isAssignable);
@@ -73,6 +83,7 @@ export function* fetchAppSettingsTask() {
     myTeammates,
     myFilters,
     forms,
+    allTeams,
   };
 
   yield put(actions.setAppSettings(appSettings));
