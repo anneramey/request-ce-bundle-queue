@@ -34,7 +34,6 @@ body {
 
 .icon-svg {
   height: 1.2em;
-  vertical-align: text-top;
   width: 1.2em;
 
   path, .primary-fill {
@@ -44,6 +43,14 @@ body {
   .primary-stroke {
     stroke: $blue2;
     fill: none;
+  }
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  .icon {
+    display: flex;
   }
 }
 
