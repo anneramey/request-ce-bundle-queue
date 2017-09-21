@@ -1,0 +1,15 @@
+import React from 'react';
+import SVGInline from 'react-svg-inline';
+import chevronRightIcon from 'font-awesome-svg-png/black/svg/chevron-right.svg';
+
+export const AssignmentBadge = ({ queueItem, toggle }) =>
+  <div className="assignment">
+    <span className="assignment-badge" onClick={toggle} role="button" tabIndex={-1}>
+      {queueItem.values['Assigned Team Display Name'].charAt(0)}
+    </span>
+    <div onClick={toggle} role="button" tabIndex={-1}>
+      <div className="team">{queueItem.values['Assigned Team Display Name']}</div>
+      <div className="individual">{queueItem.values['Assigned Individual Display Name']}</div>
+    </div>
+    <SVGInline svg={chevronRightIcon} className="icon" onClick={toggle} role="button" tabIndex={-1} />
+  </div>;
