@@ -7,6 +7,7 @@ import SVGInline from 'react-svg-inline';
 import chevronLeftIcon from 'font-awesome-svg-png/black/svg/chevron-left.svg';
 import { actions } from '../../redux/modules/queue';
 import { QueueItemDetailsContainer } from './QueueItemDetails';
+import { QueueItemDiscussions } from './QueueItemDiscussions';
 import { WorkItemMenu } from './WorkItemMenu';
 
 export const QueueItem = ({ queueItem, workMenuOpen, openWorkMenu, closeWorkMenu }) =>
@@ -24,18 +25,18 @@ export const QueueItem = ({ queueItem, workMenuOpen, openWorkMenu, closeWorkMenu
         <Nav horizontal className="tabs">
           <NavItem>
             <NavLink exact to={`/item/${queueItem.id}`} className="nav-link" activeClassName="active">
-              Details
+              <div className="inner-wrapper">Details</div>
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink to={`/item/${queueItem.id}/discussions`} className="nav-link" activeClassName="active">
-              Discussions
+              <div className="inner-wrapper">Discussions</div>
             </NavLink>
           </NavItem>
         </Nav>
       </div>
       <Route exact path="/item/:id" component={QueueItemDetailsContainer} />
-      <Route path="/item/:id/discussions" render={() => <div>Discussions</div>} />
+      <Route path="/item/:id/discussions" component={QueueItemDiscussions} />
     </div>
     <div className="right-panel">
       <button
