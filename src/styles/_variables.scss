@@ -10,3 +10,23 @@ $blue1: rgba(84, 105, 141, 1);
 $blue2: rgba(168, 183, 199, 1);
 $blue3: rgba(211, 220, 231, 1);
 $blue4: rgba(247, 249, 251, 1);
+
+// Colors
+// --------------------------------------
+
+$primary: #313E47;
+$primary-complement: #FFFFFF;
+$secondary: #6F7E82;
+$secondary-complement: #FFFFFF;
+$tertiary: #1594C4;
+$tertiary-complement: #FFFFFF;
+$lightestgray: #F1F1F1;
+$lightgray: #d5d6d7;
+$gray: #7e8083;
+$darkgray: #4b4c4e;
+$darkestgray: #333333;
+$black: #000000;
+$white: #ffffff;
+
+$text-color: $gray !default; // Global text color on `<body>`.
+$link-color: $tertiary !default; // Global textual link color.

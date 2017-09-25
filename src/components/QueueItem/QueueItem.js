@@ -8,12 +8,12 @@ import chevronLeftIcon from 'font-awesome-svg-png/black/svg/chevron-left.svg';
 import { actions } from '../../redux/modules/queue';
 import { QueueItemDetailsContainer } from './QueueItemDetails';
 import { QueueItemDiscussions } from './QueueItemDiscussions';
-import { WorkItemMenu } from './WorkItemMenu';
+import { WorkItemMenuContainer } from './WorkItemMenu';
 
 export const QueueItem = ({ queueItem, workMenuOpen, openWorkMenu, closeWorkMenu }) =>
   queueItem !== null &&
   <div className="queue-item-details two-panels">
-    <WorkItemMenu close={closeWorkMenu} isOpen={workMenuOpen} queueItem={queueItem} />
+    <WorkItemMenuContainer close={closeWorkMenu} isOpen={workMenuOpen} queueItem={queueItem} />
     <div className="left-panel">
       <div className="controls">
         <Link to="/list/Mine" className="back-link">

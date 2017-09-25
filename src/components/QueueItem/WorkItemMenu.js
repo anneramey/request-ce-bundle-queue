@@ -5,8 +5,9 @@ import { CoreForm } from 'react-kinetic-core';
 
 const globals = import('../../globals');
 
-export const WorkItemMenu = ({ isOpen, close, queueItem, handleSave }) =>
-  <Modal isOpen={isOpen} toggle={close}>
+/* eslint-disable */
+export const WorkItemMenu = ({ isOpen, close, queueItem, handleSave, onFormLoaded, visible }) =>
+  <Modal isOpen={isOpen} toggle={close} style={{ display: visible ? '' : 'none' }}>
     <div className="modal-header">
       <h4 className="modal-title">
         <button type="button" className="btn btn-link" onClick={close}>Cancel</button>
@@ -15,7 +16,9 @@ export const WorkItemMenu = ({ isOpen, close, queueItem, handleSave }) =>
       </h4>
     </div>
     <ModalBody>
-      <CoreForm submission={queueItem.id} loaded={this.onFormLoaded} globals={globals} />
+      <div style={{ margin: '1em' }}>
+        <CoreForm submission={queueItem.id} loaded={onFormLoaded} globals={globals} />
+      </div>
     </ModalBody>
     <ModalFooter>
       <button
@@ -23,7 +26,7 @@ export const WorkItemMenu = ({ isOpen, close, queueItem, handleSave }) =>
         className="btn btn-primary"
         onClick={handleSave}
       >
-        Save Thing
+        Save {queueItem.form.name}
       </button>
     </ModalFooter>
   </Modal>;
