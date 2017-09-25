@@ -10,6 +10,7 @@
         flex: 1;
         font-size: 14px;
         padding: .75rem 1rem;
+        text-decoration: none;
         .icon {
           margin-right: .5em;
         }
@@ -18,14 +19,14 @@
         .nav-item {
           flex: 1;
           .nav-link {
-            border-bottom: 3px solid $blue4;
+            border-bottom: 1px solid $gray2;
             color: $blue1;
             font-size: 12px;
             padding: 0;
             text-align: center;
             transition: border-bottom-color 0.5s;
             .inner-wrapper {
-              border-bottom: 1px solid $blue3;
+              border-bottom: 3px solid rgba(0, 0, 0, 0);
               padding: 0.75rem 1rem;
               transition: border-bottom-color 0.5s;
             }
@@ -237,6 +238,113 @@
         }
         .value {
           color: $blue1;
+        }
+      }
+    }
+  }
+
+  .discussions {
+    display: flex;
+    flex-direction: column;
+    .messages {
+      flex: 1;
+      position: relative;
+      .message-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        padding: 1rem;
+        overflow-y: scroll;
+      }
+      .message {
+        color: $blue1;
+        display: flex;
+        font-size: 11px;
+        margin-bottom: 1rem;
+        .body {
+          margin: 0 1rem;
+          p {
+            border-radius: 8px;
+            padding: 1rem;
+            position: relative;
+            margin-bottom: 0.4rem;
+            &:after {
+              content: ' ';
+              position: absolute;
+              width: 0;
+              height: 0;
+              top: 8px;
+              bottom: auto;
+              border: 4px solid;
+            }
+          }
+          .meta {
+            .author {
+              margin-right: 1rem;
+            }
+            .timestamp {
+              color: $blue2;
+            }
+          }
+        }
+        &.mine {
+          justify-content: flex-end;
+          .sb-avatar {  order: 1; }
+          p {
+            background-color: $blue3;
+            &:after {
+              left: auto;
+              right: -8px;
+              border-color: $blue3 transparent transparent $blue3;
+            }
+          }
+          .author {
+            font-weight: bold;
+          }
+        }
+        &.other {
+          p {
+            background-color: white;
+            &:after {
+              left: -8px;
+              right: auto;
+              border-color: white white transparent transparent;
+            }
+          }
+        }
+      }
+      .date {
+        align-items: center;
+        color: $blue0;
+        display: flex;
+        font-size: 10px;
+        font-weight: bold;
+        margin: 1rem 0;
+        text-align: center;
+        hr {
+          border-top: 2px solid $blue3;
+          flex: 1;
+        }
+        span {
+          margin: 0 1rem;
+        }
+      }
+    }
+    .new-message {
+      display: flex;
+      padding: 1rem;
+      button {
+        border-radius: 0;
+      }
+      input {
+        flex: 1;
+      }
+      .btn.btn-subtle {
+        background-color: $blue3;
+        .icon-svg path {
+          fill: $blue1;
         }
       }
     }
