@@ -3,10 +3,19 @@ import { compose, withState, withHandlers } from 'recompose';
 import { Modal, ModalBody, ModalFooter } from 'reactstrap';
 import { CoreForm } from 'react-kinetic-core';
 
-const globals = import('../../globals');
+const globals = import('../globals');
 
 /* eslint-disable */
-export const WorkItemMenu = ({ isOpen, close, queueItem, handleSave, onFormLoaded, visible }) =>
+export const WorkItemMenu = ({
+  isOpen,
+  close,
+  queueItem,
+  handleSave,
+  onFormLoaded,
+  onCompleted,
+  visible,
+  review,
+}) =>
   <Modal isOpen={isOpen} toggle={close} style={{ display: visible ? '' : 'none' }}>
     <div className="modal-header">
       <h4 className="modal-title">
@@ -17,7 +26,13 @@ export const WorkItemMenu = ({ isOpen, close, queueItem, handleSave, onFormLoade
     </div>
     <ModalBody>
       <div style={{ margin: '1em' }}>
-        <CoreForm submission={queueItem.id} loaded={onFormLoaded} globals={globals} />
+        <CoreForm
+          submission={queueItem.id}
+          onLoaded={onFormLoaded}
+          onCompleted={onCompleted}
+          review={review}
+          globals={globals}
+        />
       </div>
     </ModalBody>
     <ModalFooter>

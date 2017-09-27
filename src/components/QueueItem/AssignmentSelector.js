@@ -2,14 +2,6 @@ import React, { Component } from 'react';
 import Autocomplete from 'react-autocomplete';
 import { AssignmentItem } from './AssignmentItem';
 
-// const assignments = [
-//   { displayName: 'John Sundberg', username: 'john.sundberg@kineticdata.com', team: 'Sales' },
-//   { displayName: 'John Sundberg', username: 'john.sundberg@kineticdata.com', team: 'Marketing' },
-//   { displayName: 'Norm Orstad', username: 'norm.orstad@kineticdata.com', team: 'Marketing' },
-//   { displayName: 'Norm Orstad', username: 'norm.orstad@kineticdata.com', team: 'Developers' },
-//   { displayName: 'Mark Wagner', username: 'mark.wagner@kineticdata.com', team: 'Developers' },
-// ];
-
 /* eslint-disable class-methods-use-this */
 export class AssignmentSelector extends Component {
   constructor(props) {

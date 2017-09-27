@@ -10,6 +10,7 @@ export const types = {
   UPDATE_CURRENT_ITEM: namespace('queue', 'UPDATE_CURRENT_ITEM'),
   SET_LIST_ITEMS: namespace('queue', 'SET_LIST_ITEMS'),
   SET_LIST_STATUS: namespace('queue', 'SET_LIST_STATUS'),
+  SET_PREVIEW_ITEM: namespace('queue', 'SET_PREVIEW_ITEM'),
 
   OPEN_WORK_MENU: namespace('queue', 'OPEN_WORK_MENU'),
   CLOSE_WORK_MENU: namespace('queue', 'CLOSE_WORK_MENU'),
@@ -22,6 +23,7 @@ export const actions = {
   updateCurrentItem: withPayload(types.UPDATE_CURRENT_ITEM),
   setListItems: withPayload(types.SET_LIST_ITEMS),
   setListStatus: withPayload(types.SET_LIST_STATUS),
+  setPreviewItem: withPayload(types.SET_PREVIEW_ITEM),
 
   openWorkMenu: noPayload(types.OPEN_WORK_MENU),
   closeWorkMenu: noPayload(types.CLOSE_WORK_MENU),
@@ -33,9 +35,12 @@ export const State = Record({
   currentItemLoading: false,
   listItems: List(),
   listStatus: null,
-
+  previewItem: null,
   workMenuOpen: false,
 });
+
+export const isItemComplete = queueItem =>
+  queueItem.values.Status && (queueItem.values.Status === 'Complete' || queueItem.values.Status === 'Cancelled');
 
 export const reducer = (state = State(), { type, payload }) => {
   switch (type) {
@@ -49,7 +54,8 @@ export const reducer = (state = State(), { type, payload }) => {
       return state.set('currentItemLoading', true);
     case types.SET_CURRENT_ITEM:
       return state.set('currentItemLoading', false).set('currentItem', payload);
-
+    case types.SET_PREVIEW_ITEM:
+      return state.set('previewItem', payload);
     case types.OPEN_WORK_MENU:
       return state.set('workMenuOpen', true);
     case types.CLOSE_WORK_MENU:

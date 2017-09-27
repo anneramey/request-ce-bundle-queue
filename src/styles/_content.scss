@@ -41,58 +41,114 @@
       .submissions {
         flex: 1;
 
+        // This represents the overall submission "card" in the queue list view.
         .submission {
           border-bottom: 1px solid $gray4;
           color: $blue1;
           display: flex;
-          flex-direction: column;
+          flex-direction: row;
+          flex-wrap: nowrap;
           align-items: flex-start;
           padding: 10px 15px;
 
-          .status {
-            text-transform: uppercase;
-            font-size: 10px;
-            margin: 0;
-            .icon-svg {
-              margin-right: 3px;
-              path {
-                fill: $blue1;
+          // This is the details part of the card.
+          .summary-group {
+            flex-grow: 1;
+
+            .status {
+              text-transform: uppercase;
+              font-size: 10px;
+              margin: 0;
+              .icon-svg {
+                margin-right: 3px;
+                path {
+                  fill: $blue1;
+                }
+              }
+            }
+
+            h1 {
+              font-size: 16px;
+              margin-top: 5px;
+            }
+
+            .summary {
+              font-size: 11px;
+              line-height: 14px;
+              margin: 5px 0;
+            }
+
+            .assignment {
+              margin-bottom: 0;
+            }
+
+            .assignment, .timestamps {
+              font-size: 10px;
+              font-weight: 300;
+              margin-top: 5px;
+            }
+
+            .timestamps {
+              display: flex;
+              flex-direction: row;
+
+              .list-group-item {
+                padding: 0;
+
+                &:not(:first-child):before {
+                  content: "•";
+                  margin: 0 5px;
+                  font-weight: 700;
+                }
               }
             }
           }
 
-          h1 {
-            font-size: 16px;
-            margin-top: 5px;
-          }
-
-          .summary {
-            font-size: 11px;
-            line-height: 14px;
-            margin: 5px 0;
-          }
-
-          .assignment {
-            margin-bottom: 0;
-          }
-
-          .assignment, .timestamps {
-            font-size: 10px;
-            font-weight: 300;
-            margin-top: 5px;
-          }
-
-          .timestamps {
-            display: flex;
-            flex-direction: row;
-
-            .list-group-item {
+          // This is for the action dropdown.
+          .actions {
+            // This is for the vertical ellipsis dropdown menu on the queue list view.
+            .btn.btn-ellipsis {
+              border: none;
               padding: 0;
 
-              &:not(:first-child):before {
-                content: "•";
-                margin: 0 5px;
-                font-weight: 700;
+              &:hover {
+                background-color: white;
+                cursor: pointer;
+                path {
+                  fill: red;
+                }
+              }
+            }
+
+            .dropdown > .dropdown-menu {
+              left: -5.3em;
+              padding: 0;
+              min-width: 7rem;
+              border-radius: 0;
+              box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
+              margin-top: 15px;
+
+              // Add the up arrow.
+              &:after {
+                content:"";
+                position: absolute;
+                right: 13px;
+                top: -13px;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-color: black;
+                border-width: 0 13px 13px 13px;
+                border-color: transparent transparent black transparent;
+                z-index:9998;
+              }
+
+              a.dropdown-item, button.dropdown-item {
+                height: 24px;
+                color: #54698D;
+                font-family: "Open Sans";
+                font-size: 12px;
+                line-height: 24px;
               }
             }
           }

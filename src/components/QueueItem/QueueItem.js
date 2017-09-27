@@ -1,19 +1,31 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose, lifecycle } from 'recompose';
+import { compose, lifecycle, withHandlers } from 'recompose';
 import { Link, NavLink, Route } from 'react-router-dom';
 import { Nav, NavItem } from 'reactstrap';
 import SVGInline from 'react-svg-inline';
 import chevronLeftIcon from 'font-awesome-svg-png/black/svg/chevron-left.svg';
-import { actions } from '../../redux/modules/queue';
+import { actions, isItemComplete } from '../../redux/modules/queue';
 import { QueueItemDetailsContainer } from './QueueItemDetails';
 import { QueueItemDiscussions } from './QueueItemDiscussions';
-import { WorkItemMenuContainer } from './WorkItemMenu';
+import { WorkItemMenuContainer } from '../WorkItemMenu';
 
-export const QueueItem = ({ queueItem, workMenuOpen, openWorkMenu, closeWorkMenu }) =>
+export const QueueItem = ({
+  queueItem,
+  workMenuOpen,
+  openWorkMenu,
+  closeWorkMenu,
+  handleCompleted,
+}) =>
   queueItem !== null &&
   <div className="queue-item-details two-panels">
-    <WorkItemMenuContainer close={closeWorkMenu} isOpen={workMenuOpen} queueItem={queueItem} />
+    <WorkItemMenuContainer
+      close={closeWorkMenu}
+      isOpen={workMenuOpen}
+      queueItem={queueItem}
+      onCompleted={handleCompleted}
+      review={isItemComplete(queueItem)}
+    />
     <div className="left-panel">
       <div className="controls">
         <Link to="/list/Mine" className="back-link">
@@ -62,9 +74,16 @@ export const mapDispatchToProps = {
 
 export const QueueItemContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
+  withHandlers({
+    refreshItem: ({ id, fetchCurrentItem }) => () => fetchCurrentItem(id),
+    handleCompleted: ({ refreshItem, closeWorkMenu }) => () => {
+      refreshItem();
+      closeWorkMenu();
+    },
+  }),
   lifecycle({
     componentWillMount() {
-      this.props.fetchCurrentItem(this.props.id);
+      this.props.refreshItem();
     },
     componentWillReceiveProps(nextProps) {
       if (this.props.id !== nextProps.id) {
