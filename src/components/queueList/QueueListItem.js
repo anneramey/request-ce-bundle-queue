@@ -5,7 +5,7 @@ import SVGInline from 'react-svg-inline';
 import solidCircle from 'font-awesome-svg-png/white/svg/circle.svg';
 import emptyCircle from 'font-awesome-svg-png/white/svg/circle-o.svg';
 import vEllipsisIcon from 'font-awesome-svg-png/white/svg/ellipsis-v.svg';
-import { TimeAgo } from './TimeAgo';
+import { TimeAgo } from '../TimeAgo';
 
 const OPEN_STATUSES = ['Open', 'Pending'];
 
