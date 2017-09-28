@@ -40,7 +40,7 @@
       padding: 2.5px 25px 2.5px 22px;
       transition: border-left-color 0.5s, color 0.5s;
       .icon {
-        display: inline-block;
+        display: flex;
         width: 35px;
       }
       &.active {
