@@ -1,12 +1,11 @@
 import React from 'react';
-import moment from 'moment';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import SVGInline from 'react-svg-inline';
 import solidCircle from 'font-awesome-svg-png/white/svg/circle.svg';
 import emptyCircle from 'font-awesome-svg-png/white/svg/circle-o.svg';
 import vEllipsisIcon from 'font-awesome-svg-png/white/svg/ellipsis-v.svg';
-
+import { TimeAgo } from './TimeAgo';
 
 const OPEN_STATUSES = ['Open', 'Pending'];
 
@@ -34,35 +33,32 @@ const AssignmentParagraph = ({ values }) =>
     }
   </p>;
 
-const Timestamp = ({ label, value }) =>
+const Timestamp = ({ id, label, value }) =>
   value &&
   <li className="list-group-item">
-    {`${label} ${moment(value).fromNow()}`}
+    {label}
+    &nbsp;
+    <TimeAgo timestamp={value} id={`${id}-${label}`} />
   </li>;
 
 export const QueueListItem = (
   {
-    queueItem,
-    openDropdownItem,
-    toggleItemMenu,
-    toggleWorkMenu,
+    queueItem, openDropdownItem, toggleItemMenu, toggleWorkMenu,
   },
 ) => {
   const { createdAt, updatedAt, id, values } = queueItem;
+
   return (
-    <li
-      key={id}
-      className="submission list-group-item"
-    >
+    <li key={id} className="submission list-group-item">
       <div className="summary-group">
         <StatusParagraph status={values.Status} />
         <h1>{values.Summary}</h1>
         <p className="summary">{values.Details}</p>
         <AssignmentParagraph values={values} />
         <ul className="timestamps list-group">
-          <Timestamp label="Due" value={values['Due Date']} />
-          <Timestamp label="Updated" value={updatedAt} />
-          <Timestamp label="Created" value={createdAt} />
+          <Timestamp label="Due" value={values['Due Date']} id={id} />
+          <Timestamp label="Updated" value={updatedAt} id={id} />
+          <Timestamp label="Created" value={createdAt} id={id} />
         </ul>
       </div>
       <div className="actions">

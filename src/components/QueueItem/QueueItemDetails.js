@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withState, withHandlers } from 'recompose';
-import moment from 'moment';
 import SVGInline from 'react-svg-inline';
 import thinChevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg';
 import circleOpenIcon from 'font-awesome-svg-png/black/svg/circle-o.svg';
@@ -10,6 +9,7 @@ import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
 import { actions } from '../../redux/modules/queue';
 import { AssignmentSelector } from './AssignmentSelector';
 import { AssignmentBadge } from './AssignmentBadge';
+import { TimeAgo } from '../TimeAgo';
 
 export const QueueItemDetails = ({
   queueItem,
@@ -43,15 +43,21 @@ export const QueueItemDetails = ({
     <ul className="list-group timestamps">
       <li className="list-group-item timestamp">
         <span className="label">Due</span>
-        <span className="value">{moment(queueItem.values['Due Date']).fromNow()}</span>
+        <span className="value">
+          <TimeAgo timestamp={queueItem.values['Due Date']} id="due-date" />
+        </span>
       </li>
       <li className="list-group-item timestamp">
         <span className="label">Updated</span>
-        <span className="value">{moment(queueItem.updatedAt).fromNow()}</span>
+        <span className="value">
+          <TimeAgo timestamp={queueItem.updatedAt} id="updated-at" />
+        </span>
       </li>
       <li className="list-group-item timestamp">
         <span className="label">Created</span>
-        <span className="value">{moment(queueItem.createdAt).fromNow()}</span>
+        <span className="value">
+          <TimeAgo timestamp={queueItem.createdAt} id="created-at" />
+        </span>
       </li>
     </ul>
     <div className="subtasks-section">
