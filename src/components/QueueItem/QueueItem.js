@@ -10,18 +10,30 @@ import { QueueItemDetailsContainer } from './QueueItemDetails';
 import { QueueItemDiscussions } from './QueueItemDiscussions';
 import { WorkItemMenuContainer } from './WorkItemMenu';
 
-export const QueueItem = ({ queueItem, workMenuOpen, openWorkMenu, closeWorkMenu }) =>
+export const QueueItem = ({
+  queueItem,
+  currentFilterName,
+  workMenuOpen,
+  openWorkMenu,
+  closeWorkMenu,
+}) =>
   queueItem !== null &&
   <div className="queue-item-details two-panels">
     <WorkItemMenuContainer close={closeWorkMenu} isOpen={workMenuOpen} queueItem={queueItem} />
     <div className="left-panel">
       <div className="controls">
-        <Link to="/list/Mine" className="back-link">
-          <div className="icon-wrapper">
-            <SVGInline svg={chevronLeftIcon} className="icon" />
-            Mine
-          </div>
-        </Link>
+        {
+          currentFilterName !== '' &&
+          <Link
+            to={`/list/${encodeURIComponent(currentFilterName)}`}
+            className="back-link"
+          >
+            <div className="icon-wrapper">
+              <SVGInline svg={chevronLeftIcon} className="icon" />
+              {currentFilterName}
+            </div>
+          </Link>
+        }
         <Nav horizontal className="tabs">
           <NavItem>
             <NavLink exact to={`/item/${queueItem.id}`} className="nav-link" activeClassName="active">
@@ -50,6 +62,7 @@ export const QueueItem = ({ queueItem, workMenuOpen, openWorkMenu, closeWorkMenu
 
 export const mapStateToProps = (state, props) => ({
   queueItem: state.queue.currentItem,
+  currentFilterName: state.queue.currentFilter.name,
   id: props.match.params.id,
   workMenuOpen: state.queue.workMenuOpen,
 });
