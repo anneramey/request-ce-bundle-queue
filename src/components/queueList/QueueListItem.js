@@ -10,7 +10,7 @@ import { TimeAgo } from '../TimeAgo';
 const OPEN_STATUSES = ['Open', 'Pending'];
 
 const StatusParagraph = ({ status }) =>
-  <p className="status">
+  <p className="status icon-wrapper">
     <SVGInline
       svg={OPEN_STATUSES.includes(status) ? emptyCircle : solidCircle}
       className="icon"

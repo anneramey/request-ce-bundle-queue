@@ -10,7 +10,7 @@ export const Header = ({ toggleSidebarOpen }) =>
   <Navbar color="faded" light fixed="top">
     <Nav className="nav-header">
       <NavItem>
-        <NavLink className="drawer-button" role="button" tabIndex="0" onClick={toggleSidebarOpen}>
+        <NavLink className="drawer-button icon-wrapper" role="button" tabIndex="0" onClick={toggleSidebarOpen}>
           <SVGInline svg={hamburgerIcon} className="icon" />
         </NavLink>
       </NavItem>
@@ -26,12 +26,12 @@ export const Header = ({ toggleSidebarOpen }) =>
         </DropdownMenu>
       </UncontrolledDropdown>
       <NavItem className="nav-item-right">
-        <NavLink role="button" tabIndex="0">
+        <NavLink role="button" tabIndex="0" className="icon-wrapper">
           <SVGInline svg={bellIcon} className="icon" />
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink role="button" tabIndex="0">
+        <NavLink role="button" tabIndex="0" className="icon-wrapper">
           <SVGInline svg={personIcon} className="icon" />
         </NavLink>
       </NavItem>

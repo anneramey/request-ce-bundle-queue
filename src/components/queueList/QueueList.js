@@ -33,13 +33,13 @@ export const QueueList = ({
           <small>by Due Date</small>
         </h6>
         <div className="buttons">
-          <button type="button" className="btn btn-link">
+          <button type="button" className="btn btn-link icon-wrapper">
             <SVGInline svg={refreshIcon} className="icon" />
           </button>
-          <button type="button" className="btn btn-link">
+          <button type="button" className="btn btn-link icon-wrapper">
             <SVGInline svg={sortIcon} className="icon" />
           </button>
-          <button type="button" className="btn btn-link" onClick={openFilterMenu}>
+          <button type="button" className="btn btn-link icon-wrapper" onClick={openFilterMenu}>
             <SVGInline svg={filterIcon} className="icon" />
           </button>
         </div>
