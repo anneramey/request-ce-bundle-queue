@@ -84,6 +84,10 @@ body {
   border: 1px solid $blue1;
 }
 
+.tooltip {
+  font-size: 12px;
+}
+
 @import 'sidebar';
 @import 'content';
 @import 'modal';
