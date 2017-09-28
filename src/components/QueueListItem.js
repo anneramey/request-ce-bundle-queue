@@ -1,8 +1,8 @@
 import React from 'react';
-import moment from 'moment';
 import SVGInline from 'react-svg-inline';
 import solidCircle from 'font-awesome-svg-png/white/svg/circle.svg';
 import emptyCircle from 'font-awesome-svg-png/white/svg/circle-o.svg';
+import { TimeAgo } from './TimeAgo';
 
 const OPEN_STATUSES = ['Open', 'Pending'];
 
@@ -30,10 +30,12 @@ const AssignmentParagraph = ({ values }) =>
     }
   </p>;
 
-const Timestamp = ({ label, value }) =>
+const Timestamp = ({ id, label, value }) =>
   value &&
   <li className="list-group-item">
-    {`${label} ${moment(value).fromNow()}`}
+    {label}
+    &nbsp;
+    <TimeAgo timestamp={value} id={`${id}-${label}`} />
   </li>;
 
 export const QueueListItem = (
@@ -47,8 +49,8 @@ export const QueueListItem = (
     <p className="summary">{values.Details}</p>
     <AssignmentParagraph values={values} />
     <ul className="timestamps list-group">
-      <Timestamp label="Due" value={values['Due Date']} />
-      <Timestamp label="Updated" value={updatedAt} />
-      <Timestamp label="Created" value={createdAt} />
+      <Timestamp label="Due" value={values['Due Date']} id={id} />
+      <Timestamp label="Updated" value={updatedAt} id={id} />
+      <Timestamp label="Created" value={createdAt} id={id} />
     </ul>
   </li>;

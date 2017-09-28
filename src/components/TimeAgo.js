@@ -33,7 +33,7 @@ export class TimeAgo extends Component {
         <span className="time-ago-text" id={this.props.id}>
           {this.state.timeAgo}
         </span>
-        <UncontrolledTooltip placement="top" target={this.props.id}>
+        <UncontrolledTooltip placement="top" target={this.props.id} delay={0}>
           {this.state.formatted}
         </UncontrolledTooltip>
       </span>
