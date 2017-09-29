@@ -4,6 +4,7 @@ import moment from 'moment';
 import { CoreAPI } from 'react-kinetic-core';
 
 import { types, actions } from '../modules/queue';
+import { actions as errorActions } from '../modules/errors';
 
 export const ERROR_STATUS_STRING = 'There was a problem retrieving items.';
 export const TOO_MANY_STATUS_STRING = 'Your filter matches too many items.';
@@ -151,6 +152,7 @@ export function* fetchCurrentFilterTask(action) {
 
   if (serverError || (messages && messages.length > 0)) {
     yield put(actions.setListStatus(ERROR_STATUS_STRING));
+    yield put(errorActions.addError('Failed to retrieve items!'));
   } else if (nextPageToken) {
     yield put(actions.setListStatus(TOO_MANY_STATUS_STRING));
   } else {
@@ -169,6 +171,8 @@ export function* fetchCurrentItemTask(action) {
 
   if (!serverError) {
     yield put(actions.setCurrentItem(submission));
+  } else {
+    yield put(errorActions.addError('Failed to retrieve item!'));
   }
 }
 
@@ -182,6 +186,8 @@ export function* updateCurrentItemTask(action) {
 
   if (submission) {
     yield put(actions.setCurrentItem(submission));
+  }  else {
+    yield put(errorActions.addError('Failed to update item!'));
   }
 }
 
