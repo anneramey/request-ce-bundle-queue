@@ -309,7 +309,7 @@ describe('queue saga', () => {
     let response;
 
     beforeEach(() => {
-      action = { payload: {} };
+      action = { payload: { name: 'Filter Name' } };
       appSettings = {};
       search = {};
       response = { submissions: [] };
@@ -367,7 +367,7 @@ describe('queue saga', () => {
         expect(saga.next(response).value)
           .toEqual(call(sortSubmissions, response.submissions, action.payload));
         expect(saga.next(response.submissions).value)
-          .toEqual(put(actions.setListItems(response.submissions)));
+          .toEqual(put(actions.setListItems('Filter Name', response.submissions)));
       });
     });
   });

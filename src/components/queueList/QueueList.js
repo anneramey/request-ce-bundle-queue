@@ -45,18 +45,21 @@ export const QueueList = ({
         </div>
       </div>
       <div className="submissions">
-        <ul className="list-group">
-          {
-            queueItems.map(queueItem =>
-              <QueueListItem
-                key={queueItem.id}
-                queueItem={queueItem}
-                openDropdownItem={openDropdownItem}
-                toggleItemMenu={toggleItemMenu}
-                toggleWorkMenu={toggleWorkMenu}
-              />)
-          }
-        </ul>
+        {
+          queueItems &&
+          <ul className="list-group">
+            {
+              queueItems.map(queueItem =>
+                <QueueListItem
+                  key={queueItem.id}
+                  queueItem={queueItem}
+                  openDropdownItem={openDropdownItem}
+                  toggleItemMenu={toggleItemMenu}
+                  toggleWorkMenu={toggleWorkMenu}
+                />)
+            }
+          </ul>
+        }
       </div>
     </div>
     <div className="right-panel">

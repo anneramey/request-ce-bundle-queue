@@ -6,10 +6,10 @@ import { actions as filterMenuActions } from '../../redux/modules/filterMenu';
 
 import { QueueList } from './QueueList';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, props) => ({
   filter: state.queue.currentFilter,
   filters: state.app.filters.merge(state.app.myFilters),
-  queueItems: state.queue.listItems,
+  queueItems: state.queue.lists.get(props.match.params.filter),
   workMenuOpen: state.queue.workMenuOpen,
   previewQueueItem: state.queue.previewItem,
 });

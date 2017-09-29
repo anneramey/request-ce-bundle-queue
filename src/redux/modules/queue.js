@@ -1,4 +1,4 @@
-import { Record, List } from 'immutable';
+import { Record, Map } from 'immutable';
 
 import { namespace, withPayload, noPayload } from '../../utils';
 import { Filter } from '../../records';
@@ -21,7 +21,8 @@ export const actions = {
   fetchCurrentItem: withPayload(types.FETCH_CURRENT_ITEM),
   setCurrentItem: withPayload(types.SET_CURRENT_ITEM),
   updateCurrentItem: withPayload(types.UPDATE_CURRENT_ITEM),
-  setListItems: withPayload(types.SET_LIST_ITEMS),
+  setListItems: (name, list) =>
+    ({ type: types.SET_LIST_ITEMS, payload: { name, list } }),
   setListStatus: withPayload(types.SET_LIST_STATUS),
   setPreviewItem: withPayload(types.SET_PREVIEW_ITEM),
 
@@ -33,7 +34,7 @@ export const State = Record({
   currentFilter: Filter(),
   currentItem: null,
   currentItemLoading: false,
-  listItems: List(),
+  lists: Map(),
   listStatus: null,
   previewItem: null,
   workMenuOpen: false,
@@ -47,7 +48,9 @@ export const reducer = (state = State(), { type, payload }) => {
     case types.SET_CURRENT_FILTER:
       return state.set('currentFilter', payload);
     case types.SET_LIST_ITEMS:
-      return state.set('listItems', payload).set('listStatus', null);
+      return state
+        .setIn(['lists', payload.name], payload.list)
+        .set('listStatus', null);
     case types.SET_LIST_STATUS:
       return state.set('listStatus', payload);
     case types.FETCH_CURRENT_ITEM:

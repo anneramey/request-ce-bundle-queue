@@ -159,7 +159,7 @@ export function* fetchCurrentFilterTask(action) {
     // Post-process results:
     const sortedSubmissions = yield call(sortSubmissions, submissions, filter);
 
-    yield put(actions.setListItems(sortedSubmissions));
+    yield put(actions.setListItems(filter.name, sortedSubmissions));
   }
 }
 
