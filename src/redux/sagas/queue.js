@@ -186,7 +186,7 @@ export function* updateCurrentItemTask(action) {
 
   if (submission) {
     yield put(actions.setCurrentItem(submission));
-  }  else {
+  } else {
     yield put(errorActions.addError('Failed to update item!'));
   }
 }
