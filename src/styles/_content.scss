@@ -188,25 +188,28 @@
             }
 
             .dropdown > .dropdown-menu {
-              left: -5.3em;
+              left: 2rem;
               padding: 0;
               min-width: 7rem;
               border-radius: 0;
-              box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
+              border: none;
+              // box-shadow: 0 3px 4px 0 rgba(0,0,0,0.3);
               margin-top: 15px;
-
+              position: relative;
+              box-sizing: border-box;
+              filter: drop-shadow(rgba(0, 0, 0, 0.3) 0 3px 4px);
               // Add the up arrow.
+
+
               &:after {
                 content:"";
+                border: 10px solid;
+                border-color:  transparent transparent white;
+                content: "";
+                right: 10%;
+                margin-left: -10px;
                 position: absolute;
-                right: 13px;
-                top: -13px;
-                width: 0;
-                height: 0;
-                border-style: solid;
-                border-color: black;
-                border-width: 0 13px 13px 13px;
-                border-color: transparent transparent black transparent;
+                top: -20px;
                 z-index:9998;
               }
 
