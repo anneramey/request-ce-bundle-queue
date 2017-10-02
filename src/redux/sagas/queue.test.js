@@ -243,60 +243,39 @@ describe('queue saga', () => {
 
       describe('when sorting by a timeline', () => {
         test('createdAt ascending', () => {
-          filter = filter.set('sortBy', 'createdAt').set('sortDir', 'ASC');
+          filter = filter.set('sortBy', 'createdAt');
 
           const sorted = sortSubmissions(submissions, filter).map(s => s.id);
           expect(sorted).toEqual(['2', '3', '1']);
-        });
-
-        test('createdAt descending', () => {
-          filter = filter.set('sortBy', 'createdAt').set('sortDir', 'DESC');
-
-          const sorted = sortSubmissions(submissions, filter).map(s => s.id);
-          expect(sorted).toEqual(['1', '3', '2']);
         });
       });
 
       describe('when sorting by values', () => {
         describe('when all submissions have the value', () => {
           test('scheduled value ascending', () => {
-            filter = filter.set('sortBy', 'scheduled').set('sortDir', 'ASC');
+            filter = filter.set('sortBy', 'scheduled');
 
             const sorted = sortSubmissions(submissions, filter).map(s => s.id);
             expect(sorted).toEqual(['3', '2', '1']);
-          });
-
-          test('scheduled value descending', () => {
-            filter = filter.set('sortBy', 'scheduled').set('sortDir', 'DESC');
-
-            const sorted = sortSubmissions(submissions, filter).map(s => s.id);
-            expect(sorted).toEqual(['1', '2', '3']);
           });
         });
       });
 
       describe('when only some submissions have the value', () => {
         test('due value ascending', () => {
-          filter = filter.set('sortBy', 'due').set('sortDir', 'ASC');
+          filter = filter.set('sortBy', 'due');
 
           const sorted = sortSubmissions(submissions, filter).map(s => s.id);
           expect(sorted).toEqual(['3', '1', '2']);
-        });
-
-        test('due value descending', () => {
-          filter = filter.set('sortBy', 'due').set('sortDir', 'DESC');
-
-          const sorted = sortSubmissions(submissions, filter).map(s => s.id);
-          expect(sorted).toEqual(['2', '1', '3']);
         });
       });
 
       describe('when none of the submissions have the value', () => {
         test('sorts by createdAt', () => {
-          filter = filter.set('sortBy', 'fake').set('sortDir', 'DESC');
+          filter = filter.set('sortBy', 'fake');
 
           const sorted = sortSubmissions(submissions, filter).map(s => s.id);
-          expect(sorted).toEqual(['1', '3', '2']);
+          expect(sorted).toEqual(['2', '3', '1']);
         });
       });
     });

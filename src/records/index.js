@@ -39,7 +39,6 @@ export const Filter = Record({
 
   // Filter sort order: createdAt, updatedAt, Due Date.
   sortBy: 'createdAt',
-  sortDir: 'ASC',
 
   // Search Criteria.
   status: VALID_STATUSES.filter(isActiveStatus),

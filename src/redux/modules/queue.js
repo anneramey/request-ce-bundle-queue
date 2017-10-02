@@ -1,4 +1,4 @@
-import { Record, Map } from 'immutable';
+import { Record, Map, List } from 'immutable';
 
 import { namespace, withPayload, noPayload } from '../../utils';
 import { Filter } from '../../records';
@@ -12,7 +12,7 @@ export const types = {
   SET_LIST_ITEMS: namespace('queue', 'SET_LIST_ITEMS'),
   SET_LIST_STATUS: namespace('queue', 'SET_LIST_STATUS'),
   SET_PREVIEW_ITEM: namespace('queue', 'SET_PREVIEW_ITEM'),
-
+  TOGGLE_SORT_DIRECTION: namespace('queue', 'TOGGLE_SORT_DIRECTION'),
   OPEN_WORK_MENU: namespace('queue', 'OPEN_WORK_MENU'),
   CLOSE_WORK_MENU: namespace('queue', 'CLOSE_WORK_MENU'),
 };
@@ -27,12 +27,13 @@ export const actions = {
     ({ type: types.SET_LIST_ITEMS, payload: { name, list } }),
   setListStatus: withPayload(types.SET_LIST_STATUS),
   setPreviewItem: withPayload(types.SET_PREVIEW_ITEM),
-
+  toggleSortDirection: noPayload(types.TOGGLE_SORT_DIRECTION),
   openWorkMenu: noPayload(types.OPEN_WORK_MENU),
   closeWorkMenu: noPayload(types.CLOSE_WORK_MENU),
 };
 
 export const State = Record({
+  sortDirection: 'ASC',
   currentFilter: Filter(),
   currentItem: null,
   currentItemLoading: false,
@@ -48,10 +49,10 @@ export const isItemComplete = queueItem =>
 export const reducer = (state = State(), { type, payload }) => {
   switch (type) {
     case types.SET_CURRENT_FILTER:
-      return state.set('currentFilter', payload);
+      return state.set('currentFilter', payload).set('sortDirection', 'ASC');
     case types.SET_LIST_ITEMS:
       return state
-        .setIn(['lists', payload.name], payload.list)
+        .setIn(['lists', payload.name], List(payload.list))
         .set('listStatus', null);
     case types.SET_LIST_STATUS:
       return state.set('listStatus', payload);
@@ -61,6 +62,8 @@ export const reducer = (state = State(), { type, payload }) => {
       return state.set('currentItemLoading', false).set('currentItem', payload);
     case types.SET_PREVIEW_ITEM:
       return state.set('previewItem', payload);
+    case types.TOGGLE_SORT_DIRECTION:
+      return state.set('sortDirection', state.sortDirection === 'ASC' ? 'DESC' : 'ASC');
     case types.OPEN_WORK_MENU:
       return state.set('workMenuOpen', true);
     case types.CLOSE_WORK_MENU:

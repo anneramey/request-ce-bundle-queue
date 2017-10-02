@@ -111,8 +111,8 @@ export const sortSubmissions = (submissions, filter) =>
     const s1Date = getSubmissionDate(s1, filter.sortBy);
     const s2Date = getSubmissionDate(s2, filter.sortBy);
 
-    const beforeIndex = filter.sortDir === 'ASC' ? -1 : 1;
-    const afterIndex = filter.sortDir === 'ASC' ? 1 : -1;
+    const beforeIndex = -1;
+    const afterIndex = 1;
 
     if (s1Date && s2Date) {
       if (moment(s1Date).isBefore(s2Date)) {

@@ -80,7 +80,7 @@ export const MainSection = ({ filter, showSection }) =>
           onClick={() => showSection('sort')}
         >
           <span className="button-title">Sorted By</span>
-          <span>{SORT_OPTIONS.get(filter.sortBy).label} {filter.sortDir}</span>
+          <span>{SORT_OPTIONS.get(filter.sortBy).label}</span>
           <SVGInline svg={chevronRightIcon} className="icon" />
         </button>
       </li>
