@@ -36,6 +36,7 @@
     "eslint-plugin-react": "^7.3.0",
     "file-loader": "^0.11.2",
     "jest": "^21.0.1",
+    "jest-immutable-matchers": "^1.5.0",
     "node-sass": "^4.5.3",
     "optional-require": "^1.0.0",
     "raw-loader": "^0.5.1",
