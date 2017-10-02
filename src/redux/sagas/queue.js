@@ -193,6 +193,7 @@ export function* updateCurrentItemTask(action) {
 
 export function* watchQueue() {
   yield takeEvery(types.SET_CURRENT_FILTER, fetchCurrentFilterTask);
+  yield takeEvery(types.FETCH_LIST, fetchCurrentFilterTask);
   yield takeEvery(types.FETCH_CURRENT_ITEM, fetchCurrentItemTask);
   yield takeEvery(types.UPDATE_CURRENT_ITEM, updateCurrentItemTask);
 }
