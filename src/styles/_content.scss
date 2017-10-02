@@ -188,15 +188,14 @@
             }
 
             .dropdown > .dropdown-menu {
-              left: 2rem;
+              left: -5.5rem;
               top: 1rem;
               padding: 0;
               min-width: 7rem;
               border-radius: 0;
               border: none;
-              // box-shadow: 0 3px 4px 0 rgba(0,0,0,0.3);
               margin-top: 15px;
-              position: relative;
+              position: absolute;
               box-sizing: border-box;
               filter: drop-shadow(rgba(0, 0, 0, 0.3) 0 3px 4px);
               // Add the up arrow.
