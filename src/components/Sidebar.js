@@ -7,7 +7,9 @@ import usersIcon from 'font-awesome-svg-png/white/svg/users.svg';
 import inboxIcon from 'font-awesome-svg-png/white/svg/inbox.svg';
 import starIcon from 'font-awesome-svg-png/white/svg/star-o.svg';
 
-export const Sidebar = ({ documentationUrl, supportUrl }) =>
+const formatCount = count => count >= 1000 ? '999+' : `${count}`;
+
+export const Sidebar = ({ documentationUrl, supportUrl, counts }) =>
   <div className="sidebar">
     <a href="#foo" className="btn btn-primary">
       Create New Task
@@ -17,19 +19,19 @@ export const Sidebar = ({ documentationUrl, supportUrl }) =>
       <NavItem>
         <NavLink to="/list/Mine" className="nav-link icon-wrapper" activeClassName="active">
           <SVGInline svg={userIcon} className="icon" />
-          Mine (6)
+          Mine ({formatCount(counts.get('Mine', 0))})
         </NavLink>
       </NavItem>
       <NavItem>
         <NavLink to="/list/Teammates" className="nav-link icon-wrapper" activeClassName="active">
           <SVGInline svg={usersIcon} className="icon" />
-          Teammates (999+)
+          Teammates ({formatCount(counts.get('Teammates', 0))})
         </NavLink>
       </NavItem>
       <NavItem>
         <NavLink to="/list/Unassigned" className="nav-link icon-wrapper" activeClassName="active">
           <SVGInline svg={inboxIcon} className="icon" />
-          Unassigned (9)
+          Unassigned ({formatCount(counts.get('Unassigned', 0))})
         </NavLink>
       </NavItem>
     </Nav>
