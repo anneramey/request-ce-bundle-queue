@@ -383,11 +383,12 @@ describe('queue saga', () => {
 
     describe('when request is successful', () => {
       test('it sets the list items', () => {
+        const include = 'details,values,attributes,form,children,children.form,children.values';
         const saga = fetchCurrentItemTask(action);
 
         // Execute the search.
         expect(saga.next().value)
-          .toEqual(call(CoreAPI.fetchSubmission, { id: action.payload, include: 'details,values,attributes' }));
+          .toEqual(call(CoreAPI.fetchSubmission, { id: action.payload, include }));
         expect(saga.next(response).value)
           .toEqual(put(actions.setCurrentItem(response.submission)));
       });
