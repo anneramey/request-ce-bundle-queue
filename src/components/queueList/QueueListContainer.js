@@ -22,6 +22,7 @@ const mapDispatchToProps = {
   openWorkMenu: queueActions.openWorkMenu,
   closeWorkMenu: queueActions.closeWorkMenu,
   toggleSortDirection: queueActions.toggleSortDirection,
+  fetchList: queueActions.fetchList,
 };
 
 const selectFilter = (filters, filter) => filters.find(f => f.name === filter);
@@ -63,6 +64,7 @@ export const QueueListContainer = compose(
       fetchCurrentFilter();
       closeWorkMenu();
     },
+    refresh: ({ filter, fetchList }) => () => fetchList(filter),
   }),
   lifecycle({
     componentWillMount() {

@@ -20,6 +20,7 @@ export const QueueList = ({
   toggleWorkMenu,
   sortDirection,
   toggleSortDirection,
+  refresh,
 }) =>
   <div className="two-panels">
     <div className="left-panel">
@@ -36,7 +37,11 @@ export const QueueList = ({
           <small>by Due Date</small>
         </h6>
         <div className="buttons">
-          <button type="button" className="btn btn-link icon-wrapper">
+          <button
+            type="button"
+            className="btn btn-link icon-wrapper"
+            onClick={refresh}
+          >
             <SVGInline svg={refreshIcon} className="icon" />
           </button>
           <button
