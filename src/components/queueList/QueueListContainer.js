@@ -11,12 +11,13 @@ const mapStateToProps = (state, props) => ({
   filters: state.app.filters.merge(state.app.myFilters),
   queueItems: state.queue.lists.get(props.match.params.filter),
   workMenuOpen: state.queue.workMenuOpen,
-  previewQueueItem: state.queue.previewItem,
+  previewItem: state.queue.previewItem,
 });
 
 const mapDispatchToProps = {
   setCurrentFilter: queueActions.setCurrentFilter,
-  setPreviewItem: queueActions.setPreviewItem,
+  openPreview: queueActions.openPreview,
+  closePreview: queueActions.closePreview,
   openFilterMenu: filterMenuActions.open,
   openWorkMenu: queueActions.openWorkMenu,
   closeWorkMenu: queueActions.closeWorkMenu,
@@ -58,6 +59,7 @@ export const QueueListContainer = compose(
       fetchCurrentFilter();
       closeWorkMenu();
     },
+    handleItemClick: ({ openPreview }) => item => () => openPreview(item),
   }),
   lifecycle({
     componentWillMount() {
@@ -73,7 +75,7 @@ export const QueueListContainer = compose(
     },
     componentWillUnmount() {
       this.props.closeWorkMenu();
-      this.props.setPreviewItem(null);
+      this.props.closePreview();
     },
   }),
 )(QueueList);

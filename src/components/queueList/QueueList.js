@@ -6,6 +6,7 @@ import sortIcon from '../../images/sort.svg';
 /* import { isItemComplete } from '../../redux/modules/queue'; */
 import { QueueListItem } from './QueueListItem';
 import { WorkItemMenuContainer } from '../WorkItemMenu';
+import { QueueItemPreview } from './QueueItemPreview';
 
 export const QueueList = ({
   filter,
@@ -15,6 +16,9 @@ export const QueueList = ({
   workItem,
   handleCompleted,
   openDropdownItem,
+  handleItemClick,
+  previewItem,
+  closePreview,
   toggleItemMenu,
   toggleWorkMenu,
 }) =>
@@ -52,6 +56,7 @@ export const QueueList = ({
               queueItems.map(queueItem =>
                 <QueueListItem
                   key={queueItem.id}
+                  handleItemClick={handleItemClick}
                   queueItem={queueItem}
                   openDropdownItem={openDropdownItem}
                   toggleItemMenu={toggleItemMenu}
@@ -62,7 +67,7 @@ export const QueueList = ({
         }
       </div>
     </div>
-    <div className="right-panel">
-      <p>Preview Assignment</p>
-    </div>
+    {previewItem && <div className="right-panel">
+      <QueueItemPreview queueItem={previewItem} closePreview={closePreview} />
+    </div>}
   </div>;

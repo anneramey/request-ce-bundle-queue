@@ -80,7 +80,7 @@ export class AssignmentSelector extends Component {
 
   render() {
     return (
-      <div className="assignment">
+      <div className="assignment-badge">
         Assignment
         <div className="select">
           <Autocomplete

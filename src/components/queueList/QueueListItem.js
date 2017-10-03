@@ -41,16 +41,26 @@ const Timestamp = ({ id, label, value }) =>
     <TimeAgo timestamp={value} id={`${id}-${label}`} />
   </li>;
 
-export const QueueListItem = (
-  {
-    queueItem, openDropdownItem, toggleItemMenu, toggleWorkMenu,
-  },
-) => {
+export const QueueListItem = ({
+  queueItem,
+  openDropdownItem,
+  toggleItemMenu,
+  toggleWorkMenu,
+  handleItemClick,
+}) => {
   const { createdAt, updatedAt, id, values } = queueItem;
 
   return (
-    <li key={id} className="submission list-group-item">
-      <div className="summary-group">
+    <li
+      key={id}
+      className="submission list-group-item"
+    >
+      <div
+        className="summary-group"
+        onClick={handleItemClick(queueItem)}
+        role="button"
+        tabIndex={0}
+      >
         <StatusParagraph status={values.Status} />
         <h1>{values.Summary}</h1>
         <p className="summary">{values.Details}</p>

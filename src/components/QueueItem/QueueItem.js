@@ -41,7 +41,7 @@ export const QueueItem = ({
             </div>
           </Link>
         }
-        <Nav horizontal className="tabs">
+        <Nav className="tabs">
           <NavItem>
             <NavLink exact to={`/item/${queueItem.id}`} className="nav-link" activeClassName="active">
               <div className="inner-wrapper">Details</div>

@@ -15,6 +15,9 @@ export const types = {
 
   OPEN_WORK_MENU: namespace('queue', 'OPEN_WORK_MENU'),
   CLOSE_WORK_MENU: namespace('queue', 'CLOSE_WORK_MENU'),
+
+  OPEN_PREVIEW: namespace('queue', 'OPEN_PREVIEW'),
+  CLOSE_PREVIEW: namespace('queue', 'CLOSE_PREVIEW'),
 };
 
 export const actions = {
@@ -30,6 +33,9 @@ export const actions = {
 
   openWorkMenu: noPayload(types.OPEN_WORK_MENU),
   closeWorkMenu: noPayload(types.CLOSE_WORK_MENU),
+
+  openPreview: withPayload(types.OPEN_PREVIEW),
+  closePreview: noPayload(types.CLOSE_PREVIEW),
 };
 
 export const State = Record({
@@ -59,8 +65,10 @@ export const reducer = (state = State(), { type, payload }) => {
       return state.set('currentItemLoading', true);
     case types.SET_CURRENT_ITEM:
       return state.set('currentItemLoading', false).set('currentItem', payload);
-    case types.SET_PREVIEW_ITEM:
+    case types.OPEN_PREVIEW:
       return state.set('previewItem', payload);
+    case types.CLOSE_PREVIEW:
+      return state.set('previewItem', null);
     case types.OPEN_WORK_MENU:
       return state.set('workMenuOpen', true);
     case types.CLOSE_WORK_MENU:
