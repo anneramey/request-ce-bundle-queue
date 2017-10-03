@@ -25,15 +25,21 @@ export const Header = ({ toggleSidebarOpen }) =>
           <DropdownItem>Admin</DropdownItem>
         </DropdownMenu>
       </UncontrolledDropdown>
-      <NavItem className="nav-item-right">
-        <NavLink role="button" tabIndex="0" className="icon-wrapper">
+      <UncontrolledDropdown className="nav-item-right">
+        <DropdownToggle nav role="button" className="icon-wrapper">
           <SVGInline svg={bellIcon} className="icon" />
-        </NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink role="button" tabIndex="0" className="icon-wrapper">
+        </DropdownToggle>
+        <DropdownMenu right>
+          Alerts go here
+        </DropdownMenu>
+      </UncontrolledDropdown>
+      <UncontrolledDropdown>
+        <DropdownToggle nav role="button" className="icon-wrapper">
           <SVGInline svg={personIcon} className="icon" />
-        </NavLink>
-      </NavItem>
+        </DropdownToggle>
+        <DropdownMenu right>
+          Profile links go here
+        </DropdownMenu>
+      </UncontrolledDropdown>
     </Nav>
   </Navbar>;

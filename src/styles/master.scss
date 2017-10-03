@@ -10,6 +10,9 @@ body {
 
 .nav.nav-header {
   justify-content: space-between;
+  .dropdown {
+    display: flex;
+  }
 }
 
 .nav.nav-header > .nav-item-right {
