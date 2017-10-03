@@ -31,6 +31,7 @@ export const Header = ({ toggleSidebarOpen, alerts, fetchAlerts }) =>
       <UncontrolledDropdown className="nav-item-right">
         <DropdownToggle nav role="button" className="icon-wrapper">
           <SVGInline svg={bellIcon} className="icon" />
+          <span className="badge">{alerts.length}</span>
         </DropdownToggle>
         <DropdownMenu right className="alerts-menu">
           <div className="alerts-header">
