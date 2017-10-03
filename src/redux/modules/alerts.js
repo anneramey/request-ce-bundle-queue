@@ -24,9 +24,9 @@ export const reducer = (state = State(), { type, payload }) => {
     case types.FETCH_ALERTS:
       return state.set('loading', true);
     case types.SET_ALERTS:
-      return state.merge({ loading: false, error: null, data: payload });
+      return state.set('loading', false).set('error', null).set('data', payload);
     case types.SET_ALERTS_ERROR:
-      return state.merge({ loading: false, error: payload });
+      return state.set('loading', false).set('error', payload);
     default: return state;
   }
 };
