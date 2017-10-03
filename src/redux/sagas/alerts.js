@@ -5,7 +5,7 @@ import { types, actions } from '../modules/alerts';
 
 export const ALERTS_SEARCH = new CoreAPI.SubmissionSearch()
   .eq('values[Status]', 'Active')
-  .include('values')
+  .include('details,values')
   .limit(1000)
   .build();
 
