@@ -19,7 +19,7 @@ const mapStateToProps = state => ({
   defaultFilters: state.app.filters.filter(isDefaultFilter),
   pathname: state.router.location.pathname,
   counts: DEFAULT_FILTERS.reduce(
-    (acc, filterName) => acc.set(filterName, state.queue.lists.get(filterName, []).length),
+    (acc, filterName) => acc.set(filterName, state.queue.lists.get(filterName, []).size),
     Map(),
   ),
 });

@@ -2,7 +2,8 @@ import React from 'react';
 import SVGInline from 'react-svg-inline';
 import refreshIcon from 'font-awesome-svg-png/white/svg/refresh.svg';
 import filterIcon from '../../images/filter.svg';
-import sortIcon from '../../images/sort.svg';
+import sortAscIcon from '../../images/sort_asc.svg';
+import sortDescIcon from '../../images/sort_desc.svg';
 /* import { isItemComplete } from '../../redux/modules/queue'; */
 import { QueueListItem } from './QueueListItem';
 import { WorkItemMenuContainer } from '../WorkItemMenu';
@@ -21,6 +22,9 @@ export const QueueList = ({
   closePreview,
   toggleItemMenu,
   toggleWorkMenu,
+  sortDirection,
+  toggleSortDirection,
+  refresh,
 }) =>
   <div className="two-panels">
     <div className="left-panel">
@@ -37,11 +41,22 @@ export const QueueList = ({
           <small>by Due Date</small>
         </h6>
         <div className="buttons">
-          <button type="button" className="btn btn-link icon-wrapper">
+          <button
+            type="button"
+            className="btn btn-link icon-wrapper"
+            onClick={refresh}
+          >
             <SVGInline svg={refreshIcon} className="icon" />
           </button>
-          <button type="button" className="btn btn-link icon-wrapper">
-            <SVGInline svg={sortIcon} className="icon" />
+          <button
+            type="button"
+            className="btn btn-link icon-wrapper"
+            onClick={toggleSortDirection}
+          >
+            <SVGInline
+              className="icon"
+              svg={sortDirection === 'ASC' ? sortAscIcon : sortDescIcon}
+            />
           </button>
           <button type="button" className="btn btn-link icon-wrapper" onClick={openFilterMenu}>
             <SVGInline svg={filterIcon} className="icon" />

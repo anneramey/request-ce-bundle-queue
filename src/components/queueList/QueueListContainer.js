@@ -1,4 +1,4 @@
-import { compose, lifecycle, withHandlers, withState } from 'recompose';
+import { compose, lifecycle, withHandlers, withProps, withState } from 'recompose';
 import { connect } from 'react-redux';
 
 import { actions as queueActions } from '../../redux/modules/queue';
@@ -12,6 +12,7 @@ const mapStateToProps = (state, props) => ({
   queueItems: state.queue.lists.get(props.match.params.filter),
   workMenuOpen: state.queue.workMenuOpen,
   previewItem: state.queue.previewItem,
+  sortDirection: state.queue.sortDirection,
 });
 
 const mapDispatchToProps = {
@@ -21,12 +22,17 @@ const mapDispatchToProps = {
   openFilterMenu: filterMenuActions.open,
   openWorkMenu: queueActions.openWorkMenu,
   closeWorkMenu: queueActions.closeWorkMenu,
+  toggleSortDirection: queueActions.toggleSortDirection,
+  fetchList: queueActions.fetchList,
 };
 
 const selectFilter = (filters, filter) => filters.find(f => f.name === filter);
 
 export const QueueListContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
+  withProps(({ sortDirection, queueItems }) => ({
+    queueItems: sortDirection === 'DESC' ? queueItems.reverse() : queueItems,
+  })),
   withState('openDropdownItem', 'setOpenDropdownItem', null),
   withState('workItem', 'setWorkItem', null),
   withHandlers({
@@ -60,6 +66,7 @@ export const QueueListContainer = compose(
       closeWorkMenu();
     },
     handleItemClick: ({ openPreview }) => item => () => openPreview(item),
+    refresh: ({ filter, fetchList }) => () => fetchList(filter),
   }),
   lifecycle({
     componentWillMount() {
