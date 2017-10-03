@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withHandlers, withState } from 'recompose';
 import Sidebar from 'react-sidebar';
-import { Header } from './Header';
+import { HeaderContainer } from './HeaderContainer';
 
 export const Layout = ({
   sidebarOpen,
@@ -13,7 +13,7 @@ export const Layout = ({
   sidebarContent,
 }) =>
   <div className="layout">
-    <Header toggleSidebarOpen={toggleSidebarOpen} />
+    <HeaderContainer toggleSidebarOpen={toggleSidebarOpen} />
     <Sidebar
       sidebar={sidebarContent}
       shadow={false}
