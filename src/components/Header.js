@@ -57,7 +57,7 @@ export const Header = ({ toggleSidebarOpen, alerts, fetchAlerts }) =>
                 .map(alert =>
                   <a
                     key={alert.id}
-                    href={`${bundle.spaceLocation()}?page=alerts#id-${alert.id}`}
+                    href={alert.values.URL || `${bundle.spaceLocation()}?page=alerts#id-${alert.id}`}
                     className="alert-item"
                   >
                     <div className="top">
