@@ -10,6 +10,9 @@ body {
 
 .nav.nav-header {
   justify-content: space-between;
+  .dropdown {
+    display: flex;
+  }
 }
 
 .nav.nav-header > .nav-item-right {
@@ -24,6 +27,16 @@ body {
   font-size: 16px;
   color: $blue2;
   padding: 0.75em 1em;
+
+  .badge {
+    background-color: $orange1;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 600;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+  }
 }
 
 .navbar .drawer-button {
@@ -98,3 +111,4 @@ body {
 @import 'queue_item_details';
 @import 'assignments';
 @import 'forms';
+@import 'alerts';
