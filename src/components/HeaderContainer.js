@@ -5,6 +5,7 @@ import { actions } from '../redux/modules/alerts';
 
 export const mapStateToProps = state => ({
   alerts: state.alerts.data,
+  profile: state.app.profile,
 });
 
 const mapDispatchToProps = {

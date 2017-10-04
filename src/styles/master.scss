@@ -10,6 +10,7 @@ body {
 
 .nav.nav-header {
   justify-content: space-between;
+  padding-right: 5px;
   .dropdown {
     display: flex;
   }
@@ -112,3 +113,4 @@ body {
 @import 'assignments';
 @import 'forms';
 @import 'alerts';
+@import 'profile';
