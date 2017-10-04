@@ -62,8 +62,8 @@ export const QueueListItem = ({
         tabIndex={0}
       >
         <StatusParagraph status={values.Status} />
-        <h1>{values.Summary}</h1>
-        <p className="summary">{values.Details}</p>
+        <h1>{queueItem.form.name} ({queueItem.handle})</h1>
+        <p className="summary">{values.Summary}</p>
         <AssignmentParagraph values={values} />
         <ul className="timestamps list-group">
           <Timestamp label="Due" value={values['Due Date']} id={id} />

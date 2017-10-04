@@ -1,8 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import SVGInline from 'react-svg-inline';
 import timesIcon from 'font-awesome-svg-png/white/svg/times.svg';
 import solidCircle from 'font-awesome-svg-png/white/svg/circle.svg';
 import emptyCircle from 'font-awesome-svg-png/white/svg/circle-o.svg';
+import { originLink } from '../../utils';
 import { TimeAgo } from '../TimeAgo';
 import { AssignmentBadge } from '../QueueItem/AssignmentBadge';
 
@@ -17,31 +19,9 @@ const StatusParagraph = ({ status }) =>
     {status}
   </p>;
 
-// const AssignmentParagraph = ({ values }) =>
-//   <p className="assignment">
-//     {
-//       values['Assigned Team'] &&
-//       (values['Assigned Team Display Name'] || values['Assigned Team'])
-//     }
-//     {
-//       values['Assigned Individual'] && values['Assigned Team'] && ' > '
-//     }
-//     {
-//       values['Assigned Individual'] &&
-//       (values['Assigned Individual Display Name'] || values['Assigned Individual'])
-//     }
-//   </p>;
 
-const Timestamp = ({ id, label, value }) =>
-  value &&
-  <li className="list-group-item">
-    {label}
-    &nbsp;
-    <TimeAgo timestamp={value} id={`${id}-${label}`} />
-  </li>;
-
-export const QueueItemPreview = ({ queueItem, closePreview }) => {
-  const { createdAt, updatedAt, id, values } = queueItem;
+export const QueueItemPreview = ({ queueItem, closePreview, toggleWorkMenu }) => {
+  const { values } = queueItem;
 
   return (
     <div className="item-preview">
@@ -55,10 +35,44 @@ export const QueueItemPreview = ({ queueItem, closePreview }) => {
       <p className="summary">{queueItem.values.Summary}</p>
       <div className="details">{queueItem.values.Details}</div>
       <AssignmentBadge queueItem={queueItem} readOnly />
-      <ul className="timestamps list-group">
-        <Timestamp label="Due" value={values['Due Date']} id={id} />
-        <Timestamp label="Updated" value={updatedAt} id={id} />
-        <Timestamp label="Created" value={createdAt} id={id} />
+      <a className="btn btn-primary btn-inverse request-button" href={originLink(queueItem)} target="_blank">
+        View Original Request
+      </a>
+      <ul className="list-group timestamps">
+        <li className="list-group-item timestamp">
+          <span className="label">Due</span>
+          <span className="value">
+            <TimeAgo timestamp={queueItem.values['Due Date']} id="due-date" />
+          </span>
+        </li>
+        <li className="list-group-item timestamp">
+          <span className="label">Updated</span>
+          <span className="value">
+            <TimeAgo timestamp={queueItem.updatedAt} id="updated-at" />
+          </span>
+        </li>
+        <li className="list-group-item timestamp">
+          <span className="label">Created</span>
+          <span className="value">
+            <TimeAgo timestamp={queueItem.createdAt} id="created-at" />
+          </span>
+        </li>
       </ul>
+      <div className="preview-actions">
+        <button
+          className="btn btn-primary work-grab-button"
+          onClick={toggleWorkMenu(queueItem)}
+        >
+          Work It
+        </button>
+        <Link className="btn btn-primary work-grab-button" to={`/item/${queueItem.id}`}>
+          More Details
+        </Link>
+        <button
+          className="btn btn-primary work-grab-button"
+        >
+          Discuss
+        </button>
+      </div>
     </div>);
 };

@@ -239,6 +239,8 @@
       min-width: 400px;
 
       .item-preview {
+        display: flex;
+        flex-direction: column;
         background-color: #F7F9FB;
         padding-left: 24px;
         padding-right: 24px;
@@ -299,29 +301,42 @@
           font-size: 14px;
           line-height: 24px;
           margin-bottom: 0;
-        }
-
-        .assignment {
-          margin-bottom: 0;
-        }
-
-        .assignment, .timestamps {
-          font-size: 10px;
-          font-weight: 300;
-          margin-top: 5px;
+          white-space: pre-wrap;
         }
 
         .timestamps {
+          margin: 1rem 0;
+          .timestamp {
+            font-size: 10px;
+            padding: .15rem 2rem;
+            .label {
+              color: $blue2;
+              width: 70px;
+            }
+            .value {
+              color: $blue1;
+            }
+          }
+        }
+
+        // Override the assignment badge margin.
+        .assignment-badge {
+          margin-left: 0;
+        }
+
+        .preview-actions {
           display: flex;
           flex-direction: row;
 
-          .list-group-item {
+          a, button {
+            flex-grow: 1;
+            border-radius: 0;
+            font-family: "Open Sans";
+            font-size: 16px;
+            line-height: 48px;
             padding: 0;
-
-            &:not(:first-child):before {
-              content: "•";
-              margin: 0 5px;
-              font-weight: 700;
+            &:not(:first-child) {
+              margin-left: 5px;
             }
           }
         }

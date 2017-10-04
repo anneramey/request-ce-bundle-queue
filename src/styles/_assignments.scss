@@ -7,6 +7,9 @@
   margin: 1rem 0 1rem 1rem;
   padding: .5rem 1rem;
   .badge {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     background-color: #A8B7C7;
     border-radius: 50%;
     color: #F7F9FB;

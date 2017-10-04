@@ -83,6 +83,10 @@ export const QueueList = ({
       </div>
     </div>
     {previewItem && <div className="right-panel">
-      <QueueItemPreview queueItem={previewItem} closePreview={closePreview} />
+      <QueueItemPreview
+        queueItem={previewItem}
+        closePreview={closePreview}
+        toggleWorkMenu={toggleWorkMenu}
+      />
     </div>}
   </div>;

@@ -7,6 +7,7 @@ import circleOpenIcon from 'font-awesome-svg-png/black/svg/circle-o.svg';
 // import circleClosedIcon from 'font-awesome-svg-png/black/svg/circle.svg';
 import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
 import { actions } from '../../redux/modules/queue';
+import { originLink } from '../../utils';
 import { AssignmentSelector } from './AssignmentSelector';
 import { AssignmentBadge } from './AssignmentBadge';
 import { TimeAgo } from '../TimeAgo';
@@ -37,9 +38,9 @@ export const QueueItemDetails = ({
       isAssigning={isAssigning}
       assignments={assignments}
     />}
-    <button className="btn btn-primary btn-inverse request-button">
+    <a className="btn btn-primary btn-inverse request-button" href={originLink(queueItem)} target="_blank">
       View Original Request
-    </button>
+    </a>
     <ul className="list-group timestamps">
       <li className="list-group-item timestamp">
         <span className="label">Due</span>
