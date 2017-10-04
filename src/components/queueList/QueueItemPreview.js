@@ -35,9 +35,13 @@ export const QueueItemPreview = ({ queueItem, closePreview, toggleWorkMenu }) =>
       <p className="summary">{queueItem.values.Summary}</p>
       <div className="details">{queueItem.values.Details}</div>
       <AssignmentBadge queueItem={queueItem} readOnly />
-      <a className="btn btn-primary btn-inverse request-button" href={originLink(queueItem)} target="_blank">
+      {queueItem.origin && <a
+        className="btn btn-primary btn-inverse request-button"
+        href={originLink(queueItem)}
+        target="_blank"
+      >
         View Original Request
-      </a>
+      </a>}
       <ul className="list-group timestamps">
         <li className="list-group-item timestamp">
           <span className="label">Due</span>
