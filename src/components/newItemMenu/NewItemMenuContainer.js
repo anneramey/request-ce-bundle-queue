@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import { compose, withState, withHandlers } from 'recompose';
 
 import { selectMyTeamForms } from '../../redux/modules/app';
 import { actions } from '../../redux/modules/queue';
@@ -14,6 +14,12 @@ const mapDispatchToProps = ({
   closeNewItemMenu: actions.closeNewItemMenu,
 });
 
+const handleFormClick = ({ setCurrentForm }) => form => () => setCurrentForm(form);
+
 export const NewItemMenuContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
+  withState('currentForm', 'setCurrentForm', null),
+  withHandlers({
+    handleFormClick,
+  }),
 )(NewItemMenu);
