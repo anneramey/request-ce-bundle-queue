@@ -9,11 +9,19 @@ import starIcon from 'font-awesome-svg-png/white/svg/star-o.svg';
 
 const formatCount = count => count >= 1000 ? '999+' : `${count}`;
 
-export const Sidebar = ({ documentationUrl, supportUrl, counts }) =>
+export const Sidebar = ({
+  documentationUrl,
+  supportUrl,
+  counts,
+  openNewItemMenu,
+}) =>
   <div className="sidebar">
-    <a href="#foo" className="btn btn-primary">
+    <button
+      className="btn btn-primary"
+      onClick={openNewItemMenu}
+    >
       Create New Task
-    </a>
+    </button>
     <h6>Filters</h6>
     <Nav vertical className="filter-nav">
       <NavItem>

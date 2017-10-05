@@ -26,6 +26,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   fetchList: actions.fetchList,
+  openNewItemMenu: actions.openNewItemMenu,
 };
 
 export const SidebarContainer = compose(

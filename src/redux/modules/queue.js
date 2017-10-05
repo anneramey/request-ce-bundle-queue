@@ -18,6 +18,9 @@ export const types = {
 
   OPEN_PREVIEW: namespace('queue', 'OPEN_PREVIEW'),
   CLOSE_PREVIEW: namespace('queue', 'CLOSE_PREVIEW'),
+
+  OPEN_NEW_MENU: namespace('queue', 'OPEN_NEW_MENU'),
+  CLOSE_NEW_MENU: namespace('queue', 'CLOSE_NEW_MENU'),
 };
 
 export const actions = {
@@ -36,6 +39,9 @@ export const actions = {
 
   openPreview: withPayload(types.OPEN_PREVIEW),
   closePreview: noPayload(types.CLOSE_PREVIEW),
+
+  openNewItemMenu: noPayload(types.OPEN_NEW_MENU),
+  closeNewItemMenu: noPayload(types.CLOSE_NEW_MENU),
 };
 
 export const State = Record({
@@ -47,6 +53,7 @@ export const State = Record({
   listStatus: null,
   previewItem: null,
   workMenuOpen: false,
+  newItemMenuOpen: false,
 });
 
 export const isItemComplete = queueItem =>
@@ -76,6 +83,10 @@ export const reducer = (state = State(), { type, payload }) => {
       return state.set('workMenuOpen', true);
     case types.CLOSE_WORK_MENU:
       return state.set('workMenuOpen', false);
+    case types.OPEN_NEW_MENU:
+      return state.set('newItemMenuOpen', true);
+    case types.CLOSE_NEW_MENU:
+      return state.set('newItemMenuOpen', false);
     default:
       return state;
   }

@@ -1,4 +1,4 @@
-import { Record, List } from 'immutable';
+import { Record, List, Set } from 'immutable';
 import { namespace, noPayload, withPayload } from '../../utils';
 import { Profile, Filter, AssignmentCriteria } from '../../records';
 
@@ -18,6 +18,14 @@ export const actions = {
   addPersonalFilter: withPayload(types.ADD_PERSONAL_FILTER),
   removePersonalFilter: withPayload(types.REMOVE_PERSONAL_FILTER),
 };
+
+export const selectMyTeamForms = state =>
+  state.app.forms.filter(f => {
+    const owningTeam = f.attributes['Owning Team'];
+    return owningTeam ?
+      state.app.myTeams.map(t => t.name).toSet().intersect(new Set(owningTeam)).size > 0 :
+      false;
+  });
 
 /*
  *

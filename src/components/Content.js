@@ -5,6 +5,7 @@ import { NotificationsContainer } from './notifications/NotificationsContainer';
 import { FilterMenuContainer } from './FilterMenu/FilterMenuContainer';
 import { QueueItemContainer } from './QueueItem/QueueItem';
 import { QueueListContainer } from './queueList/QueueListContainer';
+import { NewItemMenuContainer } from './newItemMenu/NewItemMenuContainer';
 
 export const Content = () =>
   <div className="content">
@@ -13,4 +14,5 @@ export const Content = () =>
     <Route path="/list/:filter" component={QueueListContainer} />
     <Route path="/item/:id" component={QueueItemContainer} />
     <FilterMenuContainer />
+    <NewItemMenuContainer />
   </div>;
