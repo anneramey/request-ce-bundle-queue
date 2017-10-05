@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, ModalBody } from 'reactstrap';
+import { Modal, ModalBody, ModalFooter } from 'reactstrap';
 import SVGInline from 'react-svg-inline';
 import chevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg';
 import chevronLeftIcon from 'font-awesome-svg-png/black/svg/chevron-left.svg';
@@ -35,7 +35,10 @@ export const NewItemMenu = ({
   closeNewItemMenu,
   myTeamForms,
   currentForm,
+  kForm,
+  onFormLoaded,
   handleFormClick,
+  handleSave,
 }) =>
   <Modal isOpen={isOpen} toggle={closeNewItemMenu}>
     <div className="modal-header">
@@ -73,8 +76,21 @@ export const NewItemMenu = ({
           <CoreForm
             form={currentForm.slug}
             globals={globals}
+            onLoaded={onFormLoaded}
           />
         </div>
       }
     </ModalBody>
+    { currentForm !== null &&
+      kForm !== null &&
+      <ModalFooter>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={handleSave}
+        >
+          Save {currentForm.name}
+        </button>
+      </ModalFooter>
+    }
   </Modal>;
