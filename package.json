@@ -54,6 +54,7 @@
     "axios": "^0.16.2",
     "babel-polyfill": "^6.26.0",
     "bootstrap": "4.0.0-alpha.6",
+    "bootstrap-select": "^1.12.4",
     "classnames": "^2.2.5",
     "connected-react-router": "^4.2.3",
     "font-awesome-svg-png": "^1.2.2",

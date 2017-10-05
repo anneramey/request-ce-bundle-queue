@@ -10,6 +10,7 @@
 import jquery from 'jquery';
 import moment from 'moment';
 import underscore from 'underscore';
+import 'bootstrap-select/dist/css/bootstrap-select.css';
 import './lib/kd-typeahead/kd-typeahead.css';
 
 window.$ = jquery;
@@ -17,4 +18,5 @@ window.jQuery = jquery;
 window.moment = moment;
 window._ = underscore;
 
+require('bootstrap-select/dist/js/bootstrap-select');
 require('./lib/kd-typeahead/kd-typeahead');

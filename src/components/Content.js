@@ -6,6 +6,7 @@ import { FilterMenuContainer } from './FilterMenu/FilterMenuContainer';
 import { QueueItemContainer } from './QueueItem/QueueItem';
 import { QueueListContainer } from './queueList/QueueListContainer';
 import { NewItemMenuContainer } from './newItemMenu/NewItemMenuContainer';
+import { ModalFormContainer } from './ModalFormContainer';
 
 export const Content = () =>
   <div className="content">
@@ -15,4 +16,5 @@ export const Content = () =>
     <Route path="/item/:id" component={QueueItemContainer} />
     <FilterMenuContainer />
     <NewItemMenuContainer />
+    <ModalFormContainer />
   </div>;
