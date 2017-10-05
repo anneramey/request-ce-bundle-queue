@@ -14,7 +14,15 @@ import infoIcon from 'font-awesome-svg-png/black/svg/info.svg';
 import signoutIcon from 'font-awesome-svg-png/black/svg/sign-out.svg';
 import hamburgerIcon from '../images/hamburger.svg';
 
-export const Header = ({ toggleSidebarOpen, alerts, fetchAlerts, profile }) =>
+export const Header = ({
+  toggleSidebarOpen,
+  alerts,
+  fetchAlerts,
+  profile,
+  openFeedbackForm,
+  openHelpForm,
+  openInviteOthersForm,
+}) =>
   <Navbar color="faded" light fixed="top">
     <Nav className="nav-header">
       <NavItem>
@@ -93,15 +101,15 @@ export const Header = ({ toggleSidebarOpen, alerts, fetchAlerts, profile }) =>
               <SVGInline svg={personIcon} className="icon" />
               Profile
             </a>
-            <a role="button" tabIndex="0" className="icon-wrapper">
+            <a role="button" tabIndex="0" onClick={openInviteOthersForm} className="icon-wrapper">
               <SVGInline svg={envelopeIcon} className="icon" />
               Invite Others
             </a>
-            <a role="button" tabIndex="0" className="icon-wrapper">
+            <a role="button" tabIndex="0" onClick={openHelpForm} className="icon-wrapper">
               <SVGInline svg={questionIcon} className="icon" />
               Get Help
             </a>
-            <a role="button" tabIndex="0" className="icon-wrapper">
+            <a role="button" tabIndex="0" onClick={openFeedbackForm} className="icon-wrapper">
               <SVGInline svg={commentIcon} className="icon" />
               Give Feedback
             </a>
