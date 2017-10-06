@@ -26,7 +26,7 @@ export const QueueItemPreview = ({ queueItem, closePreview, toggleWorkMenu }) =>
   return (
     <div className="item-preview">
       <div className="preview-close">
-        <button type="button" className="btn btn-close" onClick={closePreview}>
+        <button type="button" className="btn btn-close icon-wrapper" onClick={closePreview}>
           <SVGInline svg={timesIcon} className="icon" />
         </button>
       </div>
