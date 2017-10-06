@@ -24,7 +24,7 @@ export const selectMyTeamForms = state =>
     const owningTeam = f.attributes['Owning Team'];
     return owningTeam ?
       state.app.myTeams.map(t => t.name).toSet().intersect(new Set(owningTeam)).size > 0 :
-      false;
+      true;
   });
 
 /*

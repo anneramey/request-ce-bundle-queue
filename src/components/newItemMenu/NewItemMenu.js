@@ -54,7 +54,7 @@ export const NewItemMenu = ({
         <span>&nbsp;</span>
       </h4>
       {
-        currentForm === null &&
+        currentForm !== null &&
         <button
           type="button"
           className="btn btn-link back-button"

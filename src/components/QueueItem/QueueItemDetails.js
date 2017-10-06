@@ -95,6 +95,7 @@ export const mapStateToProps = state => ({
       user.team = t.name;
       return user;
     }))
+    .concat(state.app.allTeams.map(t => ({ username: null, displayName: 'Unassigned', team: t.name })))
     .toJS(),
 });
 
