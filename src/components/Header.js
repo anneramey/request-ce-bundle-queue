@@ -61,6 +61,10 @@ export const Header = ({
             {
               List(alerts)
                 .filter(alert =>
+                  !alert.values['End Date Time'] ||
+                  moment(alert.values['End Date Time']).isAfter(),
+                )
+                .filter(alert =>
                   !alert.values['Start Date Time'] ||
                   moment(alert.values['Start Date Time']).isBefore(),
                 )
