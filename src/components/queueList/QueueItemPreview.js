@@ -72,11 +72,12 @@ export const QueueItemPreview = ({ queueItem, closePreview, toggleWorkMenu }) =>
         <Link className="btn btn-primary work-grab-button" to={`/item/${queueItem.id}`}>
           More Details
         </Link>
-        <button
+        <Link
           className="btn btn-primary work-grab-button"
+          to={`/item/${queueItem.id}/discussions`}
         >
           Discuss
-        </button>
+        </Link>
       </div>
     </div>);
 };
