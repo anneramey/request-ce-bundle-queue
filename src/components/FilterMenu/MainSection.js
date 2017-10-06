@@ -33,7 +33,7 @@ export const MainSection = ({ filter, showSection }) =>
       <li className="list-group-item">
         <button
           type="button"
-          className="btn btn-link"
+          className="btn btn-link icon-wrapper"
           onClick={() => showSection('teams')}
         >
           <span className="button-title">Teams</span>
@@ -44,7 +44,7 @@ export const MainSection = ({ filter, showSection }) =>
       <li className="list-group-item">
         <button
           type="button"
-          className="btn btn-link"
+          className="btn btn-link icon-wrapper"
           onClick={() => showSection('assignment')}
         >
           <span className="button-title">Assignment</span>
@@ -55,7 +55,7 @@ export const MainSection = ({ filter, showSection }) =>
       <li className="list-group-item">
         <button
           type="button"
-          className="btn btn-link"
+          className="btn btn-link icon-wrapper"
           onClick={() => showSection('status')}
         >
           <span className="button-title">Status</span>
@@ -66,7 +66,7 @@ export const MainSection = ({ filter, showSection }) =>
       <li className="list-group-item">
         <button
           type="button"
-          className="btn btn-link"
+          className="btn btn-link icon-wrapper"
           onClick={() => showSection('date')}
         >
           <span className="button-title">Date Range</span>
@@ -76,7 +76,7 @@ export const MainSection = ({ filter, showSection }) =>
       <li className="list-group-item">
         <button
           type="button"
-          className="btn btn-link"
+          className="btn btn-link icon-wrapper"
           onClick={() => showSection('sort')}
         >
           <span className="button-title">Sorted By</span>

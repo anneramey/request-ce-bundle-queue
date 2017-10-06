@@ -39,8 +39,9 @@ export const NewItemMenu = ({
   onFormLoaded,
   handleFormClick,
   handleSave,
+  handleClosed,
 }) =>
-  <Modal isOpen={isOpen} toggle={closeNewItemMenu}>
+  <Modal isOpen={isOpen} toggle={closeNewItemMenu} onClosed={handleClosed}>
     <div className="modal-header">
       <h4 className="modal-title">
         <button
@@ -57,7 +58,7 @@ export const NewItemMenu = ({
         currentForm !== null &&
         <button
           type="button"
-          className="btn btn-link back-button"
+          className="btn btn-link back-button icon-wrapper"
           onClick={handleFormClick(null)}
         >
           <SVGInline svg={chevronLeftIcon} className="icon" />

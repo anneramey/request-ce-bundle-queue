@@ -17,6 +17,11 @@ const mapDispatchToProps = ({
 
 const handleFormClick = ({ setCurrentForm }) => form => () => setCurrentForm(form);
 const handleSave = ({ kForm }) => () => kForm.submitPage();
+const handleClosed = ({ setCurrentForm, setKForm }) => () => {
+  setCurrentForm(null);
+  setKForm(null);
+};
+
 const onFormLoaded = ({ setKForm }) => form => setKForm(form);
 
 export const NewItemMenuContainer = compose(
@@ -26,6 +31,7 @@ export const NewItemMenuContainer = compose(
   withHandlers({
     handleFormClick,
     handleSave,
+    handleClosed,
     onFormLoaded,
   }),
 )(NewItemMenu);

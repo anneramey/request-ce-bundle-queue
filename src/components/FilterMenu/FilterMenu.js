@@ -38,7 +38,7 @@ export const FilterMenu = ({
         activeSection !== null &&
         <button
           type="button"
-          className="btn btn-link back-button"
+          className="btn btn-link back-button icon-wrapper"
           onClick={() => showSection(null)}
         >
           <SVGInline svg={chevronLeftIcon} className="icon" />
