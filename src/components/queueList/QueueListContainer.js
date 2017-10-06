@@ -8,7 +8,7 @@ import { QueueList } from './QueueList';
 
 const mapStateToProps = (state, props) => ({
   filter: state.queue.currentFilter,
-  filters: state.app.filters.merge(state.app.myFilters),
+  filters: state.app.filters.concat(state.app.myFilters),
   queueItems: state.queue.lists.get(props.match.params.filter),
   workMenuOpen: state.queue.workMenuOpen,
   previewItem: state.queue.previewItem,
