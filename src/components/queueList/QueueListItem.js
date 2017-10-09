@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Link } from 'react-router-dom';
 import SVGInline from 'react-svg-inline';
 import solidCircle from 'font-awesome-svg-png/white/svg/circle.svg';
 import emptyCircle from 'font-awesome-svg-png/white/svg/circle-o.svg';
@@ -87,11 +87,13 @@ export const QueueListItem = ({
             <SVGInline svg={vEllipsisIcon} className="icon" />
           </DropdownToggle>
           <DropdownMenu>
-            <LinkContainer to={`/item/${id}`}>
-              <DropdownItem>More Details</DropdownItem>
-            </LinkContainer>
+            <Link to={`/item/${id}`} className="dropdown-item">
+              More Details
+            </Link>
             <DropdownItem onClick={toggleWorkMenu(queueItem)}>Work Task</DropdownItem>
-            <DropdownItem>Discuss</DropdownItem>
+            <Link to={`/item/${id}/discussions`} className="dropdown-item">
+              Discuss
+            </Link>
           </DropdownMenu>
         </Dropdown>
       </div>

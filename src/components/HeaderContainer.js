@@ -1,5 +1,7 @@
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
+import { List } from 'immutable';
+import moment from 'moment';
 import { Header } from './Header';
 import { actions } from '../redux/modules/alerts';
 import { actions as modalFormActions } from '../redux/modules/modalForm';
@@ -26,7 +28,19 @@ const INVITE_OTHERS_FORM_CONFIG = {
 };
 
 export const mapStateToProps = state => ({
-  alerts: state.alerts.data,
+  alerts: List(state.alerts.data)
+    .filter(alert =>
+      !alert.values['End Date Time'] ||
+      moment(alert.values['End Date Time']).isAfter(),
+    )
+    .filter(alert =>
+      !alert.values['Start Date Time'] ||
+      moment(alert.values['Start Date Time']).isBefore(),
+    )
+    .sortBy(alert =>
+      moment(alert.values['Start Date Time'] || alert.createdAt).unix(),
+    )
+    .reverse(),
   profile: state.app.profile,
 });
 
