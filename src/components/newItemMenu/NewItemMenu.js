@@ -44,11 +44,11 @@ const FormsBackButton = ({ handleFormClick }) =>
     Forms
   </button>;
 
-const AssignmentBackButton = ({ handleFormClick }) =>
+const AssignmentBackButton = ({ handleAssignmentClick }) =>
   <button
     type="button"
     className="btn btn-link back-button icon-wrapper"
-    onClick={handleFormClick(null)}
+    onClick={handleAssignmentClick(null)}
   >
     <SVGInline svg={chevronLeftIcon} className="icon" />
     Assignment
@@ -64,6 +64,7 @@ export const NewItemMenu = ({
   kForm,
   onFormLoaded,
   handleFormClick,
+  handleAssignmentClick,
   handleSave,
   handleClosed,
   handleSelect,
@@ -87,7 +88,7 @@ export const NewItemMenu = ({
       }
       {
         currentForm !== null && currentAssignment !== null &&
-        <AssignmentBackButton handleFormClick={handleFormClick} />
+        <AssignmentBackButton handleAssignmentClick={handleAssignmentClick} />
       }
     </div>
     <ModalBody>

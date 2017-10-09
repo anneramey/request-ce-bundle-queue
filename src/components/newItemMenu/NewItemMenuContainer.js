@@ -17,8 +17,10 @@ const mapDispatchToProps = ({
 });
 
 const handleFormClick = ({ setCurrentForm }) => form => () => setCurrentForm(form);
+const handleAssignmentClick = ({ setAssignment }) => form => () => setAssignment(form);
 const handleSave = ({ kForm }) => () => kForm.submitPage();
-const handleClosed = ({ setCurrentForm, setKForm }) => () => {
+const handleClosed = ({ setCurrentForm, setKForm, setAssignment }) => () => {
+  setAssignment(null);
   setCurrentForm(null);
   setKForm(null);
 };
@@ -38,6 +40,7 @@ export const NewItemMenuContainer = compose(
   withState('kForm', 'setKForm', null),
   withHandlers({
     handleFormClick,
+    handleAssignmentClick,
     handleSave,
     handleClosed,
     handleSelect,
