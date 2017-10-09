@@ -27,6 +27,15 @@ export const selectMyTeamForms = state =>
       true;
   });
 
+export const selectAssignments = state =>
+  state.app.allTeams
+    .flatMap(t => t.memberships.map(m => {
+      const user = m.user;
+      user.team = t.name;
+      return user;
+    }))
+    .concat(state.app.allTeams.map(t => ({ username: null, displayName: 'Unassigned', team: t.name })));
+
 /*
  *
  * Mine (only assigned to me)

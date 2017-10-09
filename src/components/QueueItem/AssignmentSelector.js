@@ -38,7 +38,9 @@ export class AssignmentSelector extends Component {
       // to select an assignment this handler gets called first and it causes the
       // menu to be destroyed before the value can be selected and passed out.
       setTimeout(() => {
-        this.props.toggle(false);
+        if (this.props.toggle) {
+          this.props.toggle(false);
+        }
       }, 100);
     }
   }
@@ -57,7 +59,7 @@ export class AssignmentSelector extends Component {
     return <AssignmentItem key={`${item.team}::${item.username}`} item={item} isHighlighted={isHighlighted} />;
   }
 
-  renderMenu(items, value, style) {
+  renderMenu(items) {
     const byTeams = items.reduce((acc, item) => {
       if (acc[item.props.item.team]) {
         acc[item.props.item.team].push(item);
@@ -68,7 +70,7 @@ export class AssignmentSelector extends Component {
     }, {});
 
     return (
-      <div style={{ ...style }} key="menu">
+      <div key="menu">
         {Object.keys(byTeams).map(t =>
           <div key={t}>
             <h5 className="team">{t}</h5>

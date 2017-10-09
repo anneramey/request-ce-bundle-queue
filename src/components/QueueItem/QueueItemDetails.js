@@ -6,6 +6,7 @@ import thinChevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg
 import circleOpenIcon from 'font-awesome-svg-png/black/svg/circle-o.svg';
 // import circleClosedIcon from 'font-awesome-svg-png/black/svg/circle.svg';
 import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
+import { selectAssignments } from '../../redux/modules/app';
 import { actions } from '../../redux/modules/queue';
 import { originLink } from '../../utils';
 import { AssignmentSelector } from './AssignmentSelector';
@@ -89,14 +90,7 @@ export const QueueItemDetails = ({
 
 export const mapStateToProps = state => ({
   queueItem: state.queue.currentItem,
-  assignments: state.app.allTeams
-    .flatMap(t => t.memberships.map(m => {
-      const user = m.user;
-      user.team = t.name;
-      return user;
-    }))
-    .concat(state.app.allTeams.map(t => ({ username: null, displayName: 'Unassigned', team: t.name })))
-    .toJS(),
+  assignments: selectAssignments(state).toJS(),
 });
 
 export const mapDispatchToProps = {

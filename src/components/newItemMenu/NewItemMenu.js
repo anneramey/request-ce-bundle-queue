@@ -4,6 +4,7 @@ import SVGInline from 'react-svg-inline';
 import chevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg';
 import chevronLeftIcon from 'font-awesome-svg-png/black/svg/chevron-left.svg';
 import { CoreForm } from 'react-kinetic-core';
+import { AssignmentSelector } from '../QueueItem/AssignmentSelector';
 
 const globals = import('../../globals');
 
@@ -30,18 +31,44 @@ const FormList = ({ myTeamForms, handleFormClick }) =>
     }
   </ul>;
 
+const AssignmentList = ({ assignments, handleSelect }) =>
+  <AssignmentSelector assignments={assignments} onSelect={handleSelect} />;
+
+const FormsBackButton = ({ handleFormClick }) =>
+  <button
+    type="button"
+    className="btn btn-link back-button icon-wrapper"
+    onClick={handleFormClick(null)}
+  >
+    <SVGInline svg={chevronLeftIcon} className="icon" />
+    Forms
+  </button>;
+
+const AssignmentBackButton = ({ handleFormClick }) =>
+  <button
+    type="button"
+    className="btn btn-link back-button icon-wrapper"
+    onClick={handleFormClick(null)}
+  >
+    <SVGInline svg={chevronLeftIcon} className="icon" />
+    Assignment
+  </button>;
+
 export const NewItemMenu = ({
   isOpen,
   closeNewItemMenu,
+  assignments,
   myTeamForms,
+  currentAssignment,
   currentForm,
   kForm,
   onFormLoaded,
   handleFormClick,
   handleSave,
   handleClosed,
+  handleSelect,
 }) =>
-  <Modal isOpen={isOpen} toggle={closeNewItemMenu} onClosed={handleClosed}>
+  <Modal isOpen={isOpen} toggle={closeNewItemMenu} onExit={handleClosed}>
     <div className="modal-header">
       <h4 className="modal-title">
         <button
@@ -55,15 +82,12 @@ export const NewItemMenu = ({
         <span>&nbsp;</span>
       </h4>
       {
-        currentForm !== null &&
-        <button
-          type="button"
-          className="btn btn-link back-button icon-wrapper"
-          onClick={handleFormClick(null)}
-        >
-          <SVGInline svg={chevronLeftIcon} className="icon" />
-          Forms
-        </button>
+        currentForm !== null && currentAssignment === null &&
+        <FormsBackButton handleFormClick={handleFormClick} />
+      }
+      {
+        currentForm !== null && currentAssignment !== null &&
+        <AssignmentBackButton handleFormClick={handleFormClick} />
       }
     </div>
     <ModalBody>
@@ -72,11 +96,16 @@ export const NewItemMenu = ({
         <FormList myTeamForms={myTeamForms} handleFormClick={handleFormClick} />
       }
       {
-        currentForm !== null &&
+        currentForm !== null && currentAssignment === null &&
+        <AssignmentList assignments={assignments} handleSelect={handleSelect} />
+      }
+      {
+        currentForm !== null && currentAssignment !== null &&
         <div style={{ margin: '12px' }}>
           <CoreForm
             form={currentForm.slug}
             globals={globals}
+            values={currentAssignment}
             onLoaded={onFormLoaded}
           />
         </div>

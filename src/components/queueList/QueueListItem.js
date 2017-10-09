@@ -41,6 +41,16 @@ const Timestamp = ({ id, label, value }) =>
     <TimeAgo timestamp={value} id={`${id}-${label}`} />
   </li>;
 
+const DueOrCloseDate = ({ queueItem }) => {
+  if (queueItem.closedAt) {
+    return <Timestamp label="Closed" value={queueItem.closedAt} id={queueItem.id} />;
+  } else if (queueItem.values['Due Date']) {
+    return <Timestamp label="Due" value={queueItem.values['Due Date']} id={queueItem.id} />;
+  } else {
+    return null;
+  }
+};
+
 export const QueueListItem = ({
   queueItem,
   openDropdownItem,
@@ -66,7 +76,7 @@ export const QueueListItem = ({
         <p className="summary">{values.Summary}</p>
         <AssignmentParagraph values={values} />
         <ul className="timestamps list-group">
-          <Timestamp label="Due" value={values['Due Date']} id={id} />
+          <DueOrCloseDate queueItem={queueItem} />
           <Timestamp label="Updated" value={updatedAt} id={id} />
           <Timestamp label="Created" value={createdAt} id={id} />
         </ul>

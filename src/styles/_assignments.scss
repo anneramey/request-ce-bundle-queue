@@ -54,8 +54,9 @@
       }
 
       & > div {
-        position: fixed;
+        position: absolute;
         overflow: auto;
+        margin-top: 4px;
         padding-top: 1em;
         z-index: 1050;
         height: 285px;
