@@ -123,7 +123,7 @@
           .summary-group {
             flex-grow: 1;
             &:focus {
-              outline: dotted 1px;
+              outline: $blue3 dotted thin;
             }
 
             .status {
@@ -181,12 +181,13 @@
             .btn.btn-ellipsis {
               border: none;
               padding: 0;
-
+              box-shadow: none;
+              background-color: transparent;
               &:hover {
                 background-color: white;
                 cursor: pointer;
                 path {
-                  fill: red;
+                  fill: $blue1;
                 }
               }
             }
