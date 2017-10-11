@@ -87,8 +87,12 @@ body {
 
 .btn.btn-link {
   color: $blue1;
-  &:hover, &:focus, &:active {
+  &:hover,&:focus, &:active {
     text-decoration: none;
+  }
+  &:focus{
+    box-shadow: none;
+    outline: $blue3 dotted thin;
   }
 }
 .btn.btn-primary {
@@ -119,5 +123,6 @@ body {
 @import 'queue_item_details';
 @import 'assignments';
 @import 'forms';
+@import 'buttons';
 @import 'alerts';
 @import 'profile';
