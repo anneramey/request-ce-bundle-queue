@@ -2,6 +2,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Nav, NavItem } from 'reactstrap';
 import SVGInline from 'react-svg-inline';
+import chevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg';
+import plusIcon from 'font-awesome-svg-png/white/svg/plus.svg';
 import userIcon from 'font-awesome-svg-png/white/svg/user.svg';
 import usersIcon from 'font-awesome-svg-png/white/svg/users.svg';
 import inboxIcon from 'font-awesome-svg-png/white/svg/inbox.svg';
@@ -14,6 +16,7 @@ export const Sidebar = ({
   supportUrl,
   counts,
   openNewItemMenu,
+  myFilters,
 }) =>
   <div className="sidebar">
     <button
@@ -22,7 +25,7 @@ export const Sidebar = ({
     >
       Create New Task
     </button>
-    <h6>Filters</h6>
+    <h6>Default Lists</h6>
     <Nav vertical className="filter-nav">
       <NavItem>
         <NavLink to="/list/Mine" className="nav-link icon-wrapper" activeClassName="active">
@@ -43,47 +46,52 @@ export const Sidebar = ({
         </NavLink>
       </NavItem>
     </Nav>
-    <h6>My Filters</h6>
+    <h6 className="d-flex justify-content-between icon-wrapper">
+      My Lists
+      <button className="btn btn-sidebar">
+        <SVGInline svg={plusIcon} className="icon" />
+      </button>
+    </h6>
     <Nav vertical className="filter-nav">
-      <NavItem>
-        <NavLink to="/custom-list/0" className="nav-link icon-wrapper" activeClassName="active">
-          <SVGInline svg={starIcon} className="icon" />
-          Dev Team Open
-        </NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink to="/custom-list/1" className="nav-link icon-wrapper" activeClassName="active">
-          <SVGInline svg={starIcon} className="icon" />
-          Dev Team Mine
-        </NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink to="/custom-list/2" className="nav-link icon-wrapper" activeClassName="active">
-          <SVGInline svg={starIcon} className="icon" />
-          Consulting by Due Date
-        </NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink to="/custom-list/3" className="nav-link icon-wrapper" activeClassName="active">
-          <SVGInline svg={starIcon} className="icon" />
-          HR Pending
-        </NavLink>
-      </NavItem>
+      {myFilters.map(filter =>
+        <NavItem key={filter.name}>
+          <NavLink to={`/list/${filter.name}`} className="nav-link icon-wrapper" activeClassName="active">
+            <SVGInline svg={starIcon} className="icon" />
+            {`${filter.name}`}
+          </NavLink>
+        </NavItem>,
+      )}
+      {myFilters.size < 1 && <div className="no-data">You have no personal filters</div>}
     </Nav>
     <Nav vertical className="bottom-nav">
       <NavItem>
-        <a href={documentationUrl} className="nav-link" target="_blank">
-          Documentation
+        <a
+          href={documentationUrl}
+          className="nav-link icon-wrapper d-flex justify-content-between"
+          target="_blank"
+        >
+          <span>Documentation</span>
+          <SVGInline svg={chevronRightIcon} className="icon" />
         </a>
       </NavItem>
       <NavItem>
-        <a href={supportUrl} className="nav-link" target="_blank">
-          Need Help?
+        <a
+          href={supportUrl}
+          className="nav-link icon-wrapper d-flex justify-content-between"
+          target="_blank"
+        >
+          <span>Need Help?</span>
+          <SVGInline svg={chevronRightIcon} className="icon" />
         </a>
       </NavItem>
       <NavItem>
-        <NavLink to="/settings" className="nav-link" activeClassName="active">
-          Settings
+        <NavLink
+          to="/settings"
+          className="nav-link icon-wrapper d-flex justify-content-between"
+          activeClassName="active"
+        >
+          <span>Settings</span>
+          <SVGInline svg={chevronRightIcon} className="icon" />
         </NavLink>
       </NavItem>
     </Nav>

@@ -102,6 +102,13 @@ body {
   border: 1px solid $blue1;
 }
 
+.sidebar .btn.btn-sidebar {
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  margin: 0;
+}
+
 .tooltip {
   font-size: 12px;
 }
