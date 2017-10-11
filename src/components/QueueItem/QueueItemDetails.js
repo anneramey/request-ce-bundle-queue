@@ -8,7 +8,7 @@ import circleOpenIcon from 'font-awesome-svg-png/black/svg/circle-o.svg';
 import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
 import { selectAssignments } from '../../redux/modules/app';
 import { actions } from '../../redux/modules/queue';
-import { originLink } from '../../utils';
+import { originLink } from '../../utils/links';
 import { AssignmentSelector } from './AssignmentSelector';
 import { AssignmentBadge } from './AssignmentBadge';
 import { TimeAgo } from '../TimeAgo';

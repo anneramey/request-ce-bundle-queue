@@ -4,7 +4,7 @@ import SVGInline from 'react-svg-inline';
 import timesIcon from 'font-awesome-svg-png/white/svg/times.svg';
 import solidCircle from 'font-awesome-svg-png/white/svg/circle.svg';
 import emptyCircle from 'font-awesome-svg-png/white/svg/circle-o.svg';
-import { originLink } from '../../utils';
+import { originLink } from '../../utils/links';
 import { TimeAgo } from '../TimeAgo';
 import { AssignmentBadge } from '../QueueItem/AssignmentBadge';
 

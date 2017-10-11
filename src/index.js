@@ -33,29 +33,14 @@ const history = createHashHistory();
 // Create the redux store with the configureStore helper found in redux/store.js
 const store = configureStore(history);
 
-// Get the root DOM element in which our entire React app will be rendered.
-const rootElement = document.getElementById('root');
-
-// Define a render helper function that wraps our root component (AppContainer)
-// with the router, redux store, and hot module loader components.  We want this
-// defined as a function because we want to be able to call it once for the
-// initial page load and again when code changes are detected (see below).
-const render = () => {
-  ReactDOM.unmountComponentAtNode(rootElement);
-  ReactDOM.render(
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <Route path="/" component={AppContainer} />
-      </ConnectedRouter>
-    </Provider>,
-    rootElement);
-};
-
-// Trigger the initial render of our application.
-render();
-
-// Triggers subsequent re-renders after code changes are detected.
-if (module.hot) module.hot.accept('./components/AppContainer', render);
+ReactDOM.render(
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <Route path="/" component={AppContainer} />
+    </ConnectedRouter>
+  </Provider>,
+  document.getElementById('root')
+);
 
 // Add global listeners
 const mql = window.matchMedia('(min-width: 700px)');
