@@ -16,7 +16,7 @@ export const WorkItemMenu = ({
   visible,
   review,
 }) =>
-  <Modal isOpen={isOpen} toggle={close} style={{ display: visible ? '' : 'none' }}>
+  <Modal isOpen={isOpen} toggle={close} style={{ display: visible ? '' : 'none' }} size="lg">
     <div className="modal-header">
       <h4 className="modal-title">
         <button type="button" className="btn btn-link" onClick={close}>Cancel</button>

@@ -69,7 +69,7 @@ export const NewItemMenu = ({
   handleClosed,
   handleSelect,
 }) =>
-  <Modal isOpen={isOpen} toggle={closeNewItemMenu} onExit={handleClosed}>
+  <Modal isOpen={isOpen} toggle={closeNewItemMenu} onExit={handleClosed} size="lg">
     <div className="modal-header">
       <h4 className="modal-title">
         <button
