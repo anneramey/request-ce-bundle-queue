@@ -32,7 +32,7 @@ export const mapStateToProps = state => ({
 
 export const LayoutContainer = compose(
   connect(mapStateToProps),
-  withState('sidebarOpen', 'setSidebarOpen', false),
+  withState('sidebarOpen', 'setSidebarOpen', ({ isLarge }) => isLarge),
   withHandlers({
     toggleSidebarOpen: props => () => props.setSidebarOpen(isOpen => !isOpen),
   }),
