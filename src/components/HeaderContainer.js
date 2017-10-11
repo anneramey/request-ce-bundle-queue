@@ -27,6 +27,13 @@ const INVITE_OTHERS_FORM_CONFIG = {
   confirmationMessage: 'We\'ll send those invitations out right away.',
 };
 
+const KITCHEN_SINK_FORM_CONFIG = {
+  formSlug: 'kitchen-sink-form',
+  kappSlug: 'queue',
+  title: 'Kitchen Sink',
+  confirmationMessage: 'That was the kitchen sink, how fun.',
+};
+
 export const mapStateToProps = state => ({
   alerts: List(state.alerts.data)
     .filter(alert =>
@@ -55,5 +62,6 @@ export const HeaderContainer = compose(
     openHelpForm: props => () => props.openForm(HELP_FORM_CONFIG),
     openFeedbackForm: props => () => props.openForm(FEEDBACK_FORM_CONFIG),
     openInviteOthersForm: props => () => props.openForm(INVITE_OTHERS_FORM_CONFIG),
+    openKitchenSinkForm: props => () => props.openForm(KITCHEN_SINK_FORM_CONFIG),
   }),
 )(Header);

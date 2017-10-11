@@ -20,6 +20,7 @@ export const Header = ({
   openFeedbackForm,
   openHelpForm,
   openInviteOthersForm,
+  openKitchenSinkForm,
 }) =>
   <Navbar color="faded" light fixed="top">
     <Nav className="nav-header">
@@ -101,6 +102,10 @@ export const Header = ({
             <a role="button" tabIndex="0" onClick={openFeedbackForm} className="icon-wrapper">
               <SVGInline svg={commentIcon} className="icon" />
               Give Feedback
+            </a>
+            <a role="button" tabIndex="0" onClick={openKitchenSinkForm} className="icon-wrapper">
+              <SVGInline svg={commentIcon} className="icon" />
+              Kitchen Sink
             </a>
             <a href={`${bundle.spaceLocation()}?page=about`} className="icon-wrapper">
               <SVGInline svg={infoIcon} className="icon" />
