@@ -42,6 +42,8 @@ export const QueueListContainer = compose(
         setCurrentFilter(filter);
       }
     },
+  }),
+  withHandlers({
     openFilterMenu: props => () => props.openFilterMenu(props.filter),
     toggleItemMenu: ({ openDropdownItem, setOpenDropdownItem }) => item => () => {
       if (openDropdownItem) {
