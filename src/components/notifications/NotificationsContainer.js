@@ -7,15 +7,20 @@ import timesIcon from 'font-awesome-svg-png/white/svg/times.svg';
 
 import { actions } from '../../redux/modules/errors';
 
-
 const defaultTitle = {
-  success: 'Success', info: 'Info', warn: 'Warning', error: 'Error', normal: 'Info',
+  success: 'Success',
+  info: 'Info',
+  warn: 'Warning',
+  error: 'Error',
+  normal: 'Info'
 };
 
-const Notification = ({ notification, dismiss }) =>
+const Notification = ({ notification, dismiss }) => (
   <div className={`notification ${notification.type}`}>
     <div className="message">
-      <div className="headline-copy">{notification.title || defaultTitle[notification.type]}</div>
+      <div className="headline-copy">
+        {notification.title || defaultTitle[notification.type]}
+      </div>
       {notification.msg}
     </div>
     <div className="actions">
@@ -23,25 +28,28 @@ const Notification = ({ notification, dismiss }) =>
         <SVGInline svg={timesIcon} className="icon" />
       </button>
     </div>
-  </div>;
+  </div>
+);
 
-const Notifications = ({ notifications, dismiss }) =>
+const Notifications = ({ notifications, dismiss }) => (
   <div className="notifications">
-    {notifications.map(n =>
-      <Notification key={n.id} notification={n} dismiss={dismiss(n.id)} />)}
-  </div>;
+    {notifications.map(n => (
+      <Notification key={n.id} notification={n} dismiss={dismiss(n.id)} />
+    ))}
+  </div>
+);
 
 const mapStateToProps = state => ({
-  notifications: state.errors.notifications,
+  notifications: state.errors.notifications
 });
 
-const mapDispatchToProps = ({
-  removeNotification: actions.removeNotification,
-});
+const mapDispatchToProps = {
+  removeNotification: actions.removeNotification
+};
 
 export const NotificationsContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
-    dismiss: ({ removeNotification }) => id => () => removeNotification(id),
-  }),
+    dismiss: ({ removeNotification }) => id => () => removeNotification(id)
+  })
 )(Notifications);

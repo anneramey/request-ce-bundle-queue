@@ -31,9 +31,9 @@
     border-image: initial;
     outline: none;
     padding: 0.4rem 0.8rem;
-  //  @include font-size-line-height(1.333rem, 2rem);
-  //  @include border-radius();
-    transition: border-color .3s linear;
+    //  @include font-size-line-height(1.333rem, 2rem);
+    //  @include border-radius();
+    transition: border-color 0.3s linear;
     &:focus {
       border-color: $tertiary;
     }
@@ -81,9 +81,9 @@
   }
 
   .form-group:after {
-    content:" ";
-    display:block;
-    clear:both;
+    content: ' ';
+    display: block;
+    clear: both;
   }
 
   .checkbox.required label:first-child:after,
@@ -97,7 +97,7 @@
   label {
     color: $darkgray;
     display: block;
-  //  @include font-size(1.4rem);
+    //  @include font-size(1.4rem);
     font-weight: 600;
     margin-bottom: 0px;
   }
@@ -124,7 +124,7 @@
 
   .tt-menu {
     background: rgb(255, 255, 255);
-    padding: .5rem;
+    padding: 0.5rem;
     border-width: 1px;
     border-style: solid;
     border-color: rgb(207, 207, 207);
@@ -153,7 +153,7 @@
       overflow: hidden;
       padding: 1rem;
       background-color: #f5f5f5;
-  //    @include border-radius();
+      //    @include border-radius();
       box-shadow: 0 1px 3px rgba(49, 62, 71, 0.14);
       clear: both;
 
@@ -162,8 +162,8 @@
         margin-bottom: 2rem;
       }
 
-      h1{
-        padding:0 0 1rem;
+      h1 {
+        padding: 0 0 1rem;
       }
 
       .radio,
@@ -172,7 +172,7 @@
           visibility: hidden;
           display: block;
           font-size: 0;
-          content: " ";
+          content: ' ';
           clear: both;
         }
 
@@ -190,11 +190,11 @@
           &:not(.field-label) {
             float: left;
             margin-right: 1.5rem;
-            margin-left: .1rem;
+            margin-left: 0.1rem;
           }
         }
 
-        &.vertical label:not(.field-label){
+        &.vertical label:not(.field-label) {
           clear: both;
         }
 
@@ -203,39 +203,39 @@
         }
       }
 
-      button[data-element-type="button"] {
+      button[data-element-type='button'] {
         display: inline-block;
         line-height: 1.8rem;
-  //      @include border-radius();
+        //      @include border-radius();
         padding: 0.5rem;
         border-width: 1px;
         border-style: solid;
         color: $black;
-        background-color: #E9E9E9;
+        background-color: #e9e9e9;
         cursor: pointer;
         font-size: inherit;
         margin-left: 0.5rem;
 
-        &[data-button-type="submit-page"],
-        &[data-button-type="custom"] {
-  //        @extend .btn-default;
+        &[data-button-type='submit-page'],
+        &[data-button-type='custom'] {
+          //        @extend .btn-default;
         }
-        &[data-button-type="custom"].btn-link {
-  //        @extend .btn-link;
+        &[data-button-type='custom'].btn-link {
+          //        @extend .btn-link;
         }
-        &[data-button-type="custom"].btn-subtle {
-  //        @extend .btn-subtle;
+        &[data-button-type='custom'].btn-subtle {
+          //        @extend .btn-subtle;
         }
 
-        &[data-button-type="previous-page"] {
-  //        @extend .btn-default;
+        &[data-button-type='previous-page'] {
+          //        @extend .btn-default;
           float: left;
           margin-right: 0.5rem;
           margin-left: 0;
         }
 
-        &[data-button-type="save"] {
-  //        @extend .btn-subtle;
+        &[data-button-type='save'] {
+          //        @extend .btn-subtle;
           position: relative;
           padding-left: 2.4rem;
 
@@ -255,7 +255,7 @@
       }
 
       .fileinput-button {
-  //      @extend .btn-subtle;
+        //      @extend .btn-subtle;
       }
 
       /* Attachment files
@@ -276,9 +276,9 @@
           display: table-row;
           > span {
             display: table-cell;
-            padding: .5rem;
+            padding: 0.5rem;
             > a {
-              padding: 0 .5rem;
+              padding: 0 0.5rem;
             }
           }
         }
@@ -308,4 +308,3 @@
     }
   }
 }
-

@@ -32,7 +32,9 @@
     a.alert-item {
       font-size: 12px;
       padding: 0.5rem;
-      &:hover { background-color: lighten($gray4, 5%); }
+      &:hover {
+        background-color: lighten($gray4, 5%);
+      }
       .top {
         margin-bottom: 0.5rem;
       }

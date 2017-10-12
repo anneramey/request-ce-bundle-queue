@@ -8,33 +8,28 @@ import { AssignmentSelector } from '../QueueItem/AssignmentSelector';
 
 const globals = import('../../globals');
 
-
-const FormList = ({ myTeamForms, handleFormClick }) =>
+const FormList = ({ myTeamForms, handleFormClick }) => (
   <ul className="list-group button-list">
-    {
-      myTeamForms.map(form =>
-        <li
-          key={form.slug}
-          className="list-group-item"
+    {myTeamForms.map(form => (
+      <li key={form.slug} className="list-group-item">
+        <button
+          type="button"
+          className="btn btn-link"
+          onClick={handleFormClick(form)}
         >
-          <button
-            type="button"
-            className="btn btn-link"
-            onClick={handleFormClick(form)}
-          >
-            <span className="button-title">
-              {form.name}
-            </span>
-            <SVGInline svg={chevronRightIcon} className="icon" />
-          </button>
-        </li>)
-    }
-  </ul>;
+          <span className="button-title">{form.name}</span>
+          <SVGInline svg={chevronRightIcon} className="icon" />
+        </button>
+      </li>
+    ))}
+  </ul>
+);
 
-const AssignmentList = ({ assignments, handleSelect }) =>
-  <AssignmentSelector assignments={assignments} onSelect={handleSelect} />;
+const AssignmentList = ({ assignments, handleSelect }) => (
+  <AssignmentSelector assignments={assignments} onSelect={handleSelect} />
+);
 
-const FormsBackButton = ({ handleFormClick }) =>
+const FormsBackButton = ({ handleFormClick }) => (
   <button
     type="button"
     className="btn btn-link back-button icon-wrapper"
@@ -42,9 +37,10 @@ const FormsBackButton = ({ handleFormClick }) =>
   >
     <SVGInline svg={chevronLeftIcon} className="icon" />
     Forms
-  </button>;
+  </button>
+);
 
-const AssignmentBackButton = ({ handleAssignmentClick }) =>
+const AssignmentBackButton = ({ handleAssignmentClick }) => (
   <button
     type="button"
     className="btn btn-link back-button icon-wrapper"
@@ -52,7 +48,8 @@ const AssignmentBackButton = ({ handleAssignmentClick }) =>
   >
     <SVGInline svg={chevronLeftIcon} className="icon" />
     Assignment
-  </button>;
+  </button>
+);
 
 export const NewItemMenu = ({
   isOpen,
@@ -67,9 +64,14 @@ export const NewItemMenu = ({
   handleAssignmentClick,
   handleSave,
   handleClosed,
-  handleSelect,
-}) =>
-  <Modal isOpen={isOpen} toggle={closeNewItemMenu} onExit={handleClosed} size="lg">
+  handleSelect
+}) => (
+  <Modal
+    isOpen={isOpen}
+    toggle={closeNewItemMenu}
+    onExit={handleClosed}
+    size="lg"
+  >
     <div className="modal-header">
       <h4 className="modal-title">
         <button
@@ -82,46 +84,49 @@ export const NewItemMenu = ({
         <span>Forms</span>
         <span>&nbsp;</span>
       </h4>
-      {
-        currentForm !== null && currentAssignment === null &&
-        <FormsBackButton handleFormClick={handleFormClick} />
-      }
-      {
-        currentForm !== null && currentAssignment !== null &&
-        <AssignmentBackButton handleAssignmentClick={handleAssignmentClick} />
-      }
+      {currentForm !== null &&
+        currentAssignment === null && (
+          <FormsBackButton handleFormClick={handleFormClick} />
+        )}
+      {currentForm !== null &&
+        currentAssignment !== null && (
+          <AssignmentBackButton handleAssignmentClick={handleAssignmentClick} />
+        )}
     </div>
     <ModalBody>
-      {
-        currentForm === null &&
+      {currentForm === null && (
         <FormList myTeamForms={myTeamForms} handleFormClick={handleFormClick} />
-      }
-      {
-        currentForm !== null && currentAssignment === null &&
-        <AssignmentList assignments={assignments} handleSelect={handleSelect} />
-      }
-      {
-        currentForm !== null && currentAssignment !== null &&
-        <div style={{ margin: '12px' }}>
-          <CoreForm
-            form={currentForm.slug}
-            globals={globals}
-            values={currentAssignment}
-            onLoaded={onFormLoaded}
+      )}
+      {currentForm !== null &&
+        currentAssignment === null && (
+          <AssignmentList
+            assignments={assignments}
+            handleSelect={handleSelect}
           />
-        </div>
-      }
+        )}
+      {currentForm !== null &&
+        currentAssignment !== null && (
+          <div style={{ margin: '12px' }}>
+            <CoreForm
+              form={currentForm.slug}
+              globals={globals}
+              values={currentAssignment}
+              onLoaded={onFormLoaded}
+            />
+          </div>
+        )}
     </ModalBody>
-    { currentForm !== null &&
-      kForm !== null &&
-      <ModalFooter>
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={handleSave}
-        >
-          Save {currentForm.name}
-        </button>
-      </ModalFooter>
-    }
-  </Modal>;
+    {currentForm !== null &&
+      kForm !== null && (
+        <ModalFooter>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={handleSave}
+          >
+            Save {currentForm.name}
+          </button>
+        </ModalFooter>
+      )}
+  </Modal>
+);

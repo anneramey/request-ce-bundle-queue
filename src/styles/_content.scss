@@ -1,6 +1,6 @@
 .content {
   margin-top: $header-height;
-  font-family: "Open Sans";
+  font-family: 'Open Sans';
 
   .notifications {
     position: absolute;
@@ -23,14 +23,14 @@
       flex-wrap: nowrap;
       & > .message {
         flex-grow: 1;
-        color: rgba(12,18,28,0.54);
-        font-family: "Open Sans";
+        color: rgba(12, 18, 28, 0.54);
+        font-family: 'Open Sans';
         font-size: 14px;
         line-height: 19px;
 
         .headline-copy {
-          color: rgba(12,18,28,0.84);
-          font-family: "Open Sans";
+          color: rgba(12, 18, 28, 0.84);
+          font-family: 'Open Sans';
           font-size: 16px;
           font-weight: bold;
           line-height: 22px;
@@ -52,25 +52,24 @@
       }
 
       &.info {
-        background-color: #1094C4;
+        background-color: #1094c4;
       }
 
       &.warn {
-        background-color: #FFCF4A;
+        background-color: #ffcf4a;
       }
 
       &.success {
-        background-color: #00D46A;
+        background-color: #00d46a;
       }
 
       &.error {
-        background-color: #FA3A37;
+        background-color: #fa3a37;
       }
 
       &.normal {
         background-color: #ffffff;
       }
-
     }
   }
   .two-panels {
@@ -153,7 +152,8 @@
               margin-bottom: 0;
             }
 
-            .assignment, .timestamps {
+            .assignment,
+            .timestamps {
               font-size: 10px;
               font-weight: 300;
               margin-top: 5px;
@@ -167,7 +167,7 @@
                 padding: 0;
 
                 &:not(:first-child):before {
-                  content: "•";
+                  content: '•';
                   margin: 0 5px;
                   font-weight: 700;
                 }
@@ -205,23 +205,23 @@
               filter: drop-shadow(rgba(0, 0, 0, 0.3) 0 3px 4px);
               // Add the up arrow.
 
-
               &:after {
-                content:"";
+                content: '';
                 border: 10px solid;
-                border-color:  transparent transparent white;
-                content: "";
+                border-color: transparent transparent white;
+                content: '';
                 right: 10%;
                 margin-left: -10px;
                 position: absolute;
                 top: -20px;
-                z-index:9998;
+                z-index: 9998;
               }
 
-              a.dropdown-item, button.dropdown-item {
+              a.dropdown-item,
+              button.dropdown-item {
                 height: 24px;
-                color: #54698D;
-                font-family: "Open Sans";
+                color: #54698d;
+                font-family: 'Open Sans';
                 font-size: 12px;
                 line-height: 24px;
               }
@@ -258,7 +258,9 @@
             margin-top: 14px;
             padding: 5px;
             cursor: pointer;
-            .icon-svg path { fill: $blue1; }
+            .icon-svg path {
+              fill: $blue1;
+            }
           }
         }
 
@@ -276,11 +278,10 @@
 
         h1 {
           color: #222222;
-          font-family: "Open Sans";
+          font-family: 'Open Sans';
           font-size: 26px;
           line-height: 48px;
         }
-
 
         .summary {
           font-size: 16px;
@@ -288,7 +289,7 @@
         }
 
         .details {
-          color: #54698D;
+          color: #54698d;
           font-family: Courier;
           color: $blue1;
           font-size: 14px;
@@ -302,7 +303,7 @@
           .timestamp {
             background-color: $blue4;
             font-size: 12px;
-            padding: .15rem 2rem;
+            padding: 0.15rem 2rem;
             .label {
               color: $blue1;
               width: 70px;
@@ -322,10 +323,11 @@
           display: flex;
           flex-direction: row;
 
-          a, button {
+          a,
+          button {
             flex-grow: 1;
             border-radius: 0;
-            font-family: "Open Sans";
+            font-family: 'Open Sans';
             font-size: 16px;
             line-height: 48px;
             padding: 0;

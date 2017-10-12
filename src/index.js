@@ -45,4 +45,6 @@ ReactDOM.render(
 // Add global listeners
 const mql = window.matchMedia('(min-width: 700px)');
 store.dispatch(actions.setIsLayoutLarge(mql.matches));
-mql.addListener(event => store.dispatch(actions.setIsLayoutLarge(event.matches)));
+mql.addListener(event =>
+  store.dispatch(actions.setIsLayoutLarge(event.matches))
+);

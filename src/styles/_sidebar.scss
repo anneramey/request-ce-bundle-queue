@@ -46,7 +46,8 @@
       &.active {
         border-left-color: $blue1;
         color: $blue1;
-        .icon-svg, path {
+        .icon-svg,
+        path {
           fill: $blue1;
         }
       }

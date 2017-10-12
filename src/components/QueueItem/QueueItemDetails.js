@@ -19,33 +19,40 @@ export const QueueItemDetails = ({
   toggleAssigning,
   setIsAssigning,
   setAssignment,
-  assignments,
-}) =>
+  assignments
+}) => (
   <div className="details">
     <div className="general">
       <p className="status">
         <SVGInline svg={circleOpenIcon} className="icon" />
         {queueItem.values.Status}
       </p>
-      <h1>{queueItem.form.name} ({queueItem.handle})</h1>
+      <h1>
+        {queueItem.form.name} ({queueItem.handle})
+      </h1>
       <p className="summary">{queueItem.values.Summary}</p>
       <pre>{queueItem.values.Details}</pre>
     </div>
-    {!isAssigning && <AssignmentBadge queueItem={queueItem} toggle={toggleAssigning} />}
-    {isAssigning &&
-    <AssignmentSelector
-      toggle={setIsAssigning}
-      onSelect={setAssignment}
-      isAssigning={isAssigning}
-      assignments={assignments}
-    />}
-    {queueItem.origin && <a
-      className="btn btn-primary btn-inverse request-button"
-      href={originLink(queueItem)}
-      target="_blank"
-    >
-      View Original Request
-    </a>}
+    {!isAssigning && (
+      <AssignmentBadge queueItem={queueItem} toggle={toggleAssigning} />
+    )}
+    {isAssigning && (
+      <AssignmentSelector
+        toggle={setIsAssigning}
+        onSelect={setAssignment}
+        isAssigning={isAssigning}
+        assignments={assignments}
+      />
+    )}
+    {queueItem.origin && (
+      <a
+        className="btn btn-primary btn-inverse request-button"
+        href={originLink(queueItem)}
+        target="_blank"
+      >
+        View Original Request
+      </a>
+    )}
     <ul className="list-group timestamps">
       <li className="list-group-item timestamp">
         <span className="label">Due</span>
@@ -75,26 +82,27 @@ export const QueueItemDetails = ({
         </button>
       </h2>
       <ul className="list-group subtasks">
-        {
-          queueItem.children.map(child =>
-            <li key={child.id} className="list-group-item subtask">
-              <span className="handle">{child.form.name} ({child.handle})</span>
-              <span className="summary">{child.values.Summary}</span>
-              <SVGInline svg={thinChevronRightIcon} className="icon" />
-            </li>,
-          )
-        }
+        {queueItem.children.map(child => (
+          <li key={child.id} className="list-group-item subtask">
+            <span className="handle">
+              {child.form.name} ({child.handle})
+            </span>
+            <span className="summary">{child.values.Summary}</span>
+            <SVGInline svg={thinChevronRightIcon} className="icon" />
+          </li>
+        ))}
       </ul>
     </div>
-  </div>;
+  </div>
+);
 
 export const mapStateToProps = state => ({
   queueItem: state.queue.currentItem,
-  assignments: selectAssignments(state).toJS(),
+  assignments: selectAssignments(state).toJS()
 });
 
 export const mapDispatchToProps = {
-  updateCurrentItem: actions.updateCurrentItem,
+  updateCurrentItem: actions.updateCurrentItem
 };
 
 export const QueueItemDetailsContainer = compose(
@@ -109,10 +117,10 @@ export const QueueItemDetailsContainer = compose(
         'Assigned Individual': assignment.username,
         'Assigned Individual Display Name': assignment.displayName,
         'Assigned Team': assignment.team,
-        'Assigned Team Display Name': teamParts[teamParts.length - 1],
+        'Assigned Team Display Name': teamParts[teamParts.length - 1]
       };
 
       updateCurrentItem(values);
-    },
-  }),
+    }
+  })
 )(QueueItemDetails);

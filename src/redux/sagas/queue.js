@@ -9,7 +9,8 @@ import { actions as errorActions } from '../modules/errors';
 export const ERROR_STATUS_STRING = 'There was a problem retrieving items.';
 export const TOO_MANY_STATUS_STRING = 'Your filter matches too many items.';
 
-export const SUBMISSION_INCLUDES = 'details,values,attributes,form,children,children.form,children.values';
+export const SUBMISSION_INCLUDES =
+  'details,values,attributes,form,children,children.form,children.values';
 
 export const getAppSettings = state => state.app;
 export const getCurrentItem = state => state.queue.currentItem;
@@ -45,7 +46,10 @@ export const prepareAssignmentFilter = (searcher, filter, appSettings) => {
   // If we're searching by individuals we won't process any of the preset flags,
   // we'll just process the list they've chosen.
   if (filter.assignments.byIndividuals) {
-    searcher.in('values[Assigned Individual]', filter.assignments.individuals.toJS());
+    searcher.in(
+      'values[Assigned Individual]',
+      filter.assignments.individuals.toJS()
+    );
   } else if (
     filter.assignments.mine ||
     filter.assignments.teammates ||
@@ -56,7 +60,10 @@ export const prepareAssignmentFilter = (searcher, filter, appSettings) => {
       searcher.eq('values[Assigned Individual]', appSettings.profile.username);
     }
     if (filter.assignments.teammates) {
-      searcher.in('values[Assigned Individual]', appSettings.myTeammates.map(u => u.username));
+      searcher.in(
+        'values[Assigned Individual]',
+        appSettings.myTeammates.map(u => u.username)
+      );
     }
     if (filter.assignments.unassigned) {
       searcher.eq('values[Assigned Individual]', null);
@@ -70,7 +77,11 @@ export const prepareDateRangeFilter = (searcher, filter, now) => {
   if (filter.dateRange.custom) {
     searcher.sortBy(filter.dateRange.timeline);
     searcher.startDate(moment(filter.dateRange.start).toDate());
-    searcher.endDate(moment(filter.dateRange.end).add(1, 'day').toDate());
+    searcher.endDate(
+      moment(filter.dateRange.end)
+        .add(1, 'day')
+        .toDate()
+    );
   } else if (filter.dateRange.preset !== '') {
     // Compute the number of days specified in the preset date range, just use
     // regex to get the number. If the string does not match the pattern log a
@@ -78,10 +89,18 @@ export const prepareDateRangeFilter = (searcher, filter, now) => {
     const match = filter.dateRange.preset.match(/^(\d+)days$/);
     const numberOfDays = match ? parseInt(match[1], 10) : 7;
     if (!match) {
-      window.console.warn(`Invalid date range filter preset: ${filter.dateRange.preset}`);
+      window.console.warn(
+        `Invalid date range filter preset: ${filter.dateRange.preset}`
+      );
     }
     searcher.sortBy(filter.dateRange.timeline);
-    searcher.startDate(now.clone().startOf('day').subtract(numberOfDays, 'days').toDate());
+    searcher.startDate(
+      now
+        .clone()
+        .startOf('day')
+        .subtract(numberOfDays, 'days')
+        .toDate()
+    );
     searcher.endDate(now.toDate());
   }
   return searcher;
@@ -147,7 +166,7 @@ export function* fetchCurrentFilterTask(action) {
     submissions,
     messages,
     nextPageToken,
-    serverError,
+    serverError
   } = yield call(CoreAPI.searchSubmissions, { search });
 
   if (serverError || (messages && messages.length > 0)) {
@@ -166,7 +185,7 @@ export function* fetchCurrentFilterTask(action) {
 export function* fetchCurrentItemTask(action) {
   const { submission, serverError } = yield call(CoreAPI.fetchSubmission, {
     id: action.payload,
-    include: SUBMISSION_INCLUDES,
+    include: SUBMISSION_INCLUDES
   });
 
   if (!serverError) {
@@ -181,7 +200,7 @@ export function* updateCurrentItemTask(action) {
   const { submission } = yield call(CoreAPI.updateSubmission, {
     id: currentItem.id,
     values: action.payload,
-    include: SUBMISSION_INCLUDES,
+    include: SUBMISSION_INCLUDES
   });
 
   if (submission) {

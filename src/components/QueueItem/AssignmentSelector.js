@@ -8,7 +8,7 @@ export class AssignmentSelector extends Component {
     super(props);
 
     this.state = {
-      assignment: '',
+      assignment: ''
     };
     this.handleSelect = this.handleSelect.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -56,7 +56,13 @@ export class AssignmentSelector extends Component {
   }
 
   renderItem(item, isHighlighted) {
-    return <AssignmentItem key={`${item.team}::${item.username}`} item={item} isHighlighted={isHighlighted} />;
+    return (
+      <AssignmentItem
+        key={`${item.team}::${item.username}`}
+        item={item}
+        isHighlighted={isHighlighted}
+      />
+    );
   }
 
   renderMenu(items) {
@@ -71,13 +77,14 @@ export class AssignmentSelector extends Component {
 
     return (
       <div key="menu">
-        {Object.keys(byTeams).map(t =>
+        {Object.keys(byTeams).map(t => (
           <div key={t}>
             <h5 className="team">{t}</h5>
             {byTeams[t]}
-          </div>,
-        )}
-      </div>);
+          </div>
+        ))}
+      </div>
+    );
   }
 
   render() {
@@ -86,7 +93,9 @@ export class AssignmentSelector extends Component {
         Assignment
         <div className="select">
           <Autocomplete
-            ref={el => { this.input = el; }}
+            ref={el => {
+              this.input = el;
+            }}
             value={this.state.assignment}
             wrapperStyle={{}}
             menuStyle={{}}

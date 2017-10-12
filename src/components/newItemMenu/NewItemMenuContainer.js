@@ -6,30 +6,32 @@ import { actions } from '../../redux/modules/queue';
 import { NewItemMenu } from './NewItemMenu';
 
 const mapStateToProps = state => ({
-  myTeamForms: selectMyTeamForms(state)
-    .filter(form => form.type === 'Task'),
+  myTeamForms: selectMyTeamForms(state).filter(form => form.type === 'Task'),
   isOpen: state.queue.newItemMenuOpen,
-  assignments: selectAssignments(state).toJS(),
+  assignments: selectAssignments(state).toJS()
 });
 
-const mapDispatchToProps = ({
-  closeNewItemMenu: actions.closeNewItemMenu,
-});
+const mapDispatchToProps = {
+  closeNewItemMenu: actions.closeNewItemMenu
+};
 
-const handleFormClick = ({ setCurrentForm }) => form => () => setCurrentForm(form);
-const handleAssignmentClick = ({ setAssignment }) => form => () => setAssignment(form);
+const handleFormClick = ({ setCurrentForm }) => form => () =>
+  setCurrentForm(form);
+const handleAssignmentClick = ({ setAssignment }) => form => () =>
+  setAssignment(form);
 const handleSave = ({ kForm }) => () => kForm.submitPage();
 const handleClosed = ({ setCurrentForm, setKForm, setAssignment }) => () => {
   setAssignment(null);
   setCurrentForm(null);
   setKForm(null);
 };
-const handleSelect = ({ setAssignment }) => (_value, state) => setAssignment({
-  'Assigned Individual': state.username,
-  'Assigned Individual Display Name': state.displayName,
-  'Assigned Team': state.team,
-  'Assigned Team Display Name': state.team,
-});
+const handleSelect = ({ setAssignment }) => (_value, state) =>
+  setAssignment({
+    'Assigned Individual': state.username,
+    'Assigned Individual Display Name': state.displayName,
+    'Assigned Team': state.team,
+    'Assigned Team Display Name': state.team
+  });
 
 const onFormLoaded = ({ setKForm }) => form => setKForm(form);
 
@@ -44,6 +46,6 @@ export const NewItemMenuContainer = compose(
     handleSave,
     handleClosed,
     handleSelect,
-    onFormLoaded,
-  }),
+    onFormLoaded
+  })
 )(NewItemMenu);

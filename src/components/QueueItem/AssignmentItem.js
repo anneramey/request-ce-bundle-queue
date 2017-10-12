@@ -13,6 +13,7 @@ export class AssignmentItem extends Component {
         tabIndex={-1}
       >
         {item.displayName}
-      </div>);
+      </div>
+    );
   }
 }

@@ -5,7 +5,12 @@ import { CoreAPI } from 'react-kinetic-core';
 
 import { getAttributeValue } from '../../utils';
 
-import { actions, types, DEFAULT_DOCUMENTATION_URL, DEFAULT_SUPPORT_URL } from '../modules/app';
+import {
+  actions,
+  types,
+  DEFAULT_DOCUMENTATION_URL,
+  DEFAULT_SUPPORT_URL
+} from '../modules/app';
 
 export const selectPersonalFilters = ({ app }) => app.myFilters;
 export const selectProfile = ({ app }) => app.profile;
@@ -23,7 +28,10 @@ export const isAssignable = team => {
     if (assignable && assignable.values[0].toUpperCase() === 'FALSE') {
       return false;
     }
-  } else if (team.attributes.Assignable && team.attributes.Assignable[0].toUpperCase() === 'FALSE') {
+  } else if (
+    team.attributes.Assignable &&
+    team.attributes.Assignable[0].toUpperCase() === 'FALSE'
+  ) {
     return false;
   }
 
@@ -37,19 +45,21 @@ export function* fetchAppSettingsTask() {
     kapp: { kapp },
     profile: { profile },
     forms: { forms },
-    teams: { teams },
+    teams: { teams }
   } = yield all({
     kapp: call(CoreAPI.fetchKapp, { include: 'attributes' }),
     space: call(CoreAPI.fetchSpace, { include: 'attributes' }),
     profile: call(CoreAPI.fetchProfile, {
-      include: 'attributes,profileAttributes,memberships,memberships.team,memberships.team.attributes,memberships.team.memberships,memberships.team.memberships.user',
+      include:
+        'attributes,profileAttributes,memberships,memberships.team,memberships.team.attributes,memberships.team.memberships,memberships.team.memberships.user'
     }),
     forms: call(CoreAPI.fetchForms, {
-      include: 'details,attributes',
+      include: 'details,attributes'
     }),
     teams: call(CoreAPI.fetchTeams, {
-      include: 'details,attributes,memberships.memberships.user,memberships.user.details',
-    }),
+      include:
+        'details,attributes,memberships.memberships.user,memberships.user.details'
+    })
   });
 
   const allTeams = teams.filter(isAssignable);
@@ -71,19 +81,21 @@ export function* fetchAppSettingsTask() {
     documentationUrl: getAttributeValue(
       'Documentation Url',
       DEFAULT_DOCUMENTATION_URL,
-      kapp, space,
+      kapp,
+      space
     )[0],
     supportUrl: getAttributeValue(
       'Support Url',
       DEFAULT_SUPPORT_URL,
-      kapp, space,
+      kapp,
+      space
     )[0],
     profile,
     myTeams,
     myTeammates,
     myFilters,
     forms,
-    allTeams,
+    allTeams
   };
 
   yield put(actions.setAppSettings(appSettings));
@@ -95,10 +107,15 @@ export function* updatePersonalFilterTask() {
 
   profile.profileAttributes['Queue Personal Filters'] = myFilters.toJS();
 
-  const { profile: newProfile, serverError } = yield call(CoreAPI.updateProfile, { profile });
+  const { profile: newProfile, serverError } = yield call(
+    CoreAPI.updateProfile,
+    { profile }
+  );
   if (!serverError) {
     const newFilters = newProfile.profileAttributes['Queue Personal Filters']
-      ? newProfile.profileAttributes['Queue Personal Filters'].values.map(f => f)
+      ? newProfile.profileAttributes['Queue Personal Filters'].values.map(
+          f => f
+        )
       : List();
     window.console.log(newFilters);
   }
@@ -106,8 +123,8 @@ export function* updatePersonalFilterTask() {
 
 export function* watchApp() {
   yield takeEvery(types.LOAD_APP_SETTINGS, fetchAppSettingsTask);
-  yield takeLatest([
-    types.ADD_PERSONAL_FILTER,
-    types.REMOVE_PERSONAL_FILTER,
-  ], updatePersonalFilterTask);
+  yield takeLatest(
+    [types.ADD_PERSONAL_FILTER, types.REMOVE_PERSONAL_FILTER],
+    updatePersonalFilterTask
+  );
 }

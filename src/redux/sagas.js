@@ -4,10 +4,5 @@ import { watchErrors } from './sagas/errors';
 import { watchAlerts } from './sagas/alerts';
 
 export function* sagas() {
-  yield [
-    watchErrors(),
-    watchApp(),
-    watchQueue(),
-    watchAlerts(),
-  ];
+  yield [watchErrors(), watchApp(), watchQueue(), watchAlerts()];
 }

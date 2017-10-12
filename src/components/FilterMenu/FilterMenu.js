@@ -18,12 +18,14 @@ export const FilterMenu = ({
   activeSection,
   applyFilterHandler,
   showSection,
-  currentFilter,
-}) =>
+  currentFilter
+}) => (
   <Modal isOpen={isOpen} toggle={close}>
     <div className="modal-header">
       <h4 className="modal-title">
-        <button type="button" className="btn btn-link" onClick={close}>Cancel</button>
+        <button type="button" className="btn btn-link" onClick={close}>
+          Cancel
+        </button>
         <span>Filters</span>
         <button
           type="button"
@@ -34,8 +36,7 @@ export const FilterMenu = ({
           Reset
         </button>
       </h4>
-      {
-        activeSection !== null &&
+      {activeSection !== null && (
         <button
           type="button"
           className="btn btn-link back-button icon-wrapper"
@@ -44,16 +45,27 @@ export const FilterMenu = ({
           <SVGInline svg={chevronLeftIcon} className="icon" />
           Filters
         </button>
-      }
+      )}
     </div>
-    { activeSection === null && <MainSection filter={currentFilter} showSection={showSection} />}
-    { activeSection === 'teams' && <TeamsSectionContainer filter={currentFilter} teams={teams} /> }
-    { activeSection === 'assignment' && <AssignmentSectionContainer filter={currentFilter} /> }
-    { activeSection === 'status' && <StatusSectionContainer filter={currentFilter} /> }
-    { activeSection === 'date' && <DateRangeSectionContainer filter={currentFilter} /> }
-    { activeSection === 'sort' && <SortedBySectionContainer filter={currentFilter} /> }
-    {
-      activeSection === null &&
+    {activeSection === null && (
+      <MainSection filter={currentFilter} showSection={showSection} />
+    )}
+    {activeSection === 'teams' && (
+      <TeamsSectionContainer filter={currentFilter} teams={teams} />
+    )}
+    {activeSection === 'assignment' && (
+      <AssignmentSectionContainer filter={currentFilter} />
+    )}
+    {activeSection === 'status' && (
+      <StatusSectionContainer filter={currentFilter} />
+    )}
+    {activeSection === 'date' && (
+      <DateRangeSectionContainer filter={currentFilter} />
+    )}
+    {activeSection === 'sort' && (
+      <SortedBySectionContainer filter={currentFilter} />
+    )}
+    {activeSection === null && (
       <ModalFooter>
         <button
           type="button"
@@ -64,5 +76,6 @@ export const FilterMenu = ({
           Apply Filter
         </button>
       </ModalFooter>
-    }
-  </Modal>;
+    )}
+  </Modal>
+);

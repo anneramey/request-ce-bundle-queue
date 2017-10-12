@@ -7,7 +7,6 @@ import { RESPONSE_BASE_PATH } from '../../index';
 
 import { types, actions } from '../modules/discussions';
 
-
 // Supporting documentation:
 // * https://medium.com/@ebakhtarov/bidirectional-websockets-with-redux-saga-bfd5b677c7e7
 // * https://github.com/redux-saga/redux-saga/issues/51#issuecomment-230083283
@@ -70,18 +69,20 @@ function* incomingMessages(socketChannel) {
 
 export function* watchDiscussionSocket() {
   // eslint-disable-next-line
-  while(true) {
+  while (true) {
     const action = yield take(types.CONNECT);
     const guid = action.payload;
-    const socket = new WebSocket(`ws://${RESPONSE_BASE_PATH}/${guid}/issue_socket`);
+    const socket = new WebSocket(
+      `ws://${RESPONSE_BASE_PATH}/${guid}/issue_socket`
+    );
     const socketChannel = yield call(registerChannel, socket);
 
     const { cancel } = yield race({
       task: [
-        call(incomingMessages, socketChannel),
+        call(incomingMessages, socketChannel)
         // call(outgoingMessages, socket),
       ],
-      cancel: take(types.DISCONNECT),
+      cancel: take(types.DISCONNECT)
     });
 
     if (cancel) {
@@ -91,18 +92,14 @@ export function* watchDiscussionSocket() {
 }
 
 const fetchIssue = guid =>
-  axios.get(
-    `http://${RESPONSE_BASE_PATH}/${guid}`,
-    { withCredentials: true });
+  axios.get(`http://${RESPONSE_BASE_PATH}/${guid}`, { withCredentials: true });
 
 const fetchMessages = action => {
   const { guid, lastReceived } = action.payload;
-  return axios.get(
-    `http://${RESPONSE_BASE_PATH}/${guid}/messages`,
-    {
-      withCredentials: true,
-      params: { last_received: lastReceived || '2014-01-01' },
-    });
+  return axios.get(`http://${RESPONSE_BASE_PATH}/${guid}/messages`, {
+    withCredentials: true,
+    params: { last_received: lastReceived || '2014-01-01' }
+  });
 };
 
 export function* fetchIssueSaga(action) {
@@ -130,7 +127,7 @@ const sendMessage = action => {
   return axios.post(
     `http://${RESPONSE_BASE_PATH}/${guid}/messages`,
     { body },
-    { withCredentials: true },
+    { withCredentials: true }
   );
 };
 

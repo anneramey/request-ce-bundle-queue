@@ -13,7 +13,7 @@ export const types = {
   DISCONNECT: namespace('discussions', 'DISCONNECT'),
   MESSAGE_RX: namespace('discussions', 'MESSAGE_RX'),
   MESSAGE_TX: namespace('discussions', 'MESSAGE_TX'),
-  MESSAGE_BAD_RX: namespace('discussions', 'MESSAGE_BAD_RX'),
+  MESSAGE_BAD_RX: namespace('discussions', 'MESSAGE_BAD_RX')
 };
 
 export const actions = {
@@ -22,7 +22,7 @@ export const actions = {
   setIssue: issue => ({ type: types.SET_ISSUE, payload: issue }),
   fetchMessages: (guid, lastReceived = '2014-01-01') => ({
     type: types.FETCH_MESSAGES,
-    payload: { guid, lastReceived },
+    payload: { guid, lastReceived }
   }),
   setMessages: messages => ({ type: types.SET_MESSAGES, payload: messages }),
 
@@ -30,8 +30,14 @@ export const actions = {
   startConnection: guid => ({ type: types.CONNECT, payload: guid }),
   stopConnection: () => ({ type: types.DISCONNECT }),
   receiveMessage: message => ({ type: types.MESSAGE_RX, payload: message }),
-  receiveBadMessage: message => ({ type: types.MESSAGE_BAD_RX, payload: message }),
-  sendMessage: (body, guid) => ({ type: types.MESSAGE_TX, payload: { body, guid } }),
+  receiveBadMessage: message => ({
+    type: types.MESSAGE_BAD_RX,
+    payload: message
+  }),
+  sendMessage: (body, guid) => ({
+    type: types.MESSAGE_TX,
+    payload: { body, guid }
+  })
 };
 
 /**
@@ -49,10 +55,10 @@ export const State = Record({
   messages: List(),
   badMessages: List(),
   messagesLoading: false,
-  issueLoading: false,
+  issueLoading: false
 });
 
-export default function (state = State(), action) {
+export default function(state = State(), action) {
   switch (action.type) {
     case types.FETCH_ISSUE:
       return { ...state, issueLoading: true };
@@ -66,6 +72,7 @@ export default function (state = State(), action) {
       return { ...state, messages: [...state.messages, action.payload] };
     case types.MESSAGE_BAD_RX:
       return { ...state, badMessages: [...state.badMessages, action.payload] };
-    default: return state;
+    default:
+      return state;
   }
 }

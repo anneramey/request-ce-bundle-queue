@@ -2,7 +2,7 @@ import { call, put } from 'redux-saga/effects';
 import { actions } from '../modules/alerts';
 
 global.bundle = {
-  apiLocation: () => '/acme/app/api/v1',
+  apiLocation: () => '/acme/app/api/v1'
 };
 const { CoreAPI } = require('react-kinetic-core');
 const { fetchAlertsSaga, ALERTS_SEARCH } = require('./alerts');
@@ -15,15 +15,21 @@ describe('alerts saga', () => {
         const saga = fetchAlertsSaga(action);
 
         // Execute the search.
-        const fetchArguments = { kapp: 'admin', form: 'alerts', search: ALERTS_SEARCH };
-        expect(saga.next().value)
-          .toEqual(call(CoreAPI.searchSubmissions, fetchArguments));
+        const fetchArguments = {
+          kapp: 'admin',
+          form: 'alerts',
+          search: ALERTS_SEARCH
+        };
+        expect(saga.next().value).toEqual(
+          call(CoreAPI.searchSubmissions, fetchArguments)
+        );
 
         // Mock the response and send it to the generator.
         const submissions = [{ id: 'asdf' }, { id: 'foo bar' }];
         const response = { nextPageToken: null, submissions };
-        expect(saga.next(response).value)
-          .toEqual(put(actions.setAlerts(submissions)));
+        expect(saga.next(response).value).toEqual(
+          put(actions.setAlerts(submissions))
+        );
       });
     });
 
@@ -33,15 +39,24 @@ describe('alerts saga', () => {
         const saga = fetchAlertsSaga(action);
 
         // Execute the search.
-        const fetchArguments = { kapp: 'admin', form: 'alerts', search: ALERTS_SEARCH };
-        expect(saga.next().value)
-          .toEqual(call(CoreAPI.searchSubmissions, fetchArguments));
+        const fetchArguments = {
+          kapp: 'admin',
+          form: 'alerts',
+          search: ALERTS_SEARCH
+        };
+        expect(saga.next().value).toEqual(
+          call(CoreAPI.searchSubmissions, fetchArguments)
+        );
 
         // Mock the response and send it to the generator.
-        const error = { status: 404, statusText: 'Request failed with status code 404' };
+        const error = {
+          status: 404,
+          statusText: 'Request failed with status code 404'
+        };
         const response = { serverError: error };
-        expect(saga.next(response).value)
-          .toEqual(put(actions.setAlertsError(error)));
+        expect(saga.next(response).value).toEqual(
+          put(actions.setAlertsError(error))
+        );
       });
     });
   });

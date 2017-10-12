@@ -5,18 +5,18 @@
   border-bottom: 1px solid $blue3;
   color: $blue1;
   margin: 1rem 0 1rem 1rem;
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
   .badge {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: #A8B7C7;
+    background-color: #a8b7c7;
     border-radius: 50%;
-    color: #F7F9FB;
+    color: #f7f9fb;
     font-size: 18px;
     font-weight: 600;
-    margin-right: .5em;
-    padding-top: .125em;
+    margin-right: 0.5em;
+    padding-top: 0.125em;
     height: 2rem;
     width: 2em;
     text-align: center;
@@ -36,7 +36,7 @@
     margin-left: auto;
   }
 
-  &.read-only div[role="button"] {
+  &.read-only div[role='button'] {
     cursor: default;
   }
 
@@ -48,9 +48,9 @@
       input {
         height: 32px;
         width: 299.63px;
-        border: 1px solid #359BE0;
+        border: 1px solid #359be0;
         border-radius: 4px;
-        background-color: #FFFFFF;
+        background-color: #ffffff;
       }
 
       & > div {
@@ -61,17 +61,18 @@
         z-index: 1050;
         height: 285px;
         width: 299.63px;
-        border: 1px solid #E6E8ED;
-        border-radius: 4px;	background-color: #FFFFFF;
-        box-shadow: 0 0 2px 0 rgba(0,0,0,0.1);
+        border: 1px solid #e6e8ed;
+        border-radius: 4px;
+        background-color: #ffffff;
+        box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1);
       }
 
       .team {
         display: flex;
         align-items: center;
         height: 17px;
-        color: #54698D;
-        font-family: "Open Sans";
+        color: #54698d;
+        font-family: 'Open Sans';
         font-size: 12px;
         font-weight: 600;
         line-height: 17px;
@@ -88,7 +89,7 @@
         border-radius: 4px 4px 0 0;
 
         color: #494949;
-        font-family: "Open Sans";
+        font-family: 'Open Sans';
         font-size: 14px;
         line-height: 19px;
 
@@ -96,11 +97,11 @@
         cursor: pointer;
 
         &.item-highlighted {
-          background-color: #F6F6F6;
+          background-color: #f6f6f6;
         }
 
         &:hover {
-          background-color: #F6F6F6;
+          background-color: #f6f6f6;
         }
       }
     }

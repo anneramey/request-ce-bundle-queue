@@ -7,27 +7,31 @@ import { SORT_OPTIONS } from '../FilterMenu/SortedBySection';
 
 const ListSummary = ({ type, list }) =>
   list.size > 0 &&
-  (
-    list.size === 1
-      ? <span>{list.get(0)}</span>
-      : <span>{list.size} {type}</span>
-  );
+  (list.size === 1 ? (
+    <span>{list.get(0)}</span>
+  ) : (
+    <span>
+      {list.size} {type}
+    </span>
+  ));
 
 const AssignmentSummary = ({ assignments }) => {
   const appliedAssignments = List([
     assignments.mine && 'Mine',
     assignments.teammates && 'Teammates',
-    assignments.unassigned && 'Unassigned',
+    assignments.unassigned && 'Unassigned'
   ]).filter(assignmentType => !!assignmentType);
-  return appliedAssignments.size > 0 &&
-    (
-      appliedAssignments.size === 1
-        ? <span>{appliedAssignments.get(0)}</span>
-        : <span>{appliedAssignments.size} Presets</span>
-    );
+  return (
+    appliedAssignments.size > 0 &&
+    (appliedAssignments.size === 1 ? (
+      <span>{appliedAssignments.get(0)}</span>
+    ) : (
+      <span>{appliedAssignments.size} Presets</span>
+    ))
+  );
 };
 
-export const MainSection = ({ filter, showSection }) =>
+export const MainSection = ({ filter, showSection }) => (
   <ModalBody className="main-section">
     <ul className="list-group button-list">
       <li className="list-group-item">
@@ -88,4 +92,5 @@ export const MainSection = ({ filter, showSection }) =>
     <button type="button" className="btn btn-primary btn-inverse" disabled>
       Save
     </button>
-  </ModalBody>;
+  </ModalBody>
+);

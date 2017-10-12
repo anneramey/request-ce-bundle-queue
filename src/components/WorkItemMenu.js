@@ -14,12 +14,19 @@ export const WorkItemMenu = ({
   onFormLoaded,
   onCompleted,
   visible,
-  review,
-}) =>
-  <Modal isOpen={isOpen} toggle={close} style={{ display: visible ? '' : 'none' }} size="lg">
+  review
+}) => (
+  <Modal
+    isOpen={isOpen}
+    toggle={close}
+    style={{ display: visible ? '' : 'none' }}
+    size="lg"
+  >
     <div className="modal-header">
       <h4 className="modal-title">
-        <button type="button" className="btn btn-link" onClick={close}>Cancel</button>
+        <button type="button" className="btn btn-link" onClick={close}>
+          Cancel
+        </button>
         <span>Work It</span>
         <span />
       </h4>
@@ -36,15 +43,12 @@ export const WorkItemMenu = ({
       </div>
     </ModalBody>
     <ModalFooter>
-      <button
-        type="button"
-        className="btn btn-primary"
-        onClick={handleSave}
-      >
+      <button type="button" className="btn btn-primary" onClick={handleSave}>
         Save {queueItem.form.name}
       </button>
     </ModalFooter>
-  </Modal>;
+  </Modal>
+);
 
 export const WorkItemMenuContainer = compose(
   withState('visible', 'setVisible', false),
@@ -56,6 +60,6 @@ export const WorkItemMenuContainer = compose(
     },
     handleSave: ({ form }) => () => {
       form.submitPage();
-    },
-  }),
+    }
+  })
 )(WorkItemMenu);

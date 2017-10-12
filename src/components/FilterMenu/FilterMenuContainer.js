@@ -12,14 +12,15 @@ export const mapStateToProps = state => ({
   currentFilter: state.filterMenu.get('currentFilter'),
   isDirty: !is(
     state.filterMenu.get('currentFilter'),
-    state.filterMenu.get('initialFilter')),
+    state.filterMenu.get('initialFilter')
+  )
 });
 
 export const mapDispatchToProps = {
   close: actions.close,
   reset: actions.reset,
   showSection: actions.showSection,
-  setCurrentFilter: queueActions.setCurrentFilter,
+  setCurrentFilter: queueActions.setCurrentFilter
 };
 
 export const FilterMenuContainer = compose(
@@ -28,6 +29,6 @@ export const FilterMenuContainer = compose(
     applyFilterHandler: props => () => {
       props.setCurrentFilter(props.currentFilter);
       props.close();
-    },
-  }),
+    }
+  })
 )(FilterMenu);

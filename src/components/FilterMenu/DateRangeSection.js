@@ -9,8 +9,8 @@ export const DateRangeSection = ({
   setDateRangeTimelineHandler,
   radioClickHandler,
   setDateRangeStartHandler,
-  setDateRangeEndHandler,
-}) =>
+  setDateRangeEndHandler
+}) => (
   <ModalBody className="filter-section">
     <h5>Date Range</h5>
     <select
@@ -32,20 +32,19 @@ export const DateRangeSection = ({
       />
       None
     </label>
-    {
-      [7, 14, 30, 60, 90].map(numberOfDays =>
-        <label htmlFor={`date-range-${numberOfDays}days`}>
-          <input
-            type="radio"
-            id={`date-range-${numberOfDays}days`}
-            value={`${numberOfDays}days`}
-            name="date-range"
-            checked={filter.dateRange.preset === `${numberOfDays}days`}
-            onChange={radioClickHandler}
-          />
-          Last {numberOfDays} Days
-        </label>)
-    }
+    {[7, 14, 30, 60, 90].map(numberOfDays => (
+      <label htmlFor={`date-range-${numberOfDays}days`}>
+        <input
+          type="radio"
+          id={`date-range-${numberOfDays}days`}
+          value={`${numberOfDays}days`}
+          name="date-range"
+          checked={filter.dateRange.preset === `${numberOfDays}days`}
+          onChange={radioClickHandler}
+        />
+        Last {numberOfDays} Days
+      </label>
+    ))}
     <label htmlFor="date-range-custom">
       <input
         type="radio"
@@ -75,7 +74,8 @@ export const DateRangeSection = ({
         onChange={setDateRangeEndHandler}
       />
     </div>
-  </ModalBody>;
+  </ModalBody>
+);
 
 export const DateRangeSectionContainer = compose(
   connect(null, {
@@ -83,7 +83,7 @@ export const DateRangeSectionContainer = compose(
     setDateRangePreset: actions.setDateRangePreset,
     toggleDateRangeCustom: actions.toggleDateRangeCustom,
     setDateRangeStart: actions.setDateRangeStart,
-    setDateRangeEnd: actions.setDateRangeEnd,
+    setDateRangeEnd: actions.setDateRangeEnd
   }),
   withHandlers({
     setDateRangeTimelineHandler: props => event =>
@@ -98,6 +98,6 @@ export const DateRangeSectionContainer = compose(
     setDateRangeStartHandler: props => event =>
       props.setDateRangeStart(event.target.value),
     setDateRangeEndHandler: props => event =>
-      props.setDateRangeEnd(event.target.value),
-  }),
+      props.setDateRangeEnd(event.target.value)
+  })
 )(DateRangeSection);

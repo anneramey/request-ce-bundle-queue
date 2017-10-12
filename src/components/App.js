@@ -7,11 +7,13 @@ import { Content } from './Content';
 import { SidebarContainer } from './SidebarContainer';
 
 export const App = ({ loading }) =>
-  loading ?
-    <div /> :
+  loading ? (
+    <div />
+  ) : (
     <div className="app">
       <LayoutContainer
         sidebarContent={<SidebarContainer />}
         mainContent={<Content />}
       />
-    </div>;
+    </div>
+  );

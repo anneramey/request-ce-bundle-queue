@@ -10,38 +10,50 @@ import { AssignmentBadge } from '../QueueItem/AssignmentBadge';
 
 const OPEN_STATUSES = ['Open', 'Pending'];
 
-const StatusParagraph = ({ status }) =>
+const StatusParagraph = ({ status }) => (
   <p className="status icon-wrapper">
     <SVGInline
       svg={OPEN_STATUSES.includes(status) ? emptyCircle : solidCircle}
       className="icon"
     />
     {status}
-  </p>;
+  </p>
+);
 
-
-export const QueueItemPreview = ({ queueItem, closePreview, toggleWorkMenu }) => {
+export const QueueItemPreview = ({
+  queueItem,
+  closePreview,
+  toggleWorkMenu
+}) => {
   const { values } = queueItem;
 
   return (
     <div className="item-preview">
       <div className="preview-close">
-        <button type="button" className="btn btn-close icon-wrapper" onClick={closePreview}>
+        <button
+          type="button"
+          className="btn btn-close icon-wrapper"
+          onClick={closePreview}
+        >
           <SVGInline svg={timesIcon} className="icon" />
         </button>
       </div>
       <StatusParagraph status={values.Status} />
-      <h1>{queueItem.form.name} ({queueItem.handle})</h1>
+      <h1>
+        {queueItem.form.name} ({queueItem.handle})
+      </h1>
       <p className="summary">{queueItem.values.Summary}</p>
       <div className="details">{queueItem.values.Details}</div>
       <AssignmentBadge queueItem={queueItem} readOnly />
-      {queueItem.origin && <a
-        className="btn btn-primary btn-inverse request-button"
-        href={originLink(queueItem)}
-        target="_blank"
-      >
-        View Original Request
-      </a>}
+      {queueItem.origin && (
+        <a
+          className="btn btn-primary btn-inverse request-button"
+          href={originLink(queueItem)}
+          target="_blank"
+        >
+          View Original Request
+        </a>
+      )}
       <ul className="list-group timestamps">
         <li className="list-group-item timestamp">
           <span className="label">Due</span>
@@ -69,7 +81,10 @@ export const QueueItemPreview = ({ queueItem, closePreview, toggleWorkMenu }) =>
         >
           Work It
         </button>
-        <Link className="btn btn-primary work-grab-button" to={`/item/${queueItem.id}`}>
+        <Link
+          className="btn btn-primary work-grab-button"
+          to={`/item/${queueItem.id}`}
+        >
           More Details
         </Link>
         <Link
@@ -79,5 +94,6 @@ export const QueueItemPreview = ({ queueItem, closePreview, toggleWorkMenu }) =>
           Discuss
         </Link>
       </div>
-    </div>);
+    </div>
+  );
 };

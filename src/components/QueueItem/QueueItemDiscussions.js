@@ -4,7 +4,7 @@ import paperclip from 'font-awesome-svg-png/black/svg/paperclip.svg';
 import SVGInline from 'react-svg-inline';
 import Avatar from 'react-avatar';
 
-export const QueueItemDiscussions = () =>
+export const QueueItemDiscussions = () => (
   <div className="discussions">
     <div className="messages">
       <div className="message-wrapper">
@@ -24,12 +24,7 @@ export const QueueItemDiscussions = () =>
           </div>
         </div>
         <div className="message other">
-          <Avatar
-            size="50"
-            email="zzz"
-            name="Norm O"
-            round
-          />
+          <Avatar size="50" email="zzz" name="Norm O" round />
           <div className="body">
             <p>
               ATS is not able to view the table of results on the Data Mgmt
@@ -47,16 +42,12 @@ export const QueueItemDiscussions = () =>
           <hr />
         </div>
         <div className="message other">
-          <Avatar
-            size="50"
-            email="zzz"
-            name="Matt R"
-            round
-          />
+          <Avatar size="50" email="zzz" name="Matt R" round />
           <div className="body">
             <p>
               <img src={attachmentIcon} alt="icon" />
-              ATS is not able to view the table of results on the Data Mgmt Console service item.
+              ATS is not able to view the table of results on the Data Mgmt
+              Console service item.
             </p>
             <div className="meta">
               <span className="author">Johan Thorsell</span>
@@ -80,12 +71,7 @@ export const QueueItemDiscussions = () =>
           </div>
         </div>
         <div className="message other">
-          <Avatar
-            size="50"
-            email="zzz"
-            name="Norm O"
-            round
-          />
+          <Avatar size="50" email="zzz" name="Norm O" round />
           <div className="body">
             <p>
               ATS is not able to view the table of results on the Data Mgmt
@@ -103,16 +89,12 @@ export const QueueItemDiscussions = () =>
           <hr />
         </div>
         <div className="message other">
-          <Avatar
-            size="50"
-            email="zzz"
-            name="Matt R"
-            round
-          />
+          <Avatar size="50" email="zzz" name="Matt R" round />
           <div className="body">
             <p>
               <img src={attachmentIcon} alt="icon" />
-              ATS is not able to view the table of results on the Data Mgmt Console service item.
+              ATS is not able to view the table of results on the Data Mgmt
+              Console service item.
             </p>
             <div className="meta">
               <span className="author">Johan Thorsell</span>
@@ -129,6 +111,9 @@ export const QueueItemDiscussions = () =>
         </span>
       </button>
       <input type="text" />
-      <button type="button" className="btn btn-primary">Send</button>
+      <button type="button" className="btn btn-primary">
+        Send
+      </button>
     </div>
-  </div>;
+  </div>
+);

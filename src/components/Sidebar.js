@@ -9,38 +9,47 @@ import usersIcon from 'font-awesome-svg-png/white/svg/users.svg';
 import inboxIcon from 'font-awesome-svg-png/white/svg/inbox.svg';
 import starIcon from 'font-awesome-svg-png/white/svg/star-o.svg';
 
-const formatCount = count => count >= 1000 ? '999+' : `${count}`;
+const formatCount = count => (count >= 1000 ? '999+' : `${count}`);
 
 export const Sidebar = ({
   documentationUrl,
   supportUrl,
   counts,
   openNewItemMenu,
-  myFilters,
-}) =>
+  myFilters
+}) => (
   <div className="sidebar">
-    <button
-      className="btn btn-primary"
-      onClick={openNewItemMenu}
-    >
+    <button className="btn btn-primary" onClick={openNewItemMenu}>
       Create New Task
     </button>
     <h6>Default Lists</h6>
     <Nav vertical className="filter-nav">
       <NavItem>
-        <NavLink to="/list/Mine" className="nav-link icon-wrapper" activeClassName="active">
+        <NavLink
+          to="/list/Mine"
+          className="nav-link icon-wrapper"
+          activeClassName="active"
+        >
           <SVGInline svg={userIcon} className="icon" />
           Mine ({formatCount(counts.get('Mine', 0))})
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink to="/list/Teammates" className="nav-link icon-wrapper" activeClassName="active">
+        <NavLink
+          to="/list/Teammates"
+          className="nav-link icon-wrapper"
+          activeClassName="active"
+        >
           <SVGInline svg={usersIcon} className="icon" />
           Teammates ({formatCount(counts.get('Teammates', 0))})
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink to="/list/Unassigned" className="nav-link icon-wrapper" activeClassName="active">
+        <NavLink
+          to="/list/Unassigned"
+          className="nav-link icon-wrapper"
+          activeClassName="active"
+        >
           <SVGInline svg={inboxIcon} className="icon" />
           Unassigned ({formatCount(counts.get('Unassigned', 0))})
         </NavLink>
@@ -53,15 +62,21 @@ export const Sidebar = ({
       </button>
     </h6>
     <Nav vertical className="filter-nav">
-      {myFilters.map(filter =>
+      {myFilters.map(filter => (
         <NavItem key={filter.name}>
-          <NavLink to={`/list/${filter.name}`} className="nav-link icon-wrapper" activeClassName="active">
+          <NavLink
+            to={`/list/${filter.name}`}
+            className="nav-link icon-wrapper"
+            activeClassName="active"
+          >
             <SVGInline svg={starIcon} className="icon" />
             {`${filter.name}`}
           </NavLink>
-        </NavItem>,
+        </NavItem>
+      ))}
+      {myFilters.size < 1 && (
+        <div className="no-data">You have no personal filters</div>
       )}
-      {myFilters.size < 1 && <div className="no-data">You have no personal filters</div>}
     </Nav>
     <Nav vertical className="bottom-nav">
       <NavItem>
@@ -95,4 +110,5 @@ export const Sidebar = ({
         </NavLink>
       </NavItem>
     </Nav>
-  </div>;
+  </div>
+);

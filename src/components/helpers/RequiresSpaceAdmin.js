@@ -10,5 +10,6 @@ export const RequiresSpaceAdmin = ({ profile, children, component }) => {
   return (
     <h2 style={{ color: 'red' }}>
       {FailureComponent ? <FailureComponent /> : 'Access denied.'}
-    </h2>);
+    </h2>
+  );
 };

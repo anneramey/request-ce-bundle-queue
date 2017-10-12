@@ -5,12 +5,12 @@ import { actions as modalFormActions } from '../redux/modules/modalForm';
 
 export const mapStateToProps = state => ({
   form: state.modalForm.form,
-  isCompleted: state.modalForm.isCompleted,
+  isCompleted: state.modalForm.isCompleted
 });
 
 const mapDispatchToProps = {
   closeForm: modalFormActions.closeForm,
-  completeForm: modalFormActions.completeForm,
+  completeForm: modalFormActions.completeForm
 };
 
 export const ModalFormContainer = compose(
@@ -23,6 +23,6 @@ export const ModalFormContainer = compose(
     handleClosed: props => event => {
       if (event) event.stopPropagation();
       props.closeForm();
-    },
-  }),
+    }
+  })
 )(ModalForm);

@@ -24,16 +24,18 @@ export const QueueList = ({
   toggleWorkMenu,
   sortDirection,
   toggleSortDirection,
-  refresh,
-}) =>
+  refresh
+}) => (
   <div className="two-panels">
     <div className="left-panel">
-      {workItem && <WorkItemMenuContainer
-        close={toggleWorkMenu(null)}
-        isOpen={workMenuOpen}
-        queueItem={workItem}
-        onCompleted={handleCompleted}
-      />}
+      {workItem && (
+        <WorkItemMenuContainer
+          close={toggleWorkMenu(null)}
+          isOpen={workMenuOpen}
+          queueItem={workItem}
+          onCompleted={handleCompleted}
+        />
+      )}
       <div className="controls">
         <h6>
           {filter.name}
@@ -58,35 +60,40 @@ export const QueueList = ({
               svg={sortDirection === 'ASC' ? sortAscIcon : sortDescIcon}
             />
           </button>
-          <button type="button" className="btn btn-link icon-wrapper" onClick={openFilterMenu}>
+          <button
+            type="button"
+            className="btn btn-link icon-wrapper"
+            onClick={openFilterMenu}
+          >
             <SVGInline svg={filterIcon} className="icon" />
           </button>
         </div>
       </div>
       <div className="submissions">
-        {
-          queueItems &&
+        {queueItems && (
           <ul className="list-group">
-            {
-              queueItems.map(queueItem =>
-                <QueueListItem
-                  key={queueItem.id}
-                  handleItemClick={handleItemClick}
-                  queueItem={queueItem}
-                  openDropdownItem={openDropdownItem}
-                  toggleItemMenu={toggleItemMenu}
-                  toggleWorkMenu={toggleWorkMenu}
-                />)
-            }
+            {queueItems.map(queueItem => (
+              <QueueListItem
+                key={queueItem.id}
+                handleItemClick={handleItemClick}
+                queueItem={queueItem}
+                openDropdownItem={openDropdownItem}
+                toggleItemMenu={toggleItemMenu}
+                toggleWorkMenu={toggleWorkMenu}
+              />
+            ))}
           </ul>
-        }
+        )}
       </div>
     </div>
-    {previewItem && <div className="right-panel">
-      <QueueItemPreview
-        queueItem={previewItem}
-        closePreview={closePreview}
-        toggleWorkMenu={toggleWorkMenu}
-      />
-    </div>}
-  </div>;
+    {previewItem && (
+      <div className="right-panel">
+        <QueueItemPreview
+          queueItem={previewItem}
+          closePreview={closePreview}
+          toggleWorkMenu={toggleWorkMenu}
+        />
+      </div>
+    )}
+  </div>
+);

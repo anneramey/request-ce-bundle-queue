@@ -21,7 +21,7 @@
   .modal-dialog {
     .modal-content {
       border: none;
-      box-shadow: 0 2px 14px 0 rgba(0,0,0,0.5);
+      box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.5);
       min-height: 600px;
     }
   }
@@ -33,7 +33,7 @@
 
     .modal-header {
       align-items: stretch;
-      border-bottom: 1px solid rgba(211,220,231,1);
+      border-bottom: 1px solid rgba(211, 220, 231, 1);
       padding: 0;
       display: flex;
       flex-direction: column;
@@ -43,18 +43,22 @@
         flex: 1;
         font-size: 16px;
         font-weight: bold;
-        span { padding: 1rem; }
+        span {
+          padding: 1rem;
+        }
       }
       .btn.btn-link {
         font-size: 14px;
         padding: 1rem;
       }
       .btn.back-button {
-        border-top: 1px solid rgba(211,220,231,1);
+        border-top: 1px solid rgba(211, 220, 231, 1);
         font-size: 14px;
         padding: 1rem;
         text-align: left;
-        .icon { margin-right: 5px; }
+        .icon {
+          margin-right: 5px;
+        }
       }
     }
 
@@ -64,7 +68,7 @@
       padding: 0;
       .list-group.button-list {
         .list-group-item {
-          border-bottom: 1px solid rgba(244,246,249,1);
+          border-bottom: 1px solid rgba(244, 246, 249, 1);
           padding: 0;
           .btn.btn-link {
             font-size: 14px;
@@ -99,13 +103,14 @@
           padding: 1rem;
         }
         label {
-          border-bottom: 1px solid rgba(244,246,249,1);
+          border-bottom: 1px solid rgba(244, 246, 249, 1);
           color: $blue1;
           font-size: 14px;
           margin-bottom: 0;
           padding: 1rem;
         }
-        input[type=checkbox], input[type=radio] {
+        input[type='checkbox'],
+        input[type='radio'] {
           margin-right: 10px;
         }
         select {

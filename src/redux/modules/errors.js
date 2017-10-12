@@ -5,7 +5,7 @@ export const types = {
   SET_SYSTEM_ERROR: '@kd/boilerplate/SET_SYSTEM_ERROR',
   CLEAR_SYSTEM_ERROR: '@kd/boilerplate/CLEAR_SYSTEM_ERROR',
   ADD_NOTIFICATION: namespace('errors', 'ADD_NOTIFICATION'),
-  REMOVE_NOTIFICATION: namespace('errors', 'REMOVE_NOTIFICATION'),
+  REMOVE_NOTIFICATION: namespace('errors', 'REMOVE_NOTIFICATION')
 };
 
 export const NOTICE_TYPES = {
@@ -13,7 +13,7 @@ export const NOTICE_TYPES = {
   INFO: 'info',
   WARN: 'warn',
   ERROR: 'error',
-  NORMAL: 'normal',
+  NORMAL: 'normal'
 };
 
 export const actions = {
@@ -22,34 +22,34 @@ export const actions = {
   addSuccess: (msg, title) => ({
     id: Date.now(),
     type: types.ADD_NOTIFICATION,
-    payload: { type: NOTICE_TYPES.SUCCESS, title, msg },
+    payload: { type: NOTICE_TYPES.SUCCESS, title, msg }
   }),
   addInfo: (msg, title) => ({
     id: Date.now(),
     type: types.ADD_NOTIFICATION,
-    payload: { type: NOTICE_TYPES.INFO, title, msg },
+    payload: { type: NOTICE_TYPES.INFO, title, msg }
   }),
   addWarn: (msg, title) => ({
     id: Date.now(),
     type: types.ADD_NOTIFICATION,
-    payload: { type: NOTICE_TYPES.WARN, title, msg },
+    payload: { type: NOTICE_TYPES.WARN, title, msg }
   }),
   addError: (msg, title) => ({
     id: Date.now(),
     type: types.ADD_NOTIFICATION,
-    payload: { type: NOTICE_TYPES.ERROR, title, msg },
+    payload: { type: NOTICE_TYPES.ERROR, title, msg }
   }),
   addNormal: (msg, title) => ({
     id: Date.now(),
     type: types.ADD_NOTIFICATION,
-    payload: { type: NOTICE_TYPES.NORMAL, title, msg },
+    payload: { type: NOTICE_TYPES.NORMAL, title, msg }
   }),
-  removeNotification: withPayload(types.REMOVE_NOTIFICATION),
+  removeNotification: withPayload(types.REMOVE_NOTIFICATION)
 };
 
 export const State = Record({
   system: {},
-  notifications: List(),
+  notifications: List()
 });
 
 const reducer = (state = State(), action) => {
@@ -61,7 +61,9 @@ const reducer = (state = State(), action) => {
     case types.ADD_NOTIFICATION:
       return state.update('notifications', ns => ns.push(action.payload));
     case types.REMOVE_NOTIFICATION:
-      return state.update('notifications', ns => ns.filterNot(n => n.id === action.payload));
+      return state.update('notifications', ns =>
+        ns.filterNot(n => n.id === action.payload)
+      );
     default:
       return state;
   }

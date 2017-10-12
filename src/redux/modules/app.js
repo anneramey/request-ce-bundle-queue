@@ -9,32 +9,43 @@ export const types = {
   LOAD_APP_SETTINGS: namespace('app', 'LOAD_APP_SETTINGS'),
   SET_APP_SETTINGS: namespace('app', 'SET_APP_SETTINGS'),
   ADD_PERSONAL_FILTER: namespace('app', 'ADD_PERSONAL_FILTER'),
-  REMOVE_PERSONAL_FILTER: namespace('app', 'REMOVE_PERSONAL_FILTER'),
+  REMOVE_PERSONAL_FILTER: namespace('app', 'REMOVE_PERSONAL_FILTER')
 };
 
 export const actions = {
   loadAppSettings: noPayload(types.LOAD_APP_SETTINGS),
   setAppSettings: withPayload(types.SET_APP_SETTINGS),
   addPersonalFilter: withPayload(types.ADD_PERSONAL_FILTER),
-  removePersonalFilter: withPayload(types.REMOVE_PERSONAL_FILTER),
+  removePersonalFilter: withPayload(types.REMOVE_PERSONAL_FILTER)
 };
 
 export const selectMyTeamForms = state =>
   state.app.forms.filter(f => {
     const owningTeam = f.attributes['Owning Team'];
-    return owningTeam ?
-      state.app.myTeams.map(t => t.name).toSet().intersect(new Set(owningTeam)).size > 0 :
-      true;
+    return owningTeam
+      ? state.app.myTeams
+          .map(t => t.name)
+          .toSet()
+          .intersect(new Set(owningTeam)).size > 0
+      : true;
   });
 
 export const selectAssignments = state =>
   state.app.allTeams
-    .flatMap(t => t.memberships.map(m => {
-      const user = m.user;
-      user.team = t.name;
-      return user;
-    }))
-    .concat(state.app.allTeams.map(t => ({ username: null, displayName: 'Unassigned', team: t.name })));
+    .flatMap(t =>
+      t.memberships.map(m => {
+        const user = m.user;
+        user.team = t.name;
+        return user;
+      })
+    )
+    .concat(
+      state.app.allTeams.map(t => ({
+        username: null,
+        displayName: 'Unassigned',
+        team: t.name
+      }))
+    );
 
 /*
  *
@@ -49,21 +60,21 @@ export const State = Record({
     Filter({
       name: 'Mine',
       assignments: AssignmentCriteria({
-        mine: true,
-      }),
+        mine: true
+      })
     }),
     Filter({
       name: 'Teammates',
       assignments: AssignmentCriteria({
-        teammates: true,
-      }),
+        teammates: true
+      })
     }),
     Filter({
       name: 'Unassigned',
       assignments: AssignmentCriteria({
-        unassigned: true,
-      }),
-    }),
+        unassigned: true
+      })
+    })
   ]),
   documentationUrl: DEFAULT_DOCUMENTATION_URL,
   supportUrl: DEFAULT_SUPPORT_URL,
@@ -72,7 +83,7 @@ export const State = Record({
   myTeammates: List(),
   myFilters: List(),
   forms: List(),
-  loading: true,
+  loading: true
 });
 
 export const reducer = (state = State(), { type, payload }) => {
@@ -91,7 +102,10 @@ export const reducer = (state = State(), { type, payload }) => {
     case types.ADD_PERSONAL_FILTER:
       return state.update('myFilters', filters => filters.push(payload));
     case types.REMOVE_PERSONAL_FILTER:
-      return state.update('myFilters', filters => filters.name === filters.payload);
+      return state.update(
+        'myFilters',
+        filters => filters.name === filters.payload
+      );
     default:
       return state;
   }

@@ -16,68 +16,77 @@ export const QueueItem = ({
   currentFilterName,
   workMenuOpen,
   openWorkMenu,
-  closeWorkMenu,
+  closeWorkMenu
 }) =>
-  queueItem !== null &&
-  <div className="queue-item-details two-panels">
-    <WorkItemMenuContainer
-      close={closeWorkMenu}
-      isOpen={workMenuOpen}
-      queueItem={queueItem}
-      onCompleted={handleCompleted}
-      review={isItemComplete(queueItem)}
-    />
-    <div className="left-panel">
-      <div className="controls">
-        {
-          currentFilterName !== '' &&
-          <Link
-            to={`/list/${encodeURIComponent(currentFilterName)}`}
-            className="back-link"
-          >
-            <div className="icon-wrapper">
-              <SVGInline svg={chevronLeftIcon} className="icon" />
-              {currentFilterName}
-            </div>
-          </Link>
-        }
-        <Nav className="tabs">
-          <NavItem>
-            <NavLink exact to={`/item/${queueItem.id}`} className="nav-link" activeClassName="active">
-              <div className="inner-wrapper">Details</div>
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink to={`/item/${queueItem.id}/discussions`} className="nav-link" activeClassName="active">
-              <div className="inner-wrapper">Discussions</div>
-            </NavLink>
-          </NavItem>
-        </Nav>
+  queueItem !== null && (
+    <div className="queue-item-details two-panels">
+      <WorkItemMenuContainer
+        close={closeWorkMenu}
+        isOpen={workMenuOpen}
+        queueItem={queueItem}
+        onCompleted={handleCompleted}
+        review={isItemComplete(queueItem)}
+      />
+      <div className="left-panel">
+        <div className="controls">
+          {currentFilterName !== '' && (
+            <Link
+              to={`/list/${encodeURIComponent(currentFilterName)}`}
+              className="back-link"
+            >
+              <div className="icon-wrapper">
+                <SVGInline svg={chevronLeftIcon} className="icon" />
+                {currentFilterName}
+              </div>
+            </Link>
+          )}
+          <Nav className="tabs">
+            <NavItem>
+              <NavLink
+                exact
+                to={`/item/${queueItem.id}`}
+                className="nav-link"
+                activeClassName="active"
+              >
+                <div className="inner-wrapper">Details</div>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                to={`/item/${queueItem.id}/discussions`}
+                className="nav-link"
+                activeClassName="active"
+              >
+                <div className="inner-wrapper">Discussions</div>
+              </NavLink>
+            </NavItem>
+          </Nav>
+        </div>
+        <Route exact path="/item/:id" component={QueueItemDetailsContainer} />
+        <Route path="/item/:id/discussions" component={QueueItemDiscussions} />
       </div>
-      <Route exact path="/item/:id" component={QueueItemDetailsContainer} />
-      <Route path="/item/:id/discussions" component={QueueItemDiscussions} />
+      <div className="right-panel">
+        <button
+          className="btn btn-primary work-grab-button"
+          onClick={openWorkMenu}
+        >
+          Works / Grab It
+        </button>
+      </div>
     </div>
-    <div className="right-panel">
-      <button
-        className="btn btn-primary work-grab-button"
-        onClick={openWorkMenu}
-      >
-        Works / Grab It
-      </button>
-    </div>
-  </div>;
+  );
 
 export const mapStateToProps = (state, props) => ({
   queueItem: state.queue.currentItem,
   currentFilterName: state.queue.currentFilter.name,
   id: props.match.params.id,
-  workMenuOpen: state.queue.workMenuOpen,
+  workMenuOpen: state.queue.workMenuOpen
 });
 
 export const mapDispatchToProps = {
   fetchCurrentItem: actions.fetchCurrentItem,
   openWorkMenu: actions.openWorkMenu,
-  closeWorkMenu: actions.closeWorkMenu,
+  closeWorkMenu: actions.closeWorkMenu
 };
 
 export const QueueItemContainer = compose(
@@ -87,7 +96,7 @@ export const QueueItemContainer = compose(
     handleCompleted: ({ refreshItem, closeWorkMenu }) => () => {
       refreshItem();
       closeWorkMenu();
-    },
+    }
   }),
   lifecycle({
     componentWillMount() {
@@ -97,6 +106,6 @@ export const QueueItemContainer = compose(
       if (this.props.id !== nextProps.id) {
         this.props.fetchCurrentItem(nextProps.id);
       }
-    },
-  }),
+    }
+  })
 )(QueueItem);

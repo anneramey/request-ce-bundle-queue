@@ -47,14 +47,15 @@ body {
 .dropdown-toggle::after {
   border-top: 0.4em solid $blue2;
   border-right: 0.19em solid transparent;
-  border-left: 0.19em solid transparent;;
+  border-left: 0.19em solid transparent;
 }
 
 .icon-svg {
   height: 1.2em;
   width: 1.2em;
 
-  path, .primary-fill {
+  path,
+  .primary-fill {
     fill: $blue2;
   }
 
@@ -87,10 +88,12 @@ body {
 
 .btn.btn-link {
   color: $blue1;
-  &:hover,&:focus, &:active {
+  &:hover,
+  &:focus,
+  &:active {
     text-decoration: none;
   }
-  &:focus{
+  &:focus {
     box-shadow: none;
     outline: $blue3 dotted thin;
   }

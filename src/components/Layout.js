@@ -10,8 +10,8 @@ export const Layout = ({
   toggleSidebarOpen,
   setSidebarOpen,
   mainContent,
-  sidebarContent,
-}) =>
+  sidebarContent
+}) => (
   <div className="layout">
     <HeaderContainer toggleSidebarOpen={toggleSidebarOpen} />
     <Sidebar
@@ -24,16 +24,17 @@ export const Layout = ({
     >
       {mainContent}
     </Sidebar>
-  </div>;
+  </div>
+);
 
 export const mapStateToProps = state => ({
-  isLarge: state.layout.get('isLayoutLarge'),
+  isLarge: state.layout.get('isLayoutLarge')
 });
 
 export const LayoutContainer = compose(
   connect(mapStateToProps),
   withState('sidebarOpen', 'setSidebarOpen', ({ isLarge }) => isLarge),
   withHandlers({
-    toggleSidebarOpen: props => () => props.setSidebarOpen(isOpen => !isOpen),
-  }),
+    toggleSidebarOpen: props => () => props.setSidebarOpen(isOpen => !isOpen)
+  })
 )(Layout);

@@ -4,7 +4,7 @@ import { compose, withHandlers } from 'recompose';
 import { ModalBody } from 'reactstrap';
 import { actions } from '../../redux/modules/filterMenu';
 
-export const AssignmentSection = ({ filter, toggleAssignmentHandler }) =>
+export const AssignmentSection = ({ filter, toggleAssignmentHandler }) => (
   <ModalBody className="filter-section">
     <h5>Assignment</h5>
     <label htmlFor="assignment-mine">
@@ -37,13 +37,15 @@ export const AssignmentSection = ({ filter, toggleAssignmentHandler }) =>
       />
       Unassigned
     </label>
-  </ModalBody>;
+  </ModalBody>
+);
 
 export const AssignmentSectionContainer = compose(
   connect(null, {
-    toggleAssignment: actions.toggleAssignment,
+    toggleAssignment: actions.toggleAssignment
   }),
   withHandlers({
-    toggleAssignmentHandler: props => event => props.toggleAssignment(event.target.value),
-  }),
+    toggleAssignmentHandler: props => event =>
+      props.toggleAssignment(event.target.value)
+  })
 )(AssignmentSection);

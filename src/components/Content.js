@@ -8,7 +8,7 @@ import { QueueListContainer } from './queueList/QueueListContainer';
 import { NewItemMenuContainer } from './newItemMenu/NewItemMenuContainer';
 import { ModalFormContainer } from './ModalFormContainer';
 
-export const Content = () =>
+export const Content = () => (
   <div className="content">
     <NotificationsContainer />
     <Route path="/" exact render={() => <div>Please select a list</div>} />
@@ -17,4 +17,5 @@ export const Content = () =>
     <FilterMenuContainer />
     <NewItemMenuContainer />
     <ModalFormContainer />
-  </div>;
+  </div>
+);
