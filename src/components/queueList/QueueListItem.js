@@ -3,7 +3,7 @@ import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SVGInline from 'react-svg-inline';
@@ -67,7 +67,7 @@ export const QueueListItem = ({
   openDropdownItem,
   toggleItemMenu,
   toggleWorkMenu,
-  handleItemClick
+  handleItemClick,
 }) => {
   const { createdAt, updatedAt, id, values } = queueItem;
 

@@ -19,7 +19,7 @@ export const QueueItemDetails = ({
   toggleAssigning,
   setIsAssigning,
   setAssignment,
-  assignments
+  assignments,
 }) => (
   <div className="details">
     <div className="general">
@@ -98,11 +98,11 @@ export const QueueItemDetails = ({
 
 export const mapStateToProps = state => ({
   queueItem: state.queue.currentItem,
-  assignments: selectAssignments(state).toJS()
+  assignments: selectAssignments(state).toJS(),
 });
 
 export const mapDispatchToProps = {
-  updateCurrentItem: actions.updateCurrentItem
+  updateCurrentItem: actions.updateCurrentItem,
 };
 
 export const QueueItemDetailsContainer = compose(
@@ -117,10 +117,10 @@ export const QueueItemDetailsContainer = compose(
         'Assigned Individual': assignment.username,
         'Assigned Individual Display Name': assignment.displayName,
         'Assigned Team': assignment.team,
-        'Assigned Team Display Name': teamParts[teamParts.length - 1]
+        'Assigned Team Display Name': teamParts[teamParts.length - 1],
       };
 
       updateCurrentItem(values);
-    }
-  })
+    },
+  }),
 )(QueueItemDetails);

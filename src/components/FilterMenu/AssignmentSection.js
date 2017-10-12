@@ -42,10 +42,10 @@ export const AssignmentSection = ({ filter, toggleAssignmentHandler }) => (
 
 export const AssignmentSectionContainer = compose(
   connect(null, {
-    toggleAssignment: actions.toggleAssignment
+    toggleAssignment: actions.toggleAssignment,
   }),
   withHandlers({
     toggleAssignmentHandler: props => event =>
-      props.toggleAssignment(event.target.value)
-  })
+      props.toggleAssignment(event.target.value),
+  }),
 )(AssignmentSection);

@@ -9,14 +9,14 @@ export const types = {
   LOAD_APP_SETTINGS: namespace('app', 'LOAD_APP_SETTINGS'),
   SET_APP_SETTINGS: namespace('app', 'SET_APP_SETTINGS'),
   ADD_PERSONAL_FILTER: namespace('app', 'ADD_PERSONAL_FILTER'),
-  REMOVE_PERSONAL_FILTER: namespace('app', 'REMOVE_PERSONAL_FILTER')
+  REMOVE_PERSONAL_FILTER: namespace('app', 'REMOVE_PERSONAL_FILTER'),
 };
 
 export const actions = {
   loadAppSettings: noPayload(types.LOAD_APP_SETTINGS),
   setAppSettings: withPayload(types.SET_APP_SETTINGS),
   addPersonalFilter: withPayload(types.ADD_PERSONAL_FILTER),
-  removePersonalFilter: withPayload(types.REMOVE_PERSONAL_FILTER)
+  removePersonalFilter: withPayload(types.REMOVE_PERSONAL_FILTER),
 };
 
 export const selectMyTeamForms = state =>
@@ -37,14 +37,14 @@ export const selectAssignments = state =>
         const user = m.user;
         user.team = t.name;
         return user;
-      })
+      }),
     )
     .concat(
       state.app.allTeams.map(t => ({
         username: null,
         displayName: 'Unassigned',
-        team: t.name
-      }))
+        team: t.name,
+      })),
     );
 
 /*
@@ -60,21 +60,21 @@ export const State = Record({
     Filter({
       name: 'Mine',
       assignments: AssignmentCriteria({
-        mine: true
-      })
+        mine: true,
+      }),
     }),
     Filter({
       name: 'Teammates',
       assignments: AssignmentCriteria({
-        teammates: true
-      })
+        teammates: true,
+      }),
     }),
     Filter({
       name: 'Unassigned',
       assignments: AssignmentCriteria({
-        unassigned: true
-      })
-    })
+        unassigned: true,
+      }),
+    }),
   ]),
   documentationUrl: DEFAULT_DOCUMENTATION_URL,
   supportUrl: DEFAULT_SUPPORT_URL,
@@ -83,7 +83,7 @@ export const State = Record({
   myTeammates: List(),
   myFilters: List(),
   forms: List(),
-  loading: true
+  loading: true,
 });
 
 export const reducer = (state = State(), { type, payload }) => {
@@ -104,7 +104,7 @@ export const reducer = (state = State(), { type, payload }) => {
     case types.REMOVE_PERSONAL_FILTER:
       return state.update(
         'myFilters',
-        filters => filters.name === filters.payload
+        filters => filters.name === filters.payload,
       );
     default:
       return state;

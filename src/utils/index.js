@@ -7,7 +7,7 @@ export const getAttributeValue = (value, defaultValue, ...sources) => {
     source =>
       source.attributes &&
       source.attributes[value] &&
-      source.attributes[value].length > 0
+      source.attributes[value].length > 0,
   );
 
   if (best) {

@@ -13,7 +13,7 @@ export const types = {
   TOGGLE_DATE_RANGE_CUSTOM: '@kd/queue/filterMenu/TOGGLE_DATE_RANGE_CUSTOM',
   SET_DATE_RANGE_START: '@kd/queue/filterMenu/SET_DATE_RANGE_START',
   SET_DATE_RANGE_END: '@kd/queue/filterMenu/SET_DATE_RANGE_END',
-  SET_SORTED_BY: '@kd/queue/filterMenu/SET_SORTED_BY'
+  SET_SORTED_BY: '@kd/queue/filterMenu/SET_SORTED_BY',
 };
 
 export const actions = {
@@ -26,23 +26,23 @@ export const actions = {
   toggleStatus: payload => ({ type: types.TOGGLE_STATUS, payload }),
   setDateRangeTimeline: payload => ({
     type: types.SET_DATE_RANGE_TIMELINE,
-    payload
+    payload,
   }),
   setDateRangePreset: payload => ({
     type: types.SET_DATE_RANGE_PRESET,
-    payload
+    payload,
   }),
   toggleDateRangeCustom: () => ({ type: types.TOGGLE_DATE_RANGE_CUSTOM }),
   setDateRangeStart: payload => ({ type: types.SET_DATE_RANGE_START, payload }),
   setDateRangeEnd: payload => ({ type: types.SET_DATE_RANGE_END, payload }),
-  setSortedBy: payload => ({ type: types.SET_SORTED_BY, payload })
+  setSortedBy: payload => ({ type: types.SET_SORTED_BY, payload }),
 };
 
 export const defaultState = Map({
   isOpen: false,
   initialFilter: null,
   currentFilter: null,
-  activeSection: null
+  activeSection: null,
 });
 
 export const reducer = (state = defaultState, { type, payload }) => {
@@ -61,23 +61,23 @@ export const reducer = (state = defaultState, { type, payload }) => {
     case types.TOGGLE_ASSIGNMENT:
       return state.updateIn(
         ['currentFilter', 'assignments', payload],
-        bool => !bool
+        bool => !bool,
       );
     case types.TOGGLE_TEAM:
       return state.getIn(['currentFilter', 'teams']).includes(payload)
         ? state.updateIn(['currentFilter', 'teams'], teams =>
-            teams.delete(teams.indexOf(payload))
+            teams.delete(teams.indexOf(payload)),
           )
         : state.updateIn(['currentFilter', 'teams'], teams =>
-            teams.push(payload)
+            teams.push(payload),
           );
     case types.TOGGLE_STATUS:
       return state.getIn(['currentFilter', 'status']).includes(payload)
         ? state.updateIn(['currentFilter', 'status'], statuses =>
-            statuses.delete(statuses.indexOf(payload))
+            statuses.delete(statuses.indexOf(payload)),
           )
         : state.updateIn(['currentFilter', 'status'], statuses =>
-            statuses.push(payload)
+            statuses.push(payload),
           );
     case types.SET_DATE_RANGE_TIMELINE:
       return state.setIn(['currentFilter', 'dateRange', 'timeline'], payload);

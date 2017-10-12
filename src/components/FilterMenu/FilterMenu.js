@@ -18,7 +18,7 @@ export const FilterMenu = ({
   activeSection,
   applyFilterHandler,
   showSection,
-  currentFilter
+  currentFilter,
 }) => (
   <Modal isOpen={isOpen} toggle={close}>
     <div className="modal-header">

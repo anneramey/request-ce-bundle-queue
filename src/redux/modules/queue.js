@@ -20,7 +20,7 @@ export const types = {
   CLOSE_PREVIEW: namespace('queue', 'CLOSE_PREVIEW'),
 
   OPEN_NEW_MENU: namespace('queue', 'OPEN_NEW_MENU'),
-  CLOSE_NEW_MENU: namespace('queue', 'CLOSE_NEW_MENU')
+  CLOSE_NEW_MENU: namespace('queue', 'CLOSE_NEW_MENU'),
 };
 
 export const actions = {
@@ -31,7 +31,7 @@ export const actions = {
   fetchList: withPayload(types.FETCH_LIST),
   setListItems: (name, list) => ({
     type: types.SET_LIST_ITEMS,
-    payload: { name, list }
+    payload: { name, list },
   }),
   setListStatus: withPayload(types.SET_LIST_STATUS),
   setPreviewItem: withPayload(types.SET_PREVIEW_ITEM),
@@ -43,7 +43,7 @@ export const actions = {
   closePreview: noPayload(types.CLOSE_PREVIEW),
 
   openNewItemMenu: noPayload(types.OPEN_NEW_MENU),
-  closeNewItemMenu: noPayload(types.CLOSE_NEW_MENU)
+  closeNewItemMenu: noPayload(types.CLOSE_NEW_MENU),
 };
 
 export const State = Record({
@@ -55,7 +55,7 @@ export const State = Record({
   listStatus: null,
   previewItem: null,
   workMenuOpen: false,
-  newItemMenuOpen: false
+  newItemMenuOpen: false,
 });
 
 export const isItemComplete = queueItem =>
@@ -84,7 +84,7 @@ export const reducer = (state = State(), { type, payload }) => {
     case types.TOGGLE_SORT_DIRECTION:
       return state.set(
         'sortDirection',
-        state.sortDirection === 'ASC' ? 'DESC' : 'ASC'
+        state.sortDirection === 'ASC' ? 'DESC' : 'ASC',
       );
     case types.OPEN_WORK_MENU:
       return state.set('workMenuOpen', true);

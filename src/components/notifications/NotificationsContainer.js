@@ -12,7 +12,7 @@ const defaultTitle = {
   info: 'Info',
   warn: 'Warning',
   error: 'Error',
-  normal: 'Info'
+  normal: 'Info',
 };
 
 const Notification = ({ notification, dismiss }) => (
@@ -40,16 +40,16 @@ const Notifications = ({ notifications, dismiss }) => (
 );
 
 const mapStateToProps = state => ({
-  notifications: state.errors.notifications
+  notifications: state.errors.notifications,
 });
 
 const mapDispatchToProps = {
-  removeNotification: actions.removeNotification
+  removeNotification: actions.removeNotification,
 };
 
 export const NotificationsContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
-    dismiss: ({ removeNotification }) => id => () => removeNotification(id)
-  })
+    dismiss: ({ removeNotification }) => id => () => removeNotification(id),
+  }),
 )(Notifications);

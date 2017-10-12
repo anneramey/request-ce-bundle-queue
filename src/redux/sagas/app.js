@@ -9,7 +9,7 @@ import {
   actions,
   types,
   DEFAULT_DOCUMENTATION_URL,
-  DEFAULT_SUPPORT_URL
+  DEFAULT_SUPPORT_URL,
 } from '../modules/app';
 
 export const selectPersonalFilters = ({ app }) => app.myFilters;
@@ -45,21 +45,21 @@ export function* fetchAppSettingsTask() {
     kapp: { kapp },
     profile: { profile },
     forms: { forms },
-    teams: { teams }
+    teams: { teams },
   } = yield all({
     kapp: call(CoreAPI.fetchKapp, { include: 'attributes' }),
     space: call(CoreAPI.fetchSpace, { include: 'attributes' }),
     profile: call(CoreAPI.fetchProfile, {
       include:
-        'attributes,profileAttributes,memberships,memberships.team,memberships.team.attributes,memberships.team.memberships,memberships.team.memberships.user'
+        'attributes,profileAttributes,memberships,memberships.team,memberships.team.attributes,memberships.team.memberships,memberships.team.memberships.user',
     }),
     forms: call(CoreAPI.fetchForms, {
-      include: 'details,attributes'
+      include: 'details,attributes',
     }),
     teams: call(CoreAPI.fetchTeams, {
       include:
-        'details,attributes,memberships.memberships.user,memberships.user.details'
-    })
+        'details,attributes,memberships.memberships.user,memberships.user.details',
+    }),
   });
 
   const allTeams = teams.filter(isAssignable);
@@ -82,20 +82,20 @@ export function* fetchAppSettingsTask() {
       'Documentation Url',
       DEFAULT_DOCUMENTATION_URL,
       kapp,
-      space
+      space,
     )[0],
     supportUrl: getAttributeValue(
       'Support Url',
       DEFAULT_SUPPORT_URL,
       kapp,
-      space
+      space,
     )[0],
     profile,
     myTeams,
     myTeammates,
     myFilters,
     forms,
-    allTeams
+    allTeams,
   };
 
   yield put(actions.setAppSettings(appSettings));
@@ -109,12 +109,12 @@ export function* updatePersonalFilterTask() {
 
   const { profile: newProfile, serverError } = yield call(
     CoreAPI.updateProfile,
-    { profile }
+    { profile },
   );
   if (!serverError) {
     const newFilters = newProfile.profileAttributes['Queue Personal Filters']
       ? newProfile.profileAttributes['Queue Personal Filters'].values.map(
-          f => f
+          f => f,
         )
       : List();
     window.console.log(newFilters);
@@ -125,6 +125,6 @@ export function* watchApp() {
   yield takeEvery(types.LOAD_APP_SETTINGS, fetchAppSettingsTask);
   yield takeLatest(
     [types.ADD_PERSONAL_FILTER, types.REMOVE_PERSONAL_FILTER],
-    updatePersonalFilterTask
+    updatePersonalFilterTask,
   );
 }

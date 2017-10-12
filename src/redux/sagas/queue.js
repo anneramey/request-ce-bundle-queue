@@ -48,7 +48,7 @@ export const prepareAssignmentFilter = (searcher, filter, appSettings) => {
   if (filter.assignments.byIndividuals) {
     searcher.in(
       'values[Assigned Individual]',
-      filter.assignments.individuals.toJS()
+      filter.assignments.individuals.toJS(),
     );
   } else if (
     filter.assignments.mine ||
@@ -62,7 +62,7 @@ export const prepareAssignmentFilter = (searcher, filter, appSettings) => {
     if (filter.assignments.teammates) {
       searcher.in(
         'values[Assigned Individual]',
-        appSettings.myTeammates.map(u => u.username)
+        appSettings.myTeammates.map(u => u.username),
       );
     }
     if (filter.assignments.unassigned) {
@@ -80,7 +80,7 @@ export const prepareDateRangeFilter = (searcher, filter, now) => {
     searcher.endDate(
       moment(filter.dateRange.end)
         .add(1, 'day')
-        .toDate()
+        .toDate(),
     );
   } else if (filter.dateRange.preset !== '') {
     // Compute the number of days specified in the preset date range, just use
@@ -90,7 +90,7 @@ export const prepareDateRangeFilter = (searcher, filter, now) => {
     const numberOfDays = match ? parseInt(match[1], 10) : 7;
     if (!match) {
       window.console.warn(
-        `Invalid date range filter preset: ${filter.dateRange.preset}`
+        `Invalid date range filter preset: ${filter.dateRange.preset}`,
       );
     }
     searcher.sortBy(filter.dateRange.timeline);
@@ -99,7 +99,7 @@ export const prepareDateRangeFilter = (searcher, filter, now) => {
         .clone()
         .startOf('day')
         .subtract(numberOfDays, 'days')
-        .toDate()
+        .toDate(),
     );
     searcher.endDate(now.toDate());
   }
@@ -166,7 +166,7 @@ export function* fetchCurrentFilterTask(action) {
     submissions,
     messages,
     nextPageToken,
-    serverError
+    serverError,
   } = yield call(CoreAPI.searchSubmissions, { search });
 
   if (serverError || (messages && messages.length > 0)) {
@@ -185,7 +185,7 @@ export function* fetchCurrentFilterTask(action) {
 export function* fetchCurrentItemTask(action) {
   const { submission, serverError } = yield call(CoreAPI.fetchSubmission, {
     id: action.payload,
-    include: SUBMISSION_INCLUDES
+    include: SUBMISSION_INCLUDES,
   });
 
   if (!serverError) {
@@ -200,7 +200,7 @@ export function* updateCurrentItemTask(action) {
   const { submission } = yield call(CoreAPI.updateSubmission, {
     id: currentItem.id,
     values: action.payload,
-    include: SUBMISSION_INCLUDES
+    include: SUBMISSION_INCLUDES,
   });
 
   if (submission) {

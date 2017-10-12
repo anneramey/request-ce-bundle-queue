@@ -64,7 +64,7 @@ export const NewItemMenu = ({
   handleAssignmentClick,
   handleSave,
   handleClosed,
-  handleSelect
+  handleSelect,
 }) => (
   <Modal
     isOpen={isOpen}

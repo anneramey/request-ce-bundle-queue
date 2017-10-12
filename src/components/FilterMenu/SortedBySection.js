@@ -9,7 +9,7 @@ export const SORT_OPTIONS = OrderedMap([
   ['createdAt', { label: 'Created At', id: 'sorted-by-created-at' }],
   ['updatedAt', { label: 'Updated At', id: 'sorted-by-updated-at' }],
   ['closedAt', { label: 'Closed At', id: 'sorted-by-closed-at' }],
-  ['Due Date', { label: 'Due Date', id: 'sorted-by-due-date' }]
+  ['Due Date', { label: 'Due Date', id: 'sorted-by-due-date' }],
 ]);
 
 export const SortedBySection = ({ filter, setSortedByHandler }) => (
@@ -33,9 +33,9 @@ export const SortedBySection = ({ filter, setSortedByHandler }) => (
 
 export const SortedBySectionContainer = compose(
   connect(null, {
-    setSortedBy: actions.setSortedBy
+    setSortedBy: actions.setSortedBy,
   }),
   withHandlers({
-    setSortedByHandler: props => event => props.setSortedBy(event.target.value)
-  })
+    setSortedByHandler: props => event => props.setSortedBy(event.target.value),
+  }),
 )(SortedBySection);

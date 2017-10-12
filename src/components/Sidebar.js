@@ -16,7 +16,7 @@ export const Sidebar = ({
   supportUrl,
   counts,
   openNewItemMenu,
-  myFilters
+  myFilters,
 }) => (
   <div className="sidebar">
     <button className="btn btn-primary" onClick={openNewItemMenu}>

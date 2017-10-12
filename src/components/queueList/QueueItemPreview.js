@@ -23,7 +23,7 @@ const StatusParagraph = ({ status }) => (
 export const QueueItemPreview = ({
   queueItem,
   closePreview,
-  toggleWorkMenu
+  toggleWorkMenu,
 }) => {
   const { values } = queueItem;
 

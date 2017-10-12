@@ -24,7 +24,7 @@ export const QueueList = ({
   toggleWorkMenu,
   sortDirection,
   toggleSortDirection,
-  refresh
+  refresh,
 }) => (
   <div className="two-panels">
     <div className="left-panel">

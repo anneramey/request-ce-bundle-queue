@@ -8,7 +8,7 @@
 // eslint-disable-next-line no-undef, camelcase
 __webpack_public_path__ = `${window.bundle.config.staticLocation}/`.replace(
   /static\/$/,
-  ''
+  '',
 );
 
 // The index.js file MUST be loaded with 'require' and not 'import' because

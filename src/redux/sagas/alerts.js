@@ -13,13 +13,13 @@ export function* fetchAlertsSaga() {
   const { submissions, serverError } = yield call(CoreAPI.searchSubmissions, {
     kapp: 'admin',
     form: 'alerts',
-    search: ALERTS_SEARCH
+    search: ALERTS_SEARCH,
   });
 
   yield put(
     serverError
       ? actions.setAlertsError(serverError)
-      : actions.setAlerts(submissions)
+      : actions.setAlerts(submissions),
   );
 }
 

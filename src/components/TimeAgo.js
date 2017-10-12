@@ -10,7 +10,7 @@ export class TimeAgo extends Component {
     super(props);
     this.state = {
       formatted: moment(props.timestamp).format(TIME_FORMAT),
-      timeAgo: moment(props.timestamp).fromNow()
+      timeAgo: moment(props.timestamp).fromNow(),
     };
     this.tick = this.tick.bind(this);
   }

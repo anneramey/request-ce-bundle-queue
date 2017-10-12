@@ -3,7 +3,7 @@ import {
   lifecycle,
   withHandlers,
   withProps,
-  withState
+  withState,
 } from 'recompose';
 import { connect } from 'react-redux';
 
@@ -18,7 +18,7 @@ const mapStateToProps = (state, props) => ({
   queueItems: state.queue.lists.get(props.match.params.filter),
   workMenuOpen: state.queue.workMenuOpen,
   previewItem: state.queue.previewItem,
-  sortDirection: state.queue.sortDirection
+  sortDirection: state.queue.sortDirection,
 });
 
 const mapDispatchToProps = {
@@ -29,7 +29,7 @@ const mapDispatchToProps = {
   openWorkMenu: queueActions.openWorkMenu,
   closeWorkMenu: queueActions.closeWorkMenu,
   toggleSortDirection: queueActions.toggleSortDirection,
-  fetchList: queueActions.fetchList
+  fetchList: queueActions.fetchList,
 };
 
 const selectFilter = (filters, filter) => filters.find(f => f.name === filter);
@@ -37,7 +37,7 @@ const selectFilter = (filters, filter) => filters.find(f => f.name === filter);
 export const QueueListContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
   withProps(({ sortDirection, queueItems }) => ({
-    queueItems: sortDirection === 'DESC' ? queueItems.reverse() : queueItems
+    queueItems: sortDirection === 'DESC' ? queueItems.reverse() : queueItems,
   })),
   withState('openDropdownItem', 'setOpenDropdownItem', null),
   withState('workItem', 'setWorkItem', null),
@@ -47,13 +47,13 @@ export const QueueListContainer = compose(
       if (filter) {
         setCurrentFilter(filter);
       }
-    }
+    },
   }),
   withHandlers({
     openFilterMenu: props => () => props.openFilterMenu(props.filter),
     toggleItemMenu: ({
       openDropdownItem,
-      setOpenDropdownItem
+      setOpenDropdownItem,
     }) => item => () => {
       if (openDropdownItem) {
         setOpenDropdownItem(null);
@@ -65,7 +65,7 @@ export const QueueListContainer = compose(
       workItem,
       setWorkItem,
       openWorkMenu,
-      closeWorkMenu
+      closeWorkMenu,
     }) => item => () => {
       window.console.log('toggling work menu');
       if (workItem) {
@@ -82,7 +82,7 @@ export const QueueListContainer = compose(
       closeWorkMenu();
     },
     handleItemClick: ({ openPreview }) => item => () => openPreview(item),
-    refresh: ({ filter, fetchList }) => () => fetchList(filter)
+    refresh: ({ filter, fetchList }) => () => fetchList(filter),
   }),
   lifecycle({
     componentWillMount() {
@@ -92,7 +92,7 @@ export const QueueListContainer = compose(
       if (this.props.match.params.filter !== nextProps.match.params.filter) {
         const filter = selectFilter(
           this.props.filters,
-          nextProps.match.params.filter
+          nextProps.match.params.filter,
         );
         if (filter) {
           this.props.setCurrentFilter(filter);
@@ -102,6 +102,6 @@ export const QueueListContainer = compose(
     componentWillUnmount() {
       this.props.closeWorkMenu();
       this.props.closePreview();
-    }
-  })
+    },
+  }),
 )(QueueList);

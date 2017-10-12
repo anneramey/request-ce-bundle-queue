@@ -3,14 +3,14 @@ import { List, Record } from 'immutable';
 export const Profile = Record({
   displayName: '',
   username: '',
-  email: ''
+  email: '',
 });
 
 export const VALID_STATUSES = List([
   'Open',
   'Pending',
   'Canceled',
-  'Completed'
+  'Completed',
 ]);
 
 export const isActiveStatus = status =>
@@ -21,7 +21,7 @@ export const AssignmentCriteria = Record({
   teammates: false,
   unassigned: false,
   byIndividuals: false,
-  individuals: List()
+  individuals: List(),
 });
 
 export const DateRangeCriteria = Record({
@@ -31,7 +31,7 @@ export const DateRangeCriteria = Record({
   preset: '',
   custom: false,
   start: '',
-  end: ''
+  end: '',
 });
 
 export const Filter = Record({
@@ -45,5 +45,5 @@ export const Filter = Record({
   status: VALID_STATUSES.filter(isActiveStatus),
   teams: List(),
   assignments: AssignmentCriteria(),
-  dateRange: DateRangeCriteria()
+  dateRange: DateRangeCriteria(),
 });

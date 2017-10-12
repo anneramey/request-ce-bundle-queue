@@ -16,7 +16,7 @@ export const QueueItem = ({
   currentFilterName,
   workMenuOpen,
   openWorkMenu,
-  closeWorkMenu
+  closeWorkMenu,
 }) =>
   queueItem !== null && (
     <div className="queue-item-details two-panels">
@@ -80,13 +80,13 @@ export const mapStateToProps = (state, props) => ({
   queueItem: state.queue.currentItem,
   currentFilterName: state.queue.currentFilter.name,
   id: props.match.params.id,
-  workMenuOpen: state.queue.workMenuOpen
+  workMenuOpen: state.queue.workMenuOpen,
 });
 
 export const mapDispatchToProps = {
   fetchCurrentItem: actions.fetchCurrentItem,
   openWorkMenu: actions.openWorkMenu,
-  closeWorkMenu: actions.closeWorkMenu
+  closeWorkMenu: actions.closeWorkMenu,
 };
 
 export const QueueItemContainer = compose(
@@ -96,7 +96,7 @@ export const QueueItemContainer = compose(
     handleCompleted: ({ refreshItem, closeWorkMenu }) => () => {
       refreshItem();
       closeWorkMenu();
-    }
+    },
   }),
   lifecycle({
     componentWillMount() {
@@ -106,6 +106,6 @@ export const QueueItemContainer = compose(
       if (this.props.id !== nextProps.id) {
         this.props.fetchCurrentItem(nextProps.id);
       }
-    }
-  })
+    },
+  }),
 )(QueueItem);

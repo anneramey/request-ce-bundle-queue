@@ -73,16 +73,16 @@ export function* watchDiscussionSocket() {
     const action = yield take(types.CONNECT);
     const guid = action.payload;
     const socket = new WebSocket(
-      `ws://${RESPONSE_BASE_PATH}/${guid}/issue_socket`
+      `ws://${RESPONSE_BASE_PATH}/${guid}/issue_socket`,
     );
     const socketChannel = yield call(registerChannel, socket);
 
     const { cancel } = yield race({
       task: [
-        call(incomingMessages, socketChannel)
+        call(incomingMessages, socketChannel),
         // call(outgoingMessages, socket),
       ],
-      cancel: take(types.DISCONNECT)
+      cancel: take(types.DISCONNECT),
     });
 
     if (cancel) {
@@ -98,7 +98,7 @@ const fetchMessages = action => {
   const { guid, lastReceived } = action.payload;
   return axios.get(`http://${RESPONSE_BASE_PATH}/${guid}/messages`, {
     withCredentials: true,
-    params: { last_received: lastReceived || '2014-01-01' }
+    params: { last_received: lastReceived || '2014-01-01' },
   });
 };
 
@@ -127,7 +127,7 @@ const sendMessage = action => {
   return axios.post(
     `http://${RESPONSE_BASE_PATH}/${guid}/messages`,
     { body },
-    { withCredentials: true }
+    { withCredentials: true },
   );
 };
 

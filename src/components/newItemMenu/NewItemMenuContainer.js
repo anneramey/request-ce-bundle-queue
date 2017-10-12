@@ -8,11 +8,11 @@ import { NewItemMenu } from './NewItemMenu';
 const mapStateToProps = state => ({
   myTeamForms: selectMyTeamForms(state).filter(form => form.type === 'Task'),
   isOpen: state.queue.newItemMenuOpen,
-  assignments: selectAssignments(state).toJS()
+  assignments: selectAssignments(state).toJS(),
 });
 
 const mapDispatchToProps = {
-  closeNewItemMenu: actions.closeNewItemMenu
+  closeNewItemMenu: actions.closeNewItemMenu,
 };
 
 const handleFormClick = ({ setCurrentForm }) => form => () =>
@@ -30,7 +30,7 @@ const handleSelect = ({ setAssignment }) => (_value, state) =>
     'Assigned Individual': state.username,
     'Assigned Individual Display Name': state.displayName,
     'Assigned Team': state.team,
-    'Assigned Team Display Name': state.team
+    'Assigned Team Display Name': state.team,
   });
 
 const onFormLoaded = ({ setKForm }) => form => setKForm(form);
@@ -46,6 +46,6 @@ export const NewItemMenuContainer = compose(
     handleSave,
     handleClosed,
     handleSelect,
-    onFormLoaded
-  })
+    onFormLoaded,
+  }),
 )(NewItemMenu);

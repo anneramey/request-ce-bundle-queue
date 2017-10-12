@@ -39,12 +39,12 @@ ReactDOM.render(
       <Route path="/" component={AppContainer} />
     </ConnectedRouter>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // Add global listeners
 const mql = window.matchMedia('(min-width: 700px)');
 store.dispatch(actions.setIsLayoutLarge(mql.matches));
 mql.addListener(event =>
-  store.dispatch(actions.setIsLayoutLarge(event.matches))
+  store.dispatch(actions.setIsLayoutLarge(event.matches)),
 );

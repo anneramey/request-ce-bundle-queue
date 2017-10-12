@@ -8,7 +8,7 @@ export const ModalForm = ({
   form,
   isCompleted,
   handleCompleted,
-  handleClosed
+  handleClosed,
 }) =>
   form && (
     <Modal isOpen toggle={handleClosed} size="lg">

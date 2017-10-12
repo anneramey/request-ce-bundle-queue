@@ -14,7 +14,7 @@ export const WorkItemMenu = ({
   onFormLoaded,
   onCompleted,
   visible,
-  review
+  review,
 }) => (
   <Modal
     isOpen={isOpen}
@@ -60,6 +60,6 @@ export const WorkItemMenuContainer = compose(
     },
     handleSave: ({ form }) => () => {
       form.submitPage();
-    }
-  })
+    },
+  }),
 )(WorkItemMenu);

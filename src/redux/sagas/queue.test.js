@@ -4,7 +4,7 @@ import { select, call, put } from 'redux-saga/effects';
 import { actions } from '../modules/queue';
 
 global.bundle = {
-  apiLocation: () => '/acme/app/api/v1'
+  apiLocation: () => '/acme/app/api/v1',
 };
 const { CoreAPI } = require('react-kinetic-core');
 const { Filter, Profile } = require('../../records');
@@ -20,7 +20,7 @@ const {
   prepareDateRangeFilter,
   getSubmissionDate,
   sortSubmissions,
-  buildSearch
+  buildSearch,
 } = require('./queue');
 
 const findQuery = (searcher, value) =>
@@ -39,7 +39,7 @@ describe('queue saga', () => {
       appSettings = {
         myTeams: List([{ name: 'REAL_TEAM' }]),
         myTeammates: List([Profile({ username: 'you@yours.com' })]),
-        profile: new Profile({ username: 'me@mine.com' })
+        profile: new Profile({ username: 'me@mine.com' }),
       };
     });
 
@@ -97,7 +97,7 @@ describe('queue saga', () => {
         expect(searcher.query[0].context.length).toBe(1);
         expect(searcher.query[0].context[0].op).toBe('eq');
         expect(searcher.query[0].context[0].lvalue).toBe(
-          'values[Assigned Individual]'
+          'values[Assigned Individual]',
         );
         expect(searcher.query[0].context[0].rvalue).toBe(null);
       });
@@ -110,7 +110,7 @@ describe('queue saga', () => {
         expect(searcher.query[0].context.length).toBe(1);
         expect(searcher.query[0].context[0].op).toBe('eq');
         expect(searcher.query[0].context[0].lvalue).toBe(
-          'values[Assigned Individual]'
+          'values[Assigned Individual]',
         );
         expect(searcher.query[0].context[0].rvalue).toBe('me@mine.com');
       });
@@ -123,10 +123,10 @@ describe('queue saga', () => {
         expect(searcher.query[0].context.length).toBe(1);
         expect(searcher.query[0].context[0].op).toBe('in');
         expect(searcher.query[0].context[0].lvalue).toBe(
-          'values[Assigned Individual]'
+          'values[Assigned Individual]',
         );
         expect(searcher.query[0].context[0].rvalue.toJS()).toEqual([
-          'you@yours.com'
+          'you@yours.com',
         ]);
       });
 
@@ -141,15 +141,15 @@ describe('queue saga', () => {
           expect(searcher.query[0].context.length).toBe(2);
           expect(searcher.query[0].context[0].op).toBe('eq');
           expect(searcher.query[0].context[0].lvalue).toBe(
-            'values[Assigned Individual]'
+            'values[Assigned Individual]',
           );
           expect(searcher.query[0].context[0].rvalue).toEqual('me@mine.com');
           expect(searcher.query[0].context[1].op).toBe('in');
           expect(searcher.query[0].context[1].lvalue).toBe(
-            'values[Assigned Individual]'
+            'values[Assigned Individual]',
           );
           expect(searcher.query[0].context[1].rvalue.toJS()).toEqual([
-            'you@yours.com'
+            'you@yours.com',
           ]);
         });
 
@@ -196,7 +196,7 @@ describe('queue saga', () => {
         searcher = prepareDateRangeFilter(
           searcher,
           filter,
-          moment('2017-09-08T15:30:00.000')
+          moment('2017-09-08T15:30:00.000'),
         );
         expect(searcher.searchMeta.timeline).toBe('closedAt');
         expect(searcher.searchMeta.start).toBe('2017-09-05T05:00:00.000Z');
@@ -210,7 +210,7 @@ describe('queue saga', () => {
         searcher = prepareDateRangeFilter(
           searcher,
           filter,
-          moment('2017-09-08T15:30:00.000')
+          moment('2017-09-08T15:30:00.000'),
         );
         expect(searcher.searchMeta.timeline).toBe('closedAt');
         expect(searcher.searchMeta.start).toBe('2017-09-01T05:00:00.000Z');
@@ -224,14 +224,14 @@ describe('queue saga', () => {
         updatedAt: 'updatedAt',
         closedAt: 'closedAt',
         values: {
-          due: 'due'
-        }
+          due: 'due',
+        },
       };
 
       ['createdAt', 'updatedAt', 'closedAt'].forEach(timeline =>
         test(`gets timeline date '${timeline}'`, () => {
           expect(getSubmissionDate(submission, timeline)).toBe(timeline);
-        })
+        }),
       );
       test('gets value date', () => {
         expect(getSubmissionDate(submission, 'due')).toBe('due');
@@ -258,18 +258,18 @@ describe('queue saga', () => {
           {
             id: '1',
             createdAt: today(),
-            values: { scheduled: today() }
+            values: { scheduled: today() },
           },
           {
             id: '2',
             createdAt: weekAgo(),
-            values: { scheduled: fiveDaysAgo(), due: today() }
+            values: { scheduled: fiveDaysAgo(), due: today() },
           },
           {
             id: '3',
             createdAt: fiveDaysAgo(),
-            values: { scheduled: weekAgo() }
-          }
+            values: { scheduled: weekAgo() },
+          },
         ];
       });
 
@@ -334,15 +334,15 @@ describe('queue saga', () => {
         expect(saga.next().value).toEqual(select(getAppSettings));
         // Build the search criteria.
         expect(saga.next(appSettings).value).toEqual(
-          call(buildSearch, action.payload, appSettings)
+          call(buildSearch, action.payload, appSettings),
         );
         // Execute the search.
         expect(saga.next(search).value).toEqual(
-          call(CoreAPI.searchSubmissions, { search })
+          call(CoreAPI.searchSubmissions, { search }),
         );
         // Return an error.
         expect(saga.next({ serverError: 'some error' }).value).toEqual(
-          put(actions.setListStatus(ERROR_STATUS_STRING))
+          put(actions.setListStatus(ERROR_STATUS_STRING)),
         );
       });
     });
@@ -355,15 +355,15 @@ describe('queue saga', () => {
         expect(saga.next().value).toEqual(select(getAppSettings));
         // Build the search criteria.
         expect(saga.next(appSettings).value).toEqual(
-          call(buildSearch, action.payload, appSettings)
+          call(buildSearch, action.payload, appSettings),
         );
         // Execute the search.
         expect(saga.next(search).value).toEqual(
-          call(CoreAPI.searchSubmissions, { search })
+          call(CoreAPI.searchSubmissions, { search }),
         );
         // Return an error.
         expect(saga.next({ nextPageToken: 'some token' }).value).toEqual(
-          put(actions.setListStatus(TOO_MANY_STATUS_STRING))
+          put(actions.setListStatus(TOO_MANY_STATUS_STRING)),
         );
       });
     });
@@ -376,18 +376,18 @@ describe('queue saga', () => {
         expect(saga.next().value).toEqual(select(getAppSettings));
         // Build the search criteria.
         expect(saga.next(appSettings).value).toEqual(
-          call(buildSearch, action.payload, appSettings)
+          call(buildSearch, action.payload, appSettings),
         );
         // Execute the search.
         expect(saga.next(search).value).toEqual(
-          call(CoreAPI.searchSubmissions, { search })
+          call(CoreAPI.searchSubmissions, { search }),
         );
         // It sorts the submissions
         expect(saga.next(response).value).toEqual(
-          call(sortSubmissions, response.submissions, action.payload)
+          call(sortSubmissions, response.submissions, action.payload),
         );
         expect(saga.next(response.submissions).value).toEqual(
-          put(actions.setListItems('Filter Name', response.submissions))
+          put(actions.setListItems('Filter Name', response.submissions)),
         );
       });
     });
@@ -410,10 +410,10 @@ describe('queue saga', () => {
 
         // Execute the search.
         expect(saga.next().value).toEqual(
-          call(CoreAPI.fetchSubmission, { id: action.payload, include })
+          call(CoreAPI.fetchSubmission, { id: action.payload, include }),
         );
         expect(saga.next(response).value).toEqual(
-          put(actions.setCurrentItem(response.submission))
+          put(actions.setCurrentItem(response.submission)),
         );
       });
     });

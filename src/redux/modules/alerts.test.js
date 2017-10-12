@@ -36,15 +36,15 @@ describe('alerts redux module', () => {
       const before = State({
         data: List('one'),
         error: 'error',
-        loading: false
+        loading: false,
       });
       const action = actions.fetchAlerts();
       expect(reducer(before, action)).toEqualImmutable(
         State({
           data: List('one'),
           error: 'error',
-          loading: true
-        })
+          loading: true,
+        }),
       );
     });
 
@@ -52,15 +52,15 @@ describe('alerts redux module', () => {
       const before = State({
         data: List('one'),
         error: 'error',
-        loading: true
+        loading: true,
       });
       const action = actions.setAlerts(List('two'));
       expect(reducer(before, action)).toEqualImmutable(
         State({
           data: List('two'),
           error: null,
-          loading: false
-        })
+          loading: false,
+        }),
       );
     });
 
@@ -68,15 +68,15 @@ describe('alerts redux module', () => {
       const before = State({
         data: List(['one']),
         error: null,
-        loading: true
+        loading: true,
       });
       const action = actions.setAlertsError('error');
       expect(reducer(before, action)).toEqualImmutable(
         State({
           data: List(['one']),
           error: 'error',
-          loading: false
-        })
+          loading: false,
+        }),
       );
     });
   });

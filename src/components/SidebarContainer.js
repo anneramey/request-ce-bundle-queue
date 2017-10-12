@@ -21,13 +21,13 @@ const mapStateToProps = state => ({
   counts: DEFAULT_FILTERS.reduce(
     (acc, filterName) =>
       acc.set(filterName, state.queue.lists.get(filterName, []).size),
-    Map()
-  )
+    Map(),
+  ),
 });
 
 const mapDispatchToProps = {
   fetchList: actions.fetchList,
-  openNewItemMenu: actions.openNewItemMenu
+  openNewItemMenu: actions.openNewItemMenu,
 };
 
 export const SidebarContainer = compose(
@@ -38,6 +38,6 @@ export const SidebarContainer = compose(
       this.props.defaultFilters
         .filter(filter => !match || filter.name !== match.params.name)
         .forEach(this.props.fetchList);
-    }
-  })
+    },
+  }),
 )(Sidebar);

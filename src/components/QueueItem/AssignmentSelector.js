@@ -8,7 +8,7 @@ export class AssignmentSelector extends Component {
     super(props);
 
     this.state = {
-      assignment: ''
+      assignment: '',
     };
     this.handleSelect = this.handleSelect.bind(this);
     this.handleChange = this.handleChange.bind(this);

@@ -57,7 +57,7 @@
         var input = $(this);
         var typeaheadConfig = $.extend(
           {},
-          typeaheadConfigurations['defaultConfiguration']
+          typeaheadConfigurations['defaultConfiguration'],
         );
         //_.extend(typeaheadConfig, typeaheadConfigurations['defaultConfiguration'])
         typeaheadConfig['typeaheadForm'] = typeaheadForm;
@@ -65,33 +65,33 @@
         // Override the specified config object if any extra typeahead attributes were set
         if (!_.isEmpty($(input).attr('typeahead-query-field')))
           typeaheadConfig['queryField'] = $(input).attr(
-            'typeahead-query-field'
+            'typeahead-query-field',
           );
         if (!_.isEmpty($(input).attr('typeahead-min-length')))
           typeaheadConfig['minLength'] = parseInt(
-            $(input).attr('typeahead-min-length')
+            $(input).attr('typeahead-min-length'),
           );
         if (!_.isEmpty($(input).attr('typeahead-fa-class')))
           typeaheadConfig['faClass'] = $(input).attr('typeahead-fa-class');
         if (!_.isEmpty($(input).attr('typeahead-placeholder')))
           typeaheadConfig['placeholder'] = $(input).attr(
-            'typeahead-placeholder'
+            'typeahead-placeholder',
           );
         if (!_.isEmpty($(input).attr('typeahead-empty-message')))
           typeaheadConfig['emptyMessage'] = $(input).attr(
-            'typeahead-empty-message'
+            'typeahead-empty-message',
           );
         if (!_.isEmpty($(input).attr('typeahead-user-id-attribute')))
           typeaheadConfig['userIdAttribute'] = $(input).attr(
-            'typeahead-user-id-attribute'
+            'typeahead-user-id-attribute',
           );
         if (!_.isEmpty($(input).attr('typeahead-bridged-resource')))
           typeaheadConfig['bridgedResource'] = $(input).attr(
-            'typeahead-bridged-resource'
+            'typeahead-bridged-resource',
           );
         if (!_.isEmpty($(input).attr('typeahead-bridge-location')))
           typeaheadConfig['bridgeLocation'] = $(input).attr(
-            'typeahead-bridge-location'
+            'typeahead-bridge-location',
           );
         if (!_.isEmpty($(input).attr('typeahead-attributes-to-show')))
           typeaheadConfig['attrsToShow'] = $(input)
@@ -99,12 +99,12 @@
             .split(',');
         if (!_.isEmpty($(input).attr('typeahead-attribute-to-set')))
           typeaheadConfig['attrToSet'] = $(input).attr(
-            'typeahead-attribute-to-set'
+            'typeahead-attribute-to-set',
           );
 
         if (!_.isEmpty($(input).attr('typeahead-query-field'))) {
           typeaheadConfig['queryField'] = $(input).attr(
-            'typeahead-query-field'
+            'typeahead-query-field',
           );
         } else if (!_.isEmpty(typeaheadConfig['queryField'])) {
           typeaheadConfig['queryField'] = typeaheadConfig['queryField'];
@@ -123,7 +123,7 @@
               var fname = v.split('=')[0];
               var fbridgedValue = v.split('=')[1];
               typeaheadConfig['fieldsToSet'][fname] = fbridgedValue;
-            }
+            },
           );
         }
 
@@ -138,7 +138,7 @@
               var fname = v.split('=')[0];
               var fbridgedValue = v.split('=')[1];
               typeaheadConfig['additionalParams'][fname] = fbridgedValue;
-            }
+            },
           );
         }
 
@@ -174,14 +174,14 @@
               addtlParam = '&values[' + name + ']=' + valToSet;
             } else if (value.split('::')[0].toLowerCase() === 'field') {
               var field = typeaheadConfig['typeaheadForm'].select(
-                'field[' + valToSet + ']'
+                'field[' + valToSet + ']',
               );
               if (field != null) {
                 addtlParam = '&values[' + name + ']=' + field.value();
               } else {
                 console.log(
                   'KD Typeahead Error! When adding additional bridge parameters (typeahead-additional-params), could not find field with the name: ' +
-                    valToSet
+                    valToSet,
                 );
               }
             }
@@ -192,12 +192,12 @@
         // Stop processing if bridgedresource is not defined or attribute to set as value is not defined
         if (_.isEmpty(typeaheadConfig['bridgedResource'])) {
           console.log(
-            'KD Typeahead Error! Missing bridged resource configuration (typeahead-bridged-resource).'
+            'KD Typeahead Error! Missing bridged resource configuration (typeahead-bridged-resource).',
           );
           return false;
         } else if (_.isEmpty(typeaheadConfig['attrToSet'])) {
           console.log(
-            'KD Typeahead Error! Missing attribute to set configuration (typeahead-attribute-to-set).'
+            'KD Typeahead Error! Missing attribute to set configuration (typeahead-attribute-to-set).',
           );
           return false;
         }
@@ -210,8 +210,8 @@
             $(
               '<span class="input-group-addon" id="basic-addon1"><i class="fa ' +
                 typeaheadConfig['faClass'] +
-                '" aria-hidden="true"></i></span>'
-            )
+                '" aria-hidden="true"></i></span>',
+            ),
           );
         $(input).attr('placeholder', typeaheadConfig['placeholder']);
         $(input)
@@ -227,7 +227,7 @@
             wildcard: '%QUERY',
             filter: function(data) {
               var dataArrayObjects = _.map(data.records.records, function(
-                record
+                record,
               ) {
                 return _.object(data.records.fields, record);
               });
@@ -241,8 +241,8 @@
                   );
                 });
               }
-            }
-          }
+            },
+          },
         }); // End Bloodhound Search
 
         // Initialize typeahead search
@@ -250,7 +250,7 @@
           {
             hint: true,
             highlight: true,
-            minLength: typeaheadConfig['minLength']
+            minLength: typeaheadConfig['minLength'],
           },
           {
             name: 'typeahead-search',
@@ -262,17 +262,17 @@
                 '<div class="tt-empty-message text-center">',
                 typeaheadConfig['emptyMessage'],
                 '<br>',
-                '</div>'
+                '</div>',
               ].join('\n'),
               suggestion: function(data) {
                 suggestion = typeaheadConfig.suggestionHtml(
                   data,
-                  typeaheadConfig
+                  typeaheadConfig,
                 );
                 return suggestion;
-              }
-            }
-          }
+              },
+            },
+          },
         );
         $(input)
           .siblings('.tt-hint')
@@ -319,11 +319,11 @@ typeaheadConfigurations = {
       var suggestionDetails = $('<div class="tt-details"/>');
       $.each(config['attrsToShow'], function(i, attr) {
         $(suggestionDetails).append(
-          '<div class="tt-attribute col-sm-6">' + data[attr] + '</div>'
+          '<div class="tt-attribute col-sm-6">' + data[attr] + '</div>',
         );
       });
       var suggestion = $('<div class="tt-suggestion"/>').append(
-        $(suggestionDetails)
+        $(suggestionDetails),
       );
       return suggestion;
     },
@@ -339,12 +339,12 @@ typeaheadConfigurations = {
         } else {
           console.log(
             'KD Typeahead Error! When setting fields (typeahead-fields-to-set), could not find field with the name: ' +
-              key
+              key,
           );
         }
       });
-    }
-  }
+    },
+  },
 };
 
 /**

@@ -9,7 +9,7 @@ export const DateRangeSection = ({
   setDateRangeTimelineHandler,
   radioClickHandler,
   setDateRangeStartHandler,
-  setDateRangeEndHandler
+  setDateRangeEndHandler,
 }) => (
   <ModalBody className="filter-section">
     <h5>Date Range</h5>
@@ -83,7 +83,7 @@ export const DateRangeSectionContainer = compose(
     setDateRangePreset: actions.setDateRangePreset,
     toggleDateRangeCustom: actions.toggleDateRangeCustom,
     setDateRangeStart: actions.setDateRangeStart,
-    setDateRangeEnd: actions.setDateRangeEnd
+    setDateRangeEnd: actions.setDateRangeEnd,
   }),
   withHandlers({
     setDateRangeTimelineHandler: props => event =>
@@ -98,6 +98,6 @@ export const DateRangeSectionContainer = compose(
     setDateRangeStartHandler: props => event =>
       props.setDateRangeStart(event.target.value),
     setDateRangeEndHandler: props => event =>
-      props.setDateRangeEnd(event.target.value)
-  })
+      props.setDateRangeEnd(event.target.value),
+  }),
 )(DateRangeSection);

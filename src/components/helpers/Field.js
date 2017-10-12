@@ -8,7 +8,7 @@ const INPUT_PROPS = Set([
   'onDragStart',
   'onDrop',
   'onFocus',
-  'value'
+  'value',
 ]);
 
 // Redux form passes in several props that are not valid for react 'input'

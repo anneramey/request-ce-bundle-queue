@@ -19,7 +19,7 @@ const AssignmentSummary = ({ assignments }) => {
   const appliedAssignments = List([
     assignments.mine && 'Mine',
     assignments.teammates && 'Teammates',
-    assignments.unassigned && 'Unassigned'
+    assignments.unassigned && 'Unassigned',
   ]).filter(assignmentType => !!assignmentType);
   return (
     appliedAssignments.size > 0 &&

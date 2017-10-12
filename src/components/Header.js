@@ -7,7 +7,7 @@ import {
   Navbar,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
 } from 'reactstrap';
 import SVGInline from 'react-svg-inline';
 import { bundle } from 'react-kinetic-core';
@@ -28,7 +28,7 @@ export const Header = ({
   openFeedbackForm,
   openHelpForm,
   openInviteOthersForm,
-  openKitchenSinkForm
+  openKitchenSinkForm,
 }) => (
   <Navbar color="faded" light fixed="top">
     <Nav className="nav-header">

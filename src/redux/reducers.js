@@ -13,5 +13,5 @@ export default {
   queue,
   filterMenu,
   alerts,
-  modalForm
+  modalForm,
 };

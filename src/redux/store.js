@@ -18,7 +18,9 @@ export const configureStore = history => {
   // setup going on here as well.
   const store = createStore(
     connectRouter(history)(combineReducers({ ...reducers })),
-    composeEnhancers(applyMiddleware(routerMiddleware(history), sagaMiddleware))
+    composeEnhancers(
+      applyMiddleware(routerMiddleware(history), sagaMiddleware),
+    ),
   );
 
   // After we've created the store using the saga middleware we will start
@@ -30,7 +32,7 @@ export const configureStore = history => {
   // communicated to the browser when running in development mode
   if (module.hot) {
     module.hot.accept('./reducers', () =>
-      store.replaceReducer(connectRouter(history)(combineReducers(reducers)))
+      store.replaceReducer(connectRouter(history)(combineReducers(reducers))),
     );
   }
   return store;
