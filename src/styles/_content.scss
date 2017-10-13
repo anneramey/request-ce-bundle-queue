@@ -108,6 +108,29 @@
       .submissions {
         flex: 1;
 
+        .wally {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          width: 100%;
+          height: 100%;
+          h5 {
+            color: #54698D;
+            font-family: "Open Sans";
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 33px;
+          }
+
+          h6 {
+            color: #A8B7C7;
+            font-family: "Open Sans";
+            font-size: 20px;
+            line-height: 27px;
+          }
+        }
+
         // This represents the overall submission "card" in the queue list view.
         .submission {
           border-bottom: 1px solid $gray4;

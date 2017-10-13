@@ -86,6 +86,7 @@ export const QueueListContainer = compose(
   }),
   lifecycle({
     componentWillMount() {
+      this.props.closePreview();
       this.props.fetchCurrentFilter();
     },
     componentWillReceiveProps(nextProps) {
@@ -95,6 +96,7 @@ export const QueueListContainer = compose(
           nextProps.match.params.filter,
         );
         if (filter) {
+          this.props.closePreview();
           this.props.setCurrentFilter(filter);
         }
       }
