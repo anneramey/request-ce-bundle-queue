@@ -195,16 +195,17 @@ export function* fetchCurrentItemTask(action) {
   }
 }
 
-export function* updateCurrentItemTask(action) {
-  const currentItem = yield select(getCurrentItem);
+export function* updateQueueItemTask(action) {
   const { submission } = yield call(CoreAPI.updateSubmission, {
-    id: currentItem.id,
-    values: action.payload,
+    id: action.payload.id,
+    values: action.payload.values,
     include: SUBMISSION_INCLUDES,
   });
 
   if (submission) {
-    yield put(actions.setCurrentItem(submission));
+    if (typeof action.payload.successAction === 'function') {
+      yield put(action.payload.successAction(submission));
+    }
   } else {
     yield put(errorActions.addError('Failed to update item!'));
   }
@@ -214,5 +215,5 @@ export function* watchQueue() {
   yield takeEvery(types.SET_CURRENT_FILTER, fetchCurrentFilterTask);
   yield takeEvery(types.FETCH_LIST, fetchCurrentFilterTask);
   yield takeEvery(types.FETCH_CURRENT_ITEM, fetchCurrentItemTask);
-  yield takeEvery(types.UPDATE_CURRENT_ITEM, updateCurrentItemTask);
+  yield takeEvery(types.UPDATE_QUEUE_ITEM, updateQueueItemTask);
 }

@@ -7,7 +7,7 @@ export const types = {
   SET_CURRENT_FILTER: namespace('queue', 'SET_CURRENT_FILTER'),
   FETCH_CURRENT_ITEM: namespace('queue', 'FETCH_CURRENT_ITEM'),
   SET_CURRENT_ITEM: namespace('queue', 'SET_CURRENT_ITEM'),
-  UPDATE_CURRENT_ITEM: namespace('queue', 'UPDATE_CURRENT_ITEM'),
+  UPDATE_QUEUE_ITEM: namespace('queue', 'UPDATE_QUEUE_ITEM'),
   FETCH_LIST: namespace('queue', 'FETCH_LIST'),
   SET_LIST_ITEMS: namespace('queue', 'SET_LIST_ITEMS'),
   SET_LIST_STATUS: namespace('queue', 'SET_LIST_STATUS'),
@@ -27,7 +27,7 @@ export const actions = {
   setCurrentFilter: withPayload(types.SET_CURRENT_FILTER),
   fetchCurrentItem: withPayload(types.FETCH_CURRENT_ITEM),
   setCurrentItem: withPayload(types.SET_CURRENT_ITEM),
-  updateCurrentItem: withPayload(types.UPDATE_CURRENT_ITEM),
+  updateQueueItem: withPayload(types.UPDATE_QUEUE_ITEM),
   fetchList: withPayload(types.FETCH_LIST),
   setListItems: (name, list) => ({
     type: types.SET_LIST_ITEMS,

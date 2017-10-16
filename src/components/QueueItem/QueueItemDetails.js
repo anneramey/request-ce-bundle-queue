@@ -92,12 +92,15 @@ export const QueueItemDetails = ({
           </li>
         ))}
       </ul>
-      {queueItem.children.length < 1 &&
+      {queueItem.children.length < 1 && (
         <div className="empty-subtasks">
           <h5>No Subtasks to display</h5>
-          <h6>Subtasks are an easy way to create smaller and/or related tasks to parent task.</h6>
+          <h6>
+            Subtasks are an easy way to create smaller and/or related tasks to
+            parent task.
+          </h6>
         </div>
-      }
+      )}
     </div>
   </div>
 );
@@ -108,7 +111,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = {
-  updateCurrentItem: actions.updateCurrentItem,
+  updateQueueItem: actions.updateQueueItem,
 };
 
 export const QueueItemDetailsContainer = compose(
@@ -117,16 +120,18 @@ export const QueueItemDetailsContainer = compose(
   withHandlers({
     toggleAssigning: ({ setIsAssigning, isAssigning }) => () =>
       setIsAssigning(!isAssigning),
-    setAssignment: ({ updateCurrentItem }) => (_v, assignment) => {
+    setAssignment: ({ queueItem, updateQueueItem }) => (_v, assignment) => {
       const teamParts = assignment.team.split('::');
-      const values = {
-        'Assigned Individual': assignment.username,
-        'Assigned Individual Display Name': assignment.displayName,
-        'Assigned Team': assignment.team,
-        'Assigned Team Display Name': teamParts[teamParts.length - 1],
-      };
-
-      updateCurrentItem(values);
+      updateQueueItem({
+        id: queueItem.id,
+        values: {
+          'Assigned Individual': assignment.username,
+          'Assigned Individual Display Name': assignment.displayName,
+          'Assigned Team': assignment.team,
+          'Assigned Team Display Name': teamParts[teamParts.length - 1],
+        },
+        successAction: actions.setCurrentItem,
+      });
     },
   }),
 )(QueueItemDetails);
