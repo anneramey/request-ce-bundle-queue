@@ -127,6 +127,27 @@
           }
         }
       }
+
+      .empty-subtasks {
+        border-radius: 8px;
+        background-color: #FFFFFF;
+        font-family: "Open Sans";
+        text-align: center;
+        padding: 2em;
+
+        h5 {
+          color: #54698D;
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 24px;
+        }
+
+        h6 {
+         color: #A8B7C7;
+         font-size: 12px;
+         line-height: 24px;
+        }
+      }
     }
 
     .timestamps {
