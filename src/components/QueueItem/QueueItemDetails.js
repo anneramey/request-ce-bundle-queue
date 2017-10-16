@@ -92,6 +92,12 @@ export const QueueItemDetails = ({
           </li>
         ))}
       </ul>
+      {queueItem.children.length < 1 &&
+        <div className="empty-subtasks">
+          <h5>No Subtasks to display</h5>
+          <h6>Subtasks are an easy way to create smaller and/or related tasks to parent task.</h6>
+        </div>
+      }
     </div>
   </div>
 );

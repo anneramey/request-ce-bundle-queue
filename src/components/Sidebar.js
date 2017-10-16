@@ -8,6 +8,7 @@ import userIcon from 'font-awesome-svg-png/white/svg/user.svg';
 import usersIcon from 'font-awesome-svg-png/white/svg/users.svg';
 import inboxIcon from 'font-awesome-svg-png/white/svg/inbox.svg';
 import starIcon from 'font-awesome-svg-png/white/svg/star-o.svg';
+import filledStarIcon from 'font-awesome-svg-png/white/svg/star.svg';
 
 const formatCount = count => (count >= 1000 ? '999+' : `${count}`);
 
@@ -74,9 +75,13 @@ export const Sidebar = ({
           </NavLink>
         </NavItem>
       ))}
-      {myFilters.size < 1 && (
-        <div className="no-data">You have no personal filters</div>
-      )}
+      {myFilters.size === 0 &&
+        <NavItem>
+          <NavLink to="/" className="nav-link icon-wrapper" activeClassName="active">
+            <SVGInline svg={filledStarIcon} className="icon" />
+            Create a new list?
+          </NavLink>
+        </NavItem>}
     </Nav>
     <Nav vertical className="bottom-nav">
       <NavItem>

@@ -1,5 +1,7 @@
 import React from 'react';
 import SVGInline from 'react-svg-inline';
+import wallyHappyImage from '../../images/wally-happy.svg';
+import wallyMissingImage from '../../images/wally-missing.svg';
 import refreshIcon from 'font-awesome-svg-png/white/svg/refresh.svg';
 import filterIcon from '../../images/filter.svg';
 import sortAscIcon from '../../images/sort_asc.svg';
@@ -8,6 +10,27 @@ import sortDescIcon from '../../images/sort_desc.svg';
 import { QueueListItem } from './QueueListItem';
 import { WorkItemMenuContainer } from '../WorkItemMenu';
 import { QueueItemPreview } from './QueueItemPreview';
+
+const WallyMessage = ({ filter }) => {
+  if (filter.adhoc) {
+    return (
+      <div className="wally">
+        <h5>No Results</h5>
+        <SVGInline svg={wallyMissingImage} />
+        <h6>Try a less specific filter.</h6>
+        <h5>Try again</h5>
+      </div>
+    );
+  }
+
+  return (
+    <div className="wally">
+      <h5>No Assignments</h5>
+      <SVGInline svg={wallyHappyImage} />
+      <h6>An empty queue is a happy queue.</h6>
+    </div>
+  );
+};
 
 export const QueueList = ({
   filter,
@@ -70,7 +93,7 @@ export const QueueList = ({
         </div>
       </div>
       <div className="submissions">
-        {queueItems && (
+        {queueItems && queueItems.size > 0 ?
           <ul className="list-group">
             {queueItems.map(queueItem => (
               <QueueListItem
@@ -82,8 +105,9 @@ export const QueueList = ({
                 toggleWorkMenu={toggleWorkMenu}
               />
             ))}
-          </ul>
-        )}
+          </ul> :
+          <WallyMessage filter={filter} />
+        }
       </div>
     </div>
     {previewItem && (

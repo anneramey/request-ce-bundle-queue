@@ -37,6 +37,7 @@ export const DateRangeCriteria = Record({
 export const Filter = Record({
   name: '',
   slug: '',
+  adhoc: false,
 
   // Filter sort order: createdAt, updatedAt, Due Date.
   sortBy: 'createdAt',
