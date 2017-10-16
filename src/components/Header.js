@@ -17,6 +17,7 @@ import envelopeIcon from 'font-awesome-svg-png/black/svg/envelope.svg';
 import questionIcon from 'font-awesome-svg-png/black/svg/question.svg';
 import commentIcon from 'font-awesome-svg-png/black/svg/commenting.svg';
 import infoIcon from 'font-awesome-svg-png/black/svg/info.svg';
+import infoCircleIcon from 'font-awesome-svg-png/white/svg/info-circle.svg';
 import signoutIcon from 'font-awesome-svg-png/black/svg/sign-out.svg';
 import hamburgerIcon from '../images/hamburger.svg';
 
@@ -92,6 +93,12 @@ export const Header = ({
                 </div>
               </a>
             ))}
+            {alerts.size < 1 &&
+             <div className="empty-alerts icon-wrapper">
+               <SVGInline svg={infoCircleIcon} className="icon" />
+               There are no active alerts.
+             </div>
+            }
           </div>
         </DropdownMenu>
       </UncontrolledDropdown>
