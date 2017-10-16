@@ -21,6 +21,10 @@
     width: 2em;
     text-align: center;
     cursor: pointer;
+    &:focus, &.focus{
+      box-shadow: none;
+      outline: $blue3 dotted thin;
+    }
   }
   &.read-only .badge {
     cursor: default;

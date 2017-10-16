@@ -86,6 +86,15 @@ body {
   }
 }
 
+.nav-link:focus, .nav-link:hover {
+  text-decoration: none;
+}
+
+a:focus {
+  box-shadow: none;
+  outline: $blue3 dotted thin;
+}
+
 .btn.btn-link {
   color: $blue1;
   &:hover,
@@ -102,11 +111,19 @@ body {
   color: white;
   background-color: $blue1;
   border-color: $blue1;
+  &:focus, &.focus{
+    box-shadow: none;
+    outline: $blue3 dotted thin;
+  }
 }
 .btn.btn-inverse.btn-primary {
   color: $blue1;
   background-color: white;
   border: 1px solid $blue1;
+  &:focus, &.focus{
+    box-shadow: none;
+    outline: $blue3 dotted thin;
+  }
 }
 
 .sidebar .btn.btn-sidebar {
