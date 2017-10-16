@@ -92,7 +92,7 @@ export const mapStateToProps = (state, props) => ({
 
 export const mapDispatchToProps = {
   fetchCurrentItem: actions.fetchCurrentItem,
-  updateCurrentItem: actions.updateCurrentItem,
+  updateQueueItem: actions.updateQueueItem,
   openWorkMenu: actions.openWorkMenu,
   closeWorkMenu: actions.closeWorkMenu,
 };
@@ -105,10 +105,14 @@ export const QueueItemContainer = compose(
       refreshItem();
       closeWorkMenu();
     },
-    grabIt: ({ updateCurrentItem, profile }) => () =>
-      updateCurrentItem({
-        'Assigned Individual': profile.username,
-        'Assigned Individual Display Name': profile.displayName,
+    grabIt: ({ queueItem, updateQueueItem, profile }) => () =>
+      updateQueueItem({
+        id: queueItem.id,
+        values: {
+          'Assigned Individual': profile.username,
+          'Assigned Individual Display Name': profile.displayName,
+        },
+        successAction: actions.setCurrentItem,
       }),
   }),
   lifecycle({
