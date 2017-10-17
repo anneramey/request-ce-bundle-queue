@@ -19,6 +19,7 @@ const mapStateToProps = (state, props) => ({
   workMenuOpen: state.queue.workMenuOpen,
   previewItem: state.queue.previewItem,
   sortDirection: state.queue.sortDirection,
+  profile: state.app.profile,
 });
 
 const mapDispatchToProps = {
@@ -30,6 +31,7 @@ const mapDispatchToProps = {
   closeWorkMenu: queueActions.closeWorkMenu,
   toggleSortDirection: queueActions.toggleSortDirection,
   fetchList: queueActions.fetchList,
+  updateQueueItem: queueActions.updateQueueItem,
 };
 
 const selectFilter = (filters, filter) => filters.find(f => f.name === filter);
@@ -67,15 +69,26 @@ export const QueueListContainer = compose(
       openWorkMenu,
       closeWorkMenu,
     }) => item => () => {
-      window.console.log('toggling work menu');
       if (workItem) {
         setWorkItem(null);
         closeWorkMenu();
       } else {
-        window.console.log(item);
         setWorkItem(item);
         openWorkMenu();
       }
+    },
+    grabItem: ({ filter, profile, updateQueueItem }) => item => () => {
+      updateQueueItem({
+        id: item.id,
+        values: {
+          'Assigned Individual': profile.username,
+          'Assigned Individual Display Name': profile.displayName,
+        },
+        successAction: updatedItem => [
+          queueActions.openPreview(updatedItem),
+          queueActions.fetchList(filter),
+        ],
+      });
     },
     handleCompleted: ({ fetchCurrentFilter, closeWorkMenu }) => () => {
       fetchCurrentFilter();

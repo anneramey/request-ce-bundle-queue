@@ -17,6 +17,8 @@ export const QueueItem = ({
   workMenuOpen,
   openWorkMenu,
   closeWorkMenu,
+  assignedToMe,
+  grabIt,
 }) =>
   queueItem !== null && (
     <div className="queue-item-details two-panels">
@@ -68,9 +70,9 @@ export const QueueItem = ({
       <div className="right-panel">
         <button
           className="btn btn-primary work-grab-button"
-          onClick={openWorkMenu}
+          onClick={assignedToMe ? openWorkMenu : grabIt}
         >
-          Works / Grab It
+          {assignedToMe ? 'Work It' : 'Grab It'}
         </button>
       </div>
     </div>
@@ -81,10 +83,16 @@ export const mapStateToProps = (state, props) => ({
   currentFilterName: state.queue.currentFilter.name,
   id: props.match.params.id,
   workMenuOpen: state.queue.workMenuOpen,
+  profile: state.app.profile,
+  assignedToMe:
+    state.queue.currentItem &&
+    state.queue.currentItem.values['Assigned Individual'] ===
+      state.app.profile.username,
 });
 
 export const mapDispatchToProps = {
   fetchCurrentItem: actions.fetchCurrentItem,
+  updateQueueItem: actions.updateQueueItem,
   openWorkMenu: actions.openWorkMenu,
   closeWorkMenu: actions.closeWorkMenu,
 };
@@ -97,6 +105,15 @@ export const QueueItemContainer = compose(
       refreshItem();
       closeWorkMenu();
     },
+    grabIt: ({ queueItem, updateQueueItem, profile }) => () =>
+      updateQueueItem({
+        id: queueItem.id,
+        values: {
+          'Assigned Individual': profile.username,
+          'Assigned Individual Display Name': profile.displayName,
+        },
+        successAction: actions.setCurrentItem,
+      }),
   }),
   lifecycle({
     componentWillMount() {
