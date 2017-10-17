@@ -1,7 +1,8 @@
 import { List } from 'immutable';
 import moment from 'moment';
-import { select, call, put } from 'redux-saga/effects';
+import { select, call, put, all } from 'redux-saga/effects';
 import { actions } from '../modules/queue';
+import { types as errorTypes } from '../modules/errors';
 
 global.bundle = {
   apiLocation: () => '/acme/app/api/v1',
@@ -14,6 +15,7 @@ const {
   getAppSettings,
   fetchCurrentFilterTask,
   fetchCurrentItemTask,
+  updateQueueItemTask,
   prepareStatusFilter,
   prepareTeamsFilter,
   prepareAssignmentFilter,
@@ -415,6 +417,73 @@ describe('queue saga', () => {
         expect(saga.next(response).value).toEqual(
           put(actions.setCurrentItem(response.submission)),
         );
+      });
+    });
+  });
+
+  describe('#updateQueueItemTask', () => {
+    const include =
+      'details,values,attributes,form,children,children.form,children.values';
+    const id = 'abc123';
+    const values = { 'Assigned Individual': 'Me' };
+    const response = { submission: { id: 'abc123', values: {} } };
+    describe('when update is successful', () => {
+      describe('when given no success action creators', () => {
+        it('calls updateSubmission but does not dispatch any other actions', () => {
+          const saga = updateQueueItemTask({ payload: { id, values } });
+          expect(saga.next().value).toEqual(
+            call(CoreAPI.updateSubmission, { id, values, include }),
+          );
+          expect(saga.next(response).done).toBe(true);
+        });
+      });
+
+      describe('when success action callback returns a single action', () => {
+        it('calls updateSubmission and returns a "put" effect for the action', () => {
+          const successAction = payload => ({ type: 'TEST', payload });
+          const saga = updateQueueItemTask({
+            payload: { id, values, successAction },
+          });
+          expect(saga.next().value).toEqual(
+            call(CoreAPI.updateSubmission, { id, values, include }),
+          );
+          expect(saga.next(response).value).toEqual(
+            put({ type: 'TEST', payload: response.submission }),
+          );
+        });
+      });
+
+      describe('when success action callback returns an array of actions', () => {
+        it('calls updateSubmission and returns an "all" effect for the array of actions', () => {
+          const successAction = payload => [
+            { type: 'TEST', payload },
+            { type: 'TEST2', payload: 'hardcoded' },
+          ];
+          const saga = updateQueueItemTask({
+            payload: { id, values, successAction },
+          });
+          expect(saga.next().value).toEqual(
+            call(CoreAPI.updateSubmission, { id, values, include }),
+          );
+          expect(saga.next(response).value).toEqual(
+            all([
+              put({ type: 'TEST', payload: response.submission }),
+              put({ type: 'TEST2', payload: 'hardcoded' }),
+            ]),
+          );
+        });
+      });
+    });
+
+    describe('when update is unsuccessful', () => {
+      it('returns a "put" effect with a generic error message', () => {
+        const saga = updateQueueItemTask({ payload: { id, values } });
+        expect(saga.next().value).toEqual(
+          call(CoreAPI.updateSubmission, { id, values, include }),
+        );
+        const effect = saga.next({ serverError: 'error' }).value;
+        expect(effect.PUT.action.type).toEqual(errorTypes.ADD_NOTIFICATION);
+        expect(effect.PUT.action.payload.msg).toEqual('Failed to update item!');
       });
     });
   });
