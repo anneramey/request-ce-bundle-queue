@@ -32,6 +32,8 @@
     "font-awesome-svg-png": "^1.2.2",
     "history": "^4.7.2",
     "immutable": "4.0.0-rc.2",
+    "is-function": "^1.0.1",
+    "isarray": "^2.0.2",
     "jquery": "^3.2.1",
     "moment": "2.18.1",
     "react": "^15.6.1",
