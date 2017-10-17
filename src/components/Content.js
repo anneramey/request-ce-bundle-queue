@@ -13,6 +13,7 @@ export const Content = () => (
     <NotificationsContainer />
     <Route path="/" exact render={() => <div>Please select a list</div>} />
     <Route path="/list/:filter" component={QueueListContainer} />
+    <Route path="/custom" component={QueueListContainer} />
     <Route path="/item/:id" component={QueueItemContainer} />
     <FilterMenuContainer />
     <NewItemMenuContainer />
