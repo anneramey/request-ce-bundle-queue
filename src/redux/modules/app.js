@@ -1,4 +1,5 @@
 import { Record, List, Set } from 'immutable';
+import { matchPath } from 'react-router-dom';
 import { namespace, noPayload, withPayload } from '../../utils';
 import { Profile, Filter, AssignmentCriteria } from '../../records';
 
@@ -17,6 +18,21 @@ export const actions = {
   setAppSettings: withPayload(types.SET_APP_SETTINGS),
   addPersonalFilter: withPayload(types.ADD_PERSONAL_FILTER),
   removePersonalFilter: withPayload(types.REMOVE_PERSONAL_FILTER),
+};
+
+export const getFilterByPath = (state, pathname) => {
+  const findByName = name => filter => filter.name === name;
+  const adhocMatch = matchPath(pathname, { path: '/custom', exact: true });
+  const listMatch = matchPath(pathname, { path: '/:type/:name', exact: true });
+  if (adhocMatch) {
+    return state.queue.adhocFilter;
+  } else if (listMatch) {
+    if (listMatch.params.type === 'list') {
+      return state.app.filters.find(findByName(listMatch.params.name));
+    } else if (listMatch.params.type === 'custom') {
+      return state.app.myFilters.find(findByName(listMatch.params.name));
+    }
+  }
 };
 
 export const selectMyTeamForms = state =>
