@@ -1,4 +1,5 @@
 import { Record, Map, List } from 'immutable';
+import { LOCATION_CHANGE } from 'connected-react-router';
 
 import { namespace, withPayload, noPayload } from '../../utils';
 import { Filter, AssignmentCriteria } from '../../records';
@@ -97,6 +98,8 @@ export const reducer = (state = State(), { type, payload }) => {
       return state.set('newItemMenuOpen', true);
     case types.CLOSE_NEW_MENU:
       return state.set('newItemMenuOpen', false);
+    case LOCATION_CHANGE:
+      return state.set('sortDirection', 'ASC');
     default:
       return state;
   }
