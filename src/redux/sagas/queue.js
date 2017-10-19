@@ -159,7 +159,7 @@ export const sortSubmissions = (submissions, filter) =>
     return 0;
   });
 
-export function* fetchCurrentFilterTask(action) {
+export function* fetchListTask(action) {
   const filter = action.payload;
   const appSettings = yield select(getAppSettings);
   const search = yield call(buildSearch, filter, appSettings);
@@ -180,7 +180,7 @@ export function* fetchCurrentFilterTask(action) {
     // Post-process results:
     const sortedSubmissions = yield call(sortSubmissions, submissions, filter);
 
-    yield put(actions.setListItems(filter.name, sortedSubmissions));
+    yield put(actions.setListItems(filter, sortedSubmissions));
   }
 }
 
@@ -217,8 +217,7 @@ export function* updateQueueItemTask(action) {
 }
 
 export function* watchQueue() {
-  yield takeEvery(types.SET_CURRENT_FILTER, fetchCurrentFilterTask);
-  yield takeEvery(types.FETCH_LIST, fetchCurrentFilterTask);
+  yield takeEvery(types.FETCH_LIST, fetchListTask);
   yield takeEvery(types.FETCH_CURRENT_ITEM, fetchCurrentItemTask);
   yield takeEvery(types.UPDATE_QUEUE_ITEM, updateQueueItemTask);
 }

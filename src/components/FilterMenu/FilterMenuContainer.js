@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
 import { is } from 'immutable';
+import { push } from 'connected-react-router';
 import { FilterMenu } from './FilterMenu';
 import { actions } from '../../redux/modules/filterMenu';
 import { actions as queueActions } from '../../redux/modules/queue';
@@ -20,14 +21,18 @@ export const mapDispatchToProps = {
   close: actions.close,
   reset: actions.reset,
   showSection: actions.showSection,
-  setCurrentFilter: queueActions.setCurrentFilter,
+  setAdhocFilter: queueActions.setAdhocFilter,
+  push,
 };
 
 export const FilterMenuContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
     applyFilterHandler: props => () => {
-      props.setCurrentFilter(props.currentFilter);
+      props.setAdhocFilter(
+        props.currentFilter.set('name', '').set('type', 'adhoc'),
+      );
+      props.push('/custom');
       props.close();
     },
   }),

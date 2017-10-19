@@ -1,10 +1,10 @@
 import { Record, Map, List } from 'immutable';
 
 import { namespace, withPayload, noPayload } from '../../utils';
-import { Filter } from '../../records';
+import { Filter, AssignmentCriteria } from '../../records';
 
 export const types = {
-  SET_CURRENT_FILTER: namespace('queue', 'SET_CURRENT_FILTER'),
+  SET_ADHOC_FILTER: namespace('queue', 'SET_ADHOC_FILTER'),
   FETCH_CURRENT_ITEM: namespace('queue', 'FETCH_CURRENT_ITEM'),
   SET_CURRENT_ITEM: namespace('queue', 'SET_CURRENT_ITEM'),
   UPDATE_QUEUE_ITEM: namespace('queue', 'UPDATE_QUEUE_ITEM'),
@@ -24,14 +24,14 @@ export const types = {
 };
 
 export const actions = {
-  setCurrentFilter: withPayload(types.SET_CURRENT_FILTER),
+  setAdhocFilter: withPayload(types.SET_ADHOC_FILTER),
   fetchCurrentItem: withPayload(types.FETCH_CURRENT_ITEM),
   setCurrentItem: withPayload(types.SET_CURRENT_ITEM),
   updateQueueItem: withPayload(types.UPDATE_QUEUE_ITEM),
   fetchList: withPayload(types.FETCH_LIST),
-  setListItems: (name, list) => ({
+  setListItems: (filter, list) => ({
     type: types.SET_LIST_ITEMS,
-    payload: { name, list },
+    payload: { filter, list },
   }),
   setListStatus: withPayload(types.SET_LIST_STATUS),
   setPreviewItem: withPayload(types.SET_PREVIEW_ITEM),
@@ -48,9 +48,12 @@ export const actions = {
 
 export const State = Record({
   sortDirection: 'ASC',
-  currentFilter: Filter(),
   currentItem: null,
   currentItemLoading: false,
+  adhocFilter: Filter({
+    type: 'adhoc',
+    assignments: AssignmentCriteria({ mine: true }),
+  }),
   lists: Map(),
   listStatus: null,
   previewItem: null,
@@ -65,11 +68,11 @@ export const isItemComplete = queueItem =>
 
 export const reducer = (state = State(), { type, payload }) => {
   switch (type) {
-    case types.SET_CURRENT_FILTER:
-      return state.set('currentFilter', payload).set('sortDirection', 'ASC');
+    case types.SET_ADHOC_FILTER:
+      return state.set('adhocFilter', payload);
     case types.SET_LIST_ITEMS:
       return state
-        .setIn(['lists', payload.name], List(payload.list))
+        .setIn(['lists', payload.filter], List(payload.list))
         .set('listStatus', null);
     case types.SET_LIST_STATUS:
       return state.set('listStatus', payload);

@@ -13,7 +13,7 @@ const {
   ERROR_STATUS_STRING,
   TOO_MANY_STATUS_STRING,
   getAppSettings,
-  fetchCurrentFilterTask,
+  fetchListTask,
   fetchCurrentItemTask,
   updateQueueItemTask,
   prepareStatusFilter,
@@ -330,7 +330,7 @@ describe('queue saga', () => {
 
     describe('when there are server errors', () => {
       test('it sets the list status to indicate an error', () => {
-        const saga = fetchCurrentFilterTask(action);
+        const saga = fetchListTask(action);
 
         // First get the app settings out of the state.
         expect(saga.next().value).toEqual(select(getAppSettings));
@@ -351,7 +351,7 @@ describe('queue saga', () => {
 
     describe('when there are too many items', () => {
       test('it sets the list status to indicate an error', () => {
-        const saga = fetchCurrentFilterTask(action);
+        const saga = fetchListTask(action);
 
         // First get the app settings out of the state.
         expect(saga.next().value).toEqual(select(getAppSettings));
@@ -372,7 +372,7 @@ describe('queue saga', () => {
 
     describe('when request is successful', () => {
       test('it sets the list items', () => {
-        const saga = fetchCurrentFilterTask(action);
+        const saga = fetchListTask(action);
 
         // First get the app settings out of the state.
         expect(saga.next().value).toEqual(select(getAppSettings));
@@ -389,7 +389,7 @@ describe('queue saga', () => {
           call(sortSubmissions, response.submissions, action.payload),
         );
         expect(saga.next(response.submissions).value).toEqual(
-          put(actions.setListItems('Filter Name', response.submissions)),
+          put(actions.setListItems(action.payload, response.submissions)),
         );
       });
     });

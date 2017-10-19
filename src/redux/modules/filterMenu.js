@@ -59,60 +59,42 @@ export const reducer = (state = defaultState, { type, payload }) => {
     case types.SHOW_SECTION:
       return state.set('activeSection', payload);
     case types.TOGGLE_ASSIGNMENT:
-      return state
-        .setIn(['currentFilter', 'adhoc'], true)
-        .updateIn(
-          ['currentFilter', 'assignments', payload],
-          bool => !bool,
-        );
+      return state.updateIn(
+        ['currentFilter', 'assignments', payload],
+        bool => !bool,
+      );
     case types.TOGGLE_TEAM:
-      return state
-        .getIn(['currentFilter', 'teams']).includes(payload)
-          ? state.updateIn(['currentFilter', 'teams'], teams =>
-              teams.delete(teams.indexOf(payload)),
-            )
-            .setIn(['currentFilter', 'adhoc'], true)
-          : state.updateIn(['currentFilter', 'teams'], teams =>
-              teams.push(payload),
-            )
-            .setIn(['currentFilter', 'adhoc'], true);
+      return state.getIn(['currentFilter', 'teams']).includes(payload)
+        ? state.updateIn(['currentFilter', 'teams'], teams =>
+            teams.delete(teams.indexOf(payload)),
+          )
+        : state.updateIn(['currentFilter', 'teams'], teams =>
+            teams.push(payload),
+          );
     case types.TOGGLE_STATUS:
-      return state
-        .getIn(['currentFilter', 'status']).includes(payload)
-          ? state.updateIn(['currentFilter', 'status'], statuses =>
-              statuses.delete(statuses.indexOf(payload)),
-            )
-            .setIn(['currentFilter', 'adhoc'], true)
-          : state.updateIn(['currentFilter', 'status'], statuses =>
-              statuses.push(payload),
-            )
-      .setIn(['currentFilter', 'adhoc'], true);
+      return state.getIn(['currentFilter', 'status']).includes(payload)
+        ? state.updateIn(['currentFilter', 'status'], statuses =>
+            statuses.delete(statuses.indexOf(payload)),
+          )
+        : state.updateIn(['currentFilter', 'status'], statuses =>
+            statuses.push(payload),
+          );
     case types.SET_DATE_RANGE_TIMELINE:
-      return state
-        .setIn(['currentFilter', 'adhoc'], true)
-        .setIn(['currentFilter', 'dateRange', 'timeline'], payload);
+      return state.setIn(['currentFilter', 'dateRange', 'timeline'], payload);
     case types.SET_DATE_RANGE_PRESET:
       return state
-        .setIn(['currentFilter', 'adhoc'], true)
         .setIn(['currentFilter', 'dateRange', 'preset'], payload)
         .setIn(['currentFilter', 'dateRange', 'custom'], false);
     case types.TOGGLE_DATE_RANGE_CUSTOM:
       return state
-        .setIn(['currentFilter', 'adhoc'], true)
         .updateIn(['currentFilter', 'dateRange', 'custom'], bool => !bool)
         .setIn(['currentFilter', 'dateRange', 'preset'], '');
     case types.SET_DATE_RANGE_START:
-      return state
-        .setIn(['currentFilter', 'adhoc'], true)
-        .setIn(['currentFilter', 'dateRange', 'start'], payload);
+      return state.setIn(['currentFilter', 'dateRange', 'start'], payload);
     case types.SET_DATE_RANGE_END:
-      return state
-        .setIn(['currentFilter', 'adhoc'], true)
-        .setIn(['currentFilter', 'dateRange', 'end'], payload);
+      return state.setIn(['currentFilter', 'dateRange', 'end'], payload);
     case types.SET_SORTED_BY:
-      return state
-        .setIn(['currentFilter', 'adhoc'], true)
-        .setIn(['currentFilter', 'sortBy'], payload);
+      return state.setIn(['currentFilter', 'sortBy'], payload);
     default:
       return state;
   }

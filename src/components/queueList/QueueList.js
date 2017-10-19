@@ -12,7 +12,7 @@ import { WorkItemMenuContainer } from '../WorkItemMenu';
 import { QueueItemPreview } from './QueueItemPreview';
 
 const WallyMessage = ({ filter }) => {
-  if (filter.adhoc) {
+  if (filter.type === 'adhoc') {
     return (
       <div className="wally">
         <h5>No Results</h5>
@@ -63,7 +63,7 @@ export const QueueList = ({
       )}
       <div className="controls">
         <h6>
-          {filter.name}
+          {filter.name || 'Adhoc'}
           <br />
           <small>by Due Date</small>
         </h6>
