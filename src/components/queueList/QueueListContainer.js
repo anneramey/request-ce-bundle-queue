@@ -13,7 +13,8 @@ import { actions as filterMenuActions } from '../../redux/modules/filterMenu';
 
 import { QueueList } from './QueueList';
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = state => ({
+  pathname: state.router.location.pathname,
   filter: getFilterByPath(state, state.router.location.pathname),
   queueItems: state.queue.lists.get(
     getFilterByPath(state, state.router.location.pathname),
@@ -94,7 +95,7 @@ export const QueueListContainer = compose(
       this.props.fetchList(this.props.filter);
     },
     componentWillReceiveProps(nextProps) {
-      if (!this.props.filter.equals(nextProps.filter)) {
+      if (this.props.pathname !== nextProps.pathname) {
         this.props.closePreview();
         this.props.fetchList(nextProps.filter);
       }
