@@ -11,9 +11,10 @@ import { QueueItemDiscussions } from './QueueItemDiscussions';
 import { WorkItemMenuContainer } from '../WorkItemMenu';
 
 export const QueueItem = ({
+  lastFilterPath,
+  lastFilterName,
   queueItem,
   handleCompleted,
-  currentFilterName,
   workMenuOpen,
   openWorkMenu,
   closeWorkMenu,
@@ -31,14 +32,11 @@ export const QueueItem = ({
       />
       <div className="left-panel">
         <div className="controls">
-          {currentFilterName !== '' && (
-            <Link
-              to={`/list/${encodeURIComponent(currentFilterName)}`}
-              className="back-link"
-            >
+          {lastFilterName && (
+            <Link to={lastFilterPath} className="back-link">
               <div className="icon-wrapper">
                 <SVGInline svg={chevronLeftIcon} className="icon" />
-                {currentFilterName}
+                {lastFilterName}
               </div>
             </Link>
           )}
@@ -80,7 +78,8 @@ export const QueueItem = ({
 
 export const mapStateToProps = (state, props) => ({
   queueItem: state.queue.currentItem,
-  currentFilterName: state.queue.currentFilter.name,
+  lastFilterPath: state.app.lastFilterPath,
+  lastFilterName: state.app.lastFilterName,
   id: props.match.params.id,
   workMenuOpen: state.queue.workMenuOpen,
   profile: state.app.profile,

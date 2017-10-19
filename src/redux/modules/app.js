@@ -1,10 +1,15 @@
 import { Record, List, Set } from 'immutable';
 import { matchPath } from 'react-router-dom';
+import { LOCATION_CHANGE } from 'connected-react-router';
 import { namespace, noPayload, withPayload } from '../../utils';
 import { Profile, Filter, AssignmentCriteria } from '../../records';
 
 export const DEFAULT_DOCUMENTATION_URL = 'https://kinops.io/docs';
 export const DEFAULT_SUPPORT_URL = 'https://kinops.io/support';
+
+const ADHOC_PATH = { path: '/custom', exact: true };
+const DEFAULT_LIST_PATH = { path: '/list/:name', exact: true };
+const CUSTOM_LIST_PATH = { path: '/custom/:name', exact: true };
 
 export const types = {
   LOAD_APP_SETTINGS: namespace('app', 'LOAD_APP_SETTINGS'),
@@ -22,16 +27,15 @@ export const actions = {
 
 export const getFilterByPath = (state, pathname) => {
   const findByName = name => filter => filter.name === name;
-  const adhocMatch = matchPath(pathname, { path: '/custom', exact: true });
-  const listMatch = matchPath(pathname, { path: '/:type/:name', exact: true });
+  const adhocMatch = matchPath(pathname, ADHOC_PATH);
+  const defaultListMatch = matchPath(pathname, DEFAULT_LIST_PATH);
+  const customListMatch = matchPath(pathname, CUSTOM_LIST_PATH);
   if (adhocMatch) {
     return state.queue.adhocFilter;
-  } else if (listMatch) {
-    if (listMatch.params.type === 'list') {
-      return state.app.filters.find(findByName(listMatch.params.name));
-    } else if (listMatch.params.type === 'custom') {
-      return state.app.myFilters.find(findByName(listMatch.params.name));
-    }
+  } else if (defaultListMatch) {
+    return state.app.filters.find(findByName(defaultListMatch.params.name));
+  } else if (customListMatch) {
+    return state.app.myFilters.find(findByName(customListMatch.params.name));
   }
 };
 
@@ -100,6 +104,8 @@ export const State = Record({
   myFilters: List(),
   forms: List(),
   loading: true,
+  lastFilterPath: null,
+  lastFilterName: null,
 });
 
 export const reducer = (state = State(), { type, payload }) => {
@@ -122,6 +128,16 @@ export const reducer = (state = State(), { type, payload }) => {
         'myFilters',
         filters => filters.name === filters.payload,
       );
+    case LOCATION_CHANGE:
+      const match =
+        matchPath(payload.location.pathname, ADHOC_PATH) ||
+        matchPath(payload.location.pathname, DEFAULT_LIST_PATH) ||
+        matchPath(payload.location.pathname, CUSTOM_LIST_PATH);
+      return match
+        ? state
+            .set('lastFilterPath', payload.location.pathname)
+            .set('lastFilterName', match.params.name || 'Adhoc')
+        : state;
     default:
       return state;
   }

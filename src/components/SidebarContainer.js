@@ -32,7 +32,11 @@ export const SidebarContainer = compose(
   lifecycle({
     componentWillMount() {
       this.props.defaultFilters
-        .filter(filter => !filter.equals(this.props.currentFilter))
+        .filter(
+          filter =>
+            !this.props.currentFilter ||
+            !filter.equals(this.props.currentFilter),
+        )
         .forEach(this.props.fetchList);
     },
   }),
