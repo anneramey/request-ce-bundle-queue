@@ -5,6 +5,7 @@ import { reducer as queue } from './modules/queue';
 import { reducer as filterMenu } from './modules/filterMenu';
 import { reducer as alerts } from './modules/alerts';
 import { reducer as modalForm } from './modules/modalForm';
+import { reducer as discussions } from './modules/discussions';
 
 export default {
   errors: errorsReducer,
@@ -14,4 +15,5 @@ export default {
   filterMenu,
   alerts,
   modalForm,
+  discussions,
 };

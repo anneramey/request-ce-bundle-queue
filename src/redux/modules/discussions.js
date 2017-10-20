@@ -1,39 +1,41 @@
-import { Record, List } from 'immutable';
-import { namespace, withPayload } from '../../utils';
+import { Record, List, Map } from 'immutable';
+import { namespace, withPayload, noPayload } from '../../utils';
 
 export const types = {
   // API-based actions.
+  JOIN_DISCUSSION: namespace('discussions', 'JOIN_DISCUSSION'),
   FETCH_ISSUE: namespace('discussions', 'FETCH_ISSUE'),
   SET_ISSUE: namespace('discussions', 'SET_ISSUE'),
-  FETCH_MESSAGES: namespace('discussions', 'FETCH_MESSAGES'),
+  FETCH_MORE_MESSAGES: namespace('discussions', 'FETCH_MORE_MESSAGES'),
   SET_MESSAGES: namespace('discussions', 'SET_MESSAGES'),
+  SET_MORE_MESSAGES: namespace('discussions', 'SET_MORE_MESSAGES'),
 
   // Socket-based actions.
-  CONNECT: namespace('discussions/socket/CONNECT'),
+  CONNECT: namespace('discussions', 'CONNECT'),
   DISCONNECT: namespace('discussions', 'DISCONNECT'),
+  RECONNECT: namespace('discussions', 'RECONNECT'),
   MESSAGE_RX: namespace('discussions', 'MESSAGE_RX'),
+  MESSAGE_UPDATE: namespace('discussions', 'MESSAGE_UPDATE'),
   MESSAGE_TX: namespace('discussions', 'MESSAGE_TX'),
   MESSAGE_BAD_RX: namespace('discussions', 'MESSAGE_BAD_RX'),
 };
 
 export const actions = {
+  joinDiscussion: withPayload(types.JOIN_DISCUSSION),
   // API-bsased actions.
-  fetchIssue: guid => ({ type: types.FETCH_ISSUE, payload: guid }),
-  setIssue: issue => ({ type: types.SET_ISSUE, payload: issue }),
-  fetchMessages: (guid, lastReceived = '2014-01-01') => ({
-    type: types.FETCH_MESSAGES,
-    payload: { guid, lastReceived },
-  }),
-  setMessages: messages => ({ type: types.SET_MESSAGES, payload: messages }),
+  fetchIssue: withPayload(types.FETCH_ISSUE),
+  setIssue: withPayload(types.SET_ISSUE),
+  loadMoreMessages: noPayload(types.FETCH_MORE_MESSAGES),
+  setMessages: withPayload(types.SET_MESSAGES),
+  setMoreMessages: withPayload(types.SET_MORE_MESSAGES),
 
   // Socket-based actions.
-  startConnection: guid => ({ type: types.CONNECT, payload: guid }),
-  stopConnection: () => ({ type: types.DISCONNECT }),
-  receiveMessage: message => ({ type: types.MESSAGE_RX, payload: message }),
-  receiveBadMessage: message => ({
-    type: types.MESSAGE_BAD_RX,
-    payload: message,
-  }),
+  startConnection: withPayload(types.CONNECT),
+  stopConnection: noPayload(types.DISCONNECT),
+  reconnect: noPayload(types.RECONNECT),
+  receiveMessage: withPayload(types.MESSAGE_RX),
+  updateMessage: withPayload(types.MESSAGE_UPDATE),
+  receiveBadMessage: withPayload(types.MESSAGE_BAD_RX),
   sendMessage: (body, guid) => ({
     type: types.MESSAGE_TX,
     payload: { body, guid },
@@ -51,28 +53,94 @@ export const selectLoading = state =>
   state.discussions.messagesLoading || state.discussions.issueLoading;
 
 export const State = Record({
+  issueGuid: '',
   issue: {},
-  messages: List(),
+  messages: Map(),
   badMessages: List(),
   messagesLoading: false,
+  lastReceived: '2014-01-01',
+  messageCount: 0,
   issueLoading: false,
 });
 
-export default function(state = State(), action) {
+const isSystemMessage = message => {
+  let isSystemMessage = message.type === 'SystemMessage';
+  if (
+    isSystemMessage &&
+    message.messageable_type === 'Upload' &&
+    message.messageable.status !== 'Deleted'
+  ) {
+    isSystemMessage = false;
+  }
+  return isSystemMessage;
+};
+
+const messageGroupKey = message => new Date(message.created_at).toDateString();
+
+const messageSorter = (m1, m2) =>
+  new Date(m1.updated_at) - new Date(m2.updated_at);
+const sortMessages = messagesByDate => messagesByDate.sort(messageSorter);
+
+const formatMessages = messages =>
+  List(messages)
+    .filterNot(isSystemMessage)
+    .groupBy(messageGroupKey)
+    .map(sortMessages);
+
+const insertMessage = message => messages =>
+  messages ? messages.push(message) : List([message]);
+
+const replaceMessage = message => messages => {
+  return messages
+    .filterNot(m => message.id === m.id)
+    .push(message)
+    .sort(messageSorter);
+};
+
+export const reducer = (state = State(), action) => {
   switch (action.type) {
+    case types.JOIN_DISCUSSION:
+      return state.set('issueGuid', action.payload);
     case types.FETCH_ISSUE:
-      return { ...state, issueLoading: true };
+      return state.set('issueLoading', true);
     case types.SET_ISSUE:
-      return { ...state, issue: action.payload, issueLoading: false };
-    case types.FETCH_MESSAGES:
-      return { ...state, messagesLoading: true };
+      return state.set('issue', action.payload).set('issueLoading', false);
     case types.SET_MESSAGES:
-      return { ...state, messages: action.payload, messagesLoading: false };
+      return state
+        .set('messagesLoading', false)
+        .set('messageCount', action.payload.length)
+        .set('messages', formatMessages(action.payload))
+        .set('lastReceived', new Date().toTimeString());
+    case types.SET_MORE_MESSAGES:
+      return state
+        .update(
+          'messageCount',
+          messageCount => (messageCount += action.payload.length),
+        )
+        .update('messages', messages =>
+          List(action.payload).reduce(
+            (msgs, message) =>
+              msgs.update(messageGroupKey(message), insertMessage(message)),
+            messages,
+          ),
+        );
+    case types.MESSAGE_UPDATE:
+      return state.updateIn(
+        ['messages', messageGroupKey(action.payload)],
+        replaceMessage(action.payload),
+      );
     case types.MESSAGE_RX:
-      return { ...state, messages: [...state.messages, action.payload] };
+      return state
+        .update('messageCount', messageCount => (messageCount += 1))
+        .updateIn(
+          ['messages', messageGroupKey(action.payload)],
+          insertMessage(action.payload),
+        )
+        .update('messages', messages => messages.map(sortMessages))
+        .set('lastReceived', new Date().toTimeString());
     case types.MESSAGE_BAD_RX:
-      return { ...state, badMessages: [...state.badMessages, action.payload] };
+      return state.update('badMessages', m => m.push(action.payload));
     default:
       return state;
   }
-}
+};

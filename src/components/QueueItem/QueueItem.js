@@ -7,7 +7,7 @@ import SVGInline from 'react-svg-inline';
 import chevronLeftIcon from 'font-awesome-svg-png/black/svg/chevron-left.svg';
 import { actions, isItemComplete } from '../../redux/modules/queue';
 import { QueueItemDetailsContainer } from './QueueItemDetails';
-import { QueueItemDiscussions } from './QueueItemDiscussions';
+import { QueueItemDiscussionsContainer } from './QueueItemDiscussionsContainer';
 import { WorkItemMenuContainer } from '../WorkItemMenu';
 
 export const QueueItem = ({
@@ -63,7 +63,7 @@ export const QueueItem = ({
           </Nav>
         </div>
         <Route exact path="/item/:id" component={QueueItemDetailsContainer} />
-        <Route path="/item/:id/discussions" component={QueueItemDiscussions} />
+        <Route path="/item/:id/discussions" component={QueueItemDiscussionsContainer} />
       </div>
       <div className="right-panel">
         <button

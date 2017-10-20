@@ -1,11 +1,20 @@
-import { eventChannel, takeEvery } from 'redux-saga';
-
-import { take, call, cancelled, put, race } from 'redux-saga/effects';
+import { eventChannel, takeEvery, takeLatest } from 'redux-saga';
+import {
+  take,
+  call,
+  cancelled,
+  put,
+  race,
+  all,
+  select,
+} from 'redux-saga/effects';
 import axios from 'axios';
 
-import { RESPONSE_BASE_PATH } from '../../index';
-
 import { types, actions } from '../modules/discussions';
+
+export const RESPONSE_BASE_PATH =
+  'localhost:3000/6607478/kinetic-response/api/v1/issues';
+export const MESSAGE_LIMIT = 2;
 
 // Supporting documentation:
 // * https://medium.com/@ebakhtarov/bidirectional-websockets-with-redux-saga-bfd5b677c7e7
@@ -30,6 +39,7 @@ function registerChannel(socket) {
 
     socket.onclose = event => {
       window.console.log('socket closed!', event);
+      emit({ action: 'reconnect' });
     };
 
     return () => {
@@ -46,6 +56,12 @@ function* incomingMessages(socketChannel) {
       switch (data.action) {
         case 'message:create':
           yield put(actions.receiveMessage(data.message));
+          break;
+        case 'message:update':
+          yield put(actions.updateMessage(data.message));
+          break;
+        case 'reconnect':
+          yield put(actions.reconnect());
           break;
         default:
           yield put(actions.receiveBadMessage(data));
@@ -67,24 +83,30 @@ function* incomingMessages(socketChannel) {
 //   }
 // }
 
+const openWebSocket = guid =>
+  new WebSocket(`ws://${RESPONSE_BASE_PATH}/${guid}/issue_socket`);
+
 export function* watchDiscussionSocket() {
   // eslint-disable-next-line
   while (true) {
     const action = yield take(types.CONNECT);
     const guid = action.payload;
-    const socket = new WebSocket(
-      `ws://${RESPONSE_BASE_PATH}/${guid}/issue_socket`,
-    );
-    const socketChannel = yield call(registerChannel, socket);
+    let socket = openWebSocket(guid);
+    let socketChannel = yield call(registerChannel, socket);
 
-    const { cancel } = yield race({
+    const { cancel, reconnect } = yield race({
       task: [
         call(incomingMessages, socketChannel),
         // call(outgoingMessages, socket),
       ],
+      reconnect: take(types.RECONNECT),
       cancel: take(types.DISCONNECT),
     });
 
+    if (reconnect) {
+      socket = openWebSocket(guid);
+      socketChannel = yield call(registerChannel, socket);
+    }
     if (cancel) {
       socketChannel.close();
     }
@@ -92,14 +114,23 @@ export function* watchDiscussionSocket() {
 }
 
 const fetchIssue = guid =>
-  axios.get(`http://${RESPONSE_BASE_PATH}/${guid}`, { withCredentials: true });
+  axios
+    .get(`http://${RESPONSE_BASE_PATH}/${guid}`, { withCredentials: true })
+    .then(response => ({ issue: response.data }))
+    .catch(response => ({ error: response }));
 
-const fetchMessages = action => {
-  const { guid, lastReceived } = action.payload;
-  return axios.get(`http://${RESPONSE_BASE_PATH}/${guid}/messages`, {
-    withCredentials: true,
-    params: { last_received: lastReceived || '2014-01-01' },
-  });
+const fetchMessages = ({ guid, lastReceived, offset }) => {
+  return axios
+    .get(`http://${RESPONSE_BASE_PATH}/${guid}/messages`, {
+      withCredentials: true,
+      params: {
+        last_received: lastReceived || '2014-01-01',
+        limit: MESSAGE_LIMIT,
+        offset: offset ? offset : 0,
+      },
+    })
+    .then(response => ({ messages: response.data }))
+    .catch(response => ({ error: response }));
 };
 
 export function* fetchIssueSaga(action) {
@@ -109,16 +140,30 @@ export function* fetchIssueSaga(action) {
   }
 }
 
-export function* fetchMessagesSaga(action) {
+export function* fetchMessagesTask(action) {
   const { data } = yield call(fetchMessages, action);
 
   if (data) {
-    // Sort the fetched messages by updated_at, ascending.
-    const sortedMessages = data.sort((a, b) => {
-      const diff = new Date(a.updated_at) - new Date(b.updated_at);
-      return diff;
-    });
-    yield put(actions.setMessages(sortedMessages));
+    yield put(actions.setMessages(data));
+  }
+}
+
+const selectFetchMessageSettings = state => ({
+  guid: state.discussions.issueGuid,
+  offset: state.discussions.messageCount,
+  lastReceived: state.discussions.lastReceived,
+});
+
+export function* fetchMoreMessagesTask(action) {
+  console.log('fetching more messages');
+  const params = yield select(selectFetchMessageSettings);
+  const { messages } = yield call(fetchMessages, {
+    ...params,
+    lastReceived: '',
+  });
+
+  if (messages) {
+    yield put(actions.setMoreMessages(messages));
   }
 }
 
@@ -135,8 +180,30 @@ export function* sendMessageSaga(action) {
   yield call(sendMessage, action);
 }
 
+export function* joinDiscussionTask(action) {
+  const params = yield select(selectFetchMessageSettings);
+  const {
+    issue: { issue, error: issueError },
+    messages: { messages, error: messagesError },
+  } = yield all({
+    issue: call(fetchIssue, params.guid),
+    messages: call(fetchMessages, params),
+  });
+
+  if (issueError || messagesError) {
+    window.console.log('there was a problem fetching the issue and messages');
+  } else {
+    yield all([
+      put(actions.setIssue(issue)),
+      put(actions.setMessages(messages)),
+      put(actions.startConnection(params.guid)),
+    ]);
+  }
+}
+
 export function* watchDiscussion() {
   yield takeEvery(types.MESSAGE_TX, sendMessageSaga);
-  yield takeEvery(types.FETCH_MESSAGES, fetchMessagesSaga);
+  yield takeEvery(types.FETCH_MORE_MESSAGES, fetchMoreMessagesTask);
   yield takeEvery(types.FETCH_ISSUE, fetchIssueSaga);
+  yield takeLatest(types.JOIN_DISCUSSION, joinDiscussionTask);
 }
