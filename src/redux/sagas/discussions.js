@@ -167,8 +167,8 @@ export function* fetchMoreMessagesTask(action) {
   }
 }
 
-const sendMessage = action => {
-  const { body, guid } = action.payload;
+const sendMessage = params => {
+  const { body, guid } = params;
   return axios.post(
     `http://${RESPONSE_BASE_PATH}/${guid}/messages`,
     { body },
@@ -176,8 +176,9 @@ const sendMessage = action => {
   );
 };
 
-export function* sendMessageSaga(action) {
-  yield call(sendMessage, action);
+export function* sendMessageTask(action) {
+  const guid = yield select(state => state.discussions.issueGuid);
+  yield call(sendMessage, { guid, body: action.payload });
 }
 
 export function* joinDiscussionTask(action) {
@@ -202,7 +203,7 @@ export function* joinDiscussionTask(action) {
 }
 
 export function* watchDiscussion() {
-  yield takeEvery(types.MESSAGE_TX, sendMessageSaga);
+  yield takeEvery(types.MESSAGE_TX, sendMessageTask);
   yield takeEvery(types.FETCH_MORE_MESSAGES, fetchMoreMessagesTask);
   yield takeEvery(types.FETCH_ISSUE, fetchIssueSaga);
   yield takeLatest(types.JOIN_DISCUSSION, joinDiscussionTask);

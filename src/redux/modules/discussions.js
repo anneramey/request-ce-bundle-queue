@@ -36,10 +36,7 @@ export const actions = {
   receiveMessage: withPayload(types.MESSAGE_RX),
   updateMessage: withPayload(types.MESSAGE_UPDATE),
   receiveBadMessage: withPayload(types.MESSAGE_BAD_RX),
-  sendMessage: (body, guid) => ({
-    type: types.MESSAGE_TX,
-    payload: { body, guid },
-  }),
+  sendMessage: withPayload(types.MESSAGE_TX),
 };
 
 /**
