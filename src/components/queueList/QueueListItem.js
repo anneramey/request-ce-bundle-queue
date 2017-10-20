@@ -68,6 +68,8 @@ export const QueueListItem = ({
   toggleItemMenu,
   toggleWorkMenu,
   handleItemClick,
+  profile,
+  grabItem,
 }) => {
   const { createdAt, updatedAt, id, values } = queueItem;
 
@@ -100,9 +102,15 @@ export const QueueListItem = ({
             <Link to={`/item/${id}`} className="dropdown-item">
               More Details
             </Link>
-            <DropdownItem onClick={toggleWorkMenu(queueItem)}>
-              Work Task
-            </DropdownItem>
+            {queueItem.values['Assigned Individual'] === profile.username ? (
+              <DropdownItem onClick={toggleWorkMenu(queueItem)}>
+                Work Task
+              </DropdownItem>
+            ) : (
+              <DropdownItem onClick={grabItem(queueItem)}>
+                Grab Task
+              </DropdownItem>
+            )}
             <Link to={`/item/${id}/discussions`} className="dropdown-item">
               Discuss
             </Link>

@@ -24,6 +24,8 @@ export const QueueItemPreview = ({
   queueItem,
   closePreview,
   toggleWorkMenu,
+  profile,
+  grabItem,
 }) => {
   const { values } = queueItem;
 
@@ -75,12 +77,21 @@ export const QueueItemPreview = ({
         </li>
       </ul>
       <div className="preview-actions">
-        <button
-          className="btn btn-primary work-grab-button"
-          onClick={toggleWorkMenu(queueItem)}
-        >
-          Work It
-        </button>
+        {queueItem.values['Assigned Individual'] === profile.username ? (
+          <button
+            className="btn btn-primary work-grab-button"
+            onClick={toggleWorkMenu(queueItem)}
+          >
+            Work It
+          </button>
+        ) : (
+          <button
+            className="btn btn-primary work-grab-button"
+            onClick={grabItem(queueItem)}
+          >
+            Grab It
+          </button>
+        )}
         <Link
           className="btn btn-primary work-grab-button"
           to={`/item/${queueItem.id}`}

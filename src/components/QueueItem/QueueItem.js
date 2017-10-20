@@ -11,12 +11,15 @@ import { QueueItemDiscussionsContainer } from './QueueItemDiscussionsContainer';
 import { WorkItemMenuContainer } from '../WorkItemMenu';
 
 export const QueueItem = ({
+  lastFilterPath,
+  lastFilterName,
   queueItem,
   handleCompleted,
-  currentFilterName,
   workMenuOpen,
   openWorkMenu,
   closeWorkMenu,
+  assignedToMe,
+  grabIt,
 }) =>
   queueItem !== null && (
     <div className="queue-item-details two-panels">
@@ -29,14 +32,11 @@ export const QueueItem = ({
       />
       <div className="left-panel">
         <div className="controls">
-          {currentFilterName !== '' && (
-            <Link
-              to={`/list/${encodeURIComponent(currentFilterName)}`}
-              className="back-link"
-            >
+          {lastFilterName && (
+            <Link to={lastFilterPath} className="back-link">
               <div className="icon-wrapper">
                 <SVGInline svg={chevronLeftIcon} className="icon" />
-                {currentFilterName}
+                {lastFilterName}
               </div>
             </Link>
           )}
@@ -68,9 +68,9 @@ export const QueueItem = ({
       <div className="right-panel">
         <button
           className="btn btn-primary work-grab-button"
-          onClick={openWorkMenu}
+          onClick={assignedToMe ? openWorkMenu : grabIt}
         >
-          Works / Grab It
+          {assignedToMe ? 'Work It' : 'Grab It'}
         </button>
       </div>
     </div>
@@ -78,13 +78,20 @@ export const QueueItem = ({
 
 export const mapStateToProps = (state, props) => ({
   queueItem: state.queue.currentItem,
-  currentFilterName: state.queue.currentFilter.name,
+  lastFilterPath: state.app.lastFilterPath,
+  lastFilterName: state.app.lastFilterName,
   id: props.match.params.id,
   workMenuOpen: state.queue.workMenuOpen,
+  profile: state.app.profile,
+  assignedToMe:
+    state.queue.currentItem &&
+    state.queue.currentItem.values['Assigned Individual'] ===
+      state.app.profile.username,
 });
 
 export const mapDispatchToProps = {
   fetchCurrentItem: actions.fetchCurrentItem,
+  updateQueueItem: actions.updateQueueItem,
   openWorkMenu: actions.openWorkMenu,
   closeWorkMenu: actions.closeWorkMenu,
 };
@@ -97,6 +104,15 @@ export const QueueItemContainer = compose(
       refreshItem();
       closeWorkMenu();
     },
+    grabIt: ({ queueItem, updateQueueItem, profile }) => () =>
+      updateQueueItem({
+        id: queueItem.id,
+        values: {
+          'Assigned Individual': profile.username,
+          'Assigned Individual Display Name': profile.displayName,
+        },
+        successAction: actions.setCurrentItem,
+      }),
   }),
   lifecycle({
     componentWillMount() {

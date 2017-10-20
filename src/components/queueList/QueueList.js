@@ -12,7 +12,7 @@ import { WorkItemMenuContainer } from '../WorkItemMenu';
 import { QueueItemPreview } from './QueueItemPreview';
 
 const WallyMessage = ({ filter }) => {
-  if (filter.adhoc) {
+  if (filter.type === 'adhoc') {
     return (
       <div className="wally">
         <h5>No Results</h5>
@@ -45,6 +45,8 @@ export const QueueList = ({
   closePreview,
   toggleItemMenu,
   toggleWorkMenu,
+  profile,
+  grabItem,
   sortDirection,
   toggleSortDirection,
   refresh,
@@ -61,7 +63,7 @@ export const QueueList = ({
       )}
       <div className="controls">
         <h6>
-          {filter.name}
+          {filter.name || 'Adhoc'}
           <br />
           <small>by Due Date</small>
         </h6>
@@ -93,7 +95,7 @@ export const QueueList = ({
         </div>
       </div>
       <div className="submissions">
-        {queueItems && queueItems.size > 0 ?
+        {queueItems && queueItems.size > 0 ? (
           <ul className="list-group">
             {queueItems.map(queueItem => (
               <QueueListItem
@@ -103,11 +105,14 @@ export const QueueList = ({
                 openDropdownItem={openDropdownItem}
                 toggleItemMenu={toggleItemMenu}
                 toggleWorkMenu={toggleWorkMenu}
+                profile={profile}
+                grabItem={grabItem}
               />
             ))}
-          </ul> :
+          </ul>
+        ) : (
           <WallyMessage filter={filter} />
-        }
+        )}
       </div>
     </div>
     {previewItem && (
@@ -116,6 +121,8 @@ export const QueueList = ({
           queueItem={previewItem}
           closePreview={closePreview}
           toggleWorkMenu={toggleWorkMenu}
+          profile={profile}
+          grabItem={grabItem}
         />
       </div>
     )}

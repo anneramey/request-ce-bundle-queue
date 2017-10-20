@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
 import { NotificationsContainer } from './notifications/NotificationsContainer';
 import { FilterMenuContainer } from './FilterMenu/FilterMenuContainer';
@@ -11,8 +11,9 @@ import { ModalFormContainer } from './ModalFormContainer';
 export const Content = () => (
   <div className="content">
     <NotificationsContainer />
-    <Route path="/" exact render={() => <div>Please select a list</div>} />
+    <Route path="/" exact render={() => <Redirect to="/list/Mine" />} />
     <Route path="/list/:filter" component={QueueListContainer} />
+    <Route path="/custom" component={QueueListContainer} />
     <Route path="/item/:id" component={QueueItemContainer} />
     <FilterMenuContainer />
     <NewItemMenuContainer />

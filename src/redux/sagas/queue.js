@@ -1,7 +1,9 @@
 import { takeEvery } from 'redux-saga';
-import { select, call, put } from 'redux-saga/effects';
+import { select, call, put, all } from 'redux-saga/effects';
 import moment from 'moment';
 import { CoreAPI } from 'react-kinetic-core';
+import isArray from 'isarray';
+import isFunction from 'is-function';
 
 import { types, actions } from '../modules/queue';
 import { actions as errorActions } from '../modules/errors';
@@ -157,7 +159,7 @@ export const sortSubmissions = (submissions, filter) =>
     return 0;
   });
 
-export function* fetchCurrentFilterTask(action) {
+export function* fetchListTask(action) {
   const filter = action.payload;
   const appSettings = yield select(getAppSettings);
   const search = yield call(buildSearch, filter, appSettings);
@@ -178,7 +180,7 @@ export function* fetchCurrentFilterTask(action) {
     // Post-process results:
     const sortedSubmissions = yield call(sortSubmissions, submissions, filter);
 
-    yield put(actions.setListItems(filter.name, sortedSubmissions));
+    yield put(actions.setListItems(filter, sortedSubmissions));
   }
 }
 
@@ -195,24 +197,27 @@ export function* fetchCurrentItemTask(action) {
   }
 }
 
-export function* updateCurrentItemTask(action) {
-  const currentItem = yield select(getCurrentItem);
+export function* updateQueueItemTask(action) {
   const { submission } = yield call(CoreAPI.updateSubmission, {
-    id: currentItem.id,
-    values: action.payload,
+    id: action.payload.id,
+    values: action.payload.values,
     include: SUBMISSION_INCLUDES,
   });
 
   if (submission) {
-    yield put(actions.setCurrentItem(submission));
+    if (isFunction(action.payload.successAction)) {
+      const result = action.payload.successAction(submission);
+      yield isArray(result)
+        ? all(result.map(action => put(action)))
+        : put(result);
+    }
   } else {
     yield put(errorActions.addError('Failed to update item!'));
   }
 }
 
 export function* watchQueue() {
-  yield takeEvery(types.SET_CURRENT_FILTER, fetchCurrentFilterTask);
-  yield takeEvery(types.FETCH_LIST, fetchCurrentFilterTask);
+  yield takeEvery(types.FETCH_LIST, fetchListTask);
   yield takeEvery(types.FETCH_CURRENT_ITEM, fetchCurrentItemTask);
-  yield takeEvery(types.UPDATE_CURRENT_ITEM, updateCurrentItemTask);
+  yield takeEvery(types.UPDATE_QUEUE_ITEM, updateQueueItemTask);
 }
