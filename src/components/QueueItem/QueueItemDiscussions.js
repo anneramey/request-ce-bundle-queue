@@ -3,112 +3,62 @@ import attachmentIcon from 'font-awesome-svg-png/black/png/128/file-o.png';
 import paperclip from 'font-awesome-svg-png/black/svg/paperclip.svg';
 import SVGInline from 'react-svg-inline';
 import Avatar from 'react-avatar';
+import moment from 'moment';
 
 import { ChatInputForm } from './ChatInputForm';
+
+const Message = ({ message, profile }) => (
+  <div
+    className={`message ${message.user.email === profile.email
+      ? 'mine'
+      : 'other'}`}
+  >
+    <Avatar
+      size={50}
+      email={message.user.email}
+      name={message.user.name}
+      round
+    />
+    <div className="body">
+      <p>{message.body}</p>
+      <div className="meta">
+        <span className="author">
+          {message.user.email === profile.email ? 'You' : message.user.name}
+        </span>
+        <span className="timestamp">
+          {moment(message.created_at).format('h:mma')}
+        </span>
+      </div>
+    </div>
+  </div>
+);
 
 export const QueueItemDiscussions = ({
   handleChatEnter,
   handleSendChatMessage,
   handleChangeChatInput,
   chatInput,
+  profile,
+  messages,
 }) => (
   <div className="discussions">
     <div className="messages">
       <div className="message-wrapper">
-        <div className="message mine">
-          <Avatar
-            size="50"
-            email="shayne.koestler@kineticdata.com"
-            name="Shayne Koestler"
-            round
-          />
-          <div className="body">
-            <p>Appears to only be happening for people in the US</p>
-            <div className="meta">
-              <span className="author">You</span>
-              <span className="timestamp">10:03am</span>
+        {messages
+          .reverse()
+          .map((val, key) => (
+            <div key={key} className="message-group">
+              <div className="date">
+                <hr />
+                <span>{key}</span>
+                <hr />
+              </div>
+              {val.map(message => (
+                <Message message={message} profile={profile} key={message.id} />
+              ))}
             </div>
-          </div>
-        </div>
-        <div className="message other">
-          <Avatar size="50" email="zzz" name="Norm O" round />
-          <div className="body">
-            <p>
-              ATS is not able to view the table of results on the Data Mgmt
-              Console service item.
-            </p>
-            <div className="meta">
-              <span className="author">Vince Vendor</span>
-              <span className="timestamp">10:25am</span>
-            </div>
-          </div>
-        </div>
-        <div className="date">
-          <hr />
-          <span>September 30th, 2017</span>
-          <hr />
-        </div>
-        <div className="message other">
-          <Avatar size="50" email="zzz" name="Matt R" round />
-          <div className="body">
-            <p>
-              <img src={attachmentIcon} alt="icon" />
-              ATS is not able to view the table of results on the Data Mgmt
-              Console service item.
-            </p>
-            <div className="meta">
-              <span className="author">Johan Thorsell</span>
-              <span className="timestamp">2:25am</span>
-            </div>
-          </div>
-        </div>
-        <div className="message mine">
-          <Avatar
-            size="50"
-            email="shayne.koestler@kineticdata.com"
-            name="Shayne Koestler"
-            round
-          />
-          <div className="body">
-            <p>Appears to only be happening for people in the US</p>
-            <div className="meta">
-              <span className="author">You</span>
-              <span className="timestamp">10:03am</span>
-            </div>
-          </div>
-        </div>
-        <div className="message other">
-          <Avatar size="50" email="zzz" name="Norm O" round />
-          <div className="body">
-            <p>
-              ATS is not able to view the table of results on the Data Mgmt
-              Console service item.
-            </p>
-            <div className="meta">
-              <span className="author">Vince Vendor</span>
-              <span className="timestamp">10:25am</span>
-            </div>
-          </div>
-        </div>
-        <div className="date">
-          <hr />
-          <span>September 30th, 2017</span>
-          <hr />
-        </div>
-        <div className="message other">
-          <Avatar size="50" email="zzz" name="Matt R" round />
-          <div className="body">
-            <p>
-              <img src={attachmentIcon} alt="icon" />
-              ATS is not able to view the table of results on the Data Mgmt
-              Console service item.
-            </p>
-            <div className="meta">
-              <span className="author">Johan Thorsell</span>
-              <span className="timestamp">2:25am</span>
-            </div>
-          </div>
-        </div>
+          ))
+          .toList()}
       </div>
     </div>
     <ChatInputForm />

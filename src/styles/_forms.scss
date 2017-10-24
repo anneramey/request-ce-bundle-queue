@@ -1,15 +1,7 @@
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*   Forms
+*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 .embedded-core-form {
-  .checkbox.required label:first-child:after,
-  .radio.required label:first-child:after,
-  .form-group.required label:after,
-  label.required:after {
-    content: '*';
-    color: red;
-  }
-  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  *   Forms
-  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-
   input[type='text'],
   input[type='text'].form-control,
   input[type='password'],
@@ -106,6 +98,63 @@
     padding: 0;
     width: 100%;
   }
+
+  .checkbox label, .radio label {
+      min-height: 20px;
+      padding-left: 20px;
+      margin-bottom: 0;
+      font-weight: 400;
+      cursor: pointer;
+  }
+  .radio label:first-child {
+    padding-left: 0;
+    font-weight: 600;
+  }
+  .checkbox label {
+    &:first-child {
+      padding-left: 0;
+      font-weight: 600;
+    }
+    + input {
+      padding-left: 2rem;
+    }
+  }
+  .radio,
+  .checkbox {
+    &:after {
+      visibility: hidden;
+      display: block;
+      font-size: 0;
+      content: " ";
+      clear: both;
+    }
+
+    label {
+      margin-bottom: 0;
+      margin: 0 0 1rem 0;
+      font-weight: 600;
+      cursor: pointer;
+      line-height: 1;
+      &:first-child:not(.field-label) {
+        margin-right: 2rem;
+        margin-left: 1rem;
+      }
+      &:not(.field-label) {
+        float: left;
+        margin-right: 1.5rem;
+        margin-left: .1rem;
+
+      }
+    }
+  }
+  .checkbox-inline input[type=checkbox],
+  .checkbox input[type=checkbox],
+  .radio-inline input[type=radio],
+  .radio input[type=radio] {
+    position: absolute;
+    margin-top: 4px\9;
+    margin-left: -20px;
+}
 
   /* Requested For search display
   *-------------------------------------- */
