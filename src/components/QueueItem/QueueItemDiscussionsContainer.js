@@ -7,6 +7,8 @@ import { QueueItemDiscussions } from './QueueItemDiscussions';
 
 const mapStateToProps = state => ({
   queueItem: state.queue.currentItem,
+  profile: state.app.profile,
+  messages: state.discussions.messages,
 });
 
 const mapDispatchToProps = {

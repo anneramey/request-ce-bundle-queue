@@ -130,22 +130,22 @@
 
       .empty-subtasks {
         border-radius: 8px;
-        background-color: #FFFFFF;
-        font-family: "Open Sans";
+        background-color: #ffffff;
+        font-family: 'Open Sans';
         text-align: center;
         padding: 2em;
 
         h5 {
-          color: #54698D;
+          color: #54698d;
           font-size: 14px;
           font-weight: 600;
           line-height: 24px;
         }
 
         h6 {
-         color: #A8B7C7;
-         font-size: 12px;
-         line-height: 24px;
+          color: #a8b7c7;
+          font-size: 12px;
+          line-height: 24px;
         }
       }
     }
@@ -187,6 +187,7 @@
         font-size: 11px;
         margin-bottom: 1rem;
         .body {
+          flex: 1;
           margin: 0 1rem;
           p {
             border-radius: 8px;
