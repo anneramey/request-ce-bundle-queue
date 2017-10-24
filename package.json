@@ -56,6 +56,13 @@
     "underscore": "^1.8.3"
   },
   "proxy": {
+    "/*/kinetic-response/": {
+      "target": "https://kinops.io",
+      "secure": false,
+      "ws": true,
+      "autoRewrite": true,
+      "protocolRewrite": "http"
+    },
     "/": {
       "target": "https://kinops.io",
       "headers": {

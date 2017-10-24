@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import attachmentIcon from 'font-awesome-svg-png/black/png/128/file-o.png';
 import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
 import sendIcon from 'font-awesome-svg-png/black/svg/paper-plane.svg';
 import SVGInline from 'react-svg-inline';
 
 import { actions } from '../../redux/modules/discussions';
-
-const isChatInputInvalid = chatInput => chatInput.trim() === '';
 
 class ChatInput extends Component {
   constructor(props) {
@@ -18,6 +15,7 @@ class ChatInput extends Component {
     this.handleChatEnter = this.handleChatEnter.bind(this);
     this.handleChangeChatInput = this.handleChangeChatInput.bind(this);
     this.handleInputRef = this.handleInputRef.bind(this);
+    this.isChatInputInvalid = this.isChatInputInvalid.bind(this);
   }
 
   handleSendChatMessage(e) {
@@ -40,6 +38,10 @@ class ChatInput extends Component {
     this.htmlElement = e;
   }
 
+  isChatInputInvalid() {
+    return !this.htmlElement || this.htmlElement.innerHTML.trim() === '';
+  }
+
   render() {
     return (
       <form onSubmit={this.handleSendChatMessage} className="new-message">
@@ -57,7 +59,7 @@ class ChatInput extends Component {
         <button
           type="submit"
           className="btn btn-subtle btn-send"
-          /* disabled={isChatInputInvalid} */
+          disabled={this.isChatInputInvalid()}
         >
           <span className="icon-wrapper icon-small">
             <SVGInline svg={sendIcon} className="icon" />
