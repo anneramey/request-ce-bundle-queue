@@ -4,7 +4,7 @@ import paperclip from 'font-awesome-svg-png/black/svg/paperclip.svg';
 import SVGInline from 'react-svg-inline';
 import Avatar from 'react-avatar';
 
-const isChatInputInvalid = chatInput => chatInput.trim() === '';
+import { ChatInputForm } from './ChatInputForm';
 
 export const QueueItemDiscussions = ({
   handleChatEnter,
@@ -111,26 +111,6 @@ export const QueueItemDiscussions = ({
         </div>
       </div>
     </div>
-    <form onSubmit={handleSendChatMessage} className="new-message">
-      <button type="button" className="btn btn-subtle">
-        <span className="icon-wrapper">
-          <SVGInline svg={paperclip} className="icon" />
-        </span>
-      </button>
-      <textarea
-        rows={1}
-        type="text"
-        value={chatInput}
-        onChange={handleChangeChatInput}
-        onKeyDown={handleChatEnter}
-      />
-      <button
-        type="submit"
-        className="btn btn-primary"
-        disabled={isChatInputInvalid}
-      >
-        Send
-      </button>
-    </form>
+    <ChatInputForm />
   </div>
 );

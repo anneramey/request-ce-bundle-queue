@@ -12,38 +12,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   joinDiscussion: actions.joinDiscussion,
   stopConnection: actions.stopConnection,
-  sendMessage: actions.sendMessage,
-};
-
-const handleChangeChatInput = ({ setChatInput }) => e =>
-  setChatInput(e.target.value);
-
-const handleSendChatMessage = ({
-  sendMessage,
-  chatInput,
-  setChatInput,
-}) => e => {
-  e.preventDefault();
-  sendMessage(chatInput);
-  setChatInput('');
-};
-
-const handleChatEnter = ({ handleSendChatMessage }) => e => {
-  if (e.keyCode === 13 && !e.shiftKey) {
-    handleSendChatMessage(e);
-  }
 };
 
 export const QueueItemDiscussionsContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withState('chatInput', 'setChatInput', ''),
-  withHandlers({
-    handleChangeChatInput,
-    handleSendChatMessage,
-  }),
-  withHandlers({
-    handleChatEnter,
-  }),
   lifecycle({
     componentWillMount() {
       // this.props.joinDiscussion('1a69ce8b-d1ac-4528-bf4b-1ed3de1e66a3');

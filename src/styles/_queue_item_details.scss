@@ -130,22 +130,22 @@
 
       .empty-subtasks {
         border-radius: 8px;
-        background-color: #FFFFFF;
-        font-family: "Open Sans";
+        background-color: #ffffff;
+        font-family: 'Open Sans';
         text-align: center;
         padding: 2em;
 
         h5 {
-          color: #54698D;
+          color: #54698d;
           font-size: 14px;
           font-weight: 600;
           line-height: 24px;
         }
 
         h6 {
-         color: #A8B7C7;
-         font-size: 12px;
-         line-height: 24px;
+          color: #a8b7c7;
+          font-size: 12px;
+          line-height: 24px;
         }
       }
     }
@@ -259,17 +259,47 @@
     }
     .new-message {
       display: flex;
-      padding: 1rem;
+      // padding: 1rem;
+
       button {
+        height: 48px;
+        width: 48px;
+
         border-radius: 0;
+
+        &.btn-more {
+          // background-color: rgba(255, 255, 255, 0.5);
+          background-color: #d3dce7;
+          opacity: 0.5;
+        }
+
+        &.btn-send {
+          background-color: #d3dce7;
+        }
+
+        &.btn.btn-subtle {
+          background-color: $blue3;
+          .icon-svg path {
+            fill: $blue1;
+          }
+        }
+
+        &.btn.disabled,
+        &.btn:disabled {
+          opacity: 1;
+        }
       }
-      input {
+
+      .message-input {
         flex: 1;
-      }
-      .btn.btn-subtle {
-        background-color: $blue3;
-        .icon-svg path {
-          fill: $blue1;
+        padding-top: 12px;
+        padding-left: 12px;
+        // border-top: 1px solid #d3dce7;
+        // border-bottom: 1px solid #d3dce7;
+        background-color: #d3dce7;
+
+        &:focus {
+          outline: unset;
         }
       }
     }
