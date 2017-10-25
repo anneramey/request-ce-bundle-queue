@@ -1,5 +1,5 @@
-import { takeEvery, delay } from 'redux-saga';
-import { put } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
+import { put, takeEvery } from 'redux-saga/effects';
 import { actions, types } from '../modules/errors';
 
 export function* addNotificationTask(action) {

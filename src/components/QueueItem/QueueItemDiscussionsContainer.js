@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { compose, lifecycle, withState, withHandlers } from 'recompose';
+import { compose, lifecycle } from 'recompose';
 
 import { actions } from '../../redux/modules/discussions';
 

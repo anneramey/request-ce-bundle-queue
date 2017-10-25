@@ -1,7 +1,4 @@
 import React from 'react';
-import attachmentIcon from 'font-awesome-svg-png/black/png/128/file-o.png';
-import paperclip from 'font-awesome-svg-png/black/svg/paperclip.svg';
-import SVGInline from 'react-svg-inline';
 import Avatar from 'react-avatar';
 import moment from 'moment';
 

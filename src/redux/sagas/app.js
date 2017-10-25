@@ -1,5 +1,5 @@
-import { takeEvery, takeLatest } from 'redux-saga';
-import { all, call, put, select } from 'redux-saga/effects';
+import { takeEvery } from 'redux-saga';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import { List } from 'immutable';
 import { CoreAPI } from 'react-kinetic-core';
 

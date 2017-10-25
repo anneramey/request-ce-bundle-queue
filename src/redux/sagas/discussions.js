@@ -1,4 +1,4 @@
-import { eventChannel, takeEvery, takeLatest } from 'redux-saga';
+import { eventChannel, takeLatest } from 'redux-saga';
 import {
   take,
   call,
@@ -7,6 +7,7 @@ import {
   race,
   all,
   select,
+  takeEvery,
 } from 'redux-saga/effects';
 import axios from 'axios';
 

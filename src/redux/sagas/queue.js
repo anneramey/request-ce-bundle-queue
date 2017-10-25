@@ -1,5 +1,4 @@
-import { takeEvery } from 'redux-saga';
-import { select, call, put, all } from 'redux-saga/effects';
+import { select, call, put, all, takeEvery } from 'redux-saga/effects';
 import moment from 'moment';
 import { CoreAPI } from 'react-kinetic-core';
 import isArray from 'isarray';
