@@ -52,7 +52,7 @@ export const selectLoading = state =>
 export const State = Record({
   issueGuid: '',
   issue: {},
-  messages: Map(),
+  messages: List(),
   badMessages: List(),
   messagesLoading: false,
   lastReceived: '2014-01-01',
@@ -74,6 +74,9 @@ const isSystemMessage = message => {
 
 const messageGroupKey = message => new Date(message.created_at).toDateString();
 
+const sameAuthor = (message1, message2) =>
+  message1 && message2 && message1.user.email === message2.user.email;
+
 const messageSorter = (m1, m2) =>
   new Date(m1.updated_at) - new Date(m2.updated_at);
 const sortMessages = messagesByDate => messagesByDate.sort(messageSorter);
@@ -81,8 +84,18 @@ const sortMessages = messagesByDate => messagesByDate.sort(messageSorter);
 const formatMessages = messages =>
   List(messages)
     .filterNot(isSystemMessage)
+    .reverse()
     .groupBy(messageGroupKey)
-    .map(sortMessages);
+    .toList()
+    .map(messagesForDate =>
+      messagesForDate.reduce(
+        (reduction, message) =>
+          !reduction.isEmpty() && sameAuthor(message, reduction.last().first())
+            ? reduction.update(reduction.size - 1, list => list.push(message))
+            : reduction.push(List([message])),
+        List(),
+      ),
+    );
 
 const insertMessage = message => messages =>
   messages ? messages.push(message) : List([message]);

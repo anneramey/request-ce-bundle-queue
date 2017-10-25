@@ -181,19 +181,25 @@
         padding: 1rem;
         overflow-y: scroll;
       }
-      .message {
-        color: $blue1;
+      .message-group {
         display: flex;
-        font-size: 11px;
         margin-bottom: 1rem;
-        .body {
+        .sb-avatar {
+          margin: 0 0.5rem 0 0;
+        }
+        .message-list {
           flex: 1;
-          margin: 0 1rem;
-          p {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          color: $blue1;
+          font-size: 11px;
+          .message {
+            background-color: white;
             border-radius: 8px;
+            margin-bottom: 0.5rem;
             padding: 1rem;
             position: relative;
-            margin-bottom: 0.4rem;
             &:after {
               content: ' ';
               position: absolute;
@@ -214,29 +220,30 @@
           }
         }
         &.mine {
-          justify-content: flex-end;
           .sb-avatar {
             order: 1;
+            margin: 0 0 0 0.5rem;
           }
-          p {
-            background-color: $blue3;
-            &:after {
-              left: auto;
-              right: -8px;
-              border-color: $blue3 transparent transparent $blue3;
+          .message-list {
+            align-items: flex-end;
+            .message {
+              background-color: $blue3;
+              &:after {
+                left: auto;
+                right: -8px;
+                border-color: $blue3 transparent transparent $blue3;
+              }
             }
-          }
-          .author {
-            font-weight: bold;
           }
         }
         &.other {
-          p {
-            background-color: white;
-            &:after {
-              left: -8px;
-              right: auto;
-              border-color: white white transparent transparent;
+          .message-list {
+            .message {
+              &:after {
+                left: -8px;
+                right: auto;
+                border-color: white white transparent transparent;
+              }
             }
           }
         }

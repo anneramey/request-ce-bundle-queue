@@ -7,26 +7,32 @@ import moment from 'moment';
 
 import { ChatInputForm } from './ChatInputForm';
 
-const Message = ({ message, profile }) => (
+const MessageGroup = ({ messages, profile }) => (
   <div
-    className={`message ${message.user.email === profile.email
+    className={`message-group ${messages.first().user.email === profile.email
       ? 'mine'
       : 'other'}`}
   >
     <Avatar
       size={50}
-      email={message.user.email}
-      name={message.user.name}
+      email={messages.first().user.email}
+      name={messages.first().user.name}
       round
     />
-    <div className="body">
-      <p>{message.body}</p>
+    <div className="message-list">
+      {messages.map(message => (
+        <div key={message.id} className="message">
+          {message.body}
+        </div>
+      ))}
       <div className="meta">
         <span className="author">
-          {message.user.email === profile.email ? 'You' : message.user.name}
+          {messages.last().user.email === profile.email
+            ? 'You'
+            : messages.last().user.name}
         </span>
         <span className="timestamp">
-          {moment(message.created_at).format('h:mma')}
+          {moment(messages.last().created_at).format('h:mma')}
         </span>
       </div>
     </div>
@@ -44,21 +50,26 @@ export const QueueItemDiscussions = ({
   <div className="discussions">
     <div className="messages">
       <div className="message-wrapper">
-        {messages
-          .reverse()
-          .map((val, key) => (
-            <div key={key} className="message-group">
-              <div className="date">
-                <hr />
-                <span>{key}</span>
-                <hr />
-              </div>
-              {val.map(message => (
-                <Message message={message} profile={profile} key={message.id} />
-              ))}
+        {messages.map(dayList => (
+          <div key={dayList.first().first().created_at}>
+            <div className="date">
+              <hr />
+              <span>
+                {moment(dayList.first().first().created_at).format(
+                  'MMMM Do, YYYY',
+                )}
+              </span>
+              <hr />
             </div>
-          ))
-          .toList()}
+            {dayList.map(messages => (
+              <MessageGroup
+                key={`group-${messages.first().id}`}
+                messages={messages}
+                profile={profile}
+              />
+            ))}
+          </div>
+        ))}
       </div>
     </div>
     <ChatInputForm />
