@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose } from 'recompose';
+import { compose, shouldUpdate } from 'recompose';
 import Avatar from 'react-avatar';
 import moment from 'moment';
 
@@ -35,4 +35,10 @@ export const MessagesGroup = ({ messages, profile }) => (
   </div>
 );
 
-export const MessagesGroupContainer = compose()(MessagesGroup);
+export const MessagesGroupContainer = compose(
+  shouldUpdate(
+    (props, nextProps) =>
+      !props.messages.equals(nextProps.messages) ||
+      props.profile !== nextProps.profile,
+  ),
+)(MessagesGroup);
