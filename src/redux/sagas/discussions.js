@@ -15,7 +15,7 @@ import { types, actions } from '../modules/discussions';
 
 export const RESPONSE_BASE_PATH =
   'localhost:3000/6607478/kinetic-response/api/v1/issues';
-export const MESSAGE_LIMIT = 10;
+export const MESSAGE_LIMIT = 50;
 
 // Supporting documentation:
 // * https://medium.com/@ebakhtarov/bidirectional-websockets-with-redux-saga-bfd5b677c7e7
