@@ -1,6 +1,13 @@
 import { List } from 'immutable';
 import * as matchers from 'jest-immutable-matchers';
-import { reducer, actions, types, State } from './discussions';
+import {
+  reducer,
+  actions,
+  types,
+  formatMessages,
+  partitionListBy,
+  State,
+} from './discussions';
 
 const messages = [
   {
@@ -311,33 +318,60 @@ const [
 
 beforeEach(() => jest.addMatchers(matchers));
 
-describe('discussions redux module', () => {
-  describe('reducer', () => {
-    test('initializes with default state', () => {
-      expect(reducer(undefined, {})).toEqualImmutable(State());
-    });
+describe('partitionListBy', () => {
+  test('empty list returns empty list', () => {
+    expect(partitionListBy(() => true, List())).toEqualImmutable(List());
+  });
 
-    test('SET_MESSAGES', () => {
-      const state = State({ messagesLoading: true });
-      const action = actions.setMessages(messages);
-      expect(reducer(state, action).messages).toEqualImmutable(
-        // first list represents groupings by the date of the message
-        // second-level lists represent messages sent by the same person in a
-        // sequence because we don't want to show avatars for each one
-        // finally, the third-level list contains the actual messages
+  test('list of one returns a list with one list of one element', () => {
+    expect(partitionListBy(() => true, List([2]))).toEqualImmutable(
+      List([List([2])]),
+    );
+  });
+
+  test('predicate that always returns true results in a list for each element', () => {
+    expect(
+      partitionListBy((n1, n2) => n1 !== n2, List([1, 2, 3])),
+    ).toEqualImmutable(List([List([1]), List([2]), List([3])]));
+  });
+
+  test('predicate that always returns true results in a list for each element', () => {
+    expect(
+      partitionListBy(
+        (s1, s2) => s1.charAt(0) !== s2.charAt(0),
+        List(['red', 'rabbit', 'green', 'reef', 'coral', 'cyan', 'gray']),
+      ),
+    ).toEqualImmutable(
+      List([
+        List(['red', 'rabbit']),
+        List(['green']),
+        List(['reef']),
+        List(['coral', 'cyan']),
+        List(['gray']),
+      ]),
+    );
+  });
+});
+
+describe('formatMessages', () => {
+  test('paritions them by the date of the message then by the author of each message', () => {
+    expect(formatMessages(List(messages))).toEqualImmutable(
+      // first list represents groupings by the date of the message
+      // second-level lists represent messages sent by the same person in a
+      // sequence because we don't want to show avatars for each one
+      // finally, the third-level list contains the actual messages
+      List([
+        // messages on 10-23-2017, all by the same person
+        List([List([message9, message8, message7])]),
+        // messages on 10-24-2017, by a combination of people
         List([
-          // messages on 10-23-2017, all by the same person
-          List([List([message9, message8, message7])]),
-          // messages on 10-24-2017, by a combination of people
-          List([
-            List([message6]),
-            List([message5, message4]),
-            List([message3]),
-            List([message2]),
-            List([message1, message0]),
-          ]),
+          List([message6]),
+          List([message5, message4]),
+          List([message3]),
+          List([message2]),
+          List([message1, message0]),
         ]),
-      );
-    });
+      ]),
+    );
   });
 });

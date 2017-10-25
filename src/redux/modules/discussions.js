@@ -1,4 +1,5 @@
-import { Record, List, Map } from 'immutable';
+import { Record, List } from 'immutable';
+import moment from 'moment';
 import { namespace, withPayload, noPayload } from '../../utils';
 
 export const types = {
@@ -60,6 +61,23 @@ export const State = Record({
   issueLoading: false,
 });
 
+// Applies fn to each value in list, splitting it into a new list each time fn
+// returns a different value.
+export const partitionListBy = (fn, list) =>
+  list.isEmpty()
+    ? List()
+    : list
+        .rest()
+        .reduce(
+          (reduction, current) =>
+            fn(reduction.last().last(), current)
+              ? reduction.push(List([current]))
+              : reduction.update(reduction.size - 1, list =>
+                  list.push(current),
+                ),
+          List([List([list.first()])]),
+        );
+
 const isSystemMessage = message => {
   let isSystemMessage = message.type === 'SystemMessage';
   if (
@@ -72,40 +90,16 @@ const isSystemMessage = message => {
   return isSystemMessage;
 };
 
-const messageGroupKey = message => new Date(message.created_at).toDateString();
+const getMessageDate = message =>
+  moment(message.created_at).format('YYYY-MM-DD');
+const differentDate = (m1, m2) => getMessageDate(m1) !== getMessageDate(m2);
+const differentAuthor = (m1, m2) => m1.user.email !== m2.user.email;
 
-const sameAuthor = (message1, message2) =>
-  message1 && message2 && message1.user.email === message2.user.email;
-
-const messageSorter = (m1, m2) =>
-  new Date(m1.updated_at) - new Date(m2.updated_at);
-const sortMessages = messagesByDate => messagesByDate.sort(messageSorter);
-
-const formatMessages = messages =>
-  List(messages)
-    .filterNot(isSystemMessage)
-    .reverse()
-    .groupBy(messageGroupKey)
-    .toList()
-    .map(messagesForDate =>
-      messagesForDate.reduce(
-        (reduction, message) =>
-          !reduction.isEmpty() && sameAuthor(message, reduction.last().first())
-            ? reduction.update(reduction.size - 1, list => list.push(message))
-            : reduction.push(List([message])),
-        List(),
-      ),
-    );
-
-const insertMessage = message => messages =>
-  messages ? messages.push(message) : List([message]);
-
-const replaceMessage = message => messages => {
-  return messages
-    .filterNot(m => message.id === m.id)
-    .push(message)
-    .sort(messageSorter);
-};
+export const formatMessages = messages =>
+  partitionListBy(
+    differentDate,
+    messages.reverse().filterNot(isSystemMessage),
+  ).map(dateList => partitionListBy(differentAuthor, dateList));
 
 export const reducer = (state = State(), action) => {
   switch (action.type) {
@@ -118,35 +112,18 @@ export const reducer = (state = State(), action) => {
     case types.SET_MESSAGES:
       return state
         .set('messagesLoading', false)
-        .set('messageCount', action.payload.length)
-        .set('messages', formatMessages(action.payload))
+        .set('messages', List(action.payload))
         .set('lastReceived', new Date().toTimeString());
     case types.SET_MORE_MESSAGES:
       return state
-        .update(
-          'messageCount',
-          messageCount => (messageCount += action.payload.length),
-        )
-        .update('messages', messages =>
-          List(action.payload).reduce(
-            (msgs, message) =>
-              msgs.update(messageGroupKey(message), insertMessage(message)),
-            messages,
-          ),
-        );
+        .set('messagesLoading', false)
+        .update('messages', messages => messages.concat(List(action.payload)))
+        .set('lastReceived', new Date().toTimeString());
     case types.MESSAGE_UPDATE:
-      return state.updateIn(
-        ['messages', messageGroupKey(action.payload)],
-        replaceMessage(action.payload),
-      );
+      return state;
     case types.MESSAGE_RX:
       return state
-        .update('messageCount', messageCount => (messageCount += 1))
-        .updateIn(
-          ['messages', messageGroupKey(action.payload)],
-          insertMessage(action.payload),
-        )
-        .update('messages', messages => messages.map(sortMessages))
+        .update('messages', messages => messages.unshift(action.payload))
         .set('lastReceived', new Date().toTimeString());
     case types.MESSAGE_BAD_RX:
       return state.update('badMessages', m => m.push(action.payload));
