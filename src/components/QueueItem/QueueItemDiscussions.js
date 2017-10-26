@@ -1,6 +1,7 @@
 import React from 'react';
 import { MessagesDateContainer } from './MessagesDate';
 import { ChatInputForm } from './ChatInputForm';
+import { ScrollHelper } from './ScrollHelper';
 
 export const QueueItemDiscussions = ({
   handleChatEnter,
@@ -12,7 +13,7 @@ export const QueueItemDiscussions = ({
 }) => (
   <div className="discussions">
     <div className="messages">
-      <div className="message-wrapper">
+      <ScrollHelper>
         {formattedMessages.map(messagesForDate => (
           <MessagesDateContainer
             key={messagesForDate.first().first().created_at}
@@ -20,7 +21,7 @@ export const QueueItemDiscussions = ({
             profile={profile}
           />
         ))}
-      </div>
+      </ScrollHelper>
     </div>
     <ChatInputForm />
   </div>
