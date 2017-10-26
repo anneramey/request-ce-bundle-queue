@@ -266,6 +266,22 @@
           margin: 0 1rem;
         }
       }
+      button.more-messages {
+        position: absolute;
+        bottom: 20px;
+        width: 180px;
+        left: 50%;
+        margin-left: -90px;
+        font-size: 12px;
+        display: flex;
+        justify-content: center;
+        .icon {
+          margin-left: 10px;
+          path {
+            fill: white;
+          }
+        }
+      }
     }
 
     .load-more-messages {
