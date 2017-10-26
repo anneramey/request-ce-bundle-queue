@@ -267,6 +267,28 @@
         }
       }
     }
+
+    .load-more-messages {
+      border-radius: 8px;
+      background-color: #d3dce7;
+
+      font-family: 'Open Sans';
+      text-align: center;
+      padding: 1em;
+
+      h5 {
+        color: #54698d;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 24px;
+      }
+
+      h6 {
+        color: #a8b7c7;
+        font-size: 12px;
+        line-height: 24px;
+      }
+    }
     .new-message {
       display: flex;
       min-height: 48px;

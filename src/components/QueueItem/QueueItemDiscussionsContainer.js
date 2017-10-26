@@ -10,15 +10,26 @@ const mapStateToProps = state => ({
   queueItem: state.queue.currentItem,
   profile: state.app.profile,
   messages: state.discussions.messages,
+  hasMoreMessages: state.discussions.hasMoreMessages,
+  loadingMoreMessages: state.discussions.loadingMoreMessages,
 });
 
 const mapDispatchToProps = {
   joinDiscussion: actions.joinDiscussion,
   stopConnection: actions.stopConnection,
+  loadMoreMessages: actions.loadMoreMessages,
 };
 
-const handleScrollToTop = () => () => {
-  console.log('scrolled to top!');
+const handleScrollToTop = ({
+  hasMoreMessages,
+  loadingMoreMessages,
+  loadMoreMessages,
+}) => () => {
+  // If there are more messages to retrieve and a message fetch
+  // is not currently in progress.
+  if (hasMoreMessages && !loadingMoreMessages) {
+    loadMoreMessages();
+  }
 };
 
 const handleScrollToBottom = () => () => {

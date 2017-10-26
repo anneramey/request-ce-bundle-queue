@@ -10,6 +10,7 @@ export const types = {
   FETCH_MORE_MESSAGES: namespace('discussions', 'FETCH_MORE_MESSAGES'),
   SET_MESSAGES: namespace('discussions', 'SET_MESSAGES'),
   SET_MORE_MESSAGES: namespace('discussions', 'SET_MORE_MESSAGES'),
+  SET_HAS_MORE_MESSAGES: namespace('discussions', 'SET_HAS_MORE_MESSAGES'),
 
   // Socket-based actions.
   CONNECT: namespace('discussions', 'CONNECT'),
@@ -29,6 +30,7 @@ export const actions = {
   loadMoreMessages: noPayload(types.FETCH_MORE_MESSAGES),
   setMessages: withPayload(types.SET_MESSAGES),
   setMoreMessages: withPayload(types.SET_MORE_MESSAGES),
+  setHasMoreMessages: withPayload(types.SET_HAS_MORE_MESSAGES),
 
   // Socket-based actions.
   startConnection: withPayload(types.CONNECT),
@@ -55,10 +57,12 @@ export const State = Record({
   issue: {},
   messages: List(),
   badMessages: List(),
-  messagesLoading: false,
+  messagesLoading: true,
   lastReceived: '2014-01-01',
   messageCount: 0,
+  hasMoreMessages: true,
   issueLoading: false,
+  loadingMoreMessages: false,
 });
 
 // Applies fn to each value in list, splitting it into a new list each time fn
@@ -107,6 +111,8 @@ export const reducer = (state = State(), action) => {
       return state.set('issueGuid', action.payload);
     case types.FETCH_ISSUE:
       return state.set('issueLoading', true);
+    case types.FETCH_MORE_MESSAGES:
+      return state.set('loadingMoreMessages', true);
     case types.SET_ISSUE:
       return state.set('issue', action.payload).set('issueLoading', false);
     case types.SET_MESSAGES:
@@ -117,8 +123,11 @@ export const reducer = (state = State(), action) => {
     case types.SET_MORE_MESSAGES:
       return state
         .set('messagesLoading', false)
+        .set('loadingMoreMessages', false)
         .update('messages', messages => messages.concat(List(action.payload)))
         .set('lastReceived', new Date().toTimeString());
+    case types.SET_HAS_MORE_MESSAGES:
+      return state.set('hasMoreMessages', action.payload);
     case types.MESSAGE_UPDATE:
       return state;
     case types.MESSAGE_RX:

@@ -15,7 +15,7 @@ import { types, actions } from '../modules/discussions';
 
 export const RESPONSE_BASE_PATH =
   'localhost:3000/6607478/kinetic-response/api/v1/issues';
-export const MESSAGE_LIMIT = 50;
+export const MESSAGE_LIMIT = 25;
 
 // Supporting documentation:
 // * https://medium.com/@ebakhtarov/bidirectional-websockets-with-redux-saga-bfd5b677c7e7
@@ -141,17 +141,9 @@ export function* fetchIssueSaga(action) {
   }
 }
 
-export function* fetchMessagesTask(action) {
-  const { data } = yield call(fetchMessages, action);
-
-  if (data) {
-    yield put(actions.setMessages(data));
-  }
-}
-
 const selectFetchMessageSettings = state => ({
   guid: state.discussions.issueGuid,
-  offset: state.discussions.messageCount,
+  offset: state.discussions.messages.size,
   lastReceived: state.discussions.lastReceived,
 });
 
@@ -164,7 +156,10 @@ export function* fetchMoreMessagesTask(action) {
   });
 
   if (messages) {
-    yield put(actions.setMoreMessages(messages));
+    yield all([
+      put(actions.setHasMoreMessages(messages.length === MESSAGE_LIMIT)),
+      put(actions.setMoreMessages(messages)),
+    ]);
   }
 }
 
@@ -198,6 +193,7 @@ export function* joinDiscussionTask(action) {
     yield all([
       put(actions.setIssue(issue)),
       put(actions.setMessages(messages)),
+      put(actions.setHasMoreMessages(messages.length === MESSAGE_LIMIT)),
       put(actions.startConnection(params.guid)),
     ]);
   }
