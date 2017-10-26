@@ -48,6 +48,7 @@ class ChatInput extends Component {
   }
 
   handleInputRef(e) {
+    console.log(e.createTextRange);
     this.htmlElement = e;
   }
 
@@ -60,8 +61,28 @@ class ChatInput extends Component {
   }
 
   handlePaste(e) {
-    // e.preventDefault();
-    console.log('paste', e.clipboardData.getData('Text'));
+    // Prevent the default paste behavior
+    e.preventDefault();
+
+    // Fetch the unformatted pasted text.
+    const pastedText = e.clipboardData.getData('Text');
+
+    // Get the selection range in order to determine where to paste.
+    const range = window.getSelection().getRangeAt(0);
+    const { startOffset, endOffset } = range;
+
+    // Fetch the existing text.
+    const existingText = this.htmlElement.innerText;
+
+    // Replace the element content with the spliced together text.
+    this.htmlElement.innerText =
+      existingText.slice(0, startOffset) +
+      pastedText +
+      existingText.slice(endOffset);
+
+    // Set the new character position.
+    const newCaretPosition = startOffset + pastedText.length;
+    range.setStart(this.htmlElement.childNodes[0], newCaretPosition);
   }
 
   showInputPlaceholder() {
