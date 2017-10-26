@@ -285,6 +285,9 @@
         &.btn-send {
           background-color: #d3dce7;
           cursor: pointer;
+          &:disabled {
+            cursor: not-allowed;
+          }
         }
 
         &.btn.btn-subtle {
