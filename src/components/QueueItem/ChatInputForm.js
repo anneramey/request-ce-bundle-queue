@@ -48,7 +48,6 @@ class ChatInput extends Component {
   }
 
   handleInputRef(e) {
-    console.log(e.createTextRange);
     this.htmlElement = e;
   }
 
