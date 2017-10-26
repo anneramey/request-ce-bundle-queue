@@ -4,16 +4,13 @@ import { ChatInputForm } from './ChatInputForm';
 import { ScrollHelper } from './ScrollHelper';
 
 export const QueueItemDiscussions = ({
-  handleChatEnter,
-  handleSendChatMessage,
-  handleChangeChatInput,
-  chatInput,
+  handleScrolled,
   profile,
   formattedMessages,
 }) => (
   <div className="discussions">
     <div className="messages">
-      <ScrollHelper>
+      <ScrollHelper onScrollTo={handleScrolled}>
         {formattedMessages.map(messagesForDate => (
           <MessagesDateContainer
             key={messagesForDate.first().first().created_at}

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { compose, lifecycle, withState } from 'recompose';
+import { compose, lifecycle, withState, withHandlers } from 'recompose';
 import { List } from 'immutable';
 
 import { actions, formatMessages } from '../../redux/modules/discussions';
@@ -17,9 +17,49 @@ const mapDispatchToProps = {
   stopConnection: actions.stopConnection,
 };
 
+const handleScrollToTop = () => () => {
+  console.log('scrolled to top!');
+};
+
+const handleScrollToBottom = () => () => {
+  console.log('scrolled to bottom');
+};
+
+const handleScrollToMiddle = () => () => {
+  console.log('scrolled to middle');
+};
+
+const handleScrolled = ({
+  handleScrollToTop,
+  handleScrollToMiddle,
+  handleScrollToBottom,
+}) => position => {
+  switch (position) {
+    case 'top':
+      handleScrollToTop();
+      break;
+    case 'middle':
+      handleScrollToMiddle();
+      break;
+    case 'bottom':
+      handleScrollToBottom();
+      break;
+    default:
+      console.error('Invalid scroll position from ScrollHelper!');
+  }
+};
+
 export const QueueItemDiscussionsContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
   withState('formattedMessages', 'setFormattedMessages', List()),
+  withHandlers({
+    handleScrollToBottom,
+    handleScrollToMiddle,
+    handleScrollToTop,
+  }),
+  withHandlers({
+    handleScrolled,
+  }),
   lifecycle({
     componentWillMount() {
       this.props.setFormattedMessages(formatMessages(this.props.messages));
