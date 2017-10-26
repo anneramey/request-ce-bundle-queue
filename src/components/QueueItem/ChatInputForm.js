@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
+import classNames from 'classnames';
 import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
 import sendIcon from 'font-awesome-svg-png/black/svg/paper-plane.svg';
 import SVGInline from 'react-svg-inline';
@@ -11,17 +12,25 @@ class ChatInput extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      chatInput: '',
+      hasFocus: false,
+    };
+
     this.handleSendChatMessage = this.handleSendChatMessage.bind(this);
     this.handleChatEnter = this.handleChatEnter.bind(this);
-    this.handleChangeChatInput = this.handleChangeChatInput.bind(this);
     this.handleInputRef = this.handleInputRef.bind(this);
+    this.handleChatInput = this.handleChatInput.bind(this);
+    this.handlePaste = this.handlePaste.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
     this.isChatInputInvalid = this.isChatInputInvalid.bind(this);
   }
 
   handleSendChatMessage(e) {
     e.preventDefault();
-    this.props.sendMessage(this.htmlElement.innerHTML);
-    this.htmlElement.innerHTML = '';
+    this.props.sendMessage(this.htmlElement.innerText);
+    this.htmlElement.innerText = '';
   }
 
   handleChatEnter(e) {
@@ -30,16 +39,34 @@ class ChatInput extends Component {
     }
   }
 
-  handleChangeChatInput(e) {
-    this.setState({ chatInput: this.htmlElement.innerHTML });
+  handleChatInput() {
+    console.log('chat input');
+    this.setState({ chatInput: this.htmlElement.innerText.trim() });
   }
 
   handleInputRef(e) {
     this.htmlElement = e;
   }
 
+  handleFocus() {
+    this.setState({ hasFocus: true });
+  }
+
+  handleBlur() {
+    this.setState({ hasFocus: false });
+  }
+
+  handlePaste(e) {
+    // e.preventDefault();
+    console.log('paste', e.clipboardData.getData('Text'));
+  }
+
+  showInputPlaceholder() {
+    return !this.isChatInputInvalid() || this.state.hasFocus;
+  }
+
   isChatInputInvalid() {
-    return !this.htmlElement || this.htmlElement.innerHTML.trim() === '';
+    return !this.htmlElement || this.htmlElement.innerText.trim() === '';
   }
 
   render() {
@@ -50,12 +77,25 @@ class ChatInput extends Component {
             <SVGInline svg={plusIcon} className="icon" />
           </span>
         </button>
-        <div
-          className="message-input"
-          contentEditable
-          ref={this.handleInputRef}
-          onKeyDown={this.handleChatEnter}
-        />
+        <div className="input-container">
+          <div
+            className={classNames('placeholder', {
+              hidden: this.showInputPlaceholder(),
+            })}
+          >
+            Type your message here&hellip;
+          </div>
+          <div
+            className="message-input"
+            contentEditable
+            ref={this.handleInputRef}
+            onInput={this.handleChatInput}
+            onKeyDown={this.handleChatEnter}
+            onPaste={this.handlePaste}
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
+          />
+        </div>
         <button
           type="submit"
           className="btn btn-subtle btn-send"
