@@ -18,7 +18,7 @@ class ChatInput extends Component {
     };
 
     this.handleSendChatMessage = this.handleSendChatMessage.bind(this);
-    this.handleChatEnter = this.handleChatEnter.bind(this);
+    this.handleChatHotKey = this.handleChatHotKey.bind(this);
     this.handleInputRef = this.handleInputRef.bind(this);
     this.handleChatInput = this.handleChatInput.bind(this);
     this.handlePaste = this.handlePaste.bind(this);
@@ -33,14 +33,17 @@ class ChatInput extends Component {
     this.htmlElement.innerText = '';
   }
 
-  handleChatEnter(e) {
+  handleChatHotKey(e) {
     if (e.keyCode === 13 && !e.shiftKey) {
+      // Handle enter (but not shift enter.)
       this.handleSendChatMessage(e);
+    } else if (e.keyCode === 27) {
+      // Blur the input box if escape is pressed.
+      this.htmlElement.blur();
     }
   }
 
   handleChatInput() {
-    console.log('chat input');
     this.setState({ chatInput: this.htmlElement.innerText.trim() });
   }
 
@@ -90,7 +93,7 @@ class ChatInput extends Component {
             contentEditable
             ref={this.handleInputRef}
             onInput={this.handleChatInput}
-            onKeyDown={this.handleChatEnter}
+            onKeyDown={this.handleChatHotKey}
             onPaste={this.handlePaste}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
