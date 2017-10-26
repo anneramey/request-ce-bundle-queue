@@ -1,4 +1,6 @@
 import React from 'react';
+import downArrow from 'font-awesome-svg-png/black/svg/arrow-down.svg';
+import SVGInline from 'react-svg-inline';
 import { MessagesDateContainer } from './MessagesDate';
 import { ChatInputForm } from './ChatInputForm';
 import { ScrollHelper } from './ScrollHelper';
@@ -7,6 +9,7 @@ export const QueueItemDiscussions = ({
   handleScrolled,
   profile,
   formattedMessages,
+  unreadMessages,
 }) => (
   <div className="discussions">
     <div className="messages">
@@ -19,6 +22,15 @@ export const QueueItemDiscussions = ({
           />
         ))}
       </ScrollHelper>
+      {unreadMessages && (
+        <button
+          type="button"
+          className="btn btn-primary icon-wrapper more-messages"
+        >
+          New messages
+          <SVGInline svg={downArrow} className="icon" />
+        </button>
+      )}
     </div>
     <ChatInputForm />
   </div>

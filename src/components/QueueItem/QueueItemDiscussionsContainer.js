@@ -21,8 +21,8 @@ const handleScrollToTop = () => () => {
   console.log('scrolled to top!');
 };
 
-const handleScrollToBottom = () => () => {
-  console.log('scrolled to bottom');
+const handleScrollToBottom = props => () => {
+  props.setUnreadMessages(false);
 };
 
 const handleScrollToMiddle = () => () => {
@@ -33,7 +33,9 @@ const handleScrolled = ({
   handleScrollToTop,
   handleScrollToMiddle,
   handleScrollToBottom,
+  setScrollPosition,
 }) => position => {
+  setScrollPosition(position);
   switch (position) {
     case 'top':
       handleScrollToTop();
@@ -52,6 +54,8 @@ const handleScrolled = ({
 export const QueueItemDiscussionsContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
   withState('formattedMessages', 'setFormattedMessages', List()),
+  withState('unreadMessages', 'setUnreadMessages', false),
+  withState('scrollPosition', 'setScrollPosition', 'bottom'),
   withHandlers({
     handleScrollToBottom,
     handleScrollToMiddle,
@@ -72,6 +76,19 @@ export const QueueItemDiscussionsContainer = compose(
     componentWillReceiveProps(nextProps) {
       if (!this.props.messages.equals(nextProps.messages)) {
         this.props.setFormattedMessages(formatMessages(nextProps.messages));
+        if (
+          this.props.scrollPosition !== 'bottom' &&
+          nextProps.messages
+            // get the messages that are newer than the messages we previously
+            // had, we do not care about older messages being loaded above only
+            // new messages below
+            .slice(0, nextProps.messages.indexOf(this.props.messages.first()))
+            // if any of the new messages were not sent by the current user we
+            // consider them to be unread
+            .some(message => message.user.email !== this.props.profile.email)
+        ) {
+          this.props.setUnreadMessages(true);
+        }
       }
     },
   }),
