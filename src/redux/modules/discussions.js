@@ -6,7 +6,6 @@ export const types = {
   // API-based actions.
   JOIN_DISCUSSION: namespace('discussions', 'JOIN_DISCUSSION'),
   LEAVE_DISCUSSION: namespace('discussions', 'LEAVE_DISCUSSION'),
-  FETCH_ISSUE: namespace('discussions', 'FETCH_ISSUE'),
   SET_ISSUE: namespace('discussions', 'SET_ISSUE'),
   FETCH_MORE_MESSAGES: namespace('discussions', 'FETCH_MORE_MESSAGES'),
   SET_MESSAGES: namespace('discussions', 'SET_MESSAGES'),
@@ -28,7 +27,6 @@ export const actions = {
   joinDiscussion: withPayload(types.JOIN_DISCUSSION),
   leaveDiscussion: noPayload(types.LEAVE_DISCUSSION),
   // API-bsased actions.
-  fetchIssue: withPayload(types.FETCH_ISSUE),
   setIssue: withPayload(types.SET_ISSUE),
   loadMoreMessages: noPayload(types.FETCH_MORE_MESSAGES),
   setMessages: withPayload(types.SET_MESSAGES),
@@ -115,8 +113,6 @@ export const reducer = (state = State(), action) => {
       return state.set('issueGuid', action.payload);
     case types.LEAVE_DISCUSSION:
       return State();
-    case types.FETCH_ISSUE:
-      return state.set('issueLoading', true);
     case types.FETCH_MORE_MESSAGES:
       return state.set('loadingMoreMessages', true);
     case types.SET_ISSUE:

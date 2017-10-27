@@ -9,12 +9,14 @@ export const MessagesGroup = ({ messages, profile }) => (
       ? 'mine'
       : 'other'}`}
   >
-    <Avatar
-      size={50}
-      email={messages.first().user.email}
-      name={messages.first().user.name}
-      round
-    />
+    {messages.first().user.email !== profile.email && (
+      <Avatar
+        size={50}
+        email={messages.first().user.email}
+        name={messages.first().user.name}
+        round
+      />
+    )}
     <div className="message-list">
       {messages.map(message => (
         <div key={message.id} className="message">
