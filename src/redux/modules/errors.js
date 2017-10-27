@@ -20,29 +20,24 @@ export const actions = {
   setSystemError: error => ({ type: types.SET_SYSTEM_ERROR, payload: error }),
   clearSystemError: () => ({ type: types.CLEAR_SYSTEM_ERROR }),
   addSuccess: (msg, title) => ({
-    id: Date.now(),
     type: types.ADD_NOTIFICATION,
-    payload: { type: NOTICE_TYPES.SUCCESS, title, msg },
+    payload: { id: Date.now(), type: NOTICE_TYPES.SUCCESS, title, msg },
   }),
   addInfo: (msg, title) => ({
-    id: Date.now(),
     type: types.ADD_NOTIFICATION,
-    payload: { type: NOTICE_TYPES.INFO, title, msg },
+    payload: { id: Date.now(), type: NOTICE_TYPES.INFO, title, msg },
   }),
   addWarn: (msg, title) => ({
-    id: Date.now(),
     type: types.ADD_NOTIFICATION,
-    payload: { type: NOTICE_TYPES.WARN, title, msg },
+    payload: { id: Date.now(), type: NOTICE_TYPES.WARN, title, msg },
   }),
   addError: (msg, title) => ({
-    id: Date.now(),
     type: types.ADD_NOTIFICATION,
-    payload: { type: NOTICE_TYPES.ERROR, title, msg },
+    payload: { id: Date.now(), type: NOTICE_TYPES.ERROR, title, msg },
   }),
   addNormal: (msg, title) => ({
-    id: Date.now(),
     type: types.ADD_NOTIFICATION,
-    payload: { type: NOTICE_TYPES.NORMAL, title, msg },
+    payload: { id: Date.now(), type: NOTICE_TYPES.NORMAL, title, msg },
   }),
   removeNotification: withPayload(types.REMOVE_NOTIFICATION),
 };
