@@ -10,6 +10,7 @@ import {
   types,
   DEFAULT_DOCUMENTATION_URL,
   DEFAULT_SUPPORT_URL,
+  defaultDiscussionServerUrl,
 } from '../modules/app';
 
 export const selectPersonalFilters = ({ app }) => app.myFilters;
@@ -87,6 +88,12 @@ export function* fetchAppSettingsTask() {
     supportUrl: getAttributeValue(
       'Support Url',
       DEFAULT_SUPPORT_URL,
+      kapp,
+      space,
+    )[0],
+    discussionServerUrl: getAttributeValue(
+      'Discussion Server Url',
+      defaultDiscussionServerUrl(space.slug),
       kapp,
       space,
     )[0],

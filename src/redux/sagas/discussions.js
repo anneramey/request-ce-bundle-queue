@@ -13,9 +13,6 @@ import axios from 'axios';
 
 import { types, actions } from '../modules/discussions';
 
-export const RESPONSE_PATH = 'localhost:3000/6607478/kinetic-response';
-export const RESPONSE_API_PATH = `${RESPONSE_PATH}/api/v1`;
-export const RESPONSE_BASE_PATH = `${RESPONSE_API_PATH}/issues`;
 export const MESSAGE_LIMIT = 25;
 
 // Supporting documentation:
@@ -85,15 +82,18 @@ function* incomingMessages(socketChannel) {
 //   }
 // }
 
-const openWebSocket = guid =>
-  new WebSocket(`ws://${RESPONSE_BASE_PATH}/${guid}/issue_socket`);
+const openWebSocket = (guid, responseUrl) =>
+  new WebSocket(
+    `${responseUrl.replace(/^http/, 'ws')}/api/v1/issues/${guid}/issue_socket`,
+  );
 
 export function* watchDiscussionSocket() {
   // eslint-disable-next-line
   while (true) {
     const action = yield take(types.CONNECT);
+    const responseUrl = yield select(state => state.app.discussionServerUrl);
     const guid = action.payload;
-    let socket = openWebSocket(guid);
+    let socket = openWebSocket(guid, responseUrl);
     let socketChannel = yield call(registerChannel, socket);
 
     const { cancel, reconnect } = yield race({
@@ -106,7 +106,7 @@ export function* watchDiscussionSocket() {
     });
 
     if (reconnect) {
-      socket = openWebSocket(guid);
+      socket = openWebSocket(guid, responseUrl);
       socketChannel = yield call(registerChannel, socket);
     }
     if (cancel) {
@@ -115,15 +115,15 @@ export function* watchDiscussionSocket() {
   }
 }
 
-const fetchIssue = guid =>
+const fetchIssue = (guid, responseUrl) =>
   axios
-    .get(`http://${RESPONSE_BASE_PATH}/${guid}`, { withCredentials: true })
+    .get(`${responseUrl}/api/v1/issues/${guid}`, { withCredentials: true })
     .then(response => ({ issue: response.data }))
     .catch(response => ({ error: response }));
 
-const fetchMessages = ({ guid, lastReceived, offset }) => {
+const fetchMessages = ({ guid, lastReceived, offset, responseUrl }) => {
   return axios
-    .get(`http://${RESPONSE_BASE_PATH}/${guid}/messages`, {
+    .get(`${responseUrl}/api/v1/issues/${guid}/messages`, {
       withCredentials: true,
       params: {
         last_received: lastReceived || '2014-01-01',
@@ -135,17 +135,11 @@ const fetchMessages = ({ guid, lastReceived, offset }) => {
     .catch(response => ({ error: response }));
 };
 
-export function* fetchIssueSaga(action) {
-  const { data } = yield call(fetchIssue, action.payload);
-  if (data) {
-    yield put(actions.setIssue(data));
-  }
-}
-
 const selectFetchMessageSettings = state => ({
   guid: state.discussions.issueGuid,
   offset: state.discussions.messages.size,
   lastReceived: state.discussions.lastReceived,
+  responseUrl: state.app.discussionServerUrl,
 });
 
 export function* fetchMoreMessagesTask(action) {
@@ -164,38 +158,42 @@ export function* fetchMoreMessagesTask(action) {
 }
 
 const sendMessage = params => {
-  const { body, guid } = params;
+  const { body, guid, responseUrl } = params;
   return axios.post(
-    `http://${RESPONSE_BASE_PATH}/${guid}/messages`,
+    `${responseUrl}/api/v1/issues/${guid}/messages`,
     { body },
     { withCredentials: true },
   );
 };
 
 export function* sendMessageTask(action) {
-  const guid = yield select(state => state.discussions.issueGuid);
-  yield call(sendMessage, { guid, body: action.payload });
+  const { guid, responseUrl } = yield select(state => ({
+    guid: state.discussions.issueGuid,
+    responseUrl: state.app.discussionServerUrl,
+  }));
+  yield call(sendMessage, { guid, responseUrl, body: action.payload });
 }
 
-export const fetchResponseProfile = () =>
+export const fetchResponseProfile = responseUrl =>
   axios
-    .get(`http://${RESPONSE_API_PATH}/me`, { withCredentials: true })
+    .get(`${responseUrl}/api/v1/me`, { withCredentials: true })
     .then(response => ({ profile: response.data }))
     .catch(response => ({ error: response }));
 
-export const getResponseAuthentication = () =>
+export const getResponseAuthentication = responseUrl =>
   axios
-    .get(`http://${RESPONSE_PATH}/users/auth/kinetic_core`, {
+    .get(`${responseUrl}/users/auth/kinetic_core`, {
       withCredentials: true,
     })
     .then(response => ({ profile: response.data }))
     .catch(response => ({ error: response }));
 
 export function* joinDiscussionTask(action) {
+  const responseUrl = yield select(state => state.app.discussionServerUrl);
   // First we need to determine if the user is authenticated in Response.
-  const { error } = yield call(fetchResponseProfile);
+  const { error } = yield call(fetchResponseProfile, responseUrl);
   if (error) {
-    const { error } = yield call(getResponseAuthentication);
+    const { error } = yield call(getResponseAuthentication, responseUrl);
 
     if (error) {
       // Let the component know there was a problem joining this discussion.
@@ -212,7 +210,7 @@ export function* joinDiscussionTask(action) {
     issue: { issue, error: issueError },
     messages: { messages, error: messagesError },
   } = yield all({
-    issue: call(fetchIssue, params.guid),
+    issue: call(fetchIssue, params.guid, responseUrl),
     messages: call(fetchMessages, params),
   });
 
@@ -231,6 +229,5 @@ export function* joinDiscussionTask(action) {
 export function* watchDiscussion() {
   yield takeEvery(types.MESSAGE_TX, sendMessageTask);
   yield takeEvery(types.FETCH_MORE_MESSAGES, fetchMoreMessagesTask);
-  yield takeEvery(types.FETCH_ISSUE, fetchIssueSaga);
   yield takeLatest(types.JOIN_DISCUSSION, joinDiscussionTask);
 }
