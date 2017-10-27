@@ -11,6 +11,7 @@ export const types = {
   SET_MESSAGES: namespace('discussions', 'SET_MESSAGES'),
   SET_MORE_MESSAGES: namespace('discussions', 'SET_MORE_MESSAGES'),
   SET_HAS_MORE_MESSAGES: namespace('discussions', 'SET_HAS_MORE_MESSAGES'),
+  SET_JOIN_ERROR: namespace('discussions', 'SET_JOIN_ERROR'),
 
   // Socket-based actions.
   CONNECT: namespace('discussions', 'CONNECT'),
@@ -31,6 +32,7 @@ export const actions = {
   setMessages: withPayload(types.SET_MESSAGES),
   setMoreMessages: withPayload(types.SET_MORE_MESSAGES),
   setHasMoreMessages: withPayload(types.SET_HAS_MORE_MESSAGES),
+  setJoinError: withPayload(types.SET_JOIN_ERROR),
 
   // Socket-based actions.
   startConnection: withPayload(types.CONNECT),
@@ -63,6 +65,7 @@ export const State = Record({
   hasMoreMessages: true,
   issueLoading: false,
   loadingMoreMessages: false,
+  joinError: '',
 });
 
 // Applies fn to each value in list, splitting it into a new list each time fn
@@ -128,6 +131,8 @@ export const reducer = (state = State(), action) => {
         .set('lastReceived', new Date().toTimeString());
     case types.SET_HAS_MORE_MESSAGES:
       return state.set('hasMoreMessages', action.payload);
+    case types.SET_JOIN_ERROR:
+      return state.set('joinError', action.payload);
     case types.MESSAGE_UPDATE:
       return state;
     case types.MESSAGE_RX:

@@ -13,8 +13,9 @@ import axios from 'axios';
 
 import { types, actions } from '../modules/discussions';
 
-export const RESPONSE_BASE_PATH =
-  'localhost:3000/6607478/kinetic-response/api/v1/issues';
+export const RESPONSE_PATH = 'localhost:3000/6607478/kinetic-response';
+export const RESPONSE_API_PATH = `${RESPONSE_PATH}/api/v1`;
+export const RESPONSE_BASE_PATH = `${RESPONSE_API_PATH}/issues`;
 export const MESSAGE_LIMIT = 25;
 
 // Supporting documentation:
@@ -148,7 +149,6 @@ const selectFetchMessageSettings = state => ({
 });
 
 export function* fetchMoreMessagesTask(action) {
-  console.log('fetching more messages');
   const params = yield select(selectFetchMessageSettings);
   const { messages } = yield call(fetchMessages, {
     ...params,
@@ -177,8 +177,37 @@ export function* sendMessageTask(action) {
   yield call(sendMessage, { guid, body: action.payload });
 }
 
+export const fetchResponseProfile = () =>
+  axios
+    .get(`http://${RESPONSE_API_PATH}/me`, { withCredentials: true })
+    .then(response => ({ profile: response.data }))
+    .catch(response => ({ error: response }));
+
+export const getResponseAuthentication = () =>
+  axios
+    .get(`http://${RESPONSE_PATH}/users/auth/kinetic_core`, {
+      withCredentials: true,
+    })
+    .then(response => ({ profile: response.data }))
+    .catch(response => ({ error: response }));
+
 export function* joinDiscussionTask(action) {
+  // First we need to determine if the user is authenticated in Response.
+  const { error } = yield call(fetchResponseProfile);
+  if (error) {
+    const { error } = yield call(getResponseAuthentication);
+
+    if (error) {
+      // Let the component know there was a problem joining this discussion.
+      yield put(
+        actions.setJoinError('Unable to authenticate with Discussion Server'),
+      );
+      return;
+    }
+  }
+
   const params = yield select(selectFetchMessageSettings);
+
   const {
     issue: { issue, error: issueError },
     messages: { messages, error: messagesError },
