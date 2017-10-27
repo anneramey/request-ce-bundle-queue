@@ -6,6 +6,8 @@ import { Profile, Filter, AssignmentCriteria } from '../../records';
 
 export const DEFAULT_DOCUMENTATION_URL = 'https://kinops.io/docs';
 export const DEFAULT_SUPPORT_URL = 'https://kinops.io/support';
+export const defaultDiscussionServerUrl = spaceSlug =>
+  `https://kinops.io/${spaceSlug}/kinetic-response`;
 
 const ADHOC_PATH = { path: '/custom', exact: true };
 const DEFAULT_LIST_PATH = { path: '/list/:name', exact: true };
@@ -98,6 +100,7 @@ export const State = Record({
   ]),
   documentationUrl: DEFAULT_DOCUMENTATION_URL,
   supportUrl: DEFAULT_SUPPORT_URL,
+  discussionServerUrl: '',
   allTeams: List(),
   myTeams: List(),
   myTeammates: List(),
@@ -114,6 +117,7 @@ export const reducer = (state = State(), { type, payload }) => {
       return state
         .set('documentationUrl', payload.documentationUrl)
         .set('supportUrl', payload.supportUrl)
+        .set('discussionServerUrl', payload.discussionServerUrl)
         .set('profile', payload.profile)
         .set('allTeams', List(payload.allTeams))
         .set('myTeams', List(payload.myTeams))
