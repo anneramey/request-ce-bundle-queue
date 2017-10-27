@@ -80,8 +80,25 @@ class ChatInput extends Component {
       existingText.slice(endOffset);
 
     // Set the new character position.
-    const newCaretPosition = startOffset + pastedText.length;
-    range.setStart(this.htmlElement.childNodes[0], newCaretPosition);
+    const caretInfo = Array.from(this.htmlElement.childNodes).reduce(
+      (ci, node, index) => {
+        let pos = ci.pos;
+        // If the line represents a line break, just decrement the position.
+        if (node instanceof HTMLBRElement) {
+          pos = ci.pos - 1;
+        }
+
+        // If the position is past the end of this line adjust the relative position.
+        if (node.length < ci.pos) {
+          pos = ci.pos - node.length;
+        }
+
+        return { line: index, pos: pos };
+      },
+      { line: 0, pos: startOffset + pastedText.length },
+    );
+
+    range.setStart(this.htmlElement.childNodes[caretInfo.line], caretInfo.pos);
   }
 
   showInputPlaceholder() {
