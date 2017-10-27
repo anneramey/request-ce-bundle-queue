@@ -67,6 +67,13 @@ export const QueueItemDiscussionsContainer = compose(
   withState('formattedMessages', 'setFormattedMessages', List()),
   withState('unreadMessages', 'setUnreadMessages', false),
   withState('scrollPosition', 'setScrollPosition', 'bottom'),
+  withHandlers(() => {
+    let ref;
+    return {
+      registerScrollHelper: () => element => (ref = element),
+      scrollToBottom: () => () => ref.scrollToBottom(),
+    };
+  }),
   withHandlers({
     handleScrollToBottom,
     handleScrollToMiddle,

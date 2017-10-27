@@ -35,8 +35,7 @@ export class ScrollHelper extends React.Component {
 
   adjustScrollTop = () => {
     if (this.position === ScrollPositions.BOTTOM) {
-      this.helper.scrollTop =
-        this.helper.scrollHeight - this.helper.clientHeight;
+      this.scrollToBottom();
     } else if (this.position === ScrollPositions.TOP) {
       this.helper.scrollTop = Math.max(
         0,
@@ -49,6 +48,10 @@ export class ScrollHelper extends React.Component {
   componentDidMount = () => this.adjustScrollTop();
 
   componentDidUpdate = () => this.adjustScrollTop();
+
+  scrollToBottom = () => {
+    this.helper.scrollTop = this.helper.scrollHeight - this.helper.clientHeight;
+  };
 
   render = () => (
     <div

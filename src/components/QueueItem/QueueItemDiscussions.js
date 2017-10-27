@@ -11,10 +11,12 @@ export const QueueItemDiscussions = ({
   profile,
   formattedMessages,
   unreadMessages,
+  registerScrollHelper,
+  scrollToBottom,
 }) => (
   <div className="discussions">
     <div className="messages">
-      <ScrollHelper onScrollTo={handleScrolled}>
+      <ScrollHelper ref={registerScrollHelper} onScrollTo={handleScrolled}>
         <LoadMoreMessagesContainer />
         {formattedMessages.map(messagesForDate => (
           <MessagesDateContainer
@@ -28,6 +30,7 @@ export const QueueItemDiscussions = ({
         <button
           type="button"
           className="btn btn-primary icon-wrapper more-messages"
+          onClick={scrollToBottom}
         >
           New messages
           <SVGInline svg={downArrow} className="icon" />
