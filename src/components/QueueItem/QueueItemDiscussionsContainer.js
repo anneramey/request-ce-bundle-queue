@@ -16,6 +16,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   joinDiscussion: actions.joinDiscussion,
+  leaveDiscussion: actions.leaveDiscussion,
   stopConnection: actions.stopConnection,
   loadMoreMessages: actions.loadMoreMessages,
 };
@@ -90,6 +91,7 @@ export const QueueItemDiscussionsContainer = compose(
     },
     componentWillUnmount() {
       this.props.stopConnection();
+      this.props.leaveDiscussion();
     },
     componentWillReceiveProps(nextProps) {
       if (!this.props.messages.equals(nextProps.messages)) {
