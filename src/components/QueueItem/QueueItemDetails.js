@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withState, withHandlers, withProps } from 'recompose';
+import { Link } from 'react-router-dom';
 import SVGInline from 'react-svg-inline';
 import thinChevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg';
 import circleOpenIcon from 'font-awesome-svg-png/black/svg/circle-o.svg';
@@ -87,11 +88,13 @@ export const QueueItemDetails = ({
         <ul className="list-group subtasks">
           {queueItem.children.map(child => (
             <li key={child.id} className="list-group-item subtask">
-              <span className="handle">
-                {child.form.name} ({child.handle})
-              </span>
-              <span className="summary">{child.values.Summary}</span>
-              <SVGInline svg={thinChevronRightIcon} className="icon" />
+              <Link to={`/item/${child.id}`}>
+                <span className="handle">
+                  {child.form.name} ({child.handle})
+                </span>
+                <span className="summary">{child.values.Summary}</span>
+                <SVGInline svg={thinChevronRightIcon} className="icon" />
+              </Link>
             </li>
           ))}
         </ul>
