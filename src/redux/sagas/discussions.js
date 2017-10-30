@@ -84,7 +84,8 @@ function* incomingMessages(socketChannel) {
 
 const openWebSocket = (guid, responseUrl) =>
   new WebSocket(
-    `${responseUrl.replace(/^http/, 'ws')}/api/v1/issues/${guid}/issue_socket`,
+    `${window.location.protocol === 'http:' ? 'ws' : 'wss'}://${window.location
+      .host}${responseUrl}/api/v1/issues/${guid}/issue_socket`,
   );
 
 export function* watchDiscussionSocket() {
@@ -120,6 +121,20 @@ const fetchIssue = (guid, responseUrl) =>
     .get(`${responseUrl}/api/v1/issues/${guid}`, { withCredentials: true })
     .then(response => ({ issue: response.data }))
     .catch(response => ({ error: response }));
+
+const createIssue = (issue, responseUrl) =>
+  axios
+    .post(`${responseUrl}/api/v1/issues`, issue, { withCredentials: true })
+    .then(response => ({ issue: response.data }))
+    .catch(response => ({ error: response }));
+
+// Step 1: Fetch the settings (response server URL)
+// Step 2: Call the API to create the issue.
+export function* createIssueTask({ payload }) {
+  const responseUrl = yield select(state => state.app.discussionServerUrl);
+  const result = yield call(createIssue, payload, responseUrl);
+  console.log(result);
+}
 
 const fetchMessages = ({ guid, lastReceived, offset, responseUrl }) => {
   return axios
@@ -230,4 +245,5 @@ export function* watchDiscussion() {
   yield takeEvery(types.MESSAGE_TX, sendMessageTask);
   yield takeEvery(types.FETCH_MORE_MESSAGES, fetchMoreMessagesTask);
   yield takeLatest(types.JOIN_DISCUSSION, joinDiscussionTask);
+  yield takeLatest(types.CREATE_ISSUE, createIssueTask);
 }

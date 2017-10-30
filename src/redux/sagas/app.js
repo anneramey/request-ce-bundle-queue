@@ -91,12 +91,7 @@ export function* fetchAppSettingsTask() {
       kapp,
       space,
     )[0],
-    discussionServerUrl: getAttributeValue(
-      'Discussion Server Url',
-      defaultDiscussionServerUrl(space.slug),
-      kapp,
-      space,
-    )[0],
+    discussionServerUrl: `/${space.slug}/kinetic-response`,
     profile,
     myTeams,
     myTeammates,
