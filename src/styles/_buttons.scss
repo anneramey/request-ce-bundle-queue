@@ -17,7 +17,7 @@ button, input[type='submit'], input[type='button'], .btn  {
   @include border-radius();
   color: $white;
   cursor: pointer;
-  padding: 0.4rem 0.8rem;
+  padding: 0.25rem 0.5rem;
   &:hover, &:focus, &:active {
     text-decoration: none;
     outline: none;
@@ -116,8 +116,8 @@ button, input[type='submit'], input[type='button'], .btn  {
   color: $tertiary-complement;
 
   &:hover, &:focus, &:active {
-    background-color: tint($tertiary, 10%);
-    // border-color: darken($tertiary, 10%);
+    background-color: tint($blue0, 10%);
+    // border-color: darken($blue0, 10%);
     color: $tertiary-complement;
   }
 }
@@ -127,26 +127,25 @@ button, input[type='submit'], input[type='button'], .btn  {
 
   background-color: $tertiary-complement;
   // border-color: darken($tertiary-complement, 10%);
-  color: $tertiary;
+  color: $blue0;
 
   &:hover, &:focus, &:active {
     background-color: tint($tertiary-complement, 10%);
     // border-color: darken($tertiary-complement, 10%);
-    color: $tertiary;
+    color: $blue0;
   }
 }
 
 .btn-default {
   @extend .btn;
-
-  background-color: $tertiary;
-  // border-color: darken($tertiary, 10%);
+  background-color: $blue1;
   color: $white;
+  background-color: $blue2;
+  border-color: $blue2;
 
   &:hover, &:focus, &:active {
-    background-color: tint($tertiary, 5%);
-    // border-color: darken($tertiary, 5%);
-    color: $white;
+    color: $blue0;
+    background-color: $blue3;
   }
 }
 
@@ -175,13 +174,13 @@ button, input[type='submit'], input[type='button'], .btn  {
 .btn-subtle {
   @extend .btn;
 
-  background-color: #E9E9E9;
+  background-color: $gray2;
   color: $black;
 
   &:hover, &:focus, &:active {
-    background-color: tint(#E9E9E9, 5%);
-    // border-color: darken(#E9E9E9, 5%);
-    color: $black;
+    background-color: $gray4;
+    // border-color: darken($blue3, 5%);
+    color: $blue0;
   }
 }
 
@@ -198,4 +197,77 @@ button, input[type='submit'], input[type='button'], .btn  {
 .input-group-addon:not(:first-child):not(:last-child) {
   border-right: 0;
   border-left: 0;
+}
+
+button[data-element-type="button"] {
+  display: inline-block;
+  line-height: 1.8rem;
+  @include border-radius();
+  padding: 0.5rem;
+  border-width: 1px;
+  border-style: solid;
+  color: $black;
+  background-color: $blue1;
+  cursor: pointer;
+  font-size: inherit;
+  margin-left: 0.5rem;
+
+  &[data-button-type="submit-page"],
+  &[data-button-type="custom"] {
+    @extend .btn-default;
+  }
+  &[data-button-type="custom"] {
+    @extend .btn-default;
+  }
+  &[data-button-type="custom"].btn-link {
+    @extend .btn-link;
+  }
+  &[data-button-type="custom"].btn-subtle {
+    @extend .btn-subtle;
+  }
+
+  &[data-button-type="previous-page"] {
+    @extend .btn-default;
+    float: left;
+    position: relative;
+    padding-left: 2.4rem;
+    &:before {
+      font-family: 'FontAwesome';
+      font-weight: 400;
+      content: '\f053';
+      position: absolute;
+      top: 50%;
+      left: 0.5rem;
+      width: 1.4rem;
+      height: 1.4rem;
+      line-height: 1;
+      margin-top: -0.4rem;
+    }
+  }
+
+  &[data-button-type="save"] {
+    @extend .btn-subtle;
+    position: relative;
+    padding-left: 2rem;
+
+    &:before {
+      font-family: 'FontAwesome';
+      font-weight: 400;
+      content: '\f0c7';
+      position: absolute;
+      top: 50%;
+      left: 0.5rem;
+      width: 1rem;
+      height: 1rem;
+      line-height: 1;
+      margin-top: -0.4rem;
+    }
+  }
+  &[disabled]{
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    opacity: .65;
+  }
 }
