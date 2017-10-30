@@ -121,6 +121,8 @@ export const NewItemMenu = ({
               globals={globals}
               values={currentAssignment}
               onLoaded={onFormLoaded}
+              originId={options.get('originId')}
+              parentId={options.get('parentId')}
             />
           </div>
         )}
