@@ -8,20 +8,24 @@ import { AssignmentSelector } from '../QueueItem/AssignmentSelector';
 
 const globals = import('../../globals');
 
-const FormList = ({ myTeamForms, handleFormClick }) => (
+const FormList = ({ myTeamForms, handleFormClick, permittedSubtasks }) => (
   <ul className="list-group button-list">
-    {myTeamForms.map(form => (
-      <li key={form.slug} className="list-group-item">
-        <button
-          type="button"
-          className="btn btn-link"
-          onClick={handleFormClick(form)}
-        >
-          <span className="button-title">{form.name}</span>
-          <SVGInline svg={chevronRightIcon} className="icon" />
-        </button>
-      </li>
-    ))}
+    {myTeamForms
+      .filter(
+        form => !permittedSubtasks || permittedSubtasks.includes(form.slug),
+      )
+      .map(form => (
+        <li key={form.slug} className="list-group-item">
+          <button
+            type="button"
+            className="btn btn-link"
+            onClick={handleFormClick(form)}
+          >
+            <span className="button-title">{form.name}</span>
+            <SVGInline svg={chevronRightIcon} className="icon" />
+          </button>
+        </li>
+      ))}
   </ul>
 );
 
@@ -53,6 +57,7 @@ const AssignmentBackButton = ({ handleAssignmentClick }) => (
 
 export const NewItemMenu = ({
   isOpen,
+  options,
   closeNewItemMenu,
   assignments,
   myTeamForms,
@@ -95,7 +100,11 @@ export const NewItemMenu = ({
     </div>
     <ModalBody>
       {currentForm === null && (
-        <FormList myTeamForms={myTeamForms} handleFormClick={handleFormClick} />
+        <FormList
+          myTeamForms={myTeamForms}
+          handleFormClick={handleFormClick}
+          permittedSubtasks={options.get('permittedSubtasks')}
+        />
       )}
       {currentForm !== null &&
         currentAssignment === null && (

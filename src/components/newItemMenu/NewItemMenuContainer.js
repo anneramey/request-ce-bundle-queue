@@ -8,6 +8,7 @@ import { NewItemMenu } from './NewItemMenu';
 const mapStateToProps = state => ({
   myTeamForms: selectMyTeamForms(state).filter(form => form.type === 'Task'),
   isOpen: state.queue.newItemMenuOpen,
+  options: state.queue.newItemMenuOptions,
   assignments: selectAssignments(state).toJS(),
 });
 

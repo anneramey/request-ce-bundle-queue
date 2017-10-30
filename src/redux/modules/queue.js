@@ -43,7 +43,7 @@ export const actions = {
   openPreview: withPayload(types.OPEN_PREVIEW),
   closePreview: noPayload(types.CLOSE_PREVIEW),
 
-  openNewItemMenu: noPayload(types.OPEN_NEW_MENU),
+  openNewItemMenu: withPayload(types.OPEN_NEW_MENU),
   closeNewItemMenu: noPayload(types.CLOSE_NEW_MENU),
 };
 
@@ -60,6 +60,7 @@ export const State = Record({
   previewItem: null,
   workMenuOpen: false,
   newItemMenuOpen: false,
+  newItemMenuOptions: Map(),
 });
 
 export const isItemComplete = queueItem =>
@@ -95,9 +96,11 @@ export const reducer = (state = State(), { type, payload }) => {
     case types.CLOSE_WORK_MENU:
       return state.set('workMenuOpen', false);
     case types.OPEN_NEW_MENU:
-      return state.set('newItemMenuOpen', true);
+      return state
+        .set('newItemMenuOpen', true)
+        .set('newItemMenuOptions', Map(payload));
     case types.CLOSE_NEW_MENU:
-      return state.set('newItemMenuOpen', false);
+      return state.set('newItemMenuOpen', false).remove('newItemMenuOptions');
     case LOCATION_CHANGE:
       return state.set('sortDirection', 'ASC');
     default:
