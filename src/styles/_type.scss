@@ -1,30 +1,30 @@
 h1{
-  font-size: ms(6);
-  line-height: 48px;
-}
-h2{
   font-size: ms(5);
   line-height: 48px;
 }
-h3{
+h2{
   font-size: ms(4);
   line-height: 48px;
 }
-h4{
+h3{
   font-size: ms(3);
-  line-height: 24px;
+  line-height: 48px;
 }
-h5{
+h4{
   font-size: ms(2);
   line-height: 24px;
 }
-h6{
+h5{
   font-size: ms(1);
+  line-height: 24px;
+}
+h6{
+  font-size: ms(0);
   line-height: 24px;
 }
 
 p{
-  font-size: ms(0);
+  font-size: ms(-1);
 }
 
 $root: (
