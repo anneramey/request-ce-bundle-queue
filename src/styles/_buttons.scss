@@ -13,7 +13,7 @@ button, input[type='submit'], input[type='button'], .btn  {
 .btn {
   display: inline-block;
   font-family: $font-family-base;
-  font-size: 1rem;
+  font-size: 0.875rem;
   @include border-radius();
   color: $white;
   cursor: pointer;
@@ -73,12 +73,10 @@ button, input[type='submit'], input[type='button'], .btn  {
   @extend .btn;
 
   background-color: $primary-complement;
-  border-color: darken($primary-complement, 10%);
   color: $primary;
 
   &:hover, &:focus, &:active {
     background-color: tint($primary-complement, 10%);
-    border-color: darken($primary-complement, 10%);
     color: $primary;
   }
 }
@@ -87,7 +85,6 @@ button, input[type='submit'], input[type='button'], .btn  {
   @extend .btn;
 
   background-color: $secondary;
-  // border-color: darken($secondary, 10%);
   color: $secondary-complement;
 
   &:hover, &:focus, &:active {
@@ -179,13 +176,22 @@ button, input[type='submit'], input[type='button'], .btn  {
   @extend .btn;
 
   background-color: #E9E9E9;
-  // border-color: darken(#E9E9E9, 10%);
   color: $black;
 
   &:hover, &:focus, &:active {
     background-color: tint(#E9E9E9, 5%);
     // border-color: darken(#E9E9E9, 5%);
     color: $black;
+  }
+}
+
+.fileinput-button{
+  background: $blue3;
+  color: $blue0;
+  border-radius: 4px;
+  &:hover{
+    background: $blue2;
+
   }
 }
 
