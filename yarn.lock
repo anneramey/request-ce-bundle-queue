@@ -5846,9 +5846,9 @@ react-error-overlay@^2.0.2:
     settle-promise "1.0.0"
     source-map "0.5.6"
 
-react-kinetic-core@^0.2.0:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/react-kinetic-core/-/react-kinetic-core-0.2.2.tgz#b2b0ec97a6befe692118ee12ef614774ab166e82"
+react-kinetic-core@0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/react-kinetic-core/-/react-kinetic-core-0.3.1.tgz#6230f492188ad578cbbdf4455fe493b91d7491cd"
   dependencies:
     axios "^0.16.1"
     deepequal "^0.0.1"

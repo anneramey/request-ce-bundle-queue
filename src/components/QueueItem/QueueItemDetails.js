@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose, withState, withHandlers } from 'recompose';
+import { compose, withState, withHandlers, withProps } from 'recompose';
+import { Link } from 'react-router-dom';
 import SVGInline from 'react-svg-inline';
 import thinChevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg';
 import circleOpenIcon from 'font-awesome-svg-png/black/svg/circle-o.svg';
@@ -20,6 +21,8 @@ export const QueueItemDetails = ({
   setIsAssigning,
   setAssignment,
   assignments,
+  openNewItemMenu,
+  prohibitSubtasks,
 }) => (
   <div className="details">
     <div className="general">
@@ -73,37 +76,48 @@ export const QueueItemDetails = ({
         </span>
       </li>
     </ul>
-    <div className="subtasks-section">
-      <hr />
-      <h2>
-        <span>Subtasks</span>
-        <button className="btn btn-link">
-          <SVGInline svg={plusIcon} className="icon" />
-        </button>
-      </h2>
-      <ul className="list-group subtasks">
-        {queueItem.children.map(child => (
-          <li key={child.id} className="list-group-item subtask">
-            <span className="handle">
-              {child.form.name} ({child.handle})
-            </span>
-            <span className="summary">{child.values.Summary}</span>
-            <SVGInline svg={thinChevronRightIcon} className="icon" />
-          </li>
-        ))}
-      </ul>
-      {queueItem.children.length < 1 && (
-        <div className="empty-subtasks">
-          <h5>No Subtasks to display</h5>
-          <h6>
-            Subtasks are an easy way to create smaller and/or related tasks to
-            parent task.
-          </h6>
-        </div>
-      )}
-    </div>
+    {!prohibitSubtasks && (
+      <div className="subtasks-section">
+        <hr />
+        <h2>
+          <span>Subtasks</span>
+          <button className="btn btn-link" onClick={openNewItemMenu}>
+            <SVGInline svg={plusIcon} className="icon" />
+          </button>
+        </h2>
+        <ul className="list-group subtasks">
+          {queueItem.children.map(child => (
+            <li key={child.id} className="list-group-item subtask">
+              <Link to={`/item/${child.id}`}>
+                <span className="handle">
+                  {child.form.name} ({child.handle})
+                </span>
+                <span className="summary">{child.values.Summary}</span>
+                <SVGInline svg={thinChevronRightIcon} className="icon" />
+              </Link>
+            </li>
+          ))}
+        </ul>
+        {queueItem.children.length < 1 && (
+          <div className="empty-subtasks">
+            <h5>No Subtasks to display</h5>
+            <h6>
+              Subtasks are an easy way to create smaller and/or related tasks to
+              parent task.
+            </h6>
+          </div>
+        )}
+      </div>
+    )}
   </div>
 );
+
+const getAttr = (form, attrName) => {
+  const attrConfig =
+    form.attributes &&
+    form.attributes.find(attribute => attribute.name === attrName);
+  return attrConfig && attrConfig.values[0];
+};
 
 export const mapStateToProps = state => ({
   queueItem: state.queue.currentItem,
@@ -112,10 +126,19 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = {
   updateQueueItem: actions.updateQueueItem,
+  openNewItemMenu: actions.openNewItemMenu,
 };
 
 export const QueueItemDetailsContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
+  withProps(({ queueItem }) => {
+    const prohibit = getAttr(queueItem.form, 'Prohibit Subtasks');
+    const permitted = getAttr(queueItem.form, 'Permitted Subtasks');
+    return {
+      prohibitSubtasks: ['True', 'Yes'].includes(prohibit),
+      permittedSubtasks: permitted && permitted.split(/\s*,\s*/),
+    };
+  }),
   withState('isAssigning', 'setIsAssigning', false),
   withHandlers({
     toggleAssigning: ({ setIsAssigning, isAssigning }) => () =>
@@ -131,6 +154,17 @@ export const QueueItemDetailsContainer = compose(
           'Assigned Team Display Name': teamParts[teamParts.length - 1],
         },
         successAction: actions.setCurrentItem,
+      });
+    },
+    openNewItemMenu: ({
+      openNewItemMenu,
+      queueItem,
+      permittedSubtasks,
+    }) => () => {
+      openNewItemMenu({
+        permittedSubtasks,
+        parentId: queueItem.id,
+        originId: queueItem.origin ? queueItem.origin.id : queueItem.id,
       });
     },
   }),

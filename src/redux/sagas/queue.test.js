@@ -407,7 +407,7 @@ describe('queue saga', () => {
     describe('when request is successful', () => {
       test('it sets the list items', () => {
         const include =
-          'details,values,attributes,form,children,children.form,children.values';
+          'details,values,attributes,form,children,children.form,children.values,form.attributes';
         const saga = fetchCurrentItemTask(action);
 
         // Execute the search.
@@ -423,7 +423,7 @@ describe('queue saga', () => {
 
   describe('#updateQueueItemTask', () => {
     const include =
-      'details,values,attributes,form,children,children.form,children.values';
+      'details,values,attributes,form,children,children.form,children.values,form.attributes';
     const id = 'abc123';
     const values = { 'Assigned Individual': 'Me' };
     const response = { submission: { id: 'abc123', values: {} } };
