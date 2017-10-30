@@ -65,6 +65,7 @@ export const NewItemMenu = ({
   currentForm,
   kForm,
   onFormLoaded,
+  onCreated,
   handleFormClick,
   handleAssignmentClick,
   handleSave,
@@ -121,6 +122,7 @@ export const NewItemMenu = ({
               globals={globals}
               values={currentAssignment}
               onLoaded={onFormLoaded}
+              onCreated={onCreated}
               originId={options.get('originId')}
               parentId={options.get('parentId')}
             />
