@@ -46,6 +46,7 @@
 
   .select {
     // The div that wraps the select up.
+    padding-left: 1rem;
     & > div {
       display: inline-block;
       // The input for the select.
