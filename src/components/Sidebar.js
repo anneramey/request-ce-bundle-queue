@@ -16,11 +16,15 @@ export const Sidebar = ({
   documentationUrl,
   supportUrl,
   counts,
-  openNewItemMenu,
+  handleOpenNewItemMenu,
   myFilters,
 }) => (
   <div className="sidebar">
-    <button className="btn btn-primary" onClick={openNewItemMenu}>
+    <button
+      type="button"
+      className="btn btn-primary"
+      onClick={handleOpenNewItemMenu}
+    >
       Create New Task
     </button>
     <h6>Default Lists</h6>
@@ -75,13 +79,18 @@ export const Sidebar = ({
           </NavLink>
         </NavItem>
       ))}
-      {myFilters.size === 0 &&
+      {myFilters.size === 0 && (
         <NavItem>
-          <NavLink to="/" className="nav-link icon-wrapper" activeClassName="active">
+          <NavLink
+            to="/"
+            className="nav-link icon-wrapper"
+            activeClassName="active"
+          >
             <SVGInline svg={filledStarIcon} className="icon" />
             Create a new list?
           </NavLink>
-        </NavItem>}
+        </NavItem>
+      )}
     </Nav>
     <Nav vertical className="bottom-nav">
       <NavItem>

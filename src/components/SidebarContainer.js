@@ -1,4 +1,4 @@
-import { compose, lifecycle } from 'recompose';
+import { compose, lifecycle, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 import { getFilterByPath } from '../redux/modules/app';
@@ -29,6 +29,9 @@ const mapDispatchToProps = {
 
 export const SidebarContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
+  withHandlers({
+    handleOpenNewItemMenu: ({ openNewItemMenu }) => () => openNewItemMenu(),
+  }),
   lifecycle({
     componentWillMount() {
       this.props.defaultFilters
