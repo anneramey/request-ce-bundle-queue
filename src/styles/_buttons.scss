@@ -271,3 +271,7 @@ button[data-element-type="button"] {
     opacity: .65;
   }
 }
+button.back-button{
+  display:flex;
+  border-radius: 0;
+}
