@@ -3,6 +3,8 @@ import { compose, lifecycle, withState, withHandlers } from 'recompose';
 import { List } from 'immutable';
 
 import { actions, formatMessages } from '../../redux/modules/discussions';
+import { actions as notificationActions } from '../../redux/modules/errors';
+import { actions as queueActions } from '../../redux/modules/queue';
 
 import { QueueItemDiscussions } from './QueueItemDiscussions';
 
@@ -15,10 +17,13 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  setCurrentItem: queueActions.setCurrentItem,
   joinDiscussion: actions.joinDiscussion,
   leaveDiscussion: actions.leaveDiscussion,
   stopConnection: actions.stopConnection,
   loadMoreMessages: actions.loadMoreMessages,
+  addWarn: notificationActions.addWarn,
+  createDiscussion: actions.createIssue,
 };
 
 const handleScrollToTop = ({
@@ -63,6 +68,31 @@ const handleScrolled = ({
   }
 };
 
+const joinOrCreateDiscussion = ({
+  joinDiscussion,
+  leaveDiscussion,
+  addWarn,
+  createDiscussion,
+  setCurrentItem,
+}) => queueItem => {
+  const discussionId = queueItem ? queueItem.values['Discussion Id'] : null;
+
+  if (discussionId) {
+    leaveDiscussion();
+    joinDiscussion(discussionId);
+  } else if (queueItem) {
+    createDiscussion(
+      queueItem.label || 'Queue Discussion',
+      queueItem.values['Details'] || '',
+      queueItem,
+      (issue, submission) => {
+        setCurrentItem(submission);
+        joinDiscussion(issue.guid);
+      },
+    );
+  }
+};
+
 export const QueueItemDiscussionsContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
   withState('formattedMessages', 'setFormattedMessages', List()),
@@ -76,6 +106,7 @@ export const QueueItemDiscussionsContainer = compose(
     };
   }),
   withHandlers({
+    joinOrCreateDiscussion,
     handleScrollToBottom,
     handleScrollToMiddle,
     handleScrollToTop,
@@ -86,14 +117,21 @@ export const QueueItemDiscussionsContainer = compose(
   lifecycle({
     componentWillMount() {
       this.props.setFormattedMessages(formatMessages(this.props.messages));
-      // this.props.joinDiscussion('1a69ce8b-d1ac-4528-bf4b-1ed3de1e66a3');
-      this.props.joinDiscussion('c25c4375-9037-4012-809d-561d3b4d1b54');
+      this.props.joinOrCreateDiscussion(this.props.queueItem);
     },
     componentWillUnmount() {
       this.props.stopConnection();
       this.props.leaveDiscussion();
     },
     componentWillReceiveProps(nextProps) {
+      // Join a different discussion if the discussion ID has changed.
+      if (
+        this.props.queueItem.values['Discussion Id'] !==
+        nextProps.queueItem.values['Discussion Id']
+      ) {
+        this.props.joinOrCreateDiscussion(nextProps.queueItem);
+      }
+      // Process the messages if the contents have changed.
       if (!this.props.messages.equals(nextProps.messages)) {
         this.props.setFormattedMessages(formatMessages(nextProps.messages));
         if (

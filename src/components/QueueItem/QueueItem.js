@@ -63,7 +63,10 @@ export const QueueItem = ({
           </Nav>
         </div>
         <Route exact path="/item/:id" component={QueueItemDetailsContainer} />
-        <Route path="/item/:id/discussions" component={QueueItemDiscussionsContainer} />
+        <Route
+          path="/item/:id/discussions"
+          component={QueueItemDiscussionsContainer}
+        />
       </div>
       <div className="right-panel">
         <button
@@ -91,6 +94,7 @@ export const mapStateToProps = (state, props) => ({
 
 export const mapDispatchToProps = {
   fetchCurrentItem: actions.fetchCurrentItem,
+  setCurrentItem: actions.setCurrentItem,
   updateQueueItem: actions.updateQueueItem,
   openWorkMenu: actions.openWorkMenu,
   closeWorkMenu: actions.closeWorkMenu,
@@ -122,6 +126,9 @@ export const QueueItemContainer = compose(
       if (this.props.id !== nextProps.id) {
         this.props.fetchCurrentItem(nextProps.id);
       }
+    },
+    componentWillUnmount() {
+      this.props.setCurrentItem(null);
     },
   }),
 )(QueueItem);

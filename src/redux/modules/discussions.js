@@ -7,6 +7,7 @@ export const types = {
   JOIN_DISCUSSION: namespace('discussions', 'JOIN_DISCUSSION'),
   LEAVE_DISCUSSION: namespace('discussions', 'LEAVE_DISCUSSION'),
   SET_ISSUE: namespace('discussions', 'SET_ISSUE'),
+  CREATE_ISSUE: namespace('discussion', 'CREATE_ISSUE'),
   FETCH_MORE_MESSAGES: namespace('discussions', 'FETCH_MORE_MESSAGES'),
   SET_MESSAGES: namespace('discussions', 'SET_MESSAGES'),
   SET_MORE_MESSAGES: namespace('discussions', 'SET_MORE_MESSAGES'),
@@ -28,6 +29,10 @@ export const actions = {
   leaveDiscussion: noPayload(types.LEAVE_DISCUSSION),
   // API-bsased actions.
   setIssue: withPayload(types.SET_ISSUE),
+  createIssue: (name, description = '', submission, onSuccess) => ({
+    type: types.CREATE_ISSUE,
+    payload: { name, description, submission, onSuccess },
+  }),
   loadMoreMessages: noPayload(types.FETCH_MORE_MESSAGES),
   setMessages: withPayload(types.SET_MESSAGES),
   setMoreMessages: withPayload(types.SET_MORE_MESSAGES),

@@ -10,6 +10,7 @@ import {
   takeEvery,
 } from 'redux-saga/effects';
 import axios from 'axios';
+import { CoreAPI } from 'react-kinetic-core';
 
 import { types, actions } from '../modules/discussions';
 
@@ -128,12 +129,43 @@ const createIssue = (issue, responseUrl) =>
     .then(response => ({ issue: response.data }))
     .catch(response => ({ error: response }));
 
+const updateSubmissionDiscussionId = ({ id, guid }) =>
+  CoreAPI.updateSubmission({ id, values: { 'Discussion Id': guid } });
+
 // Step 1: Fetch the settings (response server URL)
 // Step 2: Call the API to create the issue.
+// Step 3: If a submission is provided, update its "Discussion Id"
 export function* createIssueTask({ payload }) {
   const responseUrl = yield select(state => state.app.discussionServerUrl);
-  const result = yield call(createIssue, payload, responseUrl);
-  console.log(result);
+  const { name, description, submission, onSuccess } = payload;
+  const { issue, error } = yield call(
+    createIssue,
+    { name, description },
+    responseUrl,
+  );
+
+  if (error) {
+    // yield a toast
+  } else {
+    let error;
+    let updatedSubmission;
+
+    // In a successful scenario we should toast a success, join the discussion
+    // and if a submission was passed we should update its "Discussion Id" value.
+    if (submission) {
+      const response = yield call(updateSubmissionDiscussionId, {
+        id: submission.id,
+        guid: issue.guid,
+      });
+
+      error = response.serverError;
+      updatedSubmission = response.submission;
+    }
+
+    if (!error && typeof onSuccess === 'function') {
+      onSuccess(issue);
+    }
+  }
 }
 
 const fetchMessages = ({ guid, lastReceived, offset, responseUrl }) => {

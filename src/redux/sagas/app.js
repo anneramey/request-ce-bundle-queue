@@ -10,7 +10,6 @@ import {
   types,
   DEFAULT_DOCUMENTATION_URL,
   DEFAULT_SUPPORT_URL,
-  defaultDiscussionServerUrl,
 } from '../modules/app';
 
 export const selectPersonalFilters = ({ app }) => app.myFilters;
