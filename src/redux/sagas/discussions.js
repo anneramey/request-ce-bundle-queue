@@ -12,6 +12,7 @@ import {
 import axios from 'axios';
 import { CoreAPI } from 'react-kinetic-core';
 
+import { SUBMISSION_INCLUDES } from './queue';
 import { types, actions } from '../modules/discussions';
 
 export const MESSAGE_LIMIT = 25;
@@ -130,7 +131,11 @@ const createIssue = (issue, responseUrl) =>
     .catch(response => ({ error: response }));
 
 const updateSubmissionDiscussionId = ({ id, guid }) =>
-  CoreAPI.updateSubmission({ id, values: { 'Discussion Id': guid } });
+  CoreAPI.updateSubmission({
+    id,
+    values: { 'Discussion Id': guid },
+    include: SUBMISSION_INCLUDES,
+  });
 
 // Step 1: Fetch the settings (response server URL)
 // Step 2: Call the API to create the issue.
