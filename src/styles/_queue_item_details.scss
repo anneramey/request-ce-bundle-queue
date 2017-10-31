@@ -110,11 +110,15 @@
       .subtasks {
         .subtask {
           border-bottom: 2px solid $gray4;
-          color: $blue1;
-          display: flex;
-          flex-wrap: nowrap;
           font-size: 13px;
           padding-left: 4rem;
+          a {
+            color: $blue1;
+            text-decoration: none;
+            display: flex;
+            flex-wrap: nowrap;
+            width: 100%;
+          }
           .handle {
             font-weight: 600;
           }

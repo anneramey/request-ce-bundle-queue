@@ -25,6 +25,10 @@
     &.btn-primary {
       background-color: $blue2;
       border-color: $blue2;
+      &:hover{
+        color: $blue0;
+        background-color: $blue3;
+      }
     }
   }
 

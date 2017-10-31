@@ -1,0 +1,111 @@
+h1{
+  font-size: ms(5);
+  line-height: 48px;
+}
+h2{
+  font-size: ms(4);
+  line-height: 48px;
+}
+h3{
+  font-size: ms(3);
+  line-height: 48px;
+}
+h4{
+  font-size: ms(2);
+  line-height: 24px;
+}
+h5{
+  font-size: ms(1);
+  line-height: 24px;
+}
+h6{
+  font-size: ms(0);
+  line-height: 24px;
+}
+
+p{
+  font-size: ms(-1);
+}
+
+$root: (
+  fontSize: 16px,
+  lineHeight: 24px
+);
+$scale0: (
+  fontSize: 1rem,
+  line: 1.5rem,
+  autoLineCount: 1,
+  autoLineHeight: 1.5rem
+);
+$scale1: (
+  fontSize: 1.125rem,
+  line: 1.5rem,
+  autoLineCount: 1,
+  autoLineHeight: 1.5rem
+);
+$scale2: (
+  fontSize: 1.25rem,
+  line: 1.5rem,
+  autoLineCount: 1,
+  autoLineHeight: 1.5rem
+);
+$scale3: (
+  fontSize: 1.4375rem,
+  line: 1.5rem,
+  autoLineCount: 1,
+  autoLineHeight: 1.5rem
+);
+$scale4: (
+  fontSize: 1.625rem,
+  line: 1.5rem,
+  autoLineCount: 2,
+  autoLineHeight: 3rem
+);
+$scale5: (
+  fontSize: 1.8125rem,
+  line: 1.5rem,
+  autoLineCount: 2,
+  autoLineHeight: 3rem
+);
+$scale6: (
+  fontSize: 2rem,
+  line: 1.5rem,
+  autoLineCount: 2,
+  autoLineHeight: 3rem
+);
+$scale7: (
+  fontSize: 2.25rem,
+  line: 1.5rem,
+  autoLineCount: 2,
+  autoLineHeight: 3rem
+);
+$scale8: (
+  fontSize: 2.5625rem,
+  line: 1.5rem,
+  autoLineCount: 2,
+  autoLineHeight: 3rem
+);
+$scale9: (
+  fontSize: 2.875rem,
+  line: 1.5rem,
+  autoLineCount: 2,
+  autoLineHeight: 3rem
+);
+$scale10: (
+  fontSize: 3.25rem,
+  line: 1.5rem,
+  autoLineCount: 3,
+  autoLineHeight: 4.5rem
+);
+$scale11: (
+  fontSize: 3.625rem,
+  line: 1.5rem,
+  autoLineCount: 3,
+  autoLineHeight: 4.5rem
+);
+$scale12: (
+  fontSize: 4.125rem,
+  line: 1.5rem,
+  autoLineCount: 3,
+  autoLineHeight: 4.5rem
+);

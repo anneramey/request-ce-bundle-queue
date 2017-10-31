@@ -1,4 +1,5 @@
 @import 'variables';
+@import 'mixins';
 
 body {
   font-family: 'Open Sans', sans-serif;
@@ -89,7 +90,9 @@ body {
 .nav-link:focus, .nav-link:hover {
   text-decoration: none;
 }
-
+a{
+  color: $blue0;
+}
 a:focus {
   box-shadow: none;
   outline: $blue3 dotted thin;
@@ -137,12 +140,15 @@ a:focus {
   font-size: 12px;
 }
 
+@import '~modularscale-sass/stylesheets/modularscale';
 @import 'sidebar';
 @import 'content';
 @import 'modal';
 @import 'queue_item_details';
 @import 'assignments';
-@import 'forms';
+@import 'forms2';
+@import 'tables';
 @import 'buttons';
 @import 'alerts';
 @import 'profile';
+@import 'type';

@@ -8,11 +8,13 @@ import { NewItemMenu } from './NewItemMenu';
 const mapStateToProps = state => ({
   myTeamForms: selectMyTeamForms(state).filter(form => form.type === 'Task'),
   isOpen: state.queue.newItemMenuOpen,
+  options: state.queue.newItemMenuOptions,
   assignments: selectAssignments(state).toJS(),
 });
 
 const mapDispatchToProps = {
   closeNewItemMenu: actions.closeNewItemMenu,
+  fetchCurrentItem: actions.fetchCurrentItem,
 };
 
 const handleFormClick = ({ setCurrentForm }) => form => () =>
@@ -35,6 +37,15 @@ const handleSelect = ({ setAssignment }) => (_value, state) =>
 
 const onFormLoaded = ({ setKForm }) => form => setKForm(form);
 
+const onCreated = ({ options, fetchCurrentItem }) => () => {
+  // If the new queue item that just was created has a parent we fetch the
+  // parent again because we want its subtask list to contain this new queue
+  // item.
+  if (options.get('parentId')) {
+    fetchCurrentItem(options.get('parentId'));
+  }
+};
+
 export const NewItemMenuContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
   withState('currentAssignment', 'setAssignment', null),
@@ -47,5 +58,6 @@ export const NewItemMenuContainer = compose(
     handleClosed,
     handleSelect,
     onFormLoaded,
+    onCreated,
   }),
 )(NewItemMenu);

@@ -1,6 +1,11 @@
 $header-height: 48px;
 $page-height: calc(100vh - 48px);
 
+$modularscale: (
+  base: 16px,
+  ratio: 1.125
+);
+
 $transparent-gray1: rgba(51, 51, 51, 0.15);
 $gray2: rgba(213, 213, 213, 1);
 $gray3: rgba(223, 226, 229, 1);
@@ -33,3 +38,27 @@ $white: #ffffff;
 
 $text-color: $gray !default; // Global text color on `<body>`.
 $link-color: $tertiary !default; // Global textual link color.
+
+
+// Typography
+// --------------------------------------
+
+$font-family-sans-serif:  "Open Sans", sans-serif !default;
+$font-family-serif:       Georgia, "Times New Roman", Times, serif !default;
+$font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace !default; // Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
+$font-family-base:        $font-family-sans-serif !default;
+
+$font-size-base:          1.4rem !default; // Default font size. Equal to 14px.
+$line-height-base:        2rem !default; // Default line height. Equal to 20px.
+
+
+// Components
+// --------------------------------------
+
+$enable-rounded:            true;
+$border-radius-base:        0.4rem !default;
+
+$margin-increment: 0.5rem;
+$margin-count: 5;
+$padding-increment: 0.5rem;
+$padding-count: 5;
