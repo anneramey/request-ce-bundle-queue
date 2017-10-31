@@ -87,7 +87,7 @@ export const NewItemMenu = ({
         >
           Cancel
         </button>
-        <span>Forms</span>
+        <span>New {currentForm ? currentForm.name : 'Task'}</span>
         <span>&nbsp;</span>
       </h4>
       {currentForm !== null &&
