@@ -163,7 +163,7 @@ export function* createIssueTask({ payload }) {
     }
 
     if (!error && typeof onSuccess === 'function') {
-      onSuccess(issue);
+      onSuccess(issue, updatedSubmission);
     }
   }
 }
