@@ -27,13 +27,20 @@ const handleClosed = ({ setCurrentForm, setKForm, setAssignment }) => () => {
   setCurrentForm(null);
   setKForm(null);
 };
-const handleSelect = ({ setAssignment }) => (_value, state) =>
-  setAssignment({
-    'Assigned Individual': state.username,
+const handleSelect = ({ setAssignment }) => (_value, state) => {
+  const teamParts = state.team.split('::');
+  let values = {
     'Assigned Individual Display Name': state.displayName,
     'Assigned Team': state.team,
-    'Assigned Team Display Name': state.team,
-  });
+    'Assigned Team Display Name': teamParts[teamParts.length - 1],
+  };
+
+  if (state.username) {
+    values['Assigned Individual'] = state.username;
+  }
+
+  setAssignment(values);
+};
 
 const onFormLoaded = ({ setKForm }) => form => setKForm(form);
 

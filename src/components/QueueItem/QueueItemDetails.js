@@ -145,14 +145,16 @@ export const QueueItemDetailsContainer = compose(
       setIsAssigning(!isAssigning),
     setAssignment: ({ queueItem, updateQueueItem }) => (_v, assignment) => {
       const teamParts = assignment.team.split('::');
+      const values = {
+        'Assigned Individual': assignment.username,
+        'Assigned Individual Display Name': assignment.displayName,
+        'Assigned Team': assignment.team,
+        'Assigned Team Display Name': teamParts[teamParts.length - 1],
+      };
+
       updateQueueItem({
         id: queueItem.id,
-        values: {
-          'Assigned Individual': assignment.username,
-          'Assigned Individual Display Name': assignment.displayName,
-          'Assigned Team': assignment.team,
-          'Assigned Team Display Name': teamParts[teamParts.length - 1],
-        },
+        values,
         successAction: actions.setCurrentItem,
       });
     },
