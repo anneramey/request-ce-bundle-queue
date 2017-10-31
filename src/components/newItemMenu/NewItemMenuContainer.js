@@ -6,7 +6,11 @@ import { actions } from '../../redux/modules/queue';
 import { NewItemMenu } from './NewItemMenu';
 
 const mapStateToProps = state => ({
-  myTeamForms: selectMyTeamForms(state).filter(form => form.type === 'Task'),
+  myTeamForms: !state.queue.newItemMenuOptions.get('parentId')
+    ? selectMyTeamForms(state).filter(form => form.type === 'Task')
+    : selectMyTeamForms(state).filter(
+        form => form.type === 'Task' || form.type === 'Subtask',
+      ),
   isOpen: state.queue.newItemMenuOpen,
   options: state.queue.newItemMenuOptions,
   assignments: selectAssignments(state).toJS(),
