@@ -82,7 +82,7 @@ export const QueueItemPreview = ({
             className="btn btn-primary work-grab-button"
             onClick={toggleWorkMenu(queueItem)}
           >
-            Work It
+            {queueItem.coreState === 'Draft' ? 'Work' : 'Review'} It
           </button>
         ) : (
           <button
