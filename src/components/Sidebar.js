@@ -18,6 +18,8 @@ export const Sidebar = ({
   counts,
   handleOpenNewItemMenu,
   myFilters,
+  hasTeammates,
+  hasTeams,
 }) => (
   <div className="sidebar">
     <button
@@ -39,26 +41,30 @@ export const Sidebar = ({
           Mine ({formatCount(counts.get('Mine', 0))})
         </NavLink>
       </NavItem>
-      <NavItem>
-        <NavLink
-          to="/list/Teammates"
-          className="nav-link icon-wrapper"
-          activeClassName="active"
-        >
-          <SVGInline svg={usersIcon} className="icon" />
-          Teammates ({formatCount(counts.get('Teammates', 0))})
-        </NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink
-          to="/list/Unassigned"
-          className="nav-link icon-wrapper"
-          activeClassName="active"
-        >
-          <SVGInline svg={inboxIcon} className="icon" />
-          Unassigned ({formatCount(counts.get('Unassigned', 0))})
-        </NavLink>
-      </NavItem>
+      {hasTeammates && (
+        <NavItem>
+          <NavLink
+            to="/list/Teammates"
+            className="nav-link icon-wrapper"
+            activeClassName="active"
+          >
+            <SVGInline svg={usersIcon} className="icon" />
+            Teammates ({formatCount(counts.get('Teammates', 0))})
+          </NavLink>
+        </NavItem>
+      )}
+      {hasTeams && (
+        <NavItem>
+          <NavLink
+            to="/list/Unassigned"
+            className="nav-link icon-wrapper"
+            activeClassName="active"
+          >
+            <SVGInline svg={inboxIcon} className="icon" />
+            Unassigned ({formatCount(counts.get('Unassigned', 0))})
+          </NavLink>
+        </NavItem>
+      )}
     </Nav>
     <h6 className="d-flex justify-content-between icon-wrapper">
       My Lists

@@ -20,6 +20,8 @@ const mapStateToProps = state => ({
       filter.name,
       state.queue.getIn(['lists', filter], List()).size,
     ]),
+  hasTeammates: state.app.myTeammates.size > 0,
+  hasTeams: state.app.myTeams.size > 0,
 });
 
 const mapDispatchToProps = {
