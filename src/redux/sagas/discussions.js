@@ -1,4 +1,4 @@
-import { eventChannel, takeLatest } from 'redux-saga';
+import { eventChannel, delay } from 'redux-saga';
 import {
   take,
   call,
@@ -8,6 +8,7 @@ import {
   all,
   select,
   takeEvery,
+  takeLatest,
 } from 'redux-saga/effects';
 import axios from 'axios';
 import { CoreAPI } from 'react-kinetic-core';
@@ -75,6 +76,18 @@ function* incomingMessages(socketChannel) {
   }
 }
 
+const touchIssuePresence = (guid, responseUrl) =>
+  axios.request({
+    url: `${responseUrl}/api/v1/issues/${guid}/present`,
+    withCredentials: true,
+  });
+
+function* presenceKeepAlive(guid, responseUrl) {
+  while (true) {
+    yield call(touchIssuePresence, guid, responseUrl);
+    yield delay(3000);
+  }
+}
 // Turned this off because the Rails impl doesn't handle incoming messages.
 // function* outgoingMessages(socket) {}
 //   // eslint-disable-next-line
@@ -102,6 +115,7 @@ export function* watchDiscussionSocket() {
     const { cancel, reconnect } = yield race({
       task: [
         call(incomingMessages, socketChannel),
+        call(presenceKeepAlive, guid, responseUrl),
         // call(outgoingMessages, socket),
       ],
       reconnect: take(types.RECONNECT),
