@@ -30,50 +30,6 @@ export const prepareStatusFilter = (searcher, filter) => {
   return searcher;
 };
 
-/* eslint-disable no-param-reassign */
-export const prepareTeamsFilter = (searcher, filter, appSettings) => {
-  // If there are selected teams then add them to the in-list. Otherwise implicitly
-  // add all of my teams to the list.
-  if (filter.teams.size > 0) {
-    searcher = searcher.in('values[Assigned Team]', filter.teams.toJS());
-  } else {
-    const myTeams = appSettings.myTeams.map(t => t.name);
-    searcher = searcher.in('values[Assigned Team]', myTeams.toJS());
-  }
-  return searcher;
-};
-
-export const prepareAssignmentFilter = (searcher, filter, appSettings) => {
-  // If we're searching by individuals we won't process any of the preset flags,
-  // we'll just process the list they've chosen.
-  if (filter.assignments.byIndividuals) {
-    searcher.in(
-      'values[Assigned Individual]',
-      filter.assignments.individuals.toJS(),
-    );
-  } else if (
-    filter.assignments.mine ||
-    filter.assignments.teammates ||
-    filter.assignments.unassigned
-  ) {
-    searcher.or();
-    if (filter.assignments.mine) {
-      searcher.eq('values[Assigned Individual]', appSettings.profile.username);
-    }
-    if (filter.assignments.teammates) {
-      searcher.in(
-        'values[Assigned Individual]',
-        appSettings.myTeammates.map(u => u.username),
-      );
-    }
-    if (filter.assignments.unassigned) {
-      searcher.eq('values[Assigned Individual]', null);
-    }
-    searcher.end();
-  }
-  return searcher;
-};
-
 export const prepareDateRangeFilter = (searcher, filter, now) => {
   if (filter.dateRange.custom) {
     searcher.sortBy(filter.dateRange.timeline);
@@ -107,15 +63,72 @@ export const prepareDateRangeFilter = (searcher, filter, now) => {
   return searcher;
 };
 
+const calculateTeams = (myTeams, teams) =>
+  teams.isEmpty()
+    ? myTeams.map(t => t.name)
+    : teams.toSet().intersect(myTeams.map(t => t.name));
+
+export const prepareUnassignedFilter = (searcher, filter, appSettings) => {
+  if (filter.assignments.unassigned && appSettings.myTeams.size > 0) {
+    searcher.and();
+    searcher.eq('values[Assigned Individual]', null);
+    searcher.in(
+      'values[Assigned Team]',
+      calculateTeams(appSettings.myTeams, filter.teams).toJS(),
+    );
+    searcher.end();
+  }
+};
+
+export const prepareMineFilter = (searcher, filter, appSettings) => {
+  if (filter.assignments.mine) {
+    searcher.and();
+    if (filter.teams.size > 0) {
+      searcher.in('values[Assigned Team]', filter.teams.toJS());
+    }
+    searcher.eq('values[Assigned Individual]', appSettings.profile.username);
+    searcher.end();
+  }
+};
+
+export const prepareTeammatesFilter = (searcher, filter, appSettings) => {
+  if (filter.assignments.teammates && appSettings.myTeammates.size > 0) {
+    searcher.and();
+    searcher.in(
+      'values[Assigned Individual]',
+      appSettings.myTeammates.map(u => u.username).toJS(),
+    );
+    searcher.in(
+      'values[Assigned Team]',
+      calculateTeams(appSettings.myTeams, filter.teams).toJS(),
+    );
+    searcher.end();
+  }
+};
+
 export const buildSearch = (filter, appSettings) => {
   let searcher = new CoreAPI.SubmissionSearch();
 
   searcher = prepareStatusFilter(searcher, filter);
-  searcher = prepareTeamsFilter(searcher, filter, appSettings);
-  searcher = prepareAssignmentFilter(searcher, filter, appSettings);
   searcher = prepareDateRangeFilter(searcher, filter, moment());
 
-  return searcher.include('details,form,values').build();
+  searcher.or();
+  // Capture the context of the assignment query operations. We will use this
+  // later in the saga to determine if any of the assignment filters were
+  // able to properly prepare their query criteria.
+  let assignmentContext =
+    searcher.queryContext[searcher.queryContext.length - 1];
+
+  prepareMineFilter(searcher, filter, appSettings);
+  prepareTeammatesFilter(searcher, filter, appSettings);
+  prepareUnassignedFilter(searcher, filter, appSettings);
+
+  searcher.end();
+
+  return {
+    search: searcher.include('details,form,values').build(),
+    assignmentContext,
+  };
 };
 
 export const getSubmissionDate = (submission, key) => {
@@ -161,25 +174,39 @@ export const sortSubmissions = (submissions, filter) =>
 export function* fetchListTask(action) {
   const filter = action.payload;
   const appSettings = yield select(getAppSettings);
-  const search = yield call(buildSearch, filter, appSettings);
+  const { search, assignmentContext } = yield call(
+    buildSearch,
+    filter,
+    appSettings,
+  );
 
-  const {
-    submissions,
-    messages,
-    nextPageToken,
-    serverError,
-  } = yield call(CoreAPI.searchSubmissions, { search });
-
-  if (serverError || (messages && messages.length > 0)) {
-    yield put(actions.setListStatus(ERROR_STATUS_STRING));
-    yield put(errorActions.addError('Failed to retrieve items!'));
-  } else if (nextPageToken) {
-    yield put(actions.setListStatus(TOO_MANY_STATUS_STRING));
+  // If the assignment query context has nothing then there is a problem
+  // with the query and we should immediately yield an empty list.
+  if (assignmentContext.length === 0) {
+    yield put(actions.setListItems(filter, []));
   } else {
-    // Post-process results:
-    const sortedSubmissions = yield call(sortSubmissions, submissions, filter);
+    const {
+      submissions,
+      messages,
+      nextPageToken,
+      serverError,
+    } = yield call(CoreAPI.searchSubmissions, { search });
 
-    yield put(actions.setListItems(filter, sortedSubmissions));
+    if (serverError || (messages && messages.length > 0)) {
+      yield put(actions.setListStatus(ERROR_STATUS_STRING));
+      yield put(errorActions.addError('Failed to retrieve items!'));
+    } else if (nextPageToken) {
+      yield put(actions.setListStatus(TOO_MANY_STATUS_STRING));
+    } else {
+      // Post-process results:
+      const sortedSubmissions = yield call(
+        sortSubmissions,
+        submissions,
+        filter,
+      );
+
+      yield put(actions.setListItems(filter, sortedSubmissions));
+    }
   }
 }
 

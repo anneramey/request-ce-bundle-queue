@@ -63,16 +63,18 @@ export function* fetchAppSettingsTask() {
   });
 
   const allTeams = teams.filter(isAssignable);
-  const myTeams = profile.memberships
-    .map(membership => membership.team)
-    .filter(isAssignable);
-  const myTeammates = myTeams
-    // Get all of the users from all of the teams.
-    .flatMap(t => t.memberships)
-    // Clean up the odd 'memberships' wrapper on user.
-    .map(u => u.user)
-    // Ditch any of those users that are me.
-    .filter(u => u.username !== profile.username);
+  const myTeams = List(
+    profile.memberships.map(membership => membership.team).filter(isAssignable),
+  );
+  const myTeammates = List(
+    myTeams
+      // Get all of the users from all of the teams.
+      .flatMap(t => t.memberships)
+      // Clean up the odd 'memberships' wrapper on user.
+      .map(u => u.user)
+      // Ditch any of those users that are me.
+      .filter(u => u.username !== profile.username),
+  );
   const myFilters = profile.profileAttributes['Queue Personal Filters']
     ? profile.profileAttributes['Queue Personal Filters'].map(f => f)
     : List();
