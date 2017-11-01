@@ -71,7 +71,11 @@ export const QueueItem = ({
       <div className="right-panel">
         <button
           className="btn btn-primary work-grab-button"
-          onClick={assignedToMe ? openWorkMenu : grabIt}
+          onClick={
+            assignedToMe || queueItem.coreState !== 'Draft'
+              ? openWorkMenu
+              : grabIt
+          }
         >
           {queueItem.coreState !== 'Draft'
             ? 'Review It'
