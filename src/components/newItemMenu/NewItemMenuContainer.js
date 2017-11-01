@@ -6,7 +6,11 @@ import { actions } from '../../redux/modules/queue';
 import { NewItemMenu } from './NewItemMenu';
 
 const mapStateToProps = state => ({
-  myTeamForms: selectMyTeamForms(state).filter(form => form.type === 'Task'),
+  myTeamForms: !state.queue.newItemMenuOptions.get('parentId')
+    ? selectMyTeamForms(state).filter(form => form.type === 'Task')
+    : selectMyTeamForms(state).filter(
+        form => form.type === 'Task' || form.type === 'Subtask',
+      ),
   isOpen: state.queue.newItemMenuOpen,
   options: state.queue.newItemMenuOptions,
   assignments: selectAssignments(state).toJS(),
@@ -44,13 +48,20 @@ const handleSelect = ({ setAssignment }) => (_value, state) => {
 
 const onFormLoaded = ({ setKForm }) => form => setKForm(form);
 
-const onCreated = ({ options, fetchCurrentItem }) => () => {
+const onCreated = ({ options, fetchCurrentItem, closeNewItemMenu }) => (
+  submission,
+  actions,
+) => {
+  // Prevent loading the next page of the embedded form since we are just going
+  // to close the dialog anyways.
+  actions.stop();
   // If the new queue item that just was created has a parent we fetch the
   // parent again because we want its subtask list to contain this new queue
   // item.
   if (options.get('parentId')) {
     fetchCurrentItem(options.get('parentId'));
   }
+  closeNewItemMenu();
 };
 
 export const NewItemMenuContainer = compose(

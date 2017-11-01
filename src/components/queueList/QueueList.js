@@ -59,6 +59,7 @@ export const QueueList = ({
           isOpen={workMenuOpen}
           queueItem={workItem}
           onCompleted={handleCompleted}
+          review={workItem.coreState !== 'Draft'}
         />
       )}
       <div className="controls">

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import SVGInline from 'react-svg-inline';
 import thinChevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg';
 import circleOpenIcon from 'font-awesome-svg-png/black/svg/circle-o.svg';
-// import circleClosedIcon from 'font-awesome-svg-png/black/svg/circle.svg';
+import circleClosedIcon from 'font-awesome-svg-png/black/svg/circle.svg';
 import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
 import { selectAssignments } from '../../redux/modules/app';
 import { actions } from '../../redux/modules/queue';
@@ -26,8 +26,13 @@ export const QueueItemDetails = ({
 }) => (
   <div className="details">
     <div className="general">
-      <p className="status">
-        <SVGInline svg={circleOpenIcon} className="icon" />
+      <p className="status icon-wrapper">
+        <SVGInline
+          svg={
+            queueItem.coreState === 'Draft' ? circleOpenIcon : circleClosedIcon
+          }
+          className="icon"
+        />
         {queueItem.values.Status}
       </p>
       <h1>
@@ -37,7 +42,11 @@ export const QueueItemDetails = ({
       <pre>{queueItem.values.Details}</pre>
     </div>
     {!isAssigning && (
-      <AssignmentBadge queueItem={queueItem} toggle={toggleAssigning} />
+      <AssignmentBadge
+        queueItem={queueItem}
+        toggle={queueItem.coreState === 'Draft' ? toggleAssigning : undefined}
+        readOnly={queueItem.coreState !== 'Draft'}
+      />
     )}
     {isAssigning && (
       <AssignmentSelector
@@ -81,9 +90,11 @@ export const QueueItemDetails = ({
         <hr />
         <h2>
           <span>Subtasks</span>
-          <button className="btn btn-link" onClick={openNewItemMenu}>
-            <SVGInline svg={plusIcon} className="icon" />
-          </button>
+          {queueItem.coreState === 'Draft' && (
+            <button className="btn btn-link" onClick={openNewItemMenu}>
+              <SVGInline svg={plusIcon} className="icon" />
+            </button>
+          )}
         </h2>
         <ul className="list-group subtasks">
           {queueItem.children.map(child => (

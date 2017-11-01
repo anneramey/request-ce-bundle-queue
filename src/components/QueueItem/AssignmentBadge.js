@@ -4,7 +4,11 @@ import classNames from 'classnames';
 import chevronRightIcon from 'font-awesome-svg-png/black/svg/chevron-right.svg';
 
 export const AssignmentBadge = ({ queueItem, toggle, readOnly }) => (
-  <div className={classNames('assignment-badge', { 'read-only': readOnly })}>
+  <div
+    className={classNames('assignment-badge icon-wrapper', {
+      'read-only': readOnly,
+    })}
+  >
     <span className="badge" onClick={toggle} role="button" tabIndex={0}>
       {queueItem.values['Assigned Team Display Name'].charAt(0)}
     </span>

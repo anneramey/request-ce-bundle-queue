@@ -27,7 +27,7 @@ export const WorkItemMenu = ({
         <button type="button" className="btn btn-link" onClick={close}>
           Cancel
         </button>
-        <span>Work It</span>
+        <span>{review ? 'Review' : 'Work'} It</span>
         <span />
       </h4>
     </div>
@@ -42,11 +42,13 @@ export const WorkItemMenu = ({
         />
       </div>
     </ModalBody>
-    <ModalFooter>
-      <button type="button" className="btn btn-primary" onClick={handleSave}>
-        Save {queueItem.form.name}
-      </button>
-    </ModalFooter>
+    {!review && (
+      <ModalFooter>
+        <button type="button" className="btn btn-primary" onClick={handleSave}>
+          Save {queueItem.form.name}
+        </button>
+      </ModalFooter>
+    )}
   </Modal>
 );
 

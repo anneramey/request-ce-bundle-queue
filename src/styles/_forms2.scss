@@ -130,6 +130,7 @@ form {
     border : 1px solid $blue3;
     border-radius : 3px;
     outline : none;
+    width:100%;
     &[disabled] {
       cursor : not-allowed;
     }
@@ -190,6 +191,82 @@ form {
   border-color : rgb(207, 207, 207);
   .fa.pull-left {
     margin : 0;
+  }
+}
+
+/* Error Messages
+*-------------------------------------- */
+form{
+
+  .errors {
+    display : none;
+    margin : 0 auto;
+    width : 90%;
+  }
+  .errors {
+    font-size : 1rem;
+    background-color : #faf0ef;
+    border : 0.1rem solid #d5d5d5;
+    color : #000;
+    margin-top : 1.5rem;
+    margin-bottom : 1.5rem;
+    width : 60%;
+    p {
+      font-style : bold;
+      font-size : larger;
+      background-color : #c00;
+      border-bottom : 0.1rem solid #d5d5d5;
+      color : white;
+      padding : 0.25rem 0.5rem;
+    }
+  }
+  .form-group,
+  .radio,
+  .checkbox {
+    &.has-success {
+      label,
+      label.field-label,
+      .empty-message {
+        color: green;
+      }
+      .form-control,
+      input,
+      select,
+      textarea  {
+        border-color: green;
+        box-shadow: none;
+      }
+    }
+
+    &.has-warning {
+      label,
+      label.field-label,
+      .empty-message {
+        color: yellow;
+      }
+      .form-control,
+      input,
+      select,
+      textarea  {
+        border-color: yellow;
+        box-shadow: none;
+      }
+    }
+
+    &.has-error {
+      label,
+      label.field-label,
+      .empty-message {
+        color: red;
+      }
+      .form-control,
+      input,
+      select,
+      textarea {
+        border-color: red;
+        box-shadow: none;
+      }
+    }
   }
 }
 

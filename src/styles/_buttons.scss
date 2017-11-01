@@ -169,6 +169,11 @@ button, input[type='submit'], input[type='button'], .btn  {
       color: tint(#ca332d, 10%);
     }
   }
+  &[disabled] {
+    background-color: transparent;
+    color: $lightgray;
+    pointer-events: none;
+  }
 }
 
 .btn-subtle {
@@ -270,4 +275,8 @@ button[data-element-type="button"] {
     box-shadow: none;
     opacity: .65;
   }
+}
+button.back-button{
+  display:flex;
+  border-radius: 0;
 }
