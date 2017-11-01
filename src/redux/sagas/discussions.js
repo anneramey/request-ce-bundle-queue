@@ -173,8 +173,17 @@ export function* createIssueTask({ payload }) {
   }
 }
 
-const fetchMessages = ({ guid, lastReceived, offset, responseUrl }) => {
-  return axios
+const fetchParticipants = (guid, responseUrl) =>
+  axios
+    .request({
+      url: `${responseUrl}/api/v1/issues/${guid}/participants`,
+      withCredentials: true,
+    })
+    .then(response => ({ participants: response.data }))
+    .catch(response => ({ error: response }));
+
+const fetchMessages = ({ guid, lastReceived, offset, responseUrl }) =>
+  axios
     .get(`${responseUrl}/api/v1/issues/${guid}/messages`, {
       withCredentials: true,
       params: {
@@ -185,7 +194,6 @@ const fetchMessages = ({ guid, lastReceived, offset, responseUrl }) => {
     })
     .then(response => ({ messages: response.data }))
     .catch(response => ({ error: response }));
-};
 
 const selectFetchMessageSettings = state => ({
   guid: state.discussions.issueGuid,
@@ -261,26 +269,31 @@ export function* joinDiscussionTask(action) {
   const {
     issue: { issue, error: issueError },
     messages: { messages, error: messagesError },
+    participants: { participants, error: participantsError },
   } = yield all({
     issue: call(fetchIssue, params.guid, responseUrl),
+    participants: call(fetchParticipants, params.guid, responseUrl),
     messages: call(fetchMessages, params),
   });
 
-  if (issueError || messagesError) {
+  if (issueError || messagesError || participantsError) {
     window.console.log('there was a problem fetching the issue and messages');
   } else {
     yield all([
       put(actions.setIssue(issue)),
       put(actions.setMessages(messages)),
       put(actions.setHasMoreMessages(messages.length === MESSAGE_LIMIT)),
+      put(actions.setParticipants(participants)),
       put(actions.startConnection(params.guid)),
     ]);
   }
 }
 
 export function* watchDiscussion() {
-  yield takeEvery(types.MESSAGE_TX, sendMessageTask);
-  yield takeEvery(types.FETCH_MORE_MESSAGES, fetchMoreMessagesTask);
-  yield takeLatest(types.JOIN_DISCUSSION, joinDiscussionTask);
-  yield takeLatest(types.CREATE_ISSUE, createIssueTask);
+  yield all([
+    takeEvery(types.MESSAGE_TX, sendMessageTask),
+    takeEvery(types.FETCH_MORE_MESSAGES, fetchMoreMessagesTask),
+    takeLatest(types.JOIN_DISCUSSION, joinDiscussionTask),
+    takeLatest(types.CREATE_ISSUE, createIssueTask),
+  ]);
 }

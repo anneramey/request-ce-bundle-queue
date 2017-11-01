@@ -13,6 +13,7 @@ export const types = {
   SET_MORE_MESSAGES: namespace('discussions', 'SET_MORE_MESSAGES'),
   SET_HAS_MORE_MESSAGES: namespace('discussions', 'SET_HAS_MORE_MESSAGES'),
   SET_JOIN_ERROR: namespace('discussions', 'SET_JOIN_ERROR'),
+  SET_PARTICIPANTS: namespace('discussions', 'SET_PARTICIPANTS'),
 
   // Socket-based actions.
   CONNECT: namespace('discussions', 'CONNECT'),
@@ -38,6 +39,7 @@ export const actions = {
   setMoreMessages: withPayload(types.SET_MORE_MESSAGES),
   setHasMoreMessages: withPayload(types.SET_HAS_MORE_MESSAGES),
   setJoinError: withPayload(types.SET_JOIN_ERROR),
+  setParticipants: withPayload(types.SET_PARTICIPANTS),
 
   // Socket-based actions.
   startConnection: withPayload(types.CONNECT),
@@ -70,6 +72,7 @@ export const State = Record({
   issueLoading: false,
   loadingMoreMessages: false,
   joinError: '',
+  participants: List(),
 });
 
 // Applies fn to each value in list, splitting it into a new list each time fn
@@ -137,6 +140,8 @@ export const reducer = (state = State(), action) => {
       return state.set('hasMoreMessages', action.payload);
     case types.SET_JOIN_ERROR:
       return state.set('joinError', action.payload);
+    case types.SET_PARTICIPANTS:
+      return state.set('participants', action.payload);
     case types.MESSAGE_UPDATE:
       return state;
     case types.MESSAGE_RX:
