@@ -68,6 +68,12 @@ function* incomingMessages(socketChannel) {
         case 'presence:remove':
           yield put(actions.removePresence(data.user));
           break;
+        case 'participant:create':
+          yield put(actions.addParticipant(data.participant));
+          break;
+        case 'participant:delete':
+          yield put(actions.removeParticipant(data.participant));
+          break;
         case 'reconnect':
           yield put(actions.reconnect());
           break;

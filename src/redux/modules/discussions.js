@@ -16,6 +16,8 @@ export const types = {
   SET_PARTICIPANTS: namespace('discussions', 'SET_PARTICIPANTS'),
   ADD_PRESENCE: namespace('discissons', 'ADD_PRESENCE'),
   REMOVE_PRESENCE: namespace('discissons', 'REMOVE_PRESENCE'),
+  ADD_PARTICIPANT: namespace('discussions', 'ADD_PARTICIPANT'),
+  REMOVE_PARTICIPANT: namespace('discussions', 'REMOVE_PARTICIPANT'),
 
   // Socket-based actions.
   CONNECT: namespace('discussions', 'CONNECT'),
@@ -44,6 +46,8 @@ export const actions = {
   setParticipants: withPayload(types.SET_PARTICIPANTS),
   addPresence: withPayload(types.ADD_PRESENCE),
   removePresence: withPayload(types.REMOVE_PRESENCE),
+  addParticipant: withPayload(types.ADD_PARTICIPANT),
+  removeParticipant: withPayload(types.REMOVE_PARTICIPANT),
 
   // Socket-based actions.
   startConnection: withPayload(types.CONNECT),
@@ -158,6 +162,16 @@ export const reducer = (state = State(), action) => {
         participants.update(
           participants.findIndex(p => p.guid === action.payload),
           p => ({ ...p, present: false }),
+        ),
+      );
+    case types.ADD_PARTICIPANT:
+      return state.update('participants', participants =>
+        participants.push(action.payload),
+      );
+    case types.REMOVE_PARTICIPANT:
+      return state.update('participants', participants =>
+        participants.delete(
+          participants.findIndex(p => p.guid === action.payload.guid),
         ),
       );
     case types.MESSAGE_UPDATE:
