@@ -5,6 +5,7 @@ import { LoadMoreMessagesContainer } from './LoadMoreMessagesContainer';
 import { MessagesDateContainer } from './MessagesDate';
 import { ChatInputForm } from './ChatInputForm';
 import { ScrollHelper } from './ScrollHelper';
+import { ParticipantsHeaderContainer } from './ParticipantsHeader';
 
 export const QueueItemDiscussions = ({
   handleScrolled,
@@ -26,6 +27,7 @@ export const QueueItemDiscussions = ({
           />
         ))}
       </ScrollHelper>
+      <ParticipantsHeaderContainer />
       {unreadMessages && (
         <button
           type="button"
