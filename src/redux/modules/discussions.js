@@ -14,6 +14,8 @@ export const types = {
   SET_HAS_MORE_MESSAGES: namespace('discussions', 'SET_HAS_MORE_MESSAGES'),
   SET_JOIN_ERROR: namespace('discussions', 'SET_JOIN_ERROR'),
   SET_PARTICIPANTS: namespace('discussions', 'SET_PARTICIPANTS'),
+  ADD_PRESENCE: namespace('discissons', 'ADD_PRESENCE'),
+  REMOVE_PRESENCE: namespace('discissons', 'REMOVE_PRESENCE'),
 
   // Socket-based actions.
   CONNECT: namespace('discussions', 'CONNECT'),
@@ -40,6 +42,8 @@ export const actions = {
   setHasMoreMessages: withPayload(types.SET_HAS_MORE_MESSAGES),
   setJoinError: withPayload(types.SET_JOIN_ERROR),
   setParticipants: withPayload(types.SET_PARTICIPANTS),
+  addPresence: withPayload(types.ADD_PRESENCE),
+  removePresence: withPayload(types.REMOVE_PRESENCE),
 
   // Socket-based actions.
   startConnection: withPayload(types.CONNECT),
@@ -141,7 +145,21 @@ export const reducer = (state = State(), action) => {
     case types.SET_JOIN_ERROR:
       return state.set('joinError', action.payload);
     case types.SET_PARTICIPANTS:
-      return state.set('participants', action.payload);
+      return state.set('participants', List(action.payload));
+    case types.ADD_PRESENCE:
+      return state.update('participants', participants =>
+        participants.update(
+          participants.findIndex(p => p.guid === action.payload),
+          p => ({ ...p, present: true }),
+        ),
+      );
+    case types.REMOVE_PRESENCE:
+      return state.update('participants', participants =>
+        participants.update(
+          participants.findIndex(p => p.guid === action.payload),
+          p => ({ ...p, present: false }),
+        ),
+      );
     case types.MESSAGE_UPDATE:
       return state;
     case types.MESSAGE_RX:

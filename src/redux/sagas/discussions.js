@@ -62,6 +62,12 @@ function* incomingMessages(socketChannel) {
         case 'message:update':
           yield put(actions.updateMessage(data.message));
           break;
+        case 'presence:add':
+          yield put(actions.addPresence(data.user));
+          break;
+        case 'presence:remove':
+          yield put(actions.removePresence(data.user));
+          break;
         case 'reconnect':
           yield put(actions.reconnect());
           break;
