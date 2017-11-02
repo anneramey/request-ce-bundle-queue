@@ -267,15 +267,7 @@ export function* joinDiscussionTask(action) {
   // First we need to determine if the user is authenticated in Response.
   const { error } = yield call(fetchResponseProfile, responseUrl);
   if (error) {
-    const { error } = yield call(getResponseAuthentication, responseUrl);
-
-    if (error) {
-      // Let the component know there was a problem joining this discussion.
-      yield put(
-        actions.setJoinError('Unable to authenticate with Discussion Server'),
-      );
-      return;
-    }
+    yield call(getResponseAuthentication, responseUrl);
   }
 
   const params = yield select(selectFetchMessageSettings);
