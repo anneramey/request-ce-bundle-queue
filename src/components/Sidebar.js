@@ -129,6 +129,16 @@ export const Sidebar = ({
           <SVGInline svg={chevronRightIcon} className="icon" />
         </NavLink>
       </NavItem>
+      <NavItem>
+        <a
+          href={'https://docs.google.com/spreadsheets/d/1yHrks5CTt4WJEyrc7nny5QyHK05-bZZWuPGDhObP5Fc/edit#gid=0'}
+          className="nav-link icon-wrapper d-flex justify-content-between"
+          target="_blank"
+        >
+          <span>BUG/ISSUE LIST (TEMP)</span>
+          <SVGInline svg={filledStarIcon} className="icon" />
+        </a>
+      </NavItem>
     </Nav>
   </div>
 );
