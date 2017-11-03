@@ -23,6 +23,7 @@ export const types = {
   CONNECT: namespace('discussions', 'CONNECT'),
   DISCONNECT: namespace('discussions', 'DISCONNECT'),
   RECONNECT: namespace('discussions', 'RECONNECT'),
+  SET_CONNECTED: namespace('discussions', 'SET_CONNECTED'),
   MESSAGE_RX: namespace('discussions', 'MESSAGE_RX'),
   MESSAGE_UPDATE: namespace('discussions', 'MESSAGE_UPDATE'),
   MESSAGE_TX: namespace('discussions', 'MESSAGE_TX'),
@@ -53,6 +54,7 @@ export const actions = {
   startConnection: withPayload(types.CONNECT),
   stopConnection: noPayload(types.DISCONNECT),
   reconnect: noPayload(types.RECONNECT),
+  setConnected: withPayload(types.SET_CONNECTED),
   receiveMessage: withPayload(types.MESSAGE_RX),
   updateMessage: withPayload(types.MESSAGE_UPDATE),
   receiveBadMessage: withPayload(types.MESSAGE_BAD_RX),
@@ -80,6 +82,8 @@ export const State = Record({
   issueLoading: false,
   loadingMoreMessages: false,
   joinError: '',
+  connected: false,
+  reconnecting: false,
   participants: List(),
 });
 
@@ -182,6 +186,10 @@ export const reducer = (state = State(), action) => {
         .set('lastReceived', new Date().toTimeString());
     case types.MESSAGE_BAD_RX:
       return state.update('badMessages', m => m.push(action.payload));
+    case types.RECONNECT:
+      return state.set('reconnecting', true).set('connected', false);
+    case types.SET_CONNECTED:
+      return state.set('connected', action.payload);
     default:
       return state;
   }

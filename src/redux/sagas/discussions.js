@@ -28,6 +28,7 @@ function registerChannel(socket) {
   return eventChannel(emit => {
     socket.onopen = () => {
       window.console.log('Connected!');
+      emit({ action: 'connected' });
     };
 
     socket.onerror = event => {
@@ -76,6 +77,9 @@ function* incomingMessages(socketChannel) {
           break;
         case 'reconnect':
           yield put(actions.reconnect());
+          break;
+        case 'connected':
+          yield put(actions.setConnected(true));
           break;
         default:
           yield put(actions.receiveBadMessage(data));
