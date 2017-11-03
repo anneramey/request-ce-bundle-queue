@@ -27,6 +27,10 @@ export const types = {
   MESSAGE_UPDATE: namespace('discussions', 'MESSAGE_UPDATE'),
   MESSAGE_TX: namespace('discussions', 'MESSAGE_TX'),
   MESSAGE_BAD_RX: namespace('discussions', 'MESSAGE_BAD_RX'),
+
+  // Modal dialog state.
+  OPEN_MODAL: namespace('discussions', 'OPEN_MODAL'),
+  CLOSE_MODAL: namespace('discussions', 'CLOSE_MODAL'),
 };
 
 export const actions = {
@@ -57,6 +61,10 @@ export const actions = {
   updateMessage: withPayload(types.MESSAGE_UPDATE),
   receiveBadMessage: withPayload(types.MESSAGE_BAD_RX),
   sendMessage: withPayload(types.MESSAGE_TX),
+
+  // Modal dialog state.
+  openModal: withPayload(types.OPEN_MODAL),
+  closeModal: withPayload(types.CLOSE_MODAL),
 };
 
 /**
@@ -81,6 +89,7 @@ export const State = Record({
   loadingMoreMessages: false,
   joinError: '',
   participants: List(),
+  currentOpenModals: List(),
 });
 
 // Applies fn to each value in list, splitting it into a new list each time fn
@@ -182,6 +191,17 @@ export const reducer = (state = State(), action) => {
         .set('lastReceived', new Date().toTimeString());
     case types.MESSAGE_BAD_RX:
       return state.update('badMessages', m => m.push(action.payload));
+    case types.OPEN_MODAL:
+      return state.update('currentOpenModals', list =>
+        list.push(action.payload),
+      );
+    case types.CLOSE_MODAL:
+      return action.payload
+        ? state.update('currentOpenModals', list =>
+            list.filter(item => item !== action.payload),
+          )
+        : state.delete('currentOpenModals');
+      return state.delete('currentModal');
     default:
       return state;
   }
