@@ -8,6 +8,13 @@ export const types = {
   LEAVE_DISCUSSION: namespace('discussions', 'LEAVE_DISCUSSION'),
   SET_ISSUE: namespace('discussions', 'SET_ISSUE'),
   CREATE_ISSUE: namespace('discussion', 'CREATE_ISSUE'),
+  FETCH_INVITES: namespace('discussions', 'FETCH_INVITES'),
+  CREATE_INVITE: namespace('discussions', 'CREATE_INVITE'),
+  ADD_INVITE: namespace('discussions', 'ADD_INVITE'),
+  DELETE_INVITE: namespace('discussions', 'REMOVE_INVITE'),
+  SET_INVITES: namespace('discussions', 'SET_INVITES'),
+  REMOVE_INVITE: namespace('discussions', 'REMOVE_INVITE'),
+  RESEND_INVITE: namespace('discussions', 'RESEND_INVITE'),
   FETCH_MORE_MESSAGES: namespace('discussions', 'FETCH_MORE_MESSAGES'),
   SET_MESSAGES: namespace('discussions', 'SET_MESSAGES'),
   SET_MORE_MESSAGES: namespace('discussions', 'SET_MORE_MESSAGES'),
@@ -50,6 +57,23 @@ export const actions = {
   addParticipant: withPayload(types.ADD_PARTICIPANT),
   removeParticipant: withPayload(types.REMOVE_PARTICIPANT),
 
+  // Invitation API calls
+  fetchInvites: withPayload(types.FETCH_INVITES),
+  createInvite: (guid, email, note) => ({
+    type: types.CREATE_INVITE,
+    payload: { guid, email, note },
+  }),
+  // API call to remove one.
+  deleteInvite: (guid, inviteId) => ({
+    type: types.REMOVE_INVITE,
+    payload: { guid, inviteId },
+  }),
+
+  // Invitation data management.
+  setInvites: withPayload(types.SET_INVITES),
+  addInvite: withPayload(types.ADD_INVITE),
+  removeInvite: withPayload(types.REMOVE_INVITE),
+
   // Socket-based actions.
   startConnection: withPayload(types.CONNECT),
   stopConnection: noPayload(types.DISCONNECT),
@@ -85,6 +109,7 @@ export const State = Record({
   connected: false,
   reconnecting: false,
   participants: List(),
+  invites: List(),
 });
 
 // Applies fn to each value in list, splitting it into a new list each time fn
@@ -177,6 +202,14 @@ export const reducer = (state = State(), action) => {
         participants.delete(
           participants.findIndex(p => p.guid === action.payload.guid),
         ),
+      );
+    case types.SET_INVITES:
+      return state.set('invites', List(action.payload));
+    case types.ADD_INVITE:
+      return state.update('invites', invites => invites.push(action.payload));
+    case types.REMOVE_INVITE:
+      return state.update('invites', invites =>
+        invites.delete(invites.findIndex(i => i.guid === action.payload.guid)),
       );
     case types.MESSAGE_UPDATE:
       return state;

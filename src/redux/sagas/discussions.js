@@ -14,6 +14,7 @@ import axios from 'axios';
 import { CoreAPI } from 'react-kinetic-core';
 
 import { SUBMISSION_INCLUDES } from './queue';
+import { actions as errorActions } from '../modules/errors';
 import { types, actions } from '../modules/discussions';
 
 export const MESSAGE_LIMIT = 25;
@@ -74,6 +75,12 @@ function* incomingMessages(socketChannel) {
           break;
         case 'participant:delete':
           yield put(actions.removeParticipant(data.participant));
+          break;
+        case 'invite:create':
+          yield put(actions.addInvite(data.invite));
+          break;
+        case 'invite:delete':
+          yield put(actions.removeInvite(data.invite));
           break;
         case 'reconnect':
           yield put(actions.reconnect());
@@ -159,6 +166,60 @@ const createIssue = (issue, responseUrl) =>
     .post(`${responseUrl}/api/v1/issues`, issue, { withCredentials: true })
     .then(response => ({ issue: response.data }))
     .catch(response => ({ error: response }));
+
+const fetchInvites = (guid, responseUrl) =>
+  axios
+    .request({
+      url: `${responseUrl}/api/v1/issues/${guid}/invites`,
+      method: 'get',
+      withCredentials: true,
+    })
+    .then(response => ({ invites: response.data }))
+    .catch(response => ({ error: response }));
+
+const createInvite = (guid, email, note, responseUrl) =>
+  axios
+    .request({
+      url: `${responseUrl}/api/v1/issues/${guid}/invites`,
+      method: 'post',
+      withCredentials: true,
+      data: { email, note, group_invite: false },
+    })
+    .then(response => ({ invite: response.data }))
+    .catch(response => ({ error: response }));
+
+const resendInvite = (guid, inviteId, note, responseUrl) =>
+  axios
+    .request({
+      url: `${responseUrl}/api/v1/issues/${guid}/invites/${inviteId}`,
+      method: 'post',
+      withCredentials: true,
+    })
+    .then(response => ({ invite: response.data }))
+    .catch(response => ({ error: response }));
+
+const removeInvite = (guid, inviteId, note, responseUrl) =>
+  axios
+    .request({
+      url: `${responseUrl}/api/v1/issues/${guid}/invites/${inviteId}`,
+      method: 'delete',
+      withCredentials: true,
+    })
+    .then(response => ({ invite: response.data }))
+    .catch(response => ({ error: response }));
+
+export function* createInviteTask({ payload }) {
+  const { errors } = yield call(
+    createInvite,
+    payload.guid,
+    payload.email,
+    payload.note,
+  );
+
+  if (errors) {
+    yield put(errorActions.addError('Failed to create invitation!'));
+  }
+}
 
 const updateSubmissionDiscussionId = ({ id, guid }) =>
   CoreAPI.updateSubmission({
@@ -292,13 +353,15 @@ export function* joinDiscussionTask(action) {
     issue: { issue, error: issueError },
     messages: { messages, error: messagesError },
     participants: { participants, error: participantsError },
+    invites: { invites, error: invitesErrors },
   } = yield all({
     issue: call(fetchIssue, params.guid, responseUrl),
     participants: call(fetchParticipants, params.guid, responseUrl),
+    invites: call(fetchInvites, params.guid, responseUrl),
     messages: call(fetchMessages, params),
   });
 
-  if (issueError || messagesError || participantsError) {
+  if (issueError || messagesError || participantsError || invitesErrors) {
     window.console.log('there was a problem fetching the issue and messages');
   } else {
     yield all([
@@ -317,5 +380,6 @@ export function* watchDiscussion() {
     takeEvery(types.FETCH_MORE_MESSAGES, fetchMoreMessagesTask),
     takeLatest(types.JOIN_DISCUSSION, joinDiscussionTask),
     takeLatest(types.CREATE_ISSUE, createIssueTask),
+    takeEvery(types.CREATE_INVITE, createInviteTask),
   ]);
 }
