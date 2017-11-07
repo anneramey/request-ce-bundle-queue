@@ -209,18 +209,22 @@ const removeInvite = (guid, inviteId, note, responseUrl) =>
     .catch(response => ({ error: response }));
 
 export function* createInviteTask({ payload }) {
+  const responseUrl = yield select(state => state.app.discussionServerUrl);
   const { error } = yield call(
     createInvite,
     payload.guid,
     payload.email,
     payload.note,
+    responseUrl,
   );
 
   if (error) {
     yield put(errorActions.addError('Failed to create invitation!'));
-    yield put(actions.setInviteSending(false));
   } else {
-    yield put(actions.setInviteSending(false));
+    yield all([
+      put(actions.createInviteDone()),
+      put(actions.closeModal('invitation')),
+    ]);
   }
 }
 
@@ -372,6 +376,7 @@ export function* joinDiscussionTask(action) {
       put(actions.setMessages(messages)),
       put(actions.setHasMoreMessages(messages.length === MESSAGE_LIMIT)),
       put(actions.setParticipants(participants)),
+      put(actions.setInvites(invites)),
       put(actions.startConnection(params.guid)),
     ]);
   }

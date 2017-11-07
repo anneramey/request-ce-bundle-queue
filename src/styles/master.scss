@@ -87,10 +87,11 @@ body {
   }
 }
 
-.nav-link:focus, .nav-link:hover {
+.nav-link:focus,
+.nav-link:hover {
   text-decoration: none;
 }
-a{
+a {
   color: $blue0;
 }
 a:focus {
@@ -114,7 +115,8 @@ a:focus {
   color: white;
   background-color: $blue1;
   border-color: $blue1;
-  &:focus, &.focus{
+  &:focus,
+  &.focus {
     box-shadow: none;
     outline: $blue3 dotted thin;
   }
@@ -123,7 +125,8 @@ a:focus {
   color: $blue1;
   background-color: white;
   border: 1px solid $blue1;
-  &:focus, &.focus{
+  &:focus,
+  &.focus {
     box-shadow: none;
     outline: $blue3 dotted thin;
   }
@@ -145,6 +148,7 @@ a:focus {
 @import 'content';
 @import 'modal';
 @import 'queue_item_details';
+@import 'discussion_dialogs';
 @import 'assignments';
 @import 'forms2';
 @import 'tables';

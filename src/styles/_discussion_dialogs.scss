@@ -1,0 +1,42 @@
+.discussion-dialog {
+  flex: 1;
+  &.participants-dialog {
+    background-color: $blue4;
+    padding: 1rem;
+    .header {
+      color: $blue2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+    ul.participants-list,
+    ul.invitees-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      li {
+        color: $blue1;
+        font-size: 12px;
+        margin-bottom: 0.5rem;
+        .sb-avatar {
+          margin-right: 0.5rem;
+          img {
+            border: 2px solid rgba(0, 212, 106, 0);
+            transition: border-color 300ms;
+          }
+        }
+      }
+      li.present .sb-avatar img {
+        border-color: rgba(0, 212, 106, 1);
+      }
+    }
+  }
+  &.invitation-dialog {
+    padding: 1rem;
+    .invitation-form {
+      padding: 0;
+    }
+  }
+}

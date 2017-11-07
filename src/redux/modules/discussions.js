@@ -1,4 +1,4 @@
-import { Record, List } from 'immutable';
+import { Record, List, Map } from 'immutable';
 import moment from 'moment';
 import { namespace, withPayload, noPayload } from '../../utils';
 
@@ -10,7 +10,7 @@ export const types = {
   CREATE_ISSUE: namespace('discussion', 'CREATE_ISSUE'),
   FETCH_INVITES: namespace('discussions', 'FETCH_INVITES'),
   CREATE_INVITE: namespace('discussions', 'CREATE_INVITE'),
-  SET_INVITE_SENDING: namespace('discussions', 'SET_INVITE_SENDING'),
+  CREATE_INVITE_DONE: namespace('discussions', 'CREATE_INVITE_DONE'),
   ADD_INVITE: namespace('discussions', 'ADD_INVITE'),
   DELETE_INVITE: namespace('discussions', 'REMOVE_INVITE'),
   SET_INVITES: namespace('discussions', 'SET_INVITES'),
@@ -40,6 +40,7 @@ export const types = {
   // Modal dialog state.
   OPEN_MODAL: namespace('discussions', 'OPEN_MODAL'),
   CLOSE_MODAL: namespace('discussions', 'CLOSE_MODAL'),
+  SET_INVITATION_FIELD: namespace('discussions', 'SET_INVITATION_FIELD'),
 };
 
 export const actions = {
@@ -68,6 +69,7 @@ export const actions = {
     type: types.CREATE_INVITE,
     payload: { guid, email, note },
   }),
+  createInviteDone: noPayload(types.CREATE_INVITE_DONE),
   // API call to remove one.
   deleteInvite: (guid, inviteId) => ({
     type: types.REMOVE_INVITE,
@@ -76,7 +78,6 @@ export const actions = {
 
   // Invitation data management.
   setInvites: withPayload(types.SET_INVITES),
-  setInviteSending: withPayload(types.SET_INVITE_SENDING),
   addInvite: withPayload(types.ADD_INVITE),
   removeInvite: withPayload(types.REMOVE_INVITE),
 
@@ -93,6 +94,10 @@ export const actions = {
   // Modal dialog state.
   openModal: withPayload(types.OPEN_MODAL),
   closeModal: withPayload(types.CLOSE_MODAL),
+  setInvitationField: (field, value) => ({
+    type: types.SET_INVITATION_FIELD,
+    payload: { field, value },
+  }),
 };
 
 /**
@@ -122,6 +127,8 @@ export const State = Record({
   inviteSending: false,
   invites: List(),
   currentOpenModals: List(),
+  invitationFields: Map({}),
+  invitationPending: false,
 });
 
 // Applies fn to each value in list, splitting it into a new list each time fn
@@ -225,8 +232,6 @@ export const reducer = (state = State(), action) => {
       return state.update('invites', invites =>
         invites.delete(invites.findIndex(i => i.guid === action.payload.guid)),
       );
-    case types.SET_INVITE_SENDING:
-      return state.set('inviteSending', action.payload);
     case types.MESSAGE_UPDATE:
       return state;
     case types.MESSAGE_RX:
@@ -250,6 +255,15 @@ export const reducer = (state = State(), action) => {
           )
         : state.delete('currentOpenModals');
       return state.delete('currentModal');
+    case types.CREATE_INVITE:
+      return state.set('invitationPending', true);
+    case types.CREATE_INVITE_DONE:
+      return state.set('invitationPending', false);
+    case types.SET_INVITATION_FIELD:
+      return state.setIn(
+        ['invitationFields', action.payload.field],
+        action.payload.value,
+      );
     default:
       return state;
   }

@@ -1,5 +1,11 @@
 import { connect } from 'react-redux';
-import { compose, lifecycle, withState, withHandlers } from 'recompose';
+import {
+  compose,
+  lifecycle,
+  withState,
+  withHandlers,
+  withProps,
+} from 'recompose';
 import { List } from 'immutable';
 
 import { actions, formatMessages } from '../../redux/modules/discussions';
@@ -10,10 +16,14 @@ import { QueueItemDiscussions } from './QueueItemDiscussions';
 
 const mapStateToProps = state => ({
   queueItem: state.queue.currentItem,
+  discussionGuid: state.discussions.issueGuid,
   profile: state.app.profile,
   messages: state.discussions.messages,
   hasMoreMessages: state.discussions.hasMoreMessages,
   loadingMoreMessages: state.discussions.loadingMoreMessages,
+  currentOpenModals: state.discussions.currentOpenModals,
+  invitationFields: state.discussions.invitationFields,
+  invitationPending: state.discussions.invitationPending,
 });
 
 const mapDispatchToProps = {
@@ -24,6 +34,29 @@ const mapDispatchToProps = {
   loadMoreMessages: actions.loadMoreMessages,
   addWarn: notificationActions.addWarn,
   createDiscussion: actions.createIssue,
+  openModal: actions.openModal,
+  closeModal: actions.closeModal,
+  createInvite: actions.createInvite,
+  createInviteDone: actions.createInviteDone,
+};
+
+const openParticipants = props => () => props.openModal('participants');
+const openInvitation = props => () => props.openModal('invitation');
+const closeCurrent = props => () => {
+  props.closeModal(props.currentOpenModals.last());
+  props.createInviteDone();
+};
+const closeAll = props => () => {
+  props.closeModal();
+  props.createInviteDone();
+};
+
+const createInvitation = props => () => {
+  props.createInvite(
+    props.discussionGuid,
+    props.invitationFields.get('email'),
+    props.invitationFields.get('notes'),
+  );
 };
 
 const handleScrollToTop = ({
@@ -95,6 +128,14 @@ const joinOrCreateDiscussion = ({
 
 export const QueueItemDiscussionsContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
+  withProps(props => ({
+    invitationButtonEnabled:
+      !props.invitationPending &&
+      props.invitationFields.get('email') &&
+      props.invitationFields.get('email') !== '' &&
+      props.invitationFields.get('notes') &&
+      props.invitationFields.get('notes') !== '',
+  })),
   withState('formattedMessages', 'setFormattedMessages', List()),
   withState('unreadMessages', 'setUnreadMessages', false),
   withState('scrollPosition', 'setScrollPosition', 'bottom'),
@@ -110,6 +151,11 @@ export const QueueItemDiscussionsContainer = compose(
     handleScrollToBottom,
     handleScrollToMiddle,
     handleScrollToTop,
+    openParticipants,
+    openInvitation,
+    closeCurrent,
+    closeAll,
+    createInvitation,
   }),
   withHandlers({
     handleScrolled,

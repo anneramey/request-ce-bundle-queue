@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
 import Avatar from 'react-avatar';
+import { actions } from '../../redux/modules/discussions';
 
 const participantComparator = (p1, p2) =>
   p1.message_count !== p2.message_count
@@ -30,10 +31,13 @@ const mapStateToProps = state => ({
   participants: state.discussions.participants,
 });
 
+const mapDispatchToProps = {
+  openModal: actions.openModal,
+};
+
 export const ParticipantsHeaderContainer = compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
-    openParticipantsModal: () => () =>
-      console.log('should open participants modal'),
+    openParticipantsModal: props => () => props.openModal('participants'),
   }),
 )(ParticipantsHeader);
