@@ -209,15 +209,18 @@ const removeInvite = (guid, inviteId, note, responseUrl) =>
     .catch(response => ({ error: response }));
 
 export function* createInviteTask({ payload }) {
-  const { errors } = yield call(
+  const { error } = yield call(
     createInvite,
     payload.guid,
     payload.email,
     payload.note,
   );
 
-  if (errors) {
+  if (error) {
     yield put(errorActions.addError('Failed to create invitation!'));
+    yield put(actions.setInviteSending(false));
+  } else {
+    yield put(actions.setInviteSending(false));
   }
 }
 

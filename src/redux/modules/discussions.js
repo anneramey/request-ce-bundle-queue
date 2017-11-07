@@ -10,6 +10,7 @@ export const types = {
   CREATE_ISSUE: namespace('discussion', 'CREATE_ISSUE'),
   FETCH_INVITES: namespace('discussions', 'FETCH_INVITES'),
   CREATE_INVITE: namespace('discussions', 'CREATE_INVITE'),
+  SET_INVITE_SENDING: namespace('discussions', 'SET_INVITE_SENDING'),
   ADD_INVITE: namespace('discussions', 'ADD_INVITE'),
   DELETE_INVITE: namespace('discussions', 'REMOVE_INVITE'),
   SET_INVITES: namespace('discussions', 'SET_INVITES'),
@@ -71,6 +72,7 @@ export const actions = {
 
   // Invitation data management.
   setInvites: withPayload(types.SET_INVITES),
+  setInviteSending: withPayload(types.SET_INVITE_SENDING),
   addInvite: withPayload(types.ADD_INVITE),
   removeInvite: withPayload(types.REMOVE_INVITE),
 
@@ -109,6 +111,7 @@ export const State = Record({
   connected: false,
   reconnecting: false,
   participants: List(),
+  inviteSending: false,
   invites: List(),
 });
 
@@ -205,12 +208,16 @@ export const reducer = (state = State(), action) => {
       );
     case types.SET_INVITES:
       return state.set('invites', List(action.payload));
+    case types.CREATE_INVITE:
+      return state.set('inviteSending', true);
     case types.ADD_INVITE:
       return state.update('invites', invites => invites.push(action.payload));
     case types.REMOVE_INVITE:
       return state.update('invites', invites =>
         invites.delete(invites.findIndex(i => i.guid === action.payload.guid)),
       );
+    case types.SET_INVITE_SENDING:
+      return state.set('inviteSending', action.payload);
     case types.MESSAGE_UPDATE:
       return state;
     case types.MESSAGE_RX:
