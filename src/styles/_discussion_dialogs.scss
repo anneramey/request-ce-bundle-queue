@@ -27,6 +27,10 @@
             transition: border-color 300ms;
           }
         }
+        .subtext {
+          color: $blue2;
+          margin-left: 0.5rem;
+        }
       }
       li.present .sb-avatar img {
         border-color: rgba(0, 212, 106, 1);

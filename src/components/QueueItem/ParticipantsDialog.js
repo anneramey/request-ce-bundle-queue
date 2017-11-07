@@ -20,9 +20,15 @@ export const ParticipantsDialog = props => (
     </h4>
     <ul className="participants-list">
       {props.participants.sortBy(p => p.name).map(p => (
-        <li className={`${p.present ? 'present' : ''}`}>
+        <li className={`${p.present ? 'present' : ''}`} key={p.email}>
           <Avatar size={26} src={p.avatar_url} name={p.name} round />
           {p.name}
+        </li>
+      ))}
+      {props.invites.map(invite => (
+        <li key={invite.email}>
+          <Avatar size={26} round name={invite.email} />
+          {invite.email} <span className="subtext">invited</span>
         </li>
       ))}
     </ul>
@@ -31,6 +37,7 @@ export const ParticipantsDialog = props => (
 
 export const mapStateToProps = state => ({
   participants: state.discussions.participants,
+  invites: state.discussions.invites,
 });
 
 export const mapDispatchToProps = {
