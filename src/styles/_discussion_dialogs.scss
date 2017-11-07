@@ -37,6 +37,23 @@
     padding: 1rem;
     .invitation-form {
       padding: 0;
+      label {
+        color: $blue1;
+        margin: 0.5rem 0;
+      }
+      ::-webkit-input-placeholder {
+        color: $blue2;
+      }
+      ::-moz-placeholder {
+        color: $blue2;
+      }
+      :-ms-input-placeholder {
+        color: $blue2;
+      }
+      .help-block {
+        color: $blue2;
+        margin: 0.5rem 0 1rem 0;
+      }
     }
   }
 }
