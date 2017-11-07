@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withHandlers, withState } from 'recompose';
 import Sidebar from 'react-sidebar';
-import { HeaderContainer } from './HeaderContainer';
+import { HeaderContainer } from '../lib/react-kinops-components/src/components/Header/HeaderContainer';
 
 export const Layout = ({
   sidebarOpen,
@@ -13,7 +13,7 @@ export const Layout = ({
   sidebarContent,
 }) => (
   <div className="layout">
-    <HeaderContainer toggleSidebarOpen={toggleSidebarOpen} />
+    <HeaderContainer hasSidebar toggleSidebarOpen={toggleSidebarOpen} />
     <Sidebar
       sidebar={sidebarContent}
       shadow={false}

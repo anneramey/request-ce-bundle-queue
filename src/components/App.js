@@ -6,6 +6,7 @@ import { LayoutContainer } from './Layout';
 import { Content } from './Content';
 import { SidebarContainer } from './SidebarContainer';
 
+
 export const App = ({ loading }) =>
   loading ? (
     <div />
