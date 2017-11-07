@@ -1,10 +1,14 @@
 import React from 'react';
+import { Modal, ModalBody, ModalFooter } from 'reactstrap';
 import downArrow from 'font-awesome-svg-png/black/svg/arrow-down.svg';
 import SVGInline from 'react-svg-inline';
 import { LoadMoreMessagesContainer } from './LoadMoreMessagesContainer';
 import { MessagesDateContainer } from './MessagesDate';
 import { ChatInputForm } from './ChatInputForm';
 import { ScrollHelper } from './ScrollHelper';
+import { ParticipantsHeaderContainer } from './ParticipantsHeader';
+import { ParticipantsDialogContainer } from './ParticipantsDialog';
+import { InvitationDialogContainer } from './InvitationDialog';
 
 export const QueueItemDiscussions = ({
   handleScrolled,
@@ -13,6 +17,12 @@ export const QueueItemDiscussions = ({
   unreadMessages,
   registerScrollHelper,
   scrollToBottom,
+  currentOpenModals,
+  openParticipants,
+  closeCurrent,
+  closeAll,
+  createInvitation,
+  invitationButtonEnabled,
 }) => (
   <div className="discussions">
     <div className="messages">
@@ -26,6 +36,7 @@ export const QueueItemDiscussions = ({
           />
         ))}
       </ScrollHelper>
+      <ParticipantsHeaderContainer />
       {unreadMessages && (
         <button
           type="button"
@@ -38,5 +49,41 @@ export const QueueItemDiscussions = ({
       )}
     </div>
     <ChatInputForm />
+    <Modal isOpen={!currentOpenModals.isEmpty()} toggle={closeAll} size="md">
+      <div className="modal-header">
+        <h4 className="modal-title">
+          <button type="button" className="btn btn-link" onClick={closeCurrent}>
+            {currentOpenModals.last() === 'invitation' ? 'Cancel' : 'Close'}
+          </button>
+          <span>
+            {currentOpenModals.last() === 'participants'
+              ? 'All Participants'
+              : 'Invite Participants'}
+          </span>
+        </h4>
+      </div>
+      <ModalBody>
+        {currentOpenModals.last() === 'participants' ? (
+          <ParticipantsDialogContainer />
+        ) : currentOpenModals.last() === 'invitation' ? (
+          <InvitationDialogContainer createInvitation={createInvitation} />
+        ) : (
+          <div>Nothing to display</div>
+        )}
+      </ModalBody>
+      {currentOpenModals.last() === 'invitation' && (
+        <ModalFooter>
+          <button
+            type="button"
+            className="btn btn-primary"
+            disabled={false}
+            onClick={createInvitation}
+            disabled={!invitationButtonEnabled}
+          >
+            Send Invite
+          </button>
+        </ModalFooter>
+      )}
+    </Modal>
   </div>
 );
