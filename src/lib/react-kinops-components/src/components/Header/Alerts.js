@@ -10,7 +10,9 @@ export const Alerts = ({ alerts, fetchAlerts }) =>
     <UncontrolledDropdown className="nav-item-right">
       <DropdownToggle nav role="button" className="icon-wrapper">
         <SVGInline svg={bellIcon} className="icon" />
-        <span className="badge">{alerts.size}</span>
+        { alerts.size > 0 &&
+          <span className="badge">{alerts.size}</span>
+        }
       </DropdownToggle>
       <DropdownMenu right className="alerts-menu">
         <div className="alerts-header">
