@@ -55,20 +55,17 @@ export const reducer = (state = State(), { type, payload }) => {
         .setIn(['alerts', 'data'], payload.alerts)
         .setIn(['alerts', 'loading'], false)
         .setIn(['alerts', 'error'], null)
-        .set('loading', false)
+        .set('loading', false);
     case types.OPEN_FORM:
-      return state.modal
-        .set('form', payload)
+      return state.setIn(['modal', 'form'], payload);
     case types.CLOSE_FORM:
-      return state.modal
-        .set('form', null)
-        .set('isCompleted', false)
-    case types.COMPLETE_FORM:
-      return state.modal
-        .set('isCompleted', false)
-    case types.FETCH_ALERTS:
       return state
-        .set(['alerts', 'loading'], true);
+        .setIn(['modal', 'form'], null)
+        .setIn(['modal', 'isCompleted'], false);
+    case types.COMPLETE_FORM:
+      return state.setIn(['modal', 'isCompleted'], true);
+    case types.FETCH_ALERTS:
+      return state.setIn(['alerts', 'loading'], true);
     case types.SET_ALERTS:
       return state
         .setIn(['alerts', 'loading'], false)

@@ -6,9 +6,7 @@ import { FilterMenuContainer } from './FilterMenu/FilterMenuContainer';
 import { QueueItemContainer } from './QueueItem/QueueItem';
 import { QueueListContainer } from './queueList/QueueListContainer';
 import { NewItemMenuContainer } from './newItemMenu/NewItemMenuContainer';
-import { ModalFormContainer } from './ModalFormContainer';
-// import { ModalFormContainer } from '../lib/react-kinops-components/src/components/Modals/ModalFormContainer';
-
+import { ModalFormContainer } from '../lib/react-kinops-components/src/components/Modals/ModalFormContainer';
 
 export const Content = () => (
   <div className="content">

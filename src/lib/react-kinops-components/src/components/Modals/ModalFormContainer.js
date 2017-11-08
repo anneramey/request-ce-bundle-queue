@@ -4,8 +4,8 @@ import { ModalForm } from './ModalForm';
 import { actions } from '../../redux/kinopsModule';
 
 export const mapStateToProps = state => ({
-  form: state.kinops.modal.form,
-  isCompleted: state.kinops.modal.isCompleted,
+  form: state.kinops.getIn(['modal', 'form']),
+  isCompleted: state.kinops.getIn(['modal', 'isCompleted']),
 });
 
 const mapDispatchToProps = {
