@@ -334,6 +334,7 @@
     .new-message {
       display: flex;
       min-height: 48px;
+      padding: 0;
 
       button {
         // height: 48px;
@@ -344,6 +345,8 @@
         &.btn-more {
           background-color: #d3dce7;
           opacity: 0.5;
+          display: flex;
+          justify-content: center;
         }
 
         &.btn-send {
