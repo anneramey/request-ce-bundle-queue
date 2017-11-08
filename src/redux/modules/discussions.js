@@ -124,7 +124,6 @@ export const State = Record({
   connected: false,
   reconnecting: false,
   participants: List(),
-  inviteSending: false,
   invites: List(),
   currentOpenModals: List(),
   invitationFields: Map({}),
@@ -225,7 +224,7 @@ export const reducer = (state = State(), action) => {
     case types.SET_INVITES:
       return state.set('invites', List(action.payload));
     case types.CREATE_INVITE:
-      return state.set('inviteSending', true);
+      return state.set('invitationPending', true);
     case types.ADD_INVITE:
       return state.update('invites', invites => invites.push(action.payload));
     case types.REMOVE_INVITE:
@@ -254,9 +253,6 @@ export const reducer = (state = State(), action) => {
             list.filter(item => item !== action.payload),
           )
         : state.delete('currentOpenModals');
-      return state.delete('currentModal');
-    case types.CREATE_INVITE:
-      return state.set('invitationPending', true);
     case types.CREATE_INVITE_DONE:
       return state.set('invitationPending', false);
     case types.SET_INVITATION_FIELD:
