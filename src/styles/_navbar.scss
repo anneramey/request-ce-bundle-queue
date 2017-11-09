@@ -1,0 +1,47 @@
+
+.navbar {
+  padding: 0;
+}
+
+.nav.nav-header {
+  justify-content: space-between;
+  padding-right: 5px;
+  .dropdown {
+    display: flex;
+  }
+}
+
+.nav.nav-header > .nav-item-right {
+  margin-left: auto;
+}
+
+.navbar .nav-item {
+  display: flex;
+}
+
+.navbar .nav-link {
+  font-size: 16px;
+  color: $blue2;
+  padding: 1em;
+  line-height: 1;
+
+  .badge {
+    background-color: $orange1;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 600;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+  }
+}
+
+.navbar .drawer-button {
+  border-right: 1px solid $transparent-gray1;
+}
+
+.dropdown-toggle::after {
+  border-top: 0.4em solid $blue2;
+  border-right: 0.19em solid transparent;
+  border-left: 0.19em solid transparent;
+}

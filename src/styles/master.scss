@@ -5,55 +5,9 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
-.navbar {
-  padding: 0;
-}
-
-.nav.nav-header {
-  justify-content: space-between;
-  padding-right: 5px;
-  .dropdown {
-    display: flex;
-  }
-}
-
-.nav.nav-header > .nav-item-right {
-  margin-left: auto;
-}
-
-.navbar .nav-item {
-  display: flex;
-}
-
-.navbar .nav-link {
-  font-size: 16px;
-  color: $blue2;
-  padding: 0.75em 1em;
-
-  .badge {
-    background-color: $orange1;
-    border-radius: 50%;
-    font-size: 12px;
-    font-weight: 600;
-    position: absolute;
-    right: 5px;
-    top: 5px;
-  }
-}
-
-.navbar .drawer-button {
-  border-right: 1px solid $transparent-gray1;
-}
-
-.dropdown-toggle::after {
-  border-top: 0.4em solid $blue2;
-  border-right: 0.19em solid transparent;
-  border-left: 0.19em solid transparent;
-}
-
 .icon-svg {
-  height: 1.2em;
-  width: 1.2em;
+  height: 1em;
+  width: 1em;
 
   path,
   .primary-fill {
@@ -140,11 +94,11 @@ a:focus {
   font-size: 12px;
 }
 
-@import '~modularscale-sass/stylesheets/modularscale';
 @import 'sidebar';
 @import 'content';
 @import 'modal';
 @import 'queue_item_details';
+@import 'navbar';
 @import 'assignments';
 @import 'forms2';
 @import 'tables';
