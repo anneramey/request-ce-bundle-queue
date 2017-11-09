@@ -17,17 +17,19 @@
   }
 }
 
-@media (min-width: 701px) {
+@media (min-width: 767px) {
   .modal-dialog {
     .modal-content {
       border: none;
       box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.5);
-      min-height: 600px;
+      min-height: 38rem;
     }
   }
 }
 
 .modal-dialog {
+  // margin: 1.5rem auto;
+  // max-width: 40rem;
   .modal-content {
     border-radius: 0;
 
@@ -41,20 +43,22 @@
         display: flex;
         justify-content: space-between;
         flex: 1;
-        font-size: 16px;
+        font-size: 1rem;
+        margin: 0;
+        line-height: 1;
         font-weight: bold;
         span {
           padding: 1rem;
         }
       }
       .btn.btn-link {
-        font-size: 14px;
-        padding: 1rem;
+        font-size: .875rem;
+        padding: 0 1rem;
       }
       .btn.back-button {
         border-top: 1px solid rgba(211, 220, 231, 1);
-        font-size: 14px;
-        padding: 1rem;
+        border-bottom: 0;
+        padding: 0.9375rem 1rem;
         text-align: left;
         .icon {
           margin-right: 5px;
@@ -71,8 +75,8 @@
           border-bottom: 1px solid rgba(244, 246, 249, 1);
           padding: 0;
           .btn.btn-link {
-            font-size: 14px;
-            padding: 1rem;
+            font-size: .875rem;
+            padding: .875rem 1rem;
             flex: 1;
             display: flex;
             justify-content: flex-end;
@@ -90,7 +94,7 @@
         }
       }
       .btn.btn-inverse {
-        font-size: 14px;
+        font-size: .875rem;
         margin: 1rem;
       }
       &.main-section {
@@ -99,19 +103,19 @@
       &.filter-section {
         h5 {
           color: $blue1;
-          font-size: 16px;
+          font-size: 1rem;
           padding: 1rem;
         }
         label {
           border-bottom: 1px solid rgba(244, 246, 249, 1);
           color: $blue1;
-          font-size: 14px;
+          font-size: .875rem;
           margin-bottom: 0;
           padding: 1rem;
         }
         input[type='checkbox'],
         input[type='radio'] {
-          margin-right: 10px;
+          margin-right: .75rem;
         }
         select {
           margin: 1rem;
