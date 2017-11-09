@@ -33,19 +33,19 @@ export const getAttributeValues = ({ attributes }, attrName, defaultValue) => {
 };
 
 export const isMemberOf = (profile, name) => {
-  const matchingMembership = profile.get('memberships').find(membership =>
+  const matchingMembership = profile.memberships.find(membership =>
     membership.team.name === name);
   return matchingMembership !== undefined;
 };
 
 export const getTeams = profile => {
-  const matchingMemberships = profile.get('memberships').filter(membership =>
+  const matchingMemberships = profile.memberships.filter(membership =>
     membership.team.name !== 'Role' && !membership.team.name.startsWith('Role::'));
   return matchingMemberships ? matchingMemberships.map(membership => membership.team) : [];
 };
 
 export const getRoles = profile => {
-  const matchingMemberships = profile.get('memberships').filter(membership =>
+  const matchingMemberships = profile.memberships.filter(membership =>
     membership.team.name.startsWith('Role::'));
   return matchingMemberships ? matchingMemberships.map(membership => membership.team) : [];
 };

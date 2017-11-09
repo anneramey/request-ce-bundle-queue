@@ -31,7 +31,7 @@ export const selectHasAccessToSupport = state =>
   !state.kinops.loading ? (state.kinops.profile.spaceAdmin || selectHasRoleSubmissionSupport(state)) : false;
 
 export const selectIsGuest = state =>
-  !state.kinops.loading ? (state.kinops.profile.spaceAdmin === false && getRoles(state.profile).length === 0) : false;
+  !state.kinops.loading ? (state.kinops.profile.spaceAdmin === false && getRoles(state.kinops.profile).length === 0) : false;
 
 // Kapp List Selectors
 export const selectPredefinedKapps = state =>
