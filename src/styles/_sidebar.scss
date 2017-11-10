@@ -1,5 +1,5 @@
 .sidebar-content {
-  background-color: white;
+  background-color: #f7f7f7;
 }
 
 .sidebar {
@@ -12,7 +12,7 @@
   width: 252px;
 
   h6 {
-    color: $blue2;
+    color: $blue0;
     font-size: .75rem;
     padding: 0.75rem 1.5rem;
     margin: .75rem 0 0 0;
@@ -29,20 +29,20 @@
     font-size: .875rem;
     margin: 0 auto;
     &.btn-primary {
-      background-color: $blue2;
+      background-color: $orange1;
       border: none;
       margin: 0 1.5rem;
       line-height: 1.75rem;
       margin-bottom: .75rem;
       &:hover{
-        color: $blue0;
-        background-color: $blue3;
+        color: $white;
+        background-color: darken($orange1, 25%);
       }
     }
   }
 
   .nav-link {
-    color: $blue2;
+    color: $gray;
   }
 
   .filter-nav {
