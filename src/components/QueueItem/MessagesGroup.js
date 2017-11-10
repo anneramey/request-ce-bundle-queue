@@ -11,7 +11,7 @@ export const MessagesGroup = ({ messages, profile }) => (
   >
     {messages.first().user.email !== profile.email && (
       <Avatar
-        size={50}
+        size={36}
         email={messages.first().user.email}
         name={messages.first().user.name}
         round
