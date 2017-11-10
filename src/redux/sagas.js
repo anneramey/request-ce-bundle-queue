@@ -4,6 +4,7 @@ import { watchQueue } from './sagas/queue';
 import { watchErrors } from './sagas/errors';
 import { watchAlerts } from './sagas/alerts';
 import { watchDiscussion, watchDiscussionSocket } from './sagas/discussions';
+import { watchKinops } from '../lib/react-kinops-components';
 
 export function* sagas() {
   yield all([
@@ -13,5 +14,6 @@ export function* sagas() {
     watchAlerts(),
     watchDiscussion(),
     watchDiscussionSocket(),
+    watchKinops(),
   ]);
 }

@@ -1,4 +1,4 @@
-import { eventChannel, takeLatest } from 'redux-saga';
+import { eventChannel, delay } from 'redux-saga';
 import {
   take,
   call,
@@ -8,11 +8,13 @@ import {
   all,
   select,
   takeEvery,
+  takeLatest,
 } from 'redux-saga/effects';
 import axios from 'axios';
 import { CoreAPI } from 'react-kinetic-core';
 
 import { SUBMISSION_INCLUDES } from './queue';
+import { actions as errorActions } from '../modules/errors';
 import { types, actions } from '../modules/discussions';
 
 export const MESSAGE_LIMIT = 25;
@@ -27,6 +29,7 @@ function registerChannel(socket) {
   return eventChannel(emit => {
     socket.onopen = () => {
       window.console.log('Connected!');
+      emit({ action: 'connected' });
     };
 
     socket.onerror = event => {
@@ -61,8 +64,29 @@ function* incomingMessages(socketChannel) {
         case 'message:update':
           yield put(actions.updateMessage(data.message));
           break;
+        case 'presence:add':
+          yield put(actions.addPresence(data.user));
+          break;
+        case 'presence:remove':
+          yield put(actions.removePresence(data.user));
+          break;
+        case 'participant:create':
+          yield put(actions.addParticipant(data.participant));
+          break;
+        case 'participant:delete':
+          yield put(actions.removeParticipant(data.participant));
+          break;
+        case 'invite:create':
+          yield put(actions.addInvite(data.invite));
+          break;
+        case 'invite:delete':
+          yield put(actions.removeInvite(data.invite));
+          break;
         case 'reconnect':
           yield put(actions.reconnect());
+          break;
+        case 'connected':
+          yield put(actions.setConnected(true));
           break;
         default:
           yield put(actions.receiveBadMessage(data));
@@ -75,6 +99,18 @@ function* incomingMessages(socketChannel) {
   }
 }
 
+const touchIssuePresence = (guid, responseUrl) =>
+  axios.request({
+    url: `${responseUrl}/api/v1/issues/${guid}/present`,
+    withCredentials: true,
+  });
+
+function* presenceKeepAlive(guid, responseUrl) {
+  while (true) {
+    yield call(touchIssuePresence, guid, responseUrl);
+    yield delay(3000);
+  }
+}
 // Turned this off because the Rails impl doesn't handle incoming messages.
 // function* outgoingMessages(socket) {}
 //   // eslint-disable-next-line
@@ -102,6 +138,7 @@ export function* watchDiscussionSocket() {
     const { cancel, reconnect } = yield race({
       task: [
         call(incomingMessages, socketChannel),
+        call(presenceKeepAlive, guid, responseUrl),
         // call(outgoingMessages, socket),
       ],
       reconnect: take(types.RECONNECT),
@@ -129,6 +166,67 @@ const createIssue = (issue, responseUrl) =>
     .post(`${responseUrl}/api/v1/issues`, issue, { withCredentials: true })
     .then(response => ({ issue: response.data }))
     .catch(response => ({ error: response }));
+
+const fetchInvites = (guid, responseUrl) =>
+  axios
+    .request({
+      url: `${responseUrl}/api/v1/issues/${guid}/invites`,
+      method: 'get',
+      withCredentials: true,
+    })
+    .then(response => ({ invites: response.data }))
+    .catch(response => ({ error: response }));
+
+const createInvite = (guid, email, note, responseUrl) =>
+  axios
+    .request({
+      url: `${responseUrl}/api/v1/issues/${guid}/invites`,
+      method: 'post',
+      withCredentials: true,
+      data: { email, note, group_invite: false },
+    })
+    .then(response => ({ invite: response.data }))
+    .catch(response => ({ error: response }));
+
+const resendInvite = (guid, inviteId, note, responseUrl) =>
+  axios
+    .request({
+      url: `${responseUrl}/api/v1/issues/${guid}/invites/${inviteId}`,
+      method: 'post',
+      withCredentials: true,
+    })
+    .then(response => ({ invite: response.data }))
+    .catch(response => ({ error: response }));
+
+const removeInvite = (guid, inviteId, note, responseUrl) =>
+  axios
+    .request({
+      url: `${responseUrl}/api/v1/issues/${guid}/invites/${inviteId}`,
+      method: 'delete',
+      withCredentials: true,
+    })
+    .then(response => ({ invite: response.data }))
+    .catch(response => ({ error: response }));
+
+export function* createInviteTask({ payload }) {
+  const responseUrl = yield select(state => state.app.discussionServerUrl);
+  const { error } = yield call(
+    createInvite,
+    payload.guid,
+    payload.email,
+    payload.note,
+    responseUrl,
+  );
+
+  if (error) {
+    yield put(errorActions.addError('Failed to create invitation!'));
+  } else {
+    yield all([
+      put(actions.createInviteDone()),
+      put(actions.closeModal('invitation')),
+    ]);
+  }
+}
 
 const updateSubmissionDiscussionId = ({ id, guid }) =>
   CoreAPI.updateSubmission({
@@ -173,8 +271,17 @@ export function* createIssueTask({ payload }) {
   }
 }
 
-const fetchMessages = ({ guid, lastReceived, offset, responseUrl }) => {
-  return axios
+const fetchParticipants = (guid, responseUrl) =>
+  axios
+    .request({
+      url: `${responseUrl}/api/v1/issues/${guid}/participants`,
+      withCredentials: true,
+    })
+    .then(response => ({ participants: response.data }))
+    .catch(response => ({ error: response }));
+
+const fetchMessages = ({ guid, lastReceived, offset, responseUrl }) =>
+  axios
     .get(`${responseUrl}/api/v1/issues/${guid}/messages`, {
       withCredentials: true,
       params: {
@@ -185,7 +292,6 @@ const fetchMessages = ({ guid, lastReceived, offset, responseUrl }) => {
     })
     .then(response => ({ messages: response.data }))
     .catch(response => ({ error: response }));
-};
 
 const selectFetchMessageSettings = state => ({
   guid: state.discussions.issueGuid,
@@ -245,15 +351,7 @@ export function* joinDiscussionTask(action) {
   // First we need to determine if the user is authenticated in Response.
   const { error } = yield call(fetchResponseProfile, responseUrl);
   if (error) {
-    const { error } = yield call(getResponseAuthentication, responseUrl);
-
-    if (error) {
-      // Let the component know there was a problem joining this discussion.
-      yield put(
-        actions.setJoinError('Unable to authenticate with Discussion Server'),
-      );
-      return;
-    }
+    yield call(getResponseAuthentication, responseUrl);
   }
 
   const params = yield select(selectFetchMessageSettings);
@@ -261,26 +359,35 @@ export function* joinDiscussionTask(action) {
   const {
     issue: { issue, error: issueError },
     messages: { messages, error: messagesError },
+    participants: { participants, error: participantsError },
+    invites: { invites, error: invitesErrors },
   } = yield all({
     issue: call(fetchIssue, params.guid, responseUrl),
+    participants: call(fetchParticipants, params.guid, responseUrl),
+    invites: call(fetchInvites, params.guid, responseUrl),
     messages: call(fetchMessages, params),
   });
 
-  if (issueError || messagesError) {
+  if (issueError || messagesError || participantsError || invitesErrors) {
     window.console.log('there was a problem fetching the issue and messages');
   } else {
     yield all([
       put(actions.setIssue(issue)),
       put(actions.setMessages(messages)),
       put(actions.setHasMoreMessages(messages.length === MESSAGE_LIMIT)),
+      put(actions.setParticipants(participants)),
+      put(actions.setInvites(invites)),
       put(actions.startConnection(params.guid)),
     ]);
   }
 }
 
 export function* watchDiscussion() {
-  yield takeEvery(types.MESSAGE_TX, sendMessageTask);
-  yield takeEvery(types.FETCH_MORE_MESSAGES, fetchMoreMessagesTask);
-  yield takeLatest(types.JOIN_DISCUSSION, joinDiscussionTask);
-  yield takeLatest(types.CREATE_ISSUE, createIssueTask);
+  yield all([
+    takeEvery(types.MESSAGE_TX, sendMessageTask),
+    takeEvery(types.FETCH_MORE_MESSAGES, fetchMoreMessagesTask),
+    takeLatest(types.JOIN_DISCUSSION, joinDiscussionTask),
+    takeLatest(types.CREATE_ISSUE, createIssueTask),
+    takeEvery(types.CREATE_INVITE, createInviteTask),
+  ]);
 }

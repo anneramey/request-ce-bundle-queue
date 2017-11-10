@@ -1,10 +1,7 @@
 $header-height: 48px;
 $page-height: calc(100vh - 48px);
 
-$modularscale: (
-  base: 16px,
-  ratio: 1.125
-);
+$modularscale: (base: 16px, ratio: 1.125);
 
 $transparent-gray1: rgba(51, 51, 51, 0.15);
 $gray2: rgba(213, 213, 213, 1);
@@ -15,7 +12,7 @@ $blue0: rgba(0, 59, 114, 1);
 $blue1: rgba(84, 105, 141, 1);
 $blue2: rgba(168, 183, 199, 1);
 $blue3: rgba(211, 220, 231, 1);
-$blue4: rgba(247, 249, 251, 1);
+$blue4: rgba(244, 246, 249, 1);
 
 $orange1: rgba(255, 120, 0, 1);
 
@@ -39,24 +36,23 @@ $white: #ffffff;
 $text-color: $gray !default; // Global text color on `<body>`.
 $link-color: $tertiary !default; // Global textual link color.
 
-
 // Typography
 // --------------------------------------
 
-$font-family-sans-serif:  "Open Sans", sans-serif !default;
-$font-family-serif:       Georgia, "Times New Roman", Times, serif !default;
-$font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace !default; // Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
-$font-family-base:        $font-family-sans-serif !default;
+$font-family-sans-serif: 'Open Sans', sans-serif !default;
+$font-family-serif: Georgia, 'Times New Roman', Times, serif !default;
+$font-family-monospace: Menlo, Monaco, Consolas, 'Courier New',
+  monospace !default; // Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
+$font-family-base: $font-family-sans-serif !default;
 
-$font-size-base:          1.4rem !default; // Default font size. Equal to 14px.
-$line-height-base:        2rem !default; // Default line height. Equal to 20px.
-
+$font-size-base: 1.4rem !default; // Default font size. Equal to 14px.
+$line-height-base: 2rem !default; // Default line height. Equal to 20px.
 
 // Components
 // --------------------------------------
 
-$enable-rounded:            true;
-$border-radius-base:        0.4rem !default;
+$enable-rounded: true;
+$border-radius-base: 0.4rem !default;
 
 $margin-increment: 0.5rem;
 $margin-count: 5;
