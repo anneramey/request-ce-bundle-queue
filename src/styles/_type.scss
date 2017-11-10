@@ -1,17 +1,8 @@
-@import '~modularscale-sass/stylesheets/modularscale';
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//   Modular Scale
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-$modularscale: (
-  base: 12px,
-  ratio: 1.125,
-  768px: (
-    14px
-    ratio: 1.125,
-  ),
-  1200px: (
-    base: 16px,
-    ratio: 1.125,
-  ),
-);
+
 
 h1 {
   @include ms-respond(font-size, 6);
@@ -19,13 +10,14 @@ h1 {
   line-height: 1.2;
   margin-top: 3rem;
   margin-bottom: 1.5rem;
-  @media (min-width: 768px) and (max-width: 1200px){
-    border-color: blue;
-  }
-  @media (min-width: 1200px){
-    border-color: red;
-  }
-  border: 2px solid green;
+  // Testing Responsiveness
+  // @media (min-width: 768px) and (max-width: 1200px){
+  //   border-color: blue;
+  // }
+  // @media (min-width: 1200px){
+  //   border-color: red;
+  // }
+  // border: 2px solid green;
 }
 h2 {
   @include ms-respond(font-size, 5);
@@ -89,9 +81,4 @@ sup {
 }
 sub {
   bottom: -0.25em;
-}
-
-// Basehold.it 
-body{
-  position: static !important;
 }

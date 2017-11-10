@@ -1,9 +1,18 @@
 $header-height: 48px;
 $page-height: calc(100vh - 48px);
 
+// Set Responsive Base sizes
 $modularscale: (
-  base: 16px,
-  ratio: 1.125
+  base: 12px,
+  ratio: 1.125,
+  768px: (
+    14px
+    ratio: 1.125,
+  ),
+  1200px: (
+    base: 16px,
+    ratio: 1.125,
+  ),
 );
 
 $transparent-gray1: rgba(51, 51, 51, 0.15);

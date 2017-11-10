@@ -2,6 +2,48 @@
 //   Buttons
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
+.btn.btn-link {
+  color: $blue1;
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: none;
+  }
+  &:focus {
+    box-shadow: none;
+    outline: $blue3 dotted thin;
+  }
+}
+.btn.btn-primary {
+  color: white;
+  background-color: $blue1;
+  border:none;
+  &:focus, &.focus{
+    box-shadow: none;
+    outline: $blue3 dotted thin;
+  }
+}
+.btn.btn-inverse.btn-primary {
+  color: $blue1;
+  background-color: white;
+  border: 1px solid $blue1;
+  line-height: 1.75rem;
+  margin-top: .75rem;
+  margin-bottom: .75rem;
+  padding: .1875rem .5rem;
+  &:focus, &.focus{
+    box-shadow: none;
+    outline: $blue3 dotted thin;
+  }
+}
+
+.sidebar .btn.btn-sidebar {
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  margin: 0;
+}
 /* Form Button Styles
  *-------------------------------------- */
 

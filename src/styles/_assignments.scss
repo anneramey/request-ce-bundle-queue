@@ -4,7 +4,7 @@
   border-top: 1px solid $blue3;
   border-bottom: 1px solid $blue3;
   color: $blue1;
-  margin: 1rem 0 1rem 1rem;
+  margin: 1rem;
   padding: 0.5rem 1rem;
   .badge {
     display: flex;
@@ -13,12 +13,11 @@
     background-color: #a8b7c7;
     border-radius: 50%;
     color: #f7f9fb;
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 600;
-    margin-right: 0.5em;
-    padding-top: 0.125em;
+    margin-right: 0.5rem;
     height: 2rem;
-    width: 2em;
+    width: 2rem;
     text-align: center;
     cursor: pointer;
     &:focus, &.focus{
@@ -30,11 +29,11 @@
     cursor: default;
   }
   .team {
-    font-size: 10px;
+    font-size: .625rem;
     font-weight: 300;
   }
   .individual {
-    font-size: 14px;
+    font-size: .875rem;
   }
   .icon {
     margin-left: auto;

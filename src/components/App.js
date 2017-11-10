@@ -13,6 +13,11 @@ export const App = ({ loading }) =>
     <Helmet>
       <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport" />
       <link rel="stylesheet" href="//basehold.it/12/11/168/224/0.2" />
+      <style>{`
+        /* Basehold.it */
+        body{position: static !important;}
+      `}
+      </style>
     </Helmet>
     {loading ? (
       <div />
