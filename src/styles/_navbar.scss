@@ -19,6 +19,27 @@
   display: flex;
 }
 
+.nav.nav-header .dropdown-menu{
+  border-radius: 0;
+  border: none;
+  filter: drop-shadow(rgba(0, 0, 0, 0.3) 0 3px 4px);
+  margin-top: 0;
+  &:after {
+    content: '';
+    border: 10px solid;
+    border-color: transparent transparent white;
+    content: '';
+    left: 10%;
+    margin-left: -10px;
+    position: absolute;
+    top: -20px;
+    z-index: 9998;
+  }
+  .dropdown-item{
+    padding: 1rem 1.5rem;
+  }
+}
+
 .navbar .nav-link {
   font-size: 16px;
   color: $blue2;
