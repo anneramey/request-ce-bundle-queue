@@ -201,3 +201,29 @@
     }
   }
 }
+.participants-preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 0.33rem 1.5rem;
+  .sb-avatar {
+    margin-right: 0.33rem;
+    img {
+      border: 2px solid rgba(0, 212, 106, 0);
+      transition: border-color 300ms;
+    }
+  }
+  .present {
+    .sb-avatar img {
+      border-color: rgba(0, 212, 106, 1);
+    }
+  }
+
+  button.view-all {
+    margin-left: auto;
+  }
+}
