@@ -8,8 +8,8 @@
   flex: 1;
   flex-direction: column;
   background-color: $blue4;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
   max-width: 492px;
 
   .preview-close {
@@ -30,7 +30,7 @@
 
   .status {
     text-transform: uppercase;
-    font-size: 0.625rem;
+    font-size: 0.6875rem;
     margin: 0;
     line-height: 1.4375rem;
     .icon-svg {
@@ -50,8 +50,9 @@
   }
 
   .summary {
-    font-size: 16px;
-    line-height: 24px;
+    @include ms-respond(font-size, -1);
+    line-height: 1.5rem;
+    color: #222;
   }
 
   .details {
@@ -78,11 +79,6 @@
         color: black;
       }
     }
-  }
-
-  // Override the assignment badge margin.
-  .assignment-badge {
-    margin-left: 0;
   }
 
   .preview-actions {

@@ -68,7 +68,7 @@ export const QueueItem = ({
           component={QueueItemDiscussionsContainer}
         />
       </div>
-      <div className="right-panel d-none d-sm-block">
+      <div className="right-panel">
         <button
           className="btn btn-primary work-grab-button"
           onClick={
