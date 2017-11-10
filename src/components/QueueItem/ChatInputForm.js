@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
+import {
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from 'reactstrap';
 import classNames from 'classnames';
 import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
 import sendIcon from 'font-awesome-svg-png/black/svg/paper-plane.svg';
+import userPlusIcon from 'font-awesome-svg-png/black/svg/user-plus.svg';
 import SVGInline from 'react-svg-inline';
 
 import { actions } from '../../redux/modules/discussions';
@@ -15,6 +22,7 @@ class ChatInput extends Component {
     this.state = {
       chatInput: '',
       hasFocus: false,
+      actionsOpen: false,
     };
 
     this.handleSendChatMessage = this.handleSendChatMessage.bind(this);
@@ -25,6 +33,7 @@ class ChatInput extends Component {
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.isChatInputInvalid = this.isChatInputInvalid.bind(this);
+    this.toggleActionsOpen = this.toggleActionsOpen.bind(this);
   }
 
   handleSendChatMessage(e) {
@@ -57,6 +66,10 @@ class ChatInput extends Component {
 
   handleBlur() {
     this.setState({ hasFocus: false });
+  }
+
+  toggleActionsOpen() {
+    this.setState(state => ({ actionsOpen: !state.actionsOpen }));
   }
 
   handlePaste(e) {
@@ -112,11 +125,25 @@ class ChatInput extends Component {
   render() {
     return (
       <form onSubmit={this.handleSendChatMessage} className="new-message">
-        <button type="button" className="btn btn-subtle btn-more">
-          <span className="icon-wrapper icon-small">
-            <SVGInline svg={plusIcon} className="icon" />
-          </span>
-        </button>
+        <ButtonDropdown
+          isOpen={this.state.actionsOpen}
+          toggle={this.toggleActionsOpen}
+          dropup
+        >
+          <DropdownToggle className="btn-suble btn-more">
+            <span className="icon-wrapper icon-small">
+              <SVGInline svg={plusIcon} className="icon" />
+            </span>
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem
+              className="icon-wrapper"
+              onClick={() => this.props.openModal('invitation')}
+            >
+              <SVGInline svg={userPlusIcon} className="icon" />Invite Person
+            </DropdownItem>
+          </DropdownMenu>
+        </ButtonDropdown>
         <div className="input-container">
           <div
             className={classNames('placeholder', {
@@ -152,6 +179,7 @@ class ChatInput extends Component {
 
 const mapDispatchToProps = {
   sendMessage: actions.sendMessage,
+  openModal: actions.openModal,
 };
 
 export const ChatInputForm = compose(connect(null, mapDispatchToProps))(
