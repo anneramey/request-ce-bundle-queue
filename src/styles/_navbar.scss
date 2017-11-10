@@ -1,6 +1,8 @@
 
 .navbar {
   padding: 0;
+  background-color: $white;
+  border-bottom: 1px solid $gray2;
 }
 
 .nav.nav-header {
@@ -35,6 +37,12 @@
     top: -20px;
     z-index: 9998;
   }
+  &.alerts-menu:after{
+    left: 93%;
+  }
+  &.profile-menu:after{
+    left: 88%;
+  }
   .dropdown-item{
     padding: 1rem 1.5rem;
   }
@@ -42,7 +50,7 @@
 
 .navbar .nav-link {
   font-size: 16px;
-  color: $blue2;
+  color: $black;
   padding: 1em;
   line-height: 1;
 
@@ -58,11 +66,14 @@
 }
 
 .navbar .drawer-button {
-  border-right: 1px solid $transparent-gray1;
+  border-right: 1px solid $gray2;
+  .icon-svg path{
+    fill: $black;
+  }
 }
 
 .dropdown-toggle::after {
-  border-top: 0.4em solid $blue2;
+  border-top: 0.4em solid $black;
   border-right: 0.19em solid transparent;
   border-left: 0.19em solid transparent;
 }

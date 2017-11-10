@@ -44,12 +44,12 @@
 
     .details,
     .discussions {
-      background-color: $blue4;
+      background-color: $white;
       flex: 1;
       display: flex;
       flex-direction: column;
       & .list-group-item {
-        background-color: $blue4;
+        background-color: $white;
       }
     }
 
@@ -141,7 +141,7 @@
 
       .empty-subtasks {
         border-radius: .5rem;
-        background-color: $white;
+        background-color: $gray4;
         font-family: 'Open Sans';
         text-align: center;
         padding: 1.5em;

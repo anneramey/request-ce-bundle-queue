@@ -10,7 +10,8 @@
   }
   .alerts-header {
     align-items: center;
-    background-color: $gray4;
+    background-color: $white;
+    border-bottom: 1px solid $gray3;
     display: flex;
     justify-content: space-between;
     padding-left: 0.5rem;
