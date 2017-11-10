@@ -37,6 +37,7 @@ export const DateRangeCriteria = Record({
 export const Filter = Record({
   name: '',
   slug: '',
+  // Valid types are: default, custom, and adhoc.
   type: 'default',
 
   // Filter sort order: createdAt, updatedAt, Due Date.
@@ -48,3 +49,12 @@ export const Filter = Record({
   assignments: AssignmentCriteria(),
   dateRange: DateRangeCriteria(),
 });
+
+export const filterReviver = filterJSON => {
+  const status = List(filterJSON.statuses);
+  const teams = List(filterJSON.teams);
+  const assignments = AssignmentCriteria(filterJSON.assignments);
+  const dateRange = DateRangeCriteria(filterJSON.dateRange);
+
+  return Filter({ ...filterJSON, status, teams, assignments, dateRange });
+};

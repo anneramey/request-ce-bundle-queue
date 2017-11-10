@@ -95,6 +95,42 @@
       }
       &.main-section {
         justify-content: space-between;
+
+        // TODO: Review this and make it consistent.
+        .save-filter {
+          display: flex;
+          flex-direction: column;
+
+          label {
+            height: 17px;
+            width: 65px;
+            margin-left: 1em;
+            color: #54698d;
+            font-family: 'Open Sans';
+            font-size: 12px;
+            line-height: 17px;
+          }
+
+          input {
+            margin-left: 1em;
+            margin-right: 1em;
+            height: 30px;
+            border: 1px solid #54698d;
+            border-radius: 3px;
+            background-color: #fff;
+
+            padding: 0.5em;
+            color: #54698d;
+            font-family: 'Open Sans';
+            font-size: 13px;
+            line-height: 18px;
+
+            &:focus {
+              outline: 0;
+              box-shadow: 0 0 3px 0 #54698d;
+            }
+          }
+        }
       }
       &.filter-section {
         h5 {

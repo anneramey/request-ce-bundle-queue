@@ -15,6 +15,7 @@ export const types = {
   LOAD_APP_SETTINGS: namespace('app', 'LOAD_APP_SETTINGS'),
   SET_APP_SETTINGS: namespace('app', 'SET_APP_SETTINGS'),
   ADD_PERSONAL_FILTER: namespace('app', 'ADD_PERSONAL_FILTER'),
+  UPDATE_PERSONAL_FILTER: namespace('app', 'UPDATE_PERSONAL_FILTER'),
   REMOVE_PERSONAL_FILTER: namespace('app', 'REMOVE_PERSONAL_FILTER'),
 };
 
@@ -22,6 +23,7 @@ export const actions = {
   loadAppSettings: noPayload(types.LOAD_APP_SETTINGS),
   setAppSettings: withPayload(types.SET_APP_SETTINGS),
   addPersonalFilter: withPayload(types.ADD_PERSONAL_FILTER),
+  updatePersonalFilter: withPayload(types.UPDATE_PERSONAL_FILTER),
   removePersonalFilter: withPayload(types.REMOVE_PERSONAL_FILTER),
 };
 
@@ -120,11 +122,15 @@ export const reducer = (state = State(), { type, payload }) => {
         .set('allTeams', List(payload.allTeams))
         .set('myTeams', List(payload.myTeams))
         .set('myTeammates', payload.myTeammates)
-        .set('myFilters', payload.myFilters)
+        .set('myFilters', List(payload.myFilters))
         .set('forms', payload.forms)
         .set('loading', false);
     case types.ADD_PERSONAL_FILTER:
       return state.update('myFilters', filters => filters.push(payload));
+    case types.UPDATE_PERSONAL_FILTER:
+      return state.update('myFilters', filters =>
+        filters.set(filters.findIndex(f => f.name === payload.name), payload),
+      );
     case types.REMOVE_PERSONAL_FILTER:
       return state.update(
         'myFilters',

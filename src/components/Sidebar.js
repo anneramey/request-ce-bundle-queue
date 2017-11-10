@@ -76,7 +76,7 @@ export const Sidebar = ({
       {myFilters.map(filter => (
         <NavItem key={filter.name}>
           <NavLink
-            to={`/list/${filter.name}`}
+            to={`/custom/${filter.name}`}
             className="nav-link icon-wrapper"
             activeClassName="active"
           >
@@ -131,7 +131,9 @@ export const Sidebar = ({
       </NavItem>
       <NavItem>
         <a
-          href={'https://docs.google.com/spreadsheets/d/1yHrks5CTt4WJEyrc7nny5QyHK05-bZZWuPGDhObP5Fc/edit#gid=0'}
+          href={
+            'https://docs.google.com/spreadsheets/d/1yHrks5CTt4WJEyrc7nny5QyHK05-bZZWuPGDhObP5Fc/edit#gid=0'
+          }
           className="nav-link icon-wrapper d-flex justify-content-between"
           target="_blank"
         >

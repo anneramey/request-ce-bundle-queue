@@ -31,7 +31,13 @@ const AssignmentSummary = ({ assignments }) => {
   );
 };
 
-export const MainSection = ({ filter, showSection }) => (
+export const MainSection = ({
+  filter,
+  showSection,
+  filterName,
+  handleChangeFilterName,
+  handleSaveFilter,
+}) => (
   <ModalBody className="main-section">
     <ul className="list-group button-list">
       <li className="list-group-item">
@@ -89,8 +95,24 @@ export const MainSection = ({ filter, showSection }) => (
         </button>
       </li>
     </ul>
-    <button type="button" className="btn btn-primary btn-inverse" disabled>
-      Save
-    </button>
+    <div className="save-filter">
+      <label>List Name</label>
+      <input
+        type="text"
+        placeholder="New Save Filter Name"
+        value={filterName}
+        onChange={handleChangeFilterName}
+      />
+      <button
+        type="button"
+        className="btn btn-primary btn-inverse"
+        onClick={handleSaveFilter}
+        disabled={filterName === ''}
+      >
+        {filter && filter.type === 'custom' && filter.name === filterName
+          ? 'Save'
+          : 'Save As'}
+      </button>
+    </div>
   </ModalBody>
 );

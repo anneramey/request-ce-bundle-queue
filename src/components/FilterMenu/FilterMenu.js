@@ -15,6 +15,9 @@ export const FilterMenu = ({
   isDirty,
   close,
   reset,
+  filterName,
+  handleChangeFilterName,
+  handleSaveFilter,
   activeSection,
   applyFilterHandler,
   showSection,
@@ -48,7 +51,13 @@ export const FilterMenu = ({
       )}
     </div>
     {activeSection === null && (
-      <MainSection filter={currentFilter} showSection={showSection} />
+      <MainSection
+        filter={currentFilter}
+        showSection={showSection}
+        filterName={filterName}
+        handleChangeFilterName={handleChangeFilterName}
+        handleSaveFilter={handleSaveFilter}
+      />
     )}
     {activeSection === 'teams' && (
       <TeamsSectionContainer filter={currentFilter} teams={teams} />

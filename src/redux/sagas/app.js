@@ -12,6 +12,11 @@ import {
   DEFAULT_SUPPORT_URL,
 } from '../modules/app';
 
+import { filterReviver } from '../../records';
+
+const PROFILE_INCLUDES =
+  'attributes,profileAttributes,memberships,memberships.team,memberships.team.attributes,memberships.team.memberships,memberships.team.memberships.user';
+
 export const selectPersonalFilters = ({ app }) => app.myFilters;
 export const selectProfile = ({ app }) => app.profile;
 
@@ -50,8 +55,7 @@ export function* fetchAppSettingsTask() {
     kapp: call(CoreAPI.fetchKapp, { include: 'attributes' }),
     space: call(CoreAPI.fetchSpace, { include: 'attributes' }),
     profile: call(CoreAPI.fetchProfile, {
-      include:
-        'attributes,profileAttributes,memberships,memberships.team,memberships.team.attributes,memberships.team.memberships,memberships.team.memberships.user',
+      include: PROFILE_INCLUDES,
     }),
     forms: call(CoreAPI.fetchForms, {
       include: 'details,attributes',
@@ -75,7 +79,7 @@ export function* fetchAppSettingsTask() {
     .filter(u => u.username !== profile.username);
 
   const myFilters = profile.profileAttributes['Queue Personal Filters']
-    ? profile.profileAttributes['Queue Personal Filters'].map(f => f)
+    ? profile.profileAttributes['Queue Personal Filters'].map(filterReviver)
     : List();
 
   const appSettings = {
@@ -111,22 +115,23 @@ export function* updatePersonalFilterTask() {
 
   const { profile: newProfile, serverError } = yield call(
     CoreAPI.updateProfile,
-    { profile },
+    { profile, include: PROFILE_INCLUDES },
   );
   if (!serverError) {
     const newFilters = newProfile.profileAttributes['Queue Personal Filters']
-      ? newProfile.profileAttributes['Queue Personal Filters'].values.map(
-          f => f,
-        )
+      ? newProfile.profileAttributes['Queue Personal Filters'].map(f => f)
       : List();
-    window.console.log(newFilters);
   }
 }
 
 export function* watchApp() {
   yield takeEvery(types.LOAD_APP_SETTINGS, fetchAppSettingsTask);
   yield takeLatest(
-    [types.ADD_PERSONAL_FILTER, types.REMOVE_PERSONAL_FILTER],
+    [
+      types.ADD_PERSONAL_FILTER,
+      types.REMOVE_PERSONAL_FILTER,
+      types.UPDATE_PERSONAL_FILTER,
+    ],
     updatePersonalFilterTask,
   );
 }

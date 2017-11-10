@@ -4,6 +4,7 @@ export const types = {
   OPEN: '@kd/queue/filterMenu/OPEN',
   CLOSE: '@kd/queue/filterMenu/CLOSE',
   RESET: '@kd/queue/filterMenu/RESET',
+  SET_FILTER_NAME: '@kd/queue/filterMenu/SET_FILTER_NAME',
   SHOW_SECTION: '@kd/queue/filterMenu/SHOW_SECTION',
   TOGGLE_ASSIGNMENT: '@kd/queue/filterMenu/TOGGLE_ASSIGNMENT',
   TOGGLE_TEAM: '@kd/queue/filterMenu/TOGGLE_TEAM',
@@ -20,6 +21,10 @@ export const actions = {
   open: initialFilter => ({ type: types.OPEN, payload: initialFilter }),
   close: () => ({ type: types.CLOSE }),
   reset: () => ({ type: types.RESET }),
+  setFilterName: filterName => ({
+    type: types.SET_FILTER_NAME,
+    payload: filterName,
+  }),
   showSection: section => ({ type: types.SHOW_SECTION, payload: section }),
   toggleAssignment: payload => ({ type: types.TOGGLE_ASSIGNMENT, payload }),
   toggleTeam: payload => ({ type: types.TOGGLE_TEAM, payload }),
@@ -43,6 +48,7 @@ export const defaultState = Map({
   initialFilter: null,
   currentFilter: null,
   activeSection: null,
+  filterName: '',
 });
 
 export const reducer = (state = defaultState, { type, payload }) => {
@@ -51,11 +57,14 @@ export const reducer = (state = defaultState, { type, payload }) => {
       return state
         .set('isOpen', true)
         .set('initialFilter', payload)
-        .set('currentFilter', payload);
+        .set('currentFilter', payload)
+        .set('filterName', payload.type === 'custom' ? payload.name : '');
     case types.CLOSE:
       return defaultState;
     case types.RESET:
       return state.set('currentFilter', state.get('initialFilter'));
+    case types.SET_FILTER_NAME:
+      return state.set('filterName', payload);
     case types.SHOW_SECTION:
       return state.set('activeSection', payload);
     case types.TOGGLE_ASSIGNMENT:
