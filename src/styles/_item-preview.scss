@@ -1,0 +1,101 @@
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//   Item Previw
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+.item-preview {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  background-color: $blue4;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  max-width: 492px;
+
+  .preview-close {
+    display: flex;
+    justify-content: flex-end;
+
+    button.btn.btn-close {
+      background-color: $blue4;
+      font-size: 14px;
+      margin-top: 14px;
+      padding: 5px;
+      cursor: pointer;
+      .icon-svg path {
+        fill: $blue1;
+      }
+    }
+  }
+
+  .status {
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+    margin: 0;
+    line-height: 1.5rem;
+    .icon-svg {
+      margin-right: 3px;
+      height: .5rem;
+      width: .5rem;
+      path {
+        fill: $blue1;
+      }
+    }
+  }
+
+  h1 {
+    color: #222222;
+    margin: 0;
+    line-height: 3rem;
+  }
+
+  .summary {
+    @include ms-respond(font-size, -1);
+    line-height: 1.5rem;
+    color: #222;
+  }
+
+  .details {
+    color: #54698d;
+    font-family: Courier;
+    color: $blue1;
+    font-size: 14px;
+    line-height: 24px;
+    margin-bottom: 0;
+    white-space: pre-wrap;
+  }
+
+  .timestamps {
+    margin: 1rem 0;
+    .timestamp {
+      background-color: $blue4;
+      font-size: 12px;
+      padding: 0.15rem 2rem;
+      .label {
+        color: $blue1;
+        width: 70px;
+      }
+      .value {
+        color: black;
+      }
+    }
+  }
+
+  .preview-actions {
+    display: flex;
+    flex-direction: row;
+
+    a,
+    button {
+      flex-grow: 1;
+      border-radius: 0;
+      font-family: 'Open Sans';
+      font-size: 16px;
+      line-height: 48px;
+      padding: 0;
+      &:not(:first-child) {
+        margin-left: 5px;
+      }
+    }
+  }
+}

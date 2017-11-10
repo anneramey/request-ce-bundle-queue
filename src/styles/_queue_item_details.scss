@@ -21,13 +21,14 @@
           .nav-link {
             border-bottom: 1px solid $gray2;
             color: $blue1;
-            font-size: 12px;
+            font-size: 0.75rem;
+            line-height: 1.5rem;
             padding: 0;
             text-align: center;
             transition: border-bottom-color 0.5s;
             .inner-wrapper {
               border-bottom: 3px solid rgba(0, 0, 0, 0);
-              padding: 0.75rem 1rem;
+              padding: 0.625rem 0.75rem 0.625rem;
               transition: border-bottom-color 0.5s;
             }
             &.active {
@@ -54,54 +55,60 @@
 
     .general {
       color: $blue1;
-      padding: 2rem 2rem 1rem 2rem;
+      padding: 1.5rem;
 
       .status {
-        font-size: 10px;
-        margin-bottom: 0.25rem;
         text-transform: uppercase;
-        .icon {
-          margin-right: 0.5em;
+        font-size: 0.6875rem;
+        margin: 0;
+        line-height: 1.5rem;
+        .icon-svg {
+          margin-right: 3px;
+          height: .5rem;
+          width: .5rem;
+          path {
+            fill: $blue1;
+          }
         }
       }
 
       h1 {
-        font-size: 16px;
+        color: #222222;
+        margin: 0;
+        line-height: 3rem;
       }
 
       .summary {
-        font-size: 11px;
+        @include ms-respond(font-size, -1);
+        line-height: 1.5rem;
+        // margin-bottom: 0;
+        color: #222;
       }
 
       pre {
         color: $blue1;
-        font-size: 11px;
+        @include ms-respond(font-size, -2);
+        line-height: 1.5rem;
         margin-bottom: 0;
       }
     }
 
     .request-button {
-      margin: 1rem 3rem;
+      display: block;
     }
 
     .subtasks-section {
-      margin: 1rem 1rem 1rem 2rem;
-      hr {
-        border-top-color: $gray4;
-        border-top-width: 2px;
-        margin: 0;
-      }
-
+      margin: 1.5rem;
       h2 {
         align-items: center;
         color: $blue1;
         display: flex;
-        font-size: 16px;
+        @include ms-respond(font-size, 0);
+        line-height: 2.125rem;
         font-weight: 600;
-        padding-left: 2rem;
-        span {
-          padding: 0.75rem 0;
-        }
+        padding-left: .875rem;
+        margin: 0;
+        border-top: 2px solid $gray4;
         button {
           margin-left: auto;
         }
@@ -110,7 +117,7 @@
       .subtasks {
         .subtask {
           border-bottom: 2px solid $gray4;
-          font-size: 13px;
+          font-size: .75rem;
           padding-left: 4rem;
           a {
             color: $blue1;
@@ -133,32 +140,33 @@
       }
 
       .empty-subtasks {
-        border-radius: 8px;
-        background-color: #ffffff;
+        border-radius: .5rem;
+        background-color: $white;
         font-family: 'Open Sans';
         text-align: center;
-        padding: 2em;
-
+        padding: 1.5em;
         h5 {
-          color: #54698d;
+          color: $blue1;
           font-size: 14px;
+          @include ms-respond(font-size, 2);
           font-weight: 600;
-          line-height: 24px;
+          line-height: 1.5rem;
         }
 
         h6 {
-          color: #a8b7c7;
-          font-size: 12px;
-          line-height: 24px;
+          color: $blue2;
+          @include ms-respond(font-size, -1);
+          line-height: 1.5rem;
         }
       }
     }
 
     .timestamps {
-      margin: 1rem 0;
+      margin: 1.5rem 0 0;
       .timestamp {
-        font-size: 10px;
-        padding: 0.15rem 2rem;
+        @include ms-respond(font-size, -1);
+        line-height: 1.5rem;
+        padding: 0 2rem;
         .label {
           color: $blue2;
           width: 70px;
@@ -170,236 +178,11 @@
     }
   }
 
-  .discussions {
-    display: flex;
-    flex-direction: column;
-    .messages {
-      flex: 1;
-      position: relative;
-      .message-wrapper {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        padding: 3rem 1rem 1rem 1rem;
-        overflow-y: scroll;
-      }
-      .messages-group {
-        display: flex;
-        margin-bottom: 1rem;
-        .sb-avatar {
-          margin: 0 0.5rem 0 0;
-        }
-        .message-list {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          color: $blue1;
-          font-size: 11px;
-          .message {
-            background-color: white;
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-            padding: 1rem;
-            position: relative;
-            margin-bottom: 0.4rem;
-            white-space: pre-wrap;
-            &:after {
-              content: ' ';
-              position: absolute;
-              width: 0;
-              height: 0;
-              top: 8px;
-              bottom: auto;
-              border: 4px solid;
-            }
-          }
-          .meta {
-            .author {
-              margin-right: 1rem;
-            }
-            .timestamp {
-              color: $blue2;
-            }
-          }
-        }
-        &.mine {
-          .message-list {
-            align-items: flex-end;
-            .message {
-              background-color: $blue3;
-              &:after {
-                left: auto;
-                right: -8px;
-                border-color: $blue3 transparent transparent $blue3;
-              }
-            }
-          }
-        }
-        &.other {
-          .message-list {
-            .message {
-              &:after {
-                left: -8px;
-                right: auto;
-                border-color: white white transparent transparent;
-              }
-            }
-          }
-        }
-      }
-      .date {
-        align-items: center;
-        color: $blue0;
-        display: flex;
-        font-size: 10px;
-        font-weight: bold;
-        margin: 1rem 0;
-        text-align: center;
-        hr {
-          border-top: 2px solid $blue3;
-          flex: 1;
-        }
-        span {
-          margin: 0 1rem;
-        }
-      }
-      button.more-messages {
-        position: absolute;
-        bottom: 20px;
-        width: 180px;
-        left: 50%;
-        margin-left: -90px;
-        font-size: 12px;
-        display: flex;
-        justify-content: center;
-        .icon {
-          margin-left: 10px;
-          path {
-            fill: white;
-          }
-        }
-      }
-      .participants-preview {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        display: flex;
-        align-items: center;
-        background-color: rgba(255, 255, 255, 0.8);
-        padding: 0.33rem 1rem;
-        .sb-avatar {
-          margin-right: 0.33rem;
-          img {
-            border: 2px solid rgba(0, 212, 106, 0);
-            transition: border-color 300ms;
-          }
-        }
-        .present {
-          .sb-avatar img {
-            border-color: rgba(0, 212, 106, 1);
-          }
-        }
-
-        button.view-all {
-          margin-left: auto;
-        }
-      }
-    }
-
-    .load-more-messages {
-      border-radius: 8px;
-      background-color: #d3dce7;
-
-      font-family: 'Open Sans';
-      text-align: center;
-      padding: 1em;
-
-      h5 {
-        color: #54698d;
-        font-size: 14px;
-        font-weight: 600;
-        line-height: 24px;
-      }
-
-      h6 {
-        color: #a8b7c7;
-        font-size: 12px;
-        line-height: 24px;
-      }
-    }
-    .new-message {
-      display: flex;
-      min-height: 48px;
-      padding: 0;
-
-      button {
-        // height: 48px;
-        width: 48px;
-
-        border-radius: 0;
-
-        &.btn-more {
-          background-color: #d3dce7;
-          opacity: 0.5;
-          display: flex;
-          justify-content: center;
-        }
-
-        &.btn-send {
-          background-color: #d3dce7;
-          cursor: pointer;
-          &:disabled {
-            cursor: not-allowed;
-          }
-        }
-
-        &.btn.btn-subtle {
-          background-color: $blue3;
-          .icon-svg path {
-            fill: $blue1;
-          }
-        }
-
-        &.btn.disabled,
-        &.btn:disabled {
-          opacity: 1;
-        }
-      }
-
-      .input-container {
-        flex: 1;
-        padding: 12px;
-        background-color: #d3dce7;
-        .placeholder {
-          color: #a8b7c7;
-          position: absolute;
-          pointer-events: none;
-          &.hidden {
-            display: none;
-          }
-        }
-      }
-      .message-input {
-        max-height: 48px;
-        overflow-y: scroll;
-        overflow-wrap: break-word;
-        color: #54698d;
-
-        &:focus {
-          outline: unset;
-        }
-      }
-    }
-  }
 
   .right-panel {
     .work-grab-button {
       border-radius: 0;
-      margin: 5rem 3rem;
+      margin: 1.5rem;
       padding: 0.75rem 1rem;
     }
   }

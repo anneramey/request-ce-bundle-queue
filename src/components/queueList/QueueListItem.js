@@ -82,9 +82,9 @@ export const QueueListItem = ({
         tabIndex={0}
       >
         <StatusParagraph status={values.Status} />
-        <h1>
+        <h6>
           {queueItem.form.name} ({queueItem.handle})
-        </h1>
+        </h6>
         <p className="summary">{values.Summary}</p>
         <AssignmentParagraph values={values} />
         <ul className="timestamps list-group">

@@ -1,111 +1,84 @@
-h1{
-  font-size: ms(5);
-  line-height: 48px;
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//   Modular Scale
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+h1 {
+  @include ms-respond(font-size, 6);
+  // Mobile
+  line-height: 1.2;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  // Testing Responsiveness
+  // @media (min-width: 768px) and (max-width: 1200px){
+  //   border-color: blue;
+  // }
+  // @media (min-width: 1200px){
+  //   border-color: red;
+  // }
+  // border: 2px solid green;
 }
-h2{
-  font-size: ms(4);
-  line-height: 48px;
+h2 {
+  @include ms-respond(font-size, 5);
+  font-weight: 600;
+  // Mobile
+  line-height: 1.2631578947;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+
 }
-h3{
-  font-size: ms(3);
-  line-height: 48px;
+h3 {
+  @include ms-respond(font-size, 4);
+  font-weight: 600;
+  // Mobile
+  line-height: 1.333333333;
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+
 }
-h4{
-  font-size: ms(2);
-  line-height: 24px;
+h4 {
+  @include ms-respond(font-size, 3);
+  // Mobile
+  line-height: 1.333926146;
+  margin-top: 1.5rem;
+  margin-bottom: 0;
 }
-h5{
-  font-size: ms(1);
-  line-height: 24px;
+h5 {
+  @include ms-respond(font-size, 2);
+  // Mobile
+  line-height: 1.411764706;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
-h6{
-  font-size: ms(0);
-  line-height: 24px;
+h6 {
+  @include ms-respond(font-size, 1);
+  // Mobile
+  line-height: 1;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
-p{
-  font-size: ms(-1);
-}
+p{ @include ms-respond(font-size, 0);margin-bottom: 1.5rem;}
 
-$root: (
-  fontSize: 16px,
-  lineHeight: 24px
-);
-$scale0: (
-  fontSize: 1rem,
-  line: 1.5rem,
-  autoLineCount: 1,
-  autoLineHeight: 1.5rem
-);
-$scale1: (
-  fontSize: 1.125rem,
-  line: 1.5rem,
-  autoLineCount: 1,
-  autoLineHeight: 1.5rem
-);
-$scale2: (
-  fontSize: 1.25rem,
-  line: 1.5rem,
-  autoLineCount: 1,
-  autoLineHeight: 1.5rem
-);
-$scale3: (
-  fontSize: 1.4375rem,
-  line: 1.5rem,
-  autoLineCount: 1,
-  autoLineHeight: 1.5rem
-);
-$scale4: (
-  fontSize: 1.625rem,
-  line: 1.5rem,
-  autoLineCount: 2,
-  autoLineHeight: 3rem
-);
-$scale5: (
-  fontSize: 1.8125rem,
-  line: 1.5rem,
-  autoLineCount: 2,
-  autoLineHeight: 3rem
-);
-$scale6: (
-  fontSize: 2rem,
-  line: 1.5rem,
-  autoLineCount: 2,
-  autoLineHeight: 3rem
-);
-$scale7: (
-  fontSize: 2.25rem,
-  line: 1.5rem,
-  autoLineCount: 2,
-  autoLineHeight: 3rem
-);
-$scale8: (
-  fontSize: 2.5625rem,
-  line: 1.5rem,
-  autoLineCount: 2,
-  autoLineHeight: 3rem
-);
-$scale9: (
-  fontSize: 2.875rem,
-  line: 1.5rem,
-  autoLineCount: 2,
-  autoLineHeight: 3rem
-);
-$scale10: (
-  fontSize: 3.25rem,
-  line: 1.5rem,
-  autoLineCount: 3,
-  autoLineHeight: 4.5rem
-);
-$scale11: (
-  fontSize: 3.625rem,
-  line: 1.5rem,
-  autoLineCount: 3,
-  autoLineHeight: 4.5rem
-);
-$scale12: (
-  fontSize: 4.125rem,
-  line: 1.5rem,
-  autoLineCount: 3,
-  autoLineHeight: 4.5rem
-);
+blockquote{ @include ms-respond(font-size, 2); border-left: 4px solid #54698D; padding-left: 1rem; line-height: 24px;}
+header h1 { @include ms-respond(font-size, 12); margin-top: 3rem;margin-bottom: 0; font-weight: 600;}
+/* Let's make sure all's aligned */
+hr, .hr {
+  border: 1px solid;
+  margin: -1px 0;
+}
+a, b, i, strong, em, code {
+  line-height: 0;
+}
+sub, sup {
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sup {
+  top: -0.5em;
+}
+sub {
+  bottom: -0.25em;
+}

@@ -1,158 +1,26 @@
 @import 'variables';
 @import 'mixins';
-
-body {
-  font-family: 'Open Sans', sans-serif;
-}
-
-.navbar {
-  padding: 0;
-}
-
-.nav.nav-header {
-  justify-content: space-between;
-  padding-right: 5px;
-  .dropdown {
-    display: flex;
-  }
-}
-
-.nav.nav-header > .nav-item-right {
-  margin-left: auto;
-}
-
-.navbar .nav-item {
-  display: flex;
-}
-
-.navbar .nav-link {
-  font-size: 16px;
-  color: $blue2;
-  padding: 0.75em 1em;
-
-  .badge {
-    background-color: $orange1;
-    border-radius: 50%;
-    font-size: 12px;
-    font-weight: 600;
-    position: absolute;
-    right: 5px;
-    top: 5px;
-  }
-}
-
-.navbar .drawer-button {
-  border-right: 1px solid $transparent-gray1;
-}
-
-.dropdown-toggle::after {
-  border-top: 0.4em solid $blue2;
-  border-right: 0.19em solid transparent;
-  border-left: 0.19em solid transparent;
-}
-
-.icon-svg {
-  height: 1.2em;
-  width: 1.2em;
-
-  path,
-  .primary-fill {
-    fill: $blue2;
-  }
-
-  .primary-stroke {
-    stroke: $blue2;
-    fill: none;
-  }
-}
-
-.icon-wrapper {
-  display: flex;
-  align-items: center;
-  .icon {
-    display: flex;
-  }
-}
-
-.list-group-item {
-  border: none;
-  margin-bottom: 0;
-  &:first-child {
-    border-top-right-radius: 0;
-    border-top-left-radius: 0;
-  }
-  &:last-child {
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-}
-
-.nav-link:focus,
-.nav-link:hover {
-  text-decoration: none;
-}
-a {
-  color: $blue0;
-}
-a:focus {
-  box-shadow: none;
-  outline: $blue3 dotted thin;
-}
-
-.btn.btn-link {
-  color: $blue1;
-  &:hover,
-  &:focus,
-  &:active {
-    text-decoration: none;
-  }
-  &:focus {
-    box-shadow: none;
-    outline: $blue3 dotted thin;
-  }
-}
-.btn.btn-primary {
-  color: white;
-  background-color: $blue1;
-  border-color: $blue1;
-  &:focus,
-  &.focus {
-    box-shadow: none;
-    outline: $blue3 dotted thin;
-  }
-}
-.btn.btn-inverse.btn-primary {
-  color: $blue1;
-  background-color: white;
-  border: 1px solid $blue1;
-  &:focus,
-  &.focus {
-    box-shadow: none;
-    outline: $blue3 dotted thin;
-  }
-}
-
-.sidebar .btn.btn-sidebar {
-  border: 0;
-  padding: 0;
-  background-color: transparent;
-  margin: 0;
-}
-
-.tooltip {
-  font-size: 12px;
-}
-
+@import 'base';
 @import '~modularscale-sass/stylesheets/modularscale';
+
+@import 'list-group';
 @import 'sidebar';
+@import 'icons';
 @import 'content';
+@import 'item-preview';
+@import 'submissions';
+@import 'notifications';
 @import 'modal';
 @import 'queue_item_details';
 @import 'discussion_dialogs';
+@import 'discussions';
+@import 'navbar';
 @import 'assignments';
-@import 'forms2';
+@import 'forms';
 @import 'tables';
 @import 'buttons';
 @import 'alerts';
 @import 'profile';
 @import 'type';
+
+@import 'temp';

@@ -1,0 +1,203 @@
+.discussions {
+  display: flex;
+  flex-direction: column;
+  .messages {
+    flex: 1;
+    position: relative;
+    .message-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      padding: 1.5rem;
+      overflow-y: scroll;
+    }
+    .messages-group {
+      display: flex;
+      margin-bottom: 1.5rem;
+      .sb-avatar {
+        margin: 0 0.75rem 0 0;
+        img{
+          border: 2px solid transparent;
+
+        }
+        &.present img{
+          border-color: $present;
+        }
+      }
+      .message-list {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        color: $blue1;
+        @include ms-respond(font-size, 0);
+        .message {
+          background-color: white;
+          border-radius: 0.5rem;
+          margin-bottom: 0.75rem;
+          padding: .75rem;
+          position: relative;
+          white-space: pre-wrap;
+          &:after {
+            content: ' ';
+            position: absolute;
+            width: 0;
+            height: 0;
+            top: 8px;
+            bottom: auto;
+            border: 4px solid;
+          }
+        }
+        .meta {
+          @include ms-respond(font-size, -2);
+          line-height: 1.5rem;
+          .author {
+            margin-right: 1rem;
+          }
+          .timestamp {
+            color: $blue2;
+          }
+        }
+      }
+      &.mine {
+        .message-list {
+          align-items: flex-end;
+          .message {
+            background-color: $blue3;
+            &:after {
+              left: auto;
+              right: -8px;
+              border-color: $blue3 transparent transparent $blue3;
+            }
+          }
+        }
+      }
+      &.other {
+        .message-list {
+          .message {
+            &:after {
+              left: -8px;
+              right: auto;
+              border-color: white white transparent transparent;
+            }
+          }
+        }
+      }
+    }
+    .date {
+      align-items: center;
+      color: $blue0;
+      display: flex;
+      @include ms-respond(font-size, -1);
+      font-weight: bold;
+      margin: 1.5rem 0;
+      text-align: center;
+      hr {
+        border: 2px solid $blue3;
+        flex: 1;
+      }
+      span {
+        margin: 0 .75rem;
+      }
+    }
+    button.more-messages {
+      position: absolute;
+      bottom: 20px;
+      width: 180px;
+      left: 50%;
+      margin-left: -90px;
+      font-size: 12px;
+      display: flex;
+      justify-content: center;
+      .icon {
+        margin-left: 10px;
+        path {
+          fill: white;
+        }
+      }
+    }
+  }
+
+  .load-more-messages {
+    text-align: center;
+    // padding: 1.5rem;
+    h5 {
+      color: $blue1;
+      @include ms-respond(font-size, 2);
+      font-weight: 600;
+      line-height: 1.5rem;
+      margin-top: 0;
+    }
+
+    h6 {
+      color: $blue2;
+      @include ms-respond(font-size, -1);
+      margin-top: 0;
+      line-height: 1.5rem;
+    }
+  }
+  .new-message {
+    display: flex;
+    min-height: 48px;
+    padding: 0;
+    button {
+      // height: 48px;
+      width: 48px;
+
+      border-radius: 0;
+
+      &.btn-more {
+        background-color: #d3dce7;
+        opacity: 0.5;
+        display: flex;
+        justify-content: center;
+      }
+
+      &.btn-send {
+        background-color: #d3dce7;
+        cursor: pointer;
+        &:disabled {
+          cursor: not-allowed;
+        }
+      }
+
+      &.btn.btn-subtle {
+        background-color: $blue3;
+        .icon-svg path {
+          fill: $blue1;
+        }
+      }
+
+      &.btn.disabled,
+      &.btn:disabled {
+        opacity: 1;
+      }
+    }
+
+    .input-container {
+      flex: 1;
+      padding: 12px;
+      background-color: #d3dce7;
+      .placeholder {
+        color: #a8b7c7;
+        position: absolute;
+        pointer-events: none;
+        &.hidden {
+          display: none;
+        }
+      }
+    }
+    .message-input {
+      max-height: 48px;
+      overflow-y: scroll;
+      overflow-wrap: break-word;
+      color: #54698d;
+
+      &:focus {
+        outline: unset;
+      }
+    }
+  }
+}
