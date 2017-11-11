@@ -40,7 +40,7 @@ export const QueueItem = ({
               </div>
             </Link>
           )}
-          <Nav className="tabs">
+          <Nav className="tabs hidden-sm-down">
             <NavItem>
               <NavLink
                 exact

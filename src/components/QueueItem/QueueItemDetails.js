@@ -7,6 +7,7 @@ import thinChevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg
 import circleOpenIcon from 'font-awesome-svg-png/black/svg/circle-o.svg';
 import circleClosedIcon from 'font-awesome-svg-png/black/svg/circle.svg';
 import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
+import commentsIcon from 'font-awesome-svg-png/black/svg/comments.svg';
 import { selectAssignments } from '../../redux/modules/app';
 import { actions } from '../../redux/modules/queue';
 import { originLink } from '../../utils/links';
@@ -26,6 +27,13 @@ export const QueueItemDetails = ({
 }) => (
   <div className="details">
     <div className="general">
+      <Link
+        to={`/item/${queueItem.id}/discussions`}
+        className="btn btn-primary btn-inverse discussion-button icon-wrapper hidden-md-up"
+      >
+        <SVGInline svg={commentsIcon} className="icon" />
+        View Discussion
+      </Link>
       <p className="status icon-wrapper">
         <SVGInline
           svg={
