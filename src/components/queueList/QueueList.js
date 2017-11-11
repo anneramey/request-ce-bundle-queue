@@ -122,16 +122,17 @@ export const QueueList = ({
         )}
       </div>
     </div>
-    {previewItem && (
-      <div className="right-panel">
-        <QueueItemPreview
-          queueItem={previewItem}
-          closePreview={closePreview}
-          toggleWorkMenu={toggleWorkMenu}
-          profile={profile}
-          grabItem={grabItem}
-        />
-      </div>
-    )}
+    {!isSmallLayout &&
+      previewItem && (
+        <div className="right-panel">
+          <QueueItemPreview
+            queueItem={previewItem}
+            closePreview={closePreview}
+            toggleWorkMenu={toggleWorkMenu}
+            profile={profile}
+            grabItem={grabItem}
+          />
+        </div>
+      )}
   </div>
 );
