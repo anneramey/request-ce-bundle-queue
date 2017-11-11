@@ -33,8 +33,10 @@
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: flex-start;
-    padding: 0 1.5rem;
-
+    padding: 0.75rem 1.5rem;
+    &:hover{
+      background-color: $lightestgray;
+    }
     // This is the details part of the card.
     .summary-group {
       flex-grow: 1;
@@ -87,6 +89,7 @@
         .list-group-item {
           padding: 0;
           color: $gray;
+          background-color: transparent;
           @include ms-respond(font-size, -3);
           &:not(:first-child):before {
             content: '•';
