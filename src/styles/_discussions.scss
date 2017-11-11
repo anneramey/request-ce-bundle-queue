@@ -34,7 +34,7 @@
         color: $blue1;
         @include ms-respond(font-size, 0);
         .message {
-          background-color: white;
+          background-color: $gray4;
           border-radius: 0.5rem;
           margin-bottom: 0.75rem;
           padding: .75rem;
@@ -80,7 +80,7 @@
             &:after {
               left: -8px;
               right: auto;
-              border-color: white white transparent transparent;
+              border-color: $gray4 $gray4 transparent transparent;
             }
           }
         }

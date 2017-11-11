@@ -7,7 +7,7 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  background-color: $white;
+  // background-color: $white;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   max-width: 492px;
@@ -24,6 +24,13 @@
       cursor: pointer;
       .icon-svg path {
         fill: $blue1;
+      }
+      &:hover{
+        background-color: $blue1;
+        color: $white;
+        .icon-svg path {
+          fill: $white;
+        }
       }
     }
   }
@@ -68,9 +75,9 @@
   .timestamps {
     margin: 1rem 0;
     .timestamp {
-      background-color: $blue4;
       font-size: 12px;
       padding: 0.15rem 2rem;
+      background-color: transparent;
       .label {
         color: $blue1;
         width: 70px;
@@ -88,13 +95,21 @@
     a,
     button {
       flex-grow: 1;
-      border-radius: 0;
-      font-family: 'Open Sans';
-      font-size: 16px;
-      line-height: 48px;
+      border-radius: .25rem;
+      background: $white;
+      color: $gray;
+      border: 1px solid $gray4;
+      @include ms-respond(font-size, 0);
+      line-height: 2.9375rem;
       padding: 0;
       &:not(:first-child) {
         margin-left: 5px;
+      }
+      &:hover{
+        border-color: $gray2;
+        color: $white;
+        background: $blue1;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1)
       }
     }
   }

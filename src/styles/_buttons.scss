@@ -27,7 +27,7 @@
 .btn.btn-inverse.btn-primary {
   color: $blue1;
   background-color: white;
-  border: 1px solid $blue1;
+  border: 1px solid $gray3;
   line-height: 1.75rem;
   margin-top: .75rem;
   margin-bottom: .75rem;
@@ -35,6 +35,11 @@
   &:focus, &.focus{
     box-shadow: none;
     outline: $blue3 dotted thin;
+  }
+  &:hover{
+    border-color: $gray2;
+    color: $blue0;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1)
   }
 }
 
