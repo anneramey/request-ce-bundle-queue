@@ -34,16 +34,17 @@
     flex-wrap: nowrap;
     align-items: flex-start;
     padding: 0.75rem 1.5rem;
-    &:hover{
+    &:hover {
       background-color: $lightestgray;
     }
     // This is the details part of the card.
     .summary-group {
       flex-grow: 1;
+      text-decoration: none;
       &:focus {
         outline: $blue3 dotted thin;
       }
-      h6{
+      h6 {
         color: $black;
         font-weight: 400;
         margin: 0;
@@ -56,8 +57,8 @@
         line-height: 1.5rem;
         .icon-svg {
           margin-right: 3px;
-          height: .5rem;
-          width: .5rem;
+          height: 0.5rem;
+          width: 0.5rem;
           path {
             fill: $blue1;
           }
@@ -94,7 +95,7 @@
           &:not(:first-child):before {
             content: '•';
             font-weight: 700;
-            margin: 0 .3125rem;
+            margin: 0 0.3125rem;
           }
         }
       }
@@ -147,9 +148,9 @@
           height: 24px;
           color: #54698d;
           font-family: 'Open Sans';
-          font-size: .75rem;
+          font-size: 0.75rem;
           line-height: 1.5rem;
-          padding: 3px .75rem;
+          padding: 3px 0.75rem;
         }
       }
     }

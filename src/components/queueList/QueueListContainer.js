@@ -23,6 +23,7 @@ const mapStateToProps = state => ({
   previewItem: state.queue.previewItem,
   sortDirection: state.queue.sortDirection,
   profile: state.app.profile,
+  isSmallLayout: state.layout.get('size') === 'small',
 });
 
 const mapDispatchToProps = {

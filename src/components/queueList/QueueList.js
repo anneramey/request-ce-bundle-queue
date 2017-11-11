@@ -7,7 +7,7 @@ import filterIcon from '../../images/filter.svg';
 import sortAscIcon from '../../images/sort_asc.svg';
 import sortDescIcon from '../../images/sort_desc.svg';
 /* import { isItemComplete } from '../../redux/modules/queue'; */
-import { QueueListItem } from './QueueListItem';
+import { QueueListItem, QueueListItemSmall } from './QueueListItem';
 import { WorkItemMenuContainer } from '../WorkItemMenu';
 import { QueueItemPreview } from './QueueItemPreview';
 
@@ -50,6 +50,7 @@ export const QueueList = ({
   sortDirection,
   toggleSortDirection,
   refresh,
+  isSmallLayout,
 }) => (
   <div className="two-panels">
     <div className="left-panel">
@@ -98,18 +99,23 @@ export const QueueList = ({
       <div className="submissions">
         {queueItems && queueItems.size > 0 ? (
           <ul className="list-group">
-            {queueItems.map(queueItem => (
-              <QueueListItem
-                key={queueItem.id}
-                handleItemClick={handleItemClick}
-                queueItem={queueItem}
-                openDropdownItem={openDropdownItem}
-                toggleItemMenu={toggleItemMenu}
-                toggleWorkMenu={toggleWorkMenu}
-                profile={profile}
-                grabItem={grabItem}
-              />
-            ))}
+            {queueItems.map(
+              queueItem =>
+                isSmallLayout ? (
+                  <QueueListItemSmall queueItem={queueItem} />
+                ) : (
+                  <QueueListItem
+                    key={queueItem.id}
+                    handleItemClick={handleItemClick}
+                    queueItem={queueItem}
+                    openDropdownItem={openDropdownItem}
+                    toggleItemMenu={toggleItemMenu}
+                    toggleWorkMenu={toggleWorkMenu}
+                    profile={profile}
+                    grabItem={grabItem}
+                  />
+                ),
+            )}
           </ul>
         ) : (
           <WallyMessage filter={filter} />
