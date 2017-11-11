@@ -1,4 +1,4 @@
-@media (max-width: 700px) {
+@media (max-width: 767px) {
   .modal-dialog {
     height: 100%;
     margin: 0;
@@ -17,7 +17,7 @@
   }
 }
 
-@media (min-width: 767px) {
+@media (min-width: 768px) {
   .modal-dialog {
     .modal-content {
       border: none;
@@ -64,7 +64,7 @@
         }
       }
       .btn.btn-link {
-        font-size: .875rem;
+        font-size: 0.875rem;
         padding: 0 1rem;
       }
       .btn.back-button {
@@ -87,8 +87,8 @@
           border-bottom: 1px solid rgba(244, 246, 249, 1);
           padding: 0;
           .btn.btn-link {
-            font-size: .875rem;
-            padding: .875rem 1rem;
+            font-size: 0.875rem;
+            padding: 0.875rem 1rem;
             flex: 1;
             display: flex;
             justify-content: flex-end;
@@ -106,7 +106,7 @@
         }
       }
       .btn.btn-inverse {
-        font-size: .875rem;
+        font-size: 0.875rem;
         margin: 1rem;
       }
       &.main-section {
@@ -157,13 +157,13 @@
         label {
           border-bottom: 1px solid rgba(244, 246, 249, 1);
           color: $blue1;
-          font-size: .875rem;
+          font-size: 0.875rem;
           margin-bottom: 0;
           padding: 1rem;
         }
         input[type='checkbox'],
         input[type='radio'] {
-          margin-right: .75rem;
+          margin-right: 0.75rem;
         }
         select {
           margin: 1rem;
