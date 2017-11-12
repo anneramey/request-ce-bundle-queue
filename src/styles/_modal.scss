@@ -51,6 +51,7 @@
         span {
           padding: 1rem;
         }
+        a,
         button {
           position: absolute;
           top: 0;
@@ -66,6 +67,10 @@
       .btn.btn-link {
         font-size: 0.875rem;
         padding: 0 1rem;
+      }
+      a.btn.btn-link {
+        display: flex;
+        align-items: center;
       }
       .btn.back-button {
         border-top: 1px solid rgba(211, 220, 231, 1);
