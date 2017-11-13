@@ -7,7 +7,7 @@ import { actions } from '../../redux/kinopsModule';
 
 
 export const mapStateToProps = state => ({
-  alerts: List(state.kinops.alerts.data)
+  alerts: List(state.kinops.alerts.get('data'))
     .filter(
       alert =>
         !alert.values['End Date Time'] ||
