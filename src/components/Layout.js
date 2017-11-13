@@ -28,7 +28,7 @@ export const Layout = ({
 );
 
 export const mapStateToProps = state => ({
-  isLarge: state.layout.get('isLayoutLarge'),
+  isLarge: state.layout.get('size') !== 'small',
 });
 
 export const LayoutContainer = compose(

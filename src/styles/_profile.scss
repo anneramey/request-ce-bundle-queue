@@ -8,16 +8,17 @@
     text-decoration: none;
   }
   .profile-header {
-    background-color: $gray4;
-    font-size: 14px;
+    background-color: $white;
+    font-size: 0.875rem;
     padding: 0.5rem;
   }
   .profile-links {
     display: flex;
     flex-direction: column;
     a {
-      font-size: 12px;
+      font-size: 0.75rem;
       padding: 0.5rem;
+      color:$gray;
       &:hover {
         background-color: lighten($gray4, 5%);
       }

@@ -1,54 +1,63 @@
 .sidebar-content {
-  background-color: white;
+  background-color: #f7f7f7;
 }
 
 .sidebar {
   border-right: 1px solid $gray3;
   display: flex;
   flex-direction: column;
-  margin-top: 48px;
+  margin-top: 3rem;
   min-height: $page-height;
-  padding: 20px 0;
+  padding: 1.5rem 0;
   width: 252px;
 
   h6 {
-    color: $blue2;
-    font-size: 12px;
-    padding: 0 25px;
-    margin: 20px 0 0 0;
+    color: $blue0;
+    font-size: .75rem;
+    padding: 0.75rem 1.5rem;
+    margin: .75rem 0 0 0;
     text-transform: uppercase;
+    .btn{
+      .icon-svg{
+        height: 0.75rem;
+        widows: 0.75rem;
+      }
+    }
   }
 
   .btn {
-    font-size: 14px;
-    margin: 0 25px;
+    font-size: .875rem;
+    margin: 0 auto;
     &.btn-primary {
-      background-color: $blue2;
-      border-color: $blue2;
+      background-color: $orange1;
+      border: none;
+      margin: 0 1.5rem;
+      line-height: 1.75rem;
+      margin-bottom: .75rem;
       &:hover{
-        color: $blue0;
-        background-color: $blue3;
+        color: $white;
+        background-color: darken($orange1, 25%);
       }
     }
   }
 
   .nav-link {
-    color: $blue2;
+    color: $gray;
   }
 
   .filter-nav {
-    margin-top: 10px;
     .nav-link {
       border-left: 3px solid white;
-      font-size: 14px;
-      margin: 5px 0;
-      padding: 2.5px 25px 2.5px 22px;
+      margin: 0 0 .75rem 0;
+      font-size: .875rem;
+      padding: 0.25rem 1.5rem;
       transition: border-left-color 0.5s, color 0.5s;
       .icon {
         display: flex;
-        width: 35px;
+        width: 2rem;
       }
-      &.active {
+      &.active,
+      &:hover {
         border-left-color: $blue1;
         color: $blue1;
         .icon-svg,
@@ -60,12 +69,11 @@
   }
 
   .bottom-nav {
-    margin-top: 2.5px;
     .nav-link {
       border-bottom: 1px solid $gray3;
-      font-size: 14px;
-      padding: 10px;
-      margin: 5px 15px;
+      font-size: .875rem;
+      padding: 0.625rem .75rem .5625rem;
+      margin: 0 .75rem;
       text-transform: uppercase;
     }
   }

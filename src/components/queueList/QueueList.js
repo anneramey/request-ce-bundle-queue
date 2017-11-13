@@ -7,7 +7,7 @@ import filterIcon from '../../images/filter.svg';
 import sortAscIcon from '../../images/sort_asc.svg';
 import sortDescIcon from '../../images/sort_desc.svg';
 /* import { isItemComplete } from '../../redux/modules/queue'; */
-import { QueueListItem } from './QueueListItem';
+import { QueueListItem, QueueListItemSmall } from './QueueListItem';
 import { WorkItemMenuContainer } from '../WorkItemMenu';
 import { QueueItemPreview } from './QueueItemPreview';
 
@@ -58,6 +58,7 @@ export const QueueList = ({
   sortDirection,
   toggleSortDirection,
   refresh,
+  isSmallLayout,
 }) => (
   <div className="two-panels">
     {!filter ? (
@@ -128,16 +129,17 @@ export const QueueList = ({
         </div>
       </div>
     )}
-    {previewItem && (
-      <div className="right-panel">
-        <QueueItemPreview
-          queueItem={previewItem}
-          closePreview={closePreview}
-          toggleWorkMenu={toggleWorkMenu}
-          profile={profile}
-          grabItem={grabItem}
-        />
-      </div>
-    )}
+    {!isSmallLayout &&
+      previewItem && (
+        <div className="right-panel">
+          <QueueItemPreview
+            queueItem={previewItem}
+            closePreview={closePreview}
+            toggleWorkMenu={toggleWorkMenu}
+            profile={profile}
+            grabItem={grabItem}
+          />
+        </div>
+      )}
   </div>
 );

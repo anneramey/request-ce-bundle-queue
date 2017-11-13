@@ -18,7 +18,7 @@ const LoadMoreMessages = ({
     title = 'No Messages';
     subtitle = 'There are no messages, enter a message below.';
   } else if (!hasMore) {
-    title = 'No More Messages';
+    title = null;
     subtitle = 'There are no more messages to load, you are at the beginning.';
   }
 

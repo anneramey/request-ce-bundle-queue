@@ -1,7 +1,19 @@
 $header-height: 48px;
 $page-height: calc(100vh - 48px);
 
-$modularscale: (base: 16px, ratio: 1.125);
+// Set Responsive Base sizes
+$modularscale: (
+  base: 12px,
+  ratio: 1.125,
+  768px: (
+    14px
+    ratio: 1.125,
+  ),
+  1200px: (
+    base: 16px,
+    ratio: 1.125,
+  ),
+);
 
 $transparent-gray1: rgba(51, 51, 51, 0.15);
 $gray2: rgba(213, 213, 213, 1);
@@ -15,6 +27,7 @@ $blue3: rgba(211, 220, 231, 1);
 $blue4: rgba(244, 246, 249, 1);
 
 $orange1: rgba(255, 120, 0, 1);
+$present: rgba(0,212,100, 1);
 
 // Colors
 // --------------------------------------
@@ -30,7 +43,7 @@ $lightgray: #d5d6d7;
 $gray: #7e8083;
 $darkgray: #4b4c4e;
 $darkestgray: #333333;
-$black: #000000;
+$black: #222222;
 $white: #ffffff;
 
 $text-color: $gray !default; // Global text color on `<body>`.
@@ -39,14 +52,14 @@ $link-color: $tertiary !default; // Global textual link color.
 // Typography
 // --------------------------------------
 
-$font-family-sans-serif: 'Open Sans', sans-serif !default;
-$font-family-serif: Georgia, 'Times New Roman', Times, serif !default;
-$font-family-monospace: Menlo, Monaco, Consolas, 'Courier New',
-  monospace !default; // Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
-$font-family-base: $font-family-sans-serif !default;
+$font-family-sans-serif:  "Open Sans", sans-serif !default;
+$font-family-serif:       Georgia, "Times New Roman", Times, serif !default;
+$font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace !default; // Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
+$font-family-base:        $font-family-sans-serif !default;
 
-$font-size-base: 1.4rem !default; // Default font size. Equal to 14px.
-$line-height-base: 2rem !default; // Default line height. Equal to 20px.
+$font-size-base:          1rem !default; // Default font size. Equal to 16px.
+$line-height-base:        1.5rem !default; // Default line height. Equal to 24px.
+
 
 // Components
 // --------------------------------------

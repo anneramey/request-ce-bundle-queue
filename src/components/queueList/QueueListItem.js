@@ -82,9 +82,9 @@ export const QueueListItem = ({
         tabIndex={0}
       >
         <StatusParagraph status={values.Status} />
-        <h1>
+        <h6>
           {queueItem.form.name} ({queueItem.handle})
-        </h1>
+        </h6>
         <p className="summary">{values.Summary}</p>
         <AssignmentParagraph values={values} />
         <ul className="timestamps list-group">
@@ -117,6 +117,27 @@ export const QueueListItem = ({
           </DropdownMenu>
         </Dropdown>
       </div>
+    </li>
+  );
+};
+
+export const QueueListItemSmall = ({ queueItem }) => {
+  const { createdAt, updatedAt, id, values } = queueItem;
+  return (
+    <li className="submission list-group-item">
+      <Link to={`/item/${id}`} className="summary-group">
+        <StatusParagraph status={values.Status} />
+        <h6>
+          {queueItem.form.name} ({queueItem.handle})
+        </h6>
+        <p className="summary">{values.Summary}</p>
+        <AssignmentParagraph values={values} />
+        <ul className="timestamps list-group">
+          <DueOrCloseDate queueItem={queueItem} />
+          <Timestamp label="Updated" value={updatedAt} id={id} />
+          <Timestamp label="Created" value={createdAt} id={id} />
+        </ul>
+      </Link>
     </li>
   );
 };

@@ -2,13 +2,14 @@
   flex: 1;
   &.participants-dialog {
     background-color: $blue4;
-    padding: 1rem;
+    padding: 1.5rem;
     .header {
       color: $blue2;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 14px;
+      @include ms-respond(font-size, 0);
+      margin-top: 0;
       text-transform: uppercase;
     }
     ul.participants-list,

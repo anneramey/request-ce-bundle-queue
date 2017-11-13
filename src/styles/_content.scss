@@ -1,77 +1,5 @@
 .content {
   margin-top: $header-height;
-  font-family: 'Open Sans';
-
-  .notifications {
-    position: absolute;
-    top: 0;
-    z-index: 9999;
-    left: calc((100vw - 622px) / 2);
-    /* width: 100vw; */
-    /* display: flex; */
-    /* flex-direction: column; */
-    /* justify-content: centered; */
-
-    .notification {
-      width: 622px;
-      min-height: 75px;
-      background-color: white;
-      margin: 1em;
-      padding: 15px 22px 15px 22px;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      & > .message {
-        flex-grow: 1;
-        color: rgba(12, 18, 28, 0.54);
-        font-family: 'Open Sans';
-        font-size: 14px;
-        line-height: 19px;
-
-        .headline-copy {
-          color: rgba(12, 18, 28, 0.84);
-          font-family: 'Open Sans';
-          font-size: 16px;
-          font-weight: bold;
-          line-height: 22px;
-        }
-      }
-
-      & > .actions {
-        button.btn.btn-link {
-          padding: 0;
-          .icon-svg {
-            width: 1em;
-            height: 1em;
-            path {
-              opacity: 0.5;
-              fill: black;
-            }
-          }
-        }
-      }
-
-      &.info {
-        background-color: #1094c4;
-      }
-
-      &.warn {
-        background-color: #ffcf4a;
-      }
-
-      &.success {
-        background-color: #00d46a;
-      }
-
-      &.error {
-        background-color: #fa3a37;
-      }
-
-      &.normal {
-        background-color: #ffffff;
-      }
-    }
-  }
   .two-panels {
     display: flex;
     min-height: $page-height;
@@ -84,14 +12,14 @@
       .controls {
         border-bottom: 2px solid $gray4;
         display: flex;
-
+        padding: 0 1.5rem;
         h6 {
           color: $blue1;
-          font-size: 14px;
-          margin-bottom: 0;
-          padding: 10px 15px;
+          font-size: .875rem;
+          margin: 0;
+          padding: .5625rem 0;
           small {
-            font-size: 11px;
+            font-size: 80%;
           }
         }
 
@@ -100,266 +28,19 @@
           margin-left: auto;
 
           .icon-svg path {
-            fill: $blue2;
-          }
-        }
-      }
-
-      .submissions {
-        flex: 1;
-
-        .wally {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-          width: 100%;
-          height: 100%;
-          h5 {
-            color: #54698D;
-            font-family: "Open Sans";
-            font-size: 24px;
-            font-weight: 600;
-            line-height: 33px;
-          }
-
-          h6 {
-            color: #A8B7C7;
-            font-family: "Open Sans";
-            font-size: 20px;
-            line-height: 27px;
-          }
-        }
-
-        // This represents the overall submission "card" in the queue list view.
-        .submission {
-          border-bottom: 1px solid $gray4;
-          color: $blue1;
-          display: flex;
-          flex-direction: row;
-          flex-wrap: nowrap;
-          align-items: flex-start;
-          padding: 10px 15px;
-
-          // This is the details part of the card.
-          .summary-group {
-            flex-grow: 1;
-            &:focus {
-              outline: $blue3 dotted thin;
-            }
-
-            .status {
-              text-transform: uppercase;
-              font-size: 10px;
-              margin: 0;
-              .icon-svg {
-                margin-right: 3px;
-                path {
-                  fill: $blue1;
-                }
-              }
-            }
-
-            h1 {
-              font-size: 16px;
-              margin-top: 5px;
-            }
-
-            .summary {
-              font-size: 11px;
-              line-height: 14px;
-              margin: 5px 0;
-            }
-
-            .assignment {
-              margin-bottom: 0;
-            }
-
-            .assignment,
-            .timestamps {
-              font-size: 10px;
-              font-weight: 300;
-              margin-top: 5px;
-            }
-
-            .timestamps {
-              display: flex;
-              flex-direction: row;
-
-              .list-group-item {
-                padding: 0;
-
-                &:not(:first-child):before {
-                  content: '•';
-                  margin: 0 5px;
-                  font-weight: 700;
-                }
-              }
-            }
-          }
-
-          // This is for the action dropdown.
-          .actions {
-            // This is for the vertical ellipsis dropdown menu on the queue list view.
-            .btn.btn-ellipsis {
-              border: none;
-              padding: 0;
-              box-shadow: none;
-              background-color: transparent;
-              &:hover {
-                background-color: white;
-                cursor: pointer;
-                path {
-                  fill: $blue1;
-                }
-              }
-            }
-
-            .dropdown > .dropdown-menu {
-              left: -5.5rem;
-              top: 1rem;
-              padding: 0;
-              min-width: 7rem;
-              border-radius: 0;
-              border: none;
-              margin-top: 15px;
-              position: absolute;
-              box-sizing: border-box;
-              filter: drop-shadow(rgba(0, 0, 0, 0.3) 0 3px 4px);
-              // Add the up arrow.
-
-              &:after {
-                content: '';
-                border: 10px solid;
-                border-color: transparent transparent white;
-                content: '';
-                right: 10%;
-                margin-left: -10px;
-                position: absolute;
-                top: -20px;
-                z-index: 9998;
-              }
-
-              a.dropdown-item,
-              button.dropdown-item {
-                height: 24px;
-                color: #54698d;
-                font-family: 'Open Sans';
-                font-size: 12px;
-                line-height: 24px;
-              }
-            }
+            fill: $gray;
           }
         }
       }
     }
 
     .right-panel {
-      border-left: 2px solid $blue3;
+      border-left: 1px solid $gray3;
       color: $blue1;
       display: flex;
       flex-direction: column;
       font-size: 18px;
       min-width: 400px;
-
-      .item-preview {
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        background-color: $blue4;
-        padding-left: 24px;
-        padding-right: 24px;
-        max-width: 492px;
-
-        .preview-close {
-          display: flex;
-          justify-content: flex-end;
-
-          button.btn.btn-close {
-            background-color: $blue4;
-            font-size: 14px;
-            margin-top: 14px;
-            padding: 5px;
-            cursor: pointer;
-            .icon-svg path {
-              fill: $blue1;
-            }
-          }
-        }
-
-        .status {
-          text-transform: uppercase;
-          font-size: 11px;
-          margin: 0;
-          .icon-svg {
-            margin-right: 3px;
-            path {
-              fill: $blue1;
-            }
-          }
-        }
-
-        h1 {
-          color: #222222;
-          font-family: 'Open Sans';
-          font-size: 26px;
-          line-height: 48px;
-        }
-
-        .summary {
-          font-size: 16px;
-          line-height: 24px;
-        }
-
-        .details {
-          color: #54698d;
-          font-family: Courier;
-          color: $blue1;
-          font-size: 14px;
-          line-height: 24px;
-          margin-bottom: 0;
-          white-space: pre-wrap;
-        }
-
-        .timestamps {
-          margin: 1rem 0;
-          .timestamp {
-            background-color: $blue4;
-            font-size: 12px;
-            padding: 0.15rem 2rem;
-            .label {
-              color: $blue1;
-              width: 70px;
-            }
-            .value {
-              color: black;
-            }
-          }
-        }
-
-        // Override the assignment badge margin.
-        .assignment-badge {
-          margin-left: 0;
-        }
-
-        .preview-actions {
-          display: flex;
-          flex-direction: row;
-
-          a,
-          button {
-            flex-grow: 1;
-            border-radius: 0;
-            font-family: 'Open Sans';
-            font-size: 16px;
-            line-height: 48px;
-            padding: 0;
-            &:not(:first-child) {
-              margin-left: 5px;
-            }
-          }
-        }
-      }
     }
   }
 }

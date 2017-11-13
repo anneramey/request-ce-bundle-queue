@@ -1,21 +1,21 @@
 import { Map } from 'immutable';
 
 export const types = {
-  SET_IS_LAYOUT_LARGE: '@kd/queue/SET_IS_LAYOUT_LARGE',
+  SET_SIZE: '@kd/queue/SET_SIZE',
 };
 
 export const actions = {
-  setIsLayoutLarge: payload => ({ type: types.SET_IS_LAYOUT_LARGE, payload }),
+  setSize: payload => ({ type: types.SET_SIZE, payload }),
 };
 
 export const defaultState = Map({
-  isLayoutLarge: true,
+  size: 'small',
 });
 
 export const reducer = (state = defaultState, { type, payload }) => {
   switch (type) {
-    case types.SET_IS_LAYOUT_LARGE:
-      return state.set('isLayoutLarge', payload);
+    case types.SET_SIZE:
+      return state.set('size', payload);
     default:
       return state;
   }

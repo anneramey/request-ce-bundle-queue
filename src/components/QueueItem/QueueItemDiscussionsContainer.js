@@ -24,6 +24,7 @@ const mapStateToProps = state => ({
   currentOpenModals: state.discussions.currentOpenModals,
   invitationFields: state.discussions.invitationFields,
   invitationPending: state.discussions.invitationPending,
+  isSmallLayout: state.layout.get('size') === 'small',
 });
 
 const mapDispatchToProps = {

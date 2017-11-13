@@ -7,6 +7,7 @@ import thinChevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg
 import circleOpenIcon from 'font-awesome-svg-png/black/svg/circle-o.svg';
 import circleClosedIcon from 'font-awesome-svg-png/black/svg/circle.svg';
 import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
+import commentsIcon from 'font-awesome-svg-png/black/svg/comments.svg';
 import { selectAssignments } from '../../redux/modules/app';
 import { actions } from '../../redux/modules/queue';
 import { originLink } from '../../utils/links';
@@ -26,6 +27,13 @@ export const QueueItemDetails = ({
 }) => (
   <div className="details">
     <div className="general">
+      <Link
+        to={`/item/${queueItem.id}/discussions`}
+        className="btn btn-primary btn-inverse discussion-button icon-wrapper hidden-md-up"
+      >
+        <SVGInline svg={commentsIcon} className="icon" />
+        View Discussion
+      </Link>
       <p className="status icon-wrapper">
         <SVGInline
           svg={
@@ -40,54 +48,54 @@ export const QueueItemDetails = ({
       </h1>
       <p className="summary">{queueItem.values.Summary}</p>
       <pre>{queueItem.values.Details}</pre>
+      {!isAssigning && (
+        <AssignmentBadge
+          queueItem={queueItem}
+          toggle={queueItem.coreState === 'Draft' ? toggleAssigning : undefined}
+          readOnly={queueItem.coreState !== 'Draft'}
+        />
+      )}
+      {isAssigning && (
+        <AssignmentSelector
+          toggle={setIsAssigning}
+          onSelect={setAssignment}
+          isAssigning={isAssigning}
+          assignments={assignments}
+        />
+      )}
+      {queueItem.origin && (
+        <a
+          className="btn btn-primary btn-inverse request-button"
+          href={originLink(queueItem)}
+          target="_blank"
+        >
+          View Original Request
+        </a>
+      )}
+      <ul className="list-group timestamps">
+        <li className="list-group-item timestamp">
+          <span className="label">Due</span>
+          <span className="value">
+            <TimeAgo timestamp={queueItem.values['Due Date']} id="due-date" />
+          </span>
+        </li>
+        <li className="list-group-item timestamp">
+          <span className="label">Updated</span>
+          <span className="value">
+            <TimeAgo timestamp={queueItem.updatedAt} id="updated-at" />
+          </span>
+        </li>
+        <li className="list-group-item timestamp">
+          <span className="label">Created</span>
+          <span className="value">
+            <TimeAgo timestamp={queueItem.createdAt} id="created-at" />
+          </span>
+        </li>
+      </ul>
     </div>
-    {!isAssigning && (
-      <AssignmentBadge
-        queueItem={queueItem}
-        toggle={queueItem.coreState === 'Draft' ? toggleAssigning : undefined}
-        readOnly={queueItem.coreState !== 'Draft'}
-      />
-    )}
-    {isAssigning && (
-      <AssignmentSelector
-        toggle={setIsAssigning}
-        onSelect={setAssignment}
-        isAssigning={isAssigning}
-        assignments={assignments}
-      />
-    )}
-    {queueItem.origin && (
-      <a
-        className="btn btn-primary btn-inverse request-button"
-        href={originLink(queueItem)}
-        target="_blank"
-      >
-        View Original Request
-      </a>
-    )}
-    <ul className="list-group timestamps">
-      <li className="list-group-item timestamp">
-        <span className="label">Due</span>
-        <span className="value">
-          <TimeAgo timestamp={queueItem.values['Due Date']} id="due-date" />
-        </span>
-      </li>
-      <li className="list-group-item timestamp">
-        <span className="label">Updated</span>
-        <span className="value">
-          <TimeAgo timestamp={queueItem.updatedAt} id="updated-at" />
-        </span>
-      </li>
-      <li className="list-group-item timestamp">
-        <span className="label">Created</span>
-        <span className="value">
-          <TimeAgo timestamp={queueItem.createdAt} id="created-at" />
-        </span>
-      </li>
-    </ul>
+
     {!prohibitSubtasks && (
       <div className="subtasks-section">
-        <hr />
         <h2>
           <span>Subtasks</span>
           {queueItem.coreState === 'Draft' && (
