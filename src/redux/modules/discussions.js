@@ -224,8 +224,6 @@ export const reducer = (state = State(), action) => {
       );
     case types.SET_INVITES:
       return state.set('invites', List(action.payload));
-    case types.CREATE_INVITE:
-      return state.set('inviteSending', true);
     case types.ADD_INVITE:
       return state.update('invites', invites => invites.push(action.payload));
     case types.REMOVE_INVITE:
@@ -254,7 +252,6 @@ export const reducer = (state = State(), action) => {
             list.filter(item => item !== action.payload),
           )
         : state.delete('currentOpenModals');
-      return state.delete('currentModal');
     case types.CREATE_INVITE:
       return state.set('invitationPending', true);
     case types.CREATE_INVITE_DONE:

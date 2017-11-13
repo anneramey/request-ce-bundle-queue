@@ -110,18 +110,26 @@ export const QueueList = ({
         <div className="submissions">
           {queueItems && queueItems.size > 0 ? (
             <ul className="list-group">
-              {queueItems.map(queueItem => (
-                <QueueListItem
-                  key={queueItem.id}
-                  handleItemClick={handleItemClick}
-                  queueItem={queueItem}
-                  openDropdownItem={openDropdownItem}
-                  toggleItemMenu={toggleItemMenu}
-                  toggleWorkMenu={toggleWorkMenu}
-                  profile={profile}
-                  grabItem={grabItem}
-                />
-              ))}
+              {queueItems.map(
+                queueItem =>
+                  isSmallLayout ? (
+                    <QueueListItemSmall
+                      queueItem={queueItem}
+                      key={queueItem.id}
+                    />
+                  ) : (
+                    <QueueListItem
+                      key={queueItem.id}
+                      handleItemClick={handleItemClick}
+                      queueItem={queueItem}
+                      openDropdownItem={openDropdownItem}
+                      toggleItemMenu={toggleItemMenu}
+                      toggleWorkMenu={toggleWorkMenu}
+                      profile={profile}
+                      grabItem={grabItem}
+                    />
+                  ),
+              )}
             </ul>
           ) : (
             <WallyMessage filter={filter} />
