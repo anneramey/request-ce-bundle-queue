@@ -32,6 +32,14 @@ const WallyMessage = ({ filter }) => {
   );
 };
 
+const WallyBadFilter = () => (
+  <div className="wally">
+    <h5>Invalid List</h5>
+    <SVGInline svg={wallyMissingImage} />
+    <h6>Invalid list, please choose a valid list from the left side.</h6>
+  </div>
+);
+
 export const QueueList = ({
   filter,
   queueItems,
@@ -52,70 +60,74 @@ export const QueueList = ({
   refresh,
 }) => (
   <div className="two-panels">
-    <div className="left-panel">
-      {workItem && (
-        <WorkItemMenuContainer
-          close={toggleWorkMenu(null)}
-          isOpen={workMenuOpen}
-          queueItem={workItem}
-          onCompleted={handleCompleted}
-          review={workItem.coreState !== 'Draft'}
-        />
-      )}
-      <div className="controls">
-        <h6>
-          {filter.name || 'Adhoc'}
-          <br />
-          <small>by Due Date</small>
-        </h6>
-        <div className="buttons">
-          <button
-            type="button"
-            className="btn btn-link icon-wrapper"
-            onClick={refresh}
-          >
-            <SVGInline svg={refreshIcon} className="icon" />
-          </button>
-          <button
-            type="button"
-            className="btn btn-link icon-wrapper"
-            onClick={toggleSortDirection}
-          >
-            <SVGInline
-              className="icon"
-              svg={sortDirection === 'ASC' ? sortAscIcon : sortDescIcon}
-            />
-          </button>
-          <button
-            type="button"
-            className="btn btn-link icon-wrapper"
-            onClick={openFilterMenu}
-          >
-            <SVGInline svg={filterIcon} className="icon" />
-          </button>
+    {!filter ? (
+      <WallyBadFilter />
+    ) : (
+      <div className="left-panel">
+        {workItem && (
+          <WorkItemMenuContainer
+            close={toggleWorkMenu(null)}
+            isOpen={workMenuOpen}
+            queueItem={workItem}
+            onCompleted={handleCompleted}
+            review={workItem.coreState !== 'Draft'}
+          />
+        )}
+        <div className="controls">
+          <h6>
+            {filter.name || 'Adhoc'}
+            <br />
+            <small>by Due Date</small>
+          </h6>
+          <div className="buttons">
+            <button
+              type="button"
+              className="btn btn-link icon-wrapper"
+              onClick={refresh}
+            >
+              <SVGInline svg={refreshIcon} className="icon" />
+            </button>
+            <button
+              type="button"
+              className="btn btn-link icon-wrapper"
+              onClick={toggleSortDirection}
+            >
+              <SVGInline
+                className="icon"
+                svg={sortDirection === 'ASC' ? sortAscIcon : sortDescIcon}
+              />
+            </button>
+            <button
+              type="button"
+              className="btn btn-link icon-wrapper"
+              onClick={openFilterMenu}
+            >
+              <SVGInline svg={filterIcon} className="icon" />
+            </button>
+          </div>
+        </div>
+        <div className="submissions">
+          {queueItems && queueItems.size > 0 ? (
+            <ul className="list-group">
+              {queueItems.map(queueItem => (
+                <QueueListItem
+                  key={queueItem.id}
+                  handleItemClick={handleItemClick}
+                  queueItem={queueItem}
+                  openDropdownItem={openDropdownItem}
+                  toggleItemMenu={toggleItemMenu}
+                  toggleWorkMenu={toggleWorkMenu}
+                  profile={profile}
+                  grabItem={grabItem}
+                />
+              ))}
+            </ul>
+          ) : (
+            <WallyMessage filter={filter} />
+          )}
         </div>
       </div>
-      <div className="submissions">
-        {queueItems && queueItems.size > 0 ? (
-          <ul className="list-group">
-            {queueItems.map(queueItem => (
-              <QueueListItem
-                key={queueItem.id}
-                handleItemClick={handleItemClick}
-                queueItem={queueItem}
-                openDropdownItem={openDropdownItem}
-                toggleItemMenu={toggleItemMenu}
-                toggleWorkMenu={toggleWorkMenu}
-                profile={profile}
-                grabItem={grabItem}
-              />
-            ))}
-          </ul>
-        ) : (
-          <WallyMessage filter={filter} />
-        )}
-      </div>
-    </div>
+    )}
     {previewItem && (
       <div className="right-panel">
         <QueueItemPreview

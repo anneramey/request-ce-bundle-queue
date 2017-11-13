@@ -17,6 +17,7 @@ export const Sidebar = ({
   supportUrl,
   counts,
   handleOpenNewItemMenu,
+  handleNewPersonalFilter,
   myFilters,
   hasTeammates,
   hasTeams,
@@ -68,7 +69,7 @@ export const Sidebar = ({
     </Nav>
     <h6 className="d-flex justify-content-between icon-wrapper">
       My Lists
-      <button className="btn btn-sidebar">
+      <button className="btn btn-sidebar" onClick={handleNewPersonalFilter}>
         <SVGInline svg={plusIcon} className="icon" />
       </button>
     </h6>

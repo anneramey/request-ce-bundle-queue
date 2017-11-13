@@ -1,8 +1,10 @@
 import { compose, lifecycle, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
+import { Filter } from '../records';
 import { getFilterByPath } from '../redux/modules/app';
 import { actions } from '../redux/modules/queue';
+import { actions as filterMenuActions } from '../redux/modules/filterMenu';
 import { Sidebar } from './Sidebar';
 
 const mapStateToProps = state => ({
@@ -27,12 +29,15 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   fetchList: actions.fetchList,
   openNewItemMenu: actions.openNewItemMenu,
+  openFilterMenu: filterMenuActions.open,
 };
 
 export const SidebarContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
     handleOpenNewItemMenu: ({ openNewItemMenu }) => () => openNewItemMenu(),
+    handleNewPersonalFilter: ({ openFilterMenu }) => () =>
+      openFilterMenu(Filter({ type: 'custom' })),
   }),
   lifecycle({
     componentWillMount() {
