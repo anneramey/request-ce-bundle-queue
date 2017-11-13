@@ -63,11 +63,10 @@
   }
 
   .details {
-    color: #54698d;
     font-family: Courier;
-    color: $blue1;
-    font-size: 14px;
-    line-height: 24px;
+    color: $black;
+    @include ms-respond(font-size, -1);
+    line-height: 1.5rem;
     margin-bottom: 0;
     white-space: pre-wrap;
   }
