@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import SVGInline from 'react-svg-inline';
 import solidCircle from 'font-awesome-svg-png/white/svg/circle.svg';
 import emptyCircle from 'font-awesome-svg-png/white/svg/circle-o.svg';
+import commentsIcon from 'font-awesome-svg-png/black/svg/comments.svg';
 import vEllipsisIcon from 'font-awesome-svg-png/white/svg/ellipsis-v.svg';
 import { TimeAgo } from '../TimeAgo';
 
@@ -84,6 +85,15 @@ export const QueueListItem = ({
         <StatusParagraph status={values.Status} />
         <h6>
           {queueItem.form.name} ({queueItem.handle})
+          {queueItem.values['Discussion Id'] && (
+            <Link
+              className="btn btn-link"
+              to={`/item/${queueItem.id}/discussions`}
+              title="Has discussions"
+            >
+              <SVGInline svg={commentsIcon} className="icon" />
+            </Link>
+          )}
         </h6>
         <p className="summary">{values.Summary}</p>
         <AssignmentParagraph values={values} />
@@ -129,6 +139,14 @@ export const QueueListItemSmall = ({ queueItem }) => {
         <StatusParagraph status={values.Status} />
         <h6>
           {queueItem.form.name} ({queueItem.handle})
+          {queueItem.values['Discussion Id'] && (
+            <Link
+              className="btn btn-link"
+              to={`/item/${queueItem.id}/discussions`}
+            >
+              <SVGInline svg={commentsIcon} className="icon" />
+            </Link>
+          )}
         </h6>
         <p className="summary">{values.Summary}</p>
         <AssignmentParagraph values={values} />

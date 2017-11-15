@@ -16,13 +16,13 @@
     justify-content: space-between;
     padding-left: 0.5rem;
     .title {
-      font-size: 14px;
+      @include ms-respond(font-size, -1);
     }
     .actions {
       align-items: center;
       display: flex;
       a {
-        font-size: 12px;
+        @include ms-respond(font-size, -2);
         padding: 0.5rem;
       }
     }
@@ -31,7 +31,7 @@
     display: flex;
     flex-direction: column;
     a.alert-item {
-      font-size: 12px;
+      @include ms-respond(font-size, -2);
       padding: 0.5rem;
       &:hover {
         background-color: lighten($gray4, 5%);
@@ -42,12 +42,12 @@
       .label {
         background-color: $blue1;
         border-radius: 0.25rem;
-        color: white;
+        color: $white;
         font-weight: bold;
         padding: 0.25rem;
       }
       .title {
-        font-size: 14px;
+        @include ms-respond(font-size, -2);
         font-weight: bold;
         margin-left: 0.5rem;
       }
@@ -62,5 +62,8 @@
     flex-direction: row;
     justify-content: center;
     padding: 0.5rem;
+    color: $blue2;
+    @include ms-respond(font-size, -1);
+    line-height: 1.5rem;
   }
 }
