@@ -1,0 +1,20 @@
+$status-blue: rgba(16, 148, 196, 1);
+$status-green: rgba(2, 212, 177, 1);
+$status-red: rgba(250, 58, 55, 1);
+$status-yellow: rgba(255, 153, 28, 1);
+$status-reason: rgba(11, 168, 224, 1);
+
+.status {
+  text-transform: uppercase;
+  font-size: 0.6875rem;
+  margin: 0;
+  line-height: 1.5rem;
+  .icon-svg {
+    margin-right: 3px;
+    height: 0.5rem;
+    width: 0.5rem;
+    path {
+      fill: $blue1;
+    }
+  }
+}

@@ -58,21 +58,6 @@
       color: $blue1;
       padding: 1.5rem;
 
-      .status {
-        text-transform: uppercase;
-        font-size: 0.6875rem;
-        margin: 0;
-        line-height: 1.5rem;
-        .icon-svg {
-          margin-right: 3px;
-          height: 0.5rem;
-          width: 0.5rem;
-          path {
-            fill: $blue1;
-          }
-        }
-      }
-
       h1 {
         color: #222222;
         margin: 0;

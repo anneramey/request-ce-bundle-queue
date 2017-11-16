@@ -14,6 +14,7 @@ import { originLink } from '../../utils/links';
 import { AssignmentSelector } from './AssignmentSelector';
 import { AssignmentBadge } from './AssignmentBadge';
 import { TimeAgo } from '../TimeAgo';
+import { StatusParagraph } from '../StatusParagraph';
 
 export const QueueItemDetails = ({
   queueItem,
@@ -34,15 +35,7 @@ export const QueueItemDetails = ({
         <SVGInline svg={commentsIcon} className="icon" />
         View Discussion
       </Link>
-      <p className="status icon-wrapper">
-        <SVGInline
-          svg={
-            queueItem.coreState === 'Draft' ? circleOpenIcon : circleClosedIcon
-          }
-          className="icon"
-        />
-        {queueItem.values.Status}
-      </p>
+      <StatusParagraph status={queueItem.values.Status} />
       <h1>
         {queueItem.form.name} ({queueItem.handle})
       </h1>

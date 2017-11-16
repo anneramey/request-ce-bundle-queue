@@ -2,7 +2,6 @@
 //   Item Previw
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 .item-preview {
   display: flex;
   flex: 1;
@@ -25,27 +24,12 @@
       .icon-svg path {
         fill: $blue1;
       }
-      &:hover{
+      &:hover {
         background-color: $blue1;
         color: $white;
         .icon-svg path {
           fill: $white;
         }
-      }
-    }
-  }
-
-  .status {
-    text-transform: uppercase;
-    font-size: 0.6875rem;
-    margin: 0;
-    line-height: 1.5rem;
-    .icon-svg {
-      margin-right: 3px;
-      height: .5rem;
-      width: .5rem;
-      path {
-        fill: $blue1;
       }
     }
   }
@@ -94,7 +78,7 @@
     a,
     button {
       flex-grow: 1;
-      border-radius: .25rem;
+      border-radius: 0.25rem;
       background: $white;
       color: $gray;
       border: 1px solid $gray4;
@@ -104,11 +88,11 @@
       &:not(:first-child) {
         margin-left: 5px;
       }
-      &:hover{
+      &:hover {
         border-color: $gray2;
         color: $white;
         background: $blue1;
-        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1)
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
       }
     }
   }
