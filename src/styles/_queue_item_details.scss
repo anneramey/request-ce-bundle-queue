@@ -58,21 +58,6 @@
       color: $blue1;
       padding: 1.5rem;
 
-      .status {
-        text-transform: uppercase;
-        font-size: 0.6875rem;
-        margin: 0;
-        line-height: 1.5rem;
-        .icon-svg {
-          margin-right: 3px;
-          height: 0.5rem;
-          width: 0.5rem;
-          path {
-            fill: $blue1;
-          }
-        }
-      }
-
       h1 {
         color: #222222;
         margin: 0;
@@ -115,37 +100,17 @@
         @include ms-respond(font-size, 0);
         line-height: 2.125rem;
         font-weight: 600;
-        padding-left: 0.875rem;
+        padding-left: 0.75rem;
         margin: 0;
         border-top: 2px solid $gray4;
+        border-bottom: 1px solid $gray4;
         button {
           margin-left: auto;
         }
       }
 
-      .subtasks {
-        .subtask {
-          border-bottom: 2px solid $gray4;
-          font-size: 0.75rem;
-          padding-left: 4rem;
-          a {
-            color: $blue1;
-            text-decoration: none;
-            display: flex;
-            flex-wrap: nowrap;
-            width: 100%;
-          }
-          .handle {
-            font-weight: 600;
-          }
-          .summary {
-            flex: 1;
-            margin: 0 1em;
-          }
-          .icon {
-            margin-left: auto;
-          }
-        }
+      .submission {
+        padding: 0.75rem;
       }
 
       .empty-subtasks {
@@ -170,7 +135,7 @@
       }
     }
 
-    .timestamps {
+    .general .timestamps {
       margin: 1.5rem 0 0;
       .timestamp {
         @include ms-respond(font-size, -1);

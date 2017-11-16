@@ -11,7 +11,7 @@ export const ERROR_STATUS_STRING = 'There was a problem retrieving items.';
 export const TOO_MANY_STATUS_STRING = 'Your filter matches too many items.';
 
 export const SUBMISSION_INCLUDES =
-  'details,values,attributes,form,children,children.form,children.values,form.attributes';
+  'details,values,attributes,form,children,children.details,children.form,children.values,form.attributes';
 
 export const getAppSettings = state => state.app;
 export const getCurrentItem = state => state.queue.currentItem;
@@ -185,12 +185,10 @@ export function* fetchListTask(action) {
   if (assignmentContext.length === 0) {
     yield put(actions.setListItems(filter, []));
   } else {
-    const {
-      submissions,
-      messages,
-      nextPageToken,
-      serverError,
-    } = yield call(CoreAPI.searchSubmissions, { search });
+    const { submissions, messages, nextPageToken, serverError } = yield call(
+      CoreAPI.searchSubmissions,
+      { search },
+    );
 
     if (serverError || (messages && messages.length > 0)) {
       yield put(actions.setListStatus(ERROR_STATUS_STRING));

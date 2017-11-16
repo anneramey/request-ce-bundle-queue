@@ -3,9 +3,6 @@ import { connect } from 'react-redux';
 import { compose, withState, withHandlers, withProps } from 'recompose';
 import { Link } from 'react-router-dom';
 import SVGInline from 'react-svg-inline';
-import thinChevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg';
-import circleOpenIcon from 'font-awesome-svg-png/black/svg/circle-o.svg';
-import circleClosedIcon from 'font-awesome-svg-png/black/svg/circle.svg';
 import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
 import commentsIcon from 'font-awesome-svg-png/black/svg/comments.svg';
 import { selectAssignments } from '../../redux/modules/app';
@@ -14,6 +11,8 @@ import { originLink } from '../../utils/links';
 import { AssignmentSelector } from './AssignmentSelector';
 import { AssignmentBadge } from './AssignmentBadge';
 import { TimeAgo } from '../TimeAgo';
+import { StatusParagraph } from '../StatusParagraph';
+import { QueueListItemSmall } from '../queueList/QueueListItem';
 
 export const QueueItemDetails = ({
   queueItem,
@@ -34,15 +33,7 @@ export const QueueItemDetails = ({
         <SVGInline svg={commentsIcon} className="icon" />
         View Discussion
       </Link>
-      <p className="status icon-wrapper">
-        <SVGInline
-          svg={
-            queueItem.coreState === 'Draft' ? circleOpenIcon : circleClosedIcon
-          }
-          className="icon"
-        />
-        {queueItem.values.Status}
-      </p>
+      <StatusParagraph queueItem={queueItem} />
       <h1>
         {queueItem.form.name} ({queueItem.handle})
       </h1>
@@ -104,17 +95,9 @@ export const QueueItemDetails = ({
             </button>
           )}
         </h2>
-        <ul className="list-group subtasks">
+        <ul className="list-group submissions">
           {queueItem.children.map(child => (
-            <li key={child.id} className="list-group-item subtask">
-              <Link to={`/item/${child.id}`}>
-                <span className="handle">
-                  {child.form.name} ({child.handle})
-                </span>
-                <span className="summary">{child.values.Summary}</span>
-                <SVGInline svg={thinChevronRightIcon} className="icon" />
-              </Link>
-            </li>
+            <QueueListItemSmall key={child.id} queueItem={child} />
           ))}
         </ul>
         {queueItem.children.length < 1 && (
