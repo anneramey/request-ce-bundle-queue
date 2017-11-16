@@ -2,23 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import SVGInline from 'react-svg-inline';
 import timesIcon from 'font-awesome-svg-png/white/svg/times.svg';
-import solidCircle from 'font-awesome-svg-png/white/svg/circle.svg';
-import emptyCircle from 'font-awesome-svg-png/white/svg/circle-o.svg';
 import { originLink } from '../../utils/links';
 import { TimeAgo } from '../TimeAgo';
 import { AssignmentBadge } from '../QueueItem/AssignmentBadge';
-
-const OPEN_STATUSES = ['Open', 'Pending'];
-
-const StatusParagraph = ({ status }) => (
-  <p className="status icon-wrapper">
-    <SVGInline
-      svg={OPEN_STATUSES.includes(status) ? emptyCircle : solidCircle}
-      className="icon"
-    />
-    {status}
-  </p>
-);
+import { StatusParagraph } from '../StatusParagraph';
 
 export const QueueItemPreview = ({
   queueItem,
@@ -40,7 +27,7 @@ export const QueueItemPreview = ({
           <SVGInline svg={timesIcon} className="icon" />
         </button>
       </div>
-      <StatusParagraph status={values.Status} />
+      <StatusParagraph queueItem={queueItem} />
       <h1>
         {queueItem.form.name} ({queueItem.handle})
       </h1>

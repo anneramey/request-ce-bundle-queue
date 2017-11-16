@@ -7,23 +7,10 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SVGInline from 'react-svg-inline';
-import solidCircle from 'font-awesome-svg-png/white/svg/circle.svg';
-import emptyCircle from 'font-awesome-svg-png/white/svg/circle-o.svg';
 import commentsIcon from 'font-awesome-svg-png/black/svg/comments.svg';
 import vEllipsisIcon from 'font-awesome-svg-png/white/svg/ellipsis-v.svg';
 import { TimeAgo } from '../TimeAgo';
-
-const OPEN_STATUSES = ['Open', 'Pending'];
-
-const StatusParagraph = ({ status }) => (
-  <p className="status icon-wrapper">
-    <SVGInline
-      svg={OPEN_STATUSES.includes(status) ? emptyCircle : solidCircle}
-      className="icon"
-    />
-    {status}
-  </p>
-);
+import { StatusParagraph } from '../StatusParagraph';
 
 const AssignmentParagraph = ({ values }) => (
   <p className="assignment">
@@ -82,7 +69,7 @@ export const QueueListItem = ({
         role="button"
         tabIndex={0}
       >
-        <StatusParagraph status={values.Status} />
+        <StatusParagraph queueItem={queueItem} />
         <h6>
           {queueItem.form.name} ({queueItem.handle})
           {queueItem.values['Discussion Id'] && (
@@ -136,7 +123,7 @@ export const QueueListItemSmall = ({ queueItem }) => {
   return (
     <li className="submission list-group-item">
       <Link to={`/item/${id}`} className="summary-group">
-        <StatusParagraph status={values.Status} />
+        <StatusParagraph queueItem={queueItem} />
         <h6>
           {queueItem.form.name} ({queueItem.handle})
           {queueItem.values['Discussion Id'] && (
