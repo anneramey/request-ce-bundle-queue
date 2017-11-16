@@ -83,9 +83,8 @@ export const QueueListContainer = compose(
         ],
       });
     },
-    handleCompleted: ({ filter, fetchList, closeWorkMenu }) => () => {
+    handleCompleted: ({ filter, fetchList }) => () => {
       fetchList(filter);
-      closeWorkMenu();
     },
     handleItemClick: ({ openPreview }) => item => () => openPreview(item),
     refresh: ({ filter, fetchList }) => () => fetchList(filter),

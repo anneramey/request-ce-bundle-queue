@@ -110,9 +110,8 @@ export const QueueItemContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
     refreshItem: ({ id, fetchCurrentItem }) => () => fetchCurrentItem(id),
-    handleCompleted: ({ refreshItem, closeWorkMenu }) => () => {
+    handleCompleted: ({ refreshItem }) => () => {
       refreshItem();
-      closeWorkMenu();
     },
     grabIt: ({ queueItem, updateQueueItem, profile }) => () =>
       updateQueueItem({
