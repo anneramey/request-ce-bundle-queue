@@ -27,7 +27,7 @@ export const QueueItemPreview = ({
           <SVGInline svg={timesIcon} className="icon" />
         </button>
       </div>
-      <StatusParagraph status={values.Status} />
+      <StatusParagraph queueItem={queueItem} />
       <h1>
         {queueItem.form.name} ({queueItem.handle})
       </h1>

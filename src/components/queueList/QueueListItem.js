@@ -69,7 +69,7 @@ export const QueueListItem = ({
         role="button"
         tabIndex={0}
       >
-        <StatusParagraph status={values.Status} />
+        <StatusParagraph queueItem={queueItem} />
         <h6>
           {queueItem.form.name} ({queueItem.handle})
           {queueItem.values['Discussion Id'] && (
@@ -123,7 +123,7 @@ export const QueueListItemSmall = ({ queueItem }) => {
   return (
     <li className="submission list-group-item">
       <Link to={`/item/${id}`} className="summary-group">
-        <StatusParagraph status={values.Status} />
+        <StatusParagraph queueItem={queueItem} />
         <h6>
           {queueItem.form.name} ({queueItem.handle})
           {queueItem.values['Discussion Id'] && (
