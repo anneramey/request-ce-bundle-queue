@@ -63,6 +63,7 @@ export const NewItemMenu = ({
   myTeamForms,
   currentAssignment,
   currentForm,
+  assignmentRequired,
   kForm,
   onFormLoaded,
   onCreated,
@@ -100,34 +101,27 @@ export const NewItemMenu = ({
         )}
     </div>
     <ModalBody>
-      {currentForm === null && (
+      {currentForm === null ? (
         <FormList
           myTeamForms={myTeamForms}
           handleFormClick={handleFormClick}
           permittedSubtasks={options.get('permittedSubtasks')}
         />
-      )}
-      {currentForm !== null &&
-        currentAssignment === null && (
-          <AssignmentList
-            assignments={assignments}
-            handleSelect={handleSelect}
+      ) : assignmentRequired && currentAssignment === null ? (
+        <AssignmentList assignments={assignments} handleSelect={handleSelect} />
+      ) : (
+        <div style={{ margin: '12px' }}>
+          <CoreForm
+            form={currentForm.slug}
+            globals={globals}
+            values={currentAssignment}
+            onLoaded={onFormLoaded}
+            onCreated={onCreated}
+            originId={options.get('originId')}
+            parentId={options.get('parentId')}
           />
-        )}
-      {currentForm !== null &&
-        currentAssignment !== null && (
-          <div style={{ margin: '12px' }}>
-            <CoreForm
-              form={currentForm.slug}
-              globals={globals}
-              values={currentAssignment}
-              onLoaded={onFormLoaded}
-              onCreated={onCreated}
-              originId={options.get('originId')}
-              parentId={options.get('parentId')}
-            />
-          </div>
-        )}
+        </div>
+      )}
     </ModalBody>
     {currentForm !== null &&
       kForm !== null && (

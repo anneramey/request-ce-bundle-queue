@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { compose, withState, withHandlers } from 'recompose';
+import { compose, withState, withHandlers, withProps } from 'recompose';
 
 import { selectMyTeamForms, selectAssignments } from '../../redux/modules/app';
 import { actions } from '../../redux/modules/queue';
@@ -69,6 +69,16 @@ export const NewItemMenuContainer = compose(
   withState('currentAssignment', 'setAssignment', null),
   withState('currentForm', 'setCurrentForm', null),
   withState('kForm', 'setKForm', null),
+  withProps(props => {
+    const assignmentType =
+      props.currentForm &&
+      props.currentForm.attributes['Assignment Type'] &&
+      props.currentForm.attributes['Assignment Type'][0];
+    return {
+      assignmentRequired:
+        !assignmentType || assignmentType.toLowerCase() !== 'none',
+    };
+  }),
   withHandlers({
     handleFormClick,
     handleAssignmentClick,

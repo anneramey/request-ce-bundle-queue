@@ -47,14 +47,7 @@ const Messages = ({
 export const QueueItemDiscussions = props => {
   const {
     queueItem,
-    handleScrolled,
-    profile,
-    formattedMessages,
-    unreadMessages,
-    registerScrollHelper,
-    scrollToBottom,
     currentOpenModals,
-    openParticipants,
     closeCurrent,
     closeAll,
     createInvitation,
@@ -115,7 +108,6 @@ export const QueueItemDiscussions = props => {
             <button
               type="button"
               className="btn btn-primary"
-              disabled={false}
               onClick={createInvitation}
               disabled={!invitationButtonEnabled}
             >

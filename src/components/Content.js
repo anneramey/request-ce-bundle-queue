@@ -15,6 +15,11 @@ export const Content = () => (
     <Route path="/list/:filter" component={QueueListContainer} />
     <Route path="/custom" component={QueueListContainer} />
     <Route path="/item/:id" component={QueueItemContainer} />
+    <Route
+      path="/queue/filter/__show__/details/:id/summary"
+      render={({ match }) => <Redirect to={`/item/${match.params.id}`} />}
+    />
+
     <FilterMenuContainer />
     <NewItemMenuContainer />
     <ModalFormContainer />

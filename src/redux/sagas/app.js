@@ -113,14 +113,15 @@ export function* updatePersonalFilterTask() {
 
   profile.profileAttributes['Queue Personal Filters'] = myFilters.toJS();
 
-  const { profile: newProfile, serverError } = yield call(
-    CoreAPI.updateProfile,
-    { profile, include: PROFILE_INCLUDES },
-  );
+  const { serverError } = yield call(CoreAPI.updateProfile, {
+    profile,
+    include: PROFILE_INCLUDES,
+  });
   if (!serverError) {
-    const newFilters = newProfile.profileAttributes['Queue Personal Filters']
-      ? newProfile.profileAttributes['Queue Personal Filters'].map(f => f)
-      : List();
+    // TODO: What should we do on success?
+    // const newFilters = newProfile.profileAttributes['Queue Personal Filters']
+    //   ? newProfile.profileAttributes['Queue Personal Filters'].map(f => f)
+    //   : List();
   }
 }
 

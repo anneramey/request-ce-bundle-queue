@@ -188,7 +188,7 @@ const createInvite = (guid, email, note, responseUrl) =>
     .then(response => ({ invite: response.data }))
     .catch(response => ({ error: response }));
 
-const resendInvite = (guid, inviteId, note, responseUrl) =>
+export const resendInvite = (guid, inviteId, note, responseUrl) =>
   axios
     .request({
       url: `${responseUrl}/api/v1/issues/${guid}/invites/${inviteId}`,
@@ -198,7 +198,7 @@ const resendInvite = (guid, inviteId, note, responseUrl) =>
     .then(response => ({ invite: response.data }))
     .catch(response => ({ error: response }));
 
-const removeInvite = (guid, inviteId, note, responseUrl) =>
+export const removeInvite = (guid, inviteId, note, responseUrl) =>
   axios
     .request({
       url: `${responseUrl}/api/v1/issues/${guid}/invites/${inviteId}`,
