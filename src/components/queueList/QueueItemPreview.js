@@ -14,8 +14,6 @@ export const QueueItemPreview = ({
   profile,
   grabItem,
 }) => {
-  const { values } = queueItem;
-
   return (
     <div className="item-preview">
       <div className="preview-close">

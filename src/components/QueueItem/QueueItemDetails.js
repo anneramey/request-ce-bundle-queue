@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { compose, withState, withHandlers, withProps } from 'recompose';
 import { Link } from 'react-router-dom';
 import SVGInline from 'react-svg-inline';
-import thinChevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg';
 import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
 import commentsIcon from 'font-awesome-svg-png/black/svg/comments.svg';
 import { selectAssignments } from '../../redux/modules/app';
