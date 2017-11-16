@@ -13,6 +13,7 @@ import { AssignmentSelector } from './AssignmentSelector';
 import { AssignmentBadge } from './AssignmentBadge';
 import { TimeAgo } from '../TimeAgo';
 import { StatusParagraph } from '../StatusParagraph';
+import { QueueListItemSmall } from '../queueList/QueueListItem';
 
 export const QueueItemDetails = ({
   queueItem,
@@ -95,17 +96,9 @@ export const QueueItemDetails = ({
             </button>
           )}
         </h2>
-        <ul className="list-group subtasks">
+        <ul className="list-group submissions">
           {queueItem.children.map(child => (
-            <li key={child.id} className="list-group-item subtask">
-              <Link to={`/item/${child.id}`}>
-                <span className="handle">
-                  {child.form.name} ({child.handle})
-                </span>
-                <span className="summary">{child.values.Summary}</span>
-                <SVGInline svg={thinChevronRightIcon} className="icon" />
-              </Link>
-            </li>
+            <QueueListItemSmall key={child.id} queueItem={child} />
           ))}
         </ul>
         {queueItem.children.length < 1 && (
