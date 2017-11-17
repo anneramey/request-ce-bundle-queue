@@ -67,6 +67,18 @@ export const QueueItem = ({
           path="/item/:id/discussions"
           component={QueueItemDiscussionsContainer}
         />
+        <button
+          className="btn btn-primary work-grab-button hidden-md-up wally-button"
+          onClick={
+            assignedToMe || queueItem.coreState !== 'Draft'
+              ? openWorkMenu
+              : grabIt
+          }
+        >
+          {queueItem.coreState !== 'Draft'
+            ? 'Review It'
+            : assignedToMe ? 'Work It' : 'Grab It'}
+        </button>
       </div>
       <div className="right-panel hidden-sm-down">
         <button
