@@ -1,31 +1,12 @@
-<<<<<<< HEAD
-import { compose, lifecycle } from 'recompose';
-import { connect } from 'react-redux';
-
-import { actions } from '../redux/modules/app';
-
-import { App } from './App';
-
-const mapDispatchToProps = {
-  loadKappSettings: actions.loadKappSettings,
-};
-
-export const AppContainer = compose(
-  connect(null, mapDispatchToProps),
-  lifecycle({
-    componentWillMount() {
-      this.props.loadKappSettings();
-=======
 import { connect } from 'react-redux';
 import { compose, lifecycle } from 'recompose';
-
 import { actions as appActions } from '../lib/react-kinops-components';
 import { actions } from '../redux/modules/app';
 import { actions as alertsActions } from '../redux/modules/alerts';
 
 import { App } from './App';
 
-const mapStateToProps = state  => ({
+const mapStateToProps = state => ({
   loading: state.app.loading || state.kinops.loading,
 });
 
@@ -42,7 +23,6 @@ export const AppContainer = compose(
       this.props.loadApp();
       this.props.loadAppSettings();
       this.props.fetchAlerts();
->>>>>>> develop
     },
   }),
 )(App);

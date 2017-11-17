@@ -1,39 +1,3 @@
-<<<<<<< HEAD
-import { Record, List } from 'immutable';
-import { namespace, noPayload, withPayload } from '../../utils/namespace';
-
-export const types = {
-  LOAD_KAPP_SETTINGS: namespace('app', 'LOAD_KAPP_SETTINGS'),
-  SET_KAPP_SETTINGS: namespace('app', 'SET_KAPP_SETTINGS'),
-
-  LOAD_PROFILE_SETTINGS: namespace('app', 'LOAD_PROFILE_SETTINGS'),
-  SET_PROFILE_SETTINGS: namespace('app', 'SET_PROFILE_SETTINGS'),
-};
-
-export const actions = {
-  loadKappSettings: noPayload(types.LOAD_KAPP_SETTINGS),
-  setKappSettings: withPayload(types.SET_KAPP_SETTINGS),
-
-  loadProfileSettings: noPayload(types.LOAD_PROFILE_SETTINGS),
-  setProfileSettings: withPayload(types.SET_PROFILE_SETTINGS),
-};
-
-export const Profile = Record({
-  displayName: '',
-});
-
-export const Filter = Record({
-  name: '',
-});
-
-export const State = Record({
-  profile: Profile(),
-  filters: List(),
-});
-
-const reducer = (state = State(), { type }) => {
-  switch (type) {
-=======
 import { Record, List, Set } from 'immutable';
 import { matchPath } from 'react-router-dom';
 import { LOCATION_CHANGE } from 'connected-react-router';
@@ -182,13 +146,7 @@ export const reducer = (state = State(), { type, payload }) => {
             .set('lastFilterPath', payload.location.pathname)
             .set('lastFilterName', match.params.name || 'Adhoc')
         : state;
->>>>>>> develop
     default:
       return state;
   }
 };
-<<<<<<< HEAD
-
-export default reducer;
-=======
->>>>>>> develop
