@@ -14,7 +14,7 @@
     border-bottom: 1px solid $gray3;
     display: flex;
     justify-content: space-between;
-    padding-left: 0.5rem;
+    padding: 0.5rem 1.5rem;
     .title {
       @include ms-respond(font-size, -1);
     }
@@ -30,26 +30,46 @@
   .alerts-list {
     display: flex;
     flex-direction: column;
-    a.alert-item {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+    .alert-item {
       @include ms-respond(font-size, -2);
-      padding: 0.5rem;
+      padding: 0.5rem 1.5rem;
       &:hover {
         background-color: lighten($gray4, 5%);
       }
-      .top {
-        margin-bottom: 0.5rem;
-      }
-      .label {
-        background-color: $blue1;
-        border-radius: 0.25rem;
-        color: $white;
+      h1 {
+        @include ms-respond(font-size, -1);
+        margin: 0;
+        padding: 0;
+        a {
+          color: $black;
+          &:hover {
+            color: $blue0;
+          }
+        }
         font-weight: bold;
-        padding: 0.25rem;
+        line-height: 1.5;
+        width: 100%;
+        .source {
+          color: $orange1;
+          font-weight: bold;
+          margin-right: 0.25rem;
+        }
       }
-      .title {
-        @include ms-respond(font-size, -2);
-        font-weight: bold;
-        margin-left: 0.5rem;
+      p {
+        @include ms-respond(font-size, -1);
+        margin: 0.25rem 0;
+        line-height: 1.5;
+        color: $gray;
+        a {
+          color: rgba(11, 168, 224, 1);
+          text-decoration: underline;
+          &:hover {
+            color: $blue0;
+          }
+        }
       }
       &:last-of-type {
         border-bottom-left-radius: 4px;

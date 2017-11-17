@@ -24,31 +24,32 @@ export const Alerts = ({ alerts, fetchAlerts }) => (
           <a href={`${bundle.spaceLocation()}/admin/alerts`}>Create Alert</a>
         </div>
       </div>
-      <div className="alerts-list">
+      <ul className="alerts-list">
         {alerts.map(alert => (
-          <a
-            key={alert.id}
-            href={
-              alert.values.URL ||
-              `${bundle.spaceLocation()}?page=alerts#id-${alert.id}`
-            }
-            className="alert-item"
-          >
-            <div className="top">
-              <span className="label">{alert.values.Source}</span>
-              <span className="title">{alert.values.Title}</span>
-            </div>
-            <div>
-              <span className="content">{alert.values.Content}</span>
-            </div>
-          </a>
+          <li className="alert-item">
+            <h1>
+              <a
+                key={alert.id}
+                href={
+                  alert.values.URL ||
+                  `${bundle.spaceLocation()}?page=alerts#id-${alert.id}`
+                }
+              >
+                <small className="source">{alert.values.Source}</small>
+                {alert.values.Title}
+              </a>
+            </h1>
+
+            <p dangerouslySetInnerHTML={{ __html: alert.values.Content }} />
+            <span className="meta">{alert.values.CreatedAt}</span>
+          </li>
         ))}
         {alerts.size < 1 && (
           <h6 className="empty-alerts icon-wrapper">
             There are no active alerts.
           </h6>
         )}
-      </div>
+      </ul>
     </DropdownMenu>
   </UncontrolledDropdown>
 );
