@@ -22,20 +22,17 @@ export class FormSample extends Component {
     return (
       <DocumentTitle title="Form Sample">
         <div className="form-sample">
-          {
-            this.state.editing
-              ? (
-                <CoreFormModal
-                  form="testing"
-                  dismissed={this.closeForm}
-                  completed={this.closeForm}
-                />
-              ) : (
-                <button type="button" onClick={this.openForm}>
-                  Open Form
-                </button>
-              )
-          }
+          {this.state.editing ? (
+            <CoreFormModal
+              form="testing"
+              dismissed={this.closeForm}
+              completed={this.closeForm}
+            />
+          ) : (
+            <button type="button" onClick={this.openForm}>
+              Open Form
+            </button>
+          )}
         </div>
       </DocumentTitle>
     );

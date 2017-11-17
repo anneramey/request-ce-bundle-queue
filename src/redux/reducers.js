@@ -1,7 +1,21 @@
 import errorsReducer from './modules/errors';
-import submissionsReducer from './modules/submissions';
+import { reducer as layout } from './modules/layout';
+import { reducer as app } from './modules/app';
+import { reducer as queue } from './modules/queue';
+import { reducer as filterMenu } from './modules/filterMenu';
+import { reducer as alerts } from './modules/alerts';
+import { reducer as modalForm } from './modules/modalForm';
+import { reducer as discussions } from './modules/discussions';
+import { reducer as kinops } from '../lib/react-kinops-components';
 
 export default {
   errors: errorsReducer,
-  submissions: submissionsReducer,
+  app,
+  layout,
+  queue,
+  filterMenu,
+  alerts,
+  modalForm,
+  discussions,
+  kinops,
 };

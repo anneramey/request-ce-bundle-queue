@@ -1,29 +1,3 @@
 {
-  "env": {
-    "browser": true,
-    "node": true,
-    "jest": true
-  },
-  "parser": "babel-eslint",
-  "extends": [
-    "airbnb",
-    "plugin:jest/recommended"
-  ],
-  "rules": {
-    "no-confusing-arrow": 0,
-    "no-else-return": 0,
-    "arrow-parens": [2, "as-needed"],
-    "react/prop-types": 0,
-    "react/jsx-filename-extension": 0,
-    "react/jsx-wrap-multilines": [2, {
-      "declaration": false,
-      "assignment": false,
-      "return": true,
-      "arrow": false
-    }],
-    "import/prefer-default-export": 0
-  },
-  "plugins": [
-    "react", "jest"
-  ]
+  "extends": "react-app"
 }

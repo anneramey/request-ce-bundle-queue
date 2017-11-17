@@ -5,9 +5,9 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { createHashHistory } from 'history';
 
-import './globals';
 import { AppContainer } from './components/AppContainer';
 import { configureStore } from './redux/store';
+import { actions } from './redux/modules/layout';
 
 // This src/index.js file is the main entry into the React application.  It does
 // not contain much application code, instead it is mostly boilerplate code that
@@ -33,26 +33,27 @@ const history = createHashHistory();
 // Create the redux store with the configureStore helper found in redux/store.js
 const store = configureStore(history);
 
-// Get the root DOM element in which our entire React app will be rendered.
-const rootElement = document.getElementById('root');
+ReactDOM.render(
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <Route path="/" component={AppContainer} />
+    </ConnectedRouter>
+  </Provider>,
+  document.getElementById('root'),
+);
 
-// Define a render helper function that wraps our root component (AppContainer)
-// with the router, redux store, and hot module loader components.  We want this
-// defined as a function because we want to be able to call it once for the
-// initial page load and again when code changes are detected (see below).
-const render = () => {
-  ReactDOM.unmountComponentAtNode(rootElement);
-  ReactDOM.render(
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <Route path="/" component={AppContainer} />
-      </ConnectedRouter>
-    </Provider>,
-    rootElement);
-};
-
-// Trigger the initial render of our application.
-render();
-
-// Triggers subsequent re-renders after code changes are detected.
-if (module.hot) module.hot.accept('./components/AppContainer', render);
+// Add global listeners
+[
+  ['small', window.matchMedia('(max-width: 767px)')],
+  ['medium', window.matchMedia('(min-width: 768px) and (max-width: 1200px)')],
+  ['large', window.matchMedia('(min-width: 1201px)')],
+].forEach(([size, mql]) => {
+  mql.addListener(event => {
+    if (event.matches) {
+      store.dispatch(actions.setSize(size));
+    }
+  });
+  if (mql.matches) {
+    store.dispatch(actions.setSize(size));
+  }
+});

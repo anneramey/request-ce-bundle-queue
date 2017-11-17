@@ -9,7 +9,8 @@ export const configureStore = history => {
   // special compose method, below we are looking for that and if it does not
   // exist we use the build-in redux 'compose' method.
   // eslint-disable-next-line no-underscore-dangle
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const composeEnhancers =
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   // To enable the Saga Middleware to run we need to first create it.
   const sagaMiddleware = createSagaMiddleware();
   // Create the redux store using reducers imported from our 'redux/reducers'
@@ -18,10 +19,7 @@ export const configureStore = history => {
   const store = createStore(
     connectRouter(history)(combineReducers({ ...reducers })),
     composeEnhancers(
-      applyMiddleware(
-        routerMiddleware(history),
-        sagaMiddleware,
-      ),
+      applyMiddleware(routerMiddleware(history), sagaMiddleware),
     ),
   );
 
@@ -33,9 +31,9 @@ export const configureStore = history => {
   // Enable hot module replacement so that file changes are automatically
   // communicated to the browser when running in development mode
   if (module.hot) {
-    module.hot.accept(
-      './reducers',
-      () => store.replaceReducer(connectRouter(history)(combineReducers(reducers))));
+    module.hot.accept('./reducers', () =>
+      store.replaceReducer(connectRouter(history)(combineReducers(reducers))),
+    );
   }
   return store;
 };
