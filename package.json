@@ -1,7 +1,7 @@
 {
-  "name": "request-ce-bundle-react-boilerplate",
+  "name": "request-ce-bundle-queue",
   "version": "0.0.0",
-  "description": "",
+  "description": "The Queue Kapp is a lightweight work-order and tasking system designed to work with Kinetic Request CE.",
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
@@ -69,7 +69,7 @@
     "/": {
       "target": "https://kinops.io",
       "headers": {
-        "X-Webpack-Bundle-Name": "request-ce-bundle-kinops-queue-react"
+        "X-Webpack-Bundle-Name": "request-ce-bundle-queue"
       },
       "secure": false,
       "autoRewrite": true,
