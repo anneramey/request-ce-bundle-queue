@@ -21,12 +21,23 @@ These instructions will get you a copy of the project up and running on your loc
 5. Navigate to http://localhost:3000/<YOUR_SPACE_SLUG>/<YOUR_KAPP_SLUG>
 6. If this is the first time running the Queue Kapp, a setup wizard will walk you through the rest!
 
-## Attribute Reference
+## Kapp Configuration References
+The Queue Application leverages different type of Kinetic Request CE configurations for driving logic within the App. These configurations have been outlined below.
+
+### Form Type Reference
+Form Types are used to group forms within Kinetic Request CE. The following Form Types have been defined within the Queue app.
+1. Automated -- Automated Forms are forms that are created via workflow (Kinetic Task Processes). These forms do not show up when clicking the "Create New Task" button, or when creating a new sub-task as they are designed to be created via workflow.
+2. Task -- Forms of type `Task` will show up when creating a new Task from within the Queue App. These forms are also able to be subtasks.
+3. Subtask -- Forms of type `Subtask` will only show up when creating a Subtask from a parent Task.
+* All Tasks are Subtasks, but Subtasks are not Tasks *
+
+
+### Attribute Reference
 Attributes in Kinetic Request CE are like variables that can be tied to any object within the application. For example, a Kapp can have an attribute called "Icon" which dictates what Icon should display when referencing the Kapp within the User Interface. Below is a listing of all attributes and what they control within the Queue Kapp.
 
 Certain attributes (noted below with `**`) have been defined at the Space, Kapp and Form levels. This means, that if the attribute exists at the `Form` level, it will override the attribute value set at the `Kapp` level...etc. The Space is the "highest" level, and then "Kapp" then "Form".
 
-### Kapp Attributes
+#### Kapp Attributes
 Attribute Name | Description     | Example
 -------------- | --------------  | --------------
 Icon           | The [Font Awesome Icons](http://fontawesome.io/icons/) Font Awesome icon used to represent this kapp. | `fa-list-ul`
@@ -35,9 +46,10 @@ Owning Team   | The Owning Team attribute is used to control who has access to a
 _**Notification Template Name - Create_ | The Name of the Notification Template to use when a Task in Queue is been created | `Task Created`
 _**Notification Template Name - Complete_ | The Name of the Notification Template to use when a Task in Queue is been submitted | `Task Completed`
 
-### Form Attributes
+#### Form Attributes
 Attribute Name | Description     | Example
 -------------- | --------------  | --------------
+Icon           | The [Font Awesome Icons](http://fontawesome.io/icons/) Font Awesome icon used to represent this Form within the app. | `fa-tasks`
 Assignment Type | Dictates if the App should present an assignment selector before displaying a form. If not set on a given form, the App will present a Assignment Selector before displaying the form when creating the Task. If set to `None` the form builder will need to display the `Assigned Team` / `Assigned Individual` fields or default them. | `None`
 Discussion Id | The Id of the Discussion related to this form. Typically where form owners can collaborate on form changes. | `<discussion guid>`
 Owning Team   | Dictates who can create a new task using this form from within the app. If left blank, anyone with access to the Queue App can create new tasks using this form.  | `Human Resources`
@@ -47,7 +59,7 @@ _**Notification Template Name - Create_ | The Name of the Notification Template 
 _**Notification Template Name - Complete_ | The Name of the Notification Template to use when a Task for this form is submitted | `Task Completed - Ad-hoc Task`
 
 
-## Command Reference
+## Yarn Command Reference
 * `yarn start` will run the project in development mode (requires Kinetic
   Request CE to be running)
 * `yarn run build` will build the project in "production" mode (this will create
@@ -57,7 +69,7 @@ _**Notification Template Name - Complete_ | The Name of the Notification Templat
 * `yarn test` will run all of the test cases one time.
 * `yarn test:watch` will run test cases each time changes are detected in the source files.
 
-## Deploying into Production Mode
+## Building the App for Production
 In order to expose the project to others, the static files will need to be
 accessible (Amazon s3 is often a convenient and simple way to serve the files).
 
