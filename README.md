@@ -21,6 +21,19 @@ These instructions will get you a copy of the project up and running on your loc
 5. Navigate to http://localhost:3000/<YOUR_SPACE_SLUG>/<YOUR_KAPP_SLUG>
 6. If this is the first time running the Queue Kapp, a setup wizard will walk you through the rest!
 
+## Attribute Reference
+Attributes in Kinetic Request CE are like variables that can be tied to any object within the application. For example, a Kapp can have an attribute called "Icon" which dictates what Icon should display when referencing the Kapp within the User Interface. Below is a listing of all attributes and what they control within the Queue Kapp.
+
+### Kapp Attributes
+Attribute Name | Description     | Example
+-------------- | --------------  | --------------
+Icon           | The [Font Awesome Icons](http://fontawesome.io/icons/) Font Awesome icon used to represent this kapp. | `fa-list-ul`
+Description    | A short description of what this kapp is used for, typically displayed on the Kapp Listing (home) Page | When you have work to do, you’ll see it here. Queue helps teams get work done in a snap.
+
+### Form Attributes
+Attribute Name | Description     | Example
+-------------- | --------------  | --------------
+
 ## Command Reference
 * `yarn start` will run the project in development mode (requires Kinetic
   Request CE to be running)
