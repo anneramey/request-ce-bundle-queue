@@ -24,12 +24,37 @@ These instructions will get you a copy of the project up and running on your loc
 ## Kapp Configuration References
 The Queue Application leverages different type of Kinetic Request CE configurations for driving logic within the App. These configurations have been outlined below.
 
+### Form Fields Reference
+Field Name  | Field Type | Description
+----------  | ----------- | -----------
+Assigned Individual | Text | Stores the username of who the Task is assigned to
+Assigned Individual Display Name | Text | Stores the Display Name of who the Task is assigned to
+Assigned Team       | Text | Stores the full path to which team the Task is assigned to
+Assigned Team Display Name | Text | Stores the Display Name of which team the Task is assigned to
+Cancelation Reason  | Text | If a task is in a `Cancelled` status, this field is required and displayed in the App
+Deferral Token    | Text | Stores the token used to relate this task to the process that initiated it (Typically only used with `Automated` type Tasks)
+Details | Text | This field should provide any details needed for the assignee to complete the Task
+Discussion Id  | Text | Stores the ID of the tasks related Discussion
+Due Date | Date/Time | This field is used to display when the task needs to be completed by
+Observing Teams | Checkbox | Used to control security and which teams are able to view the Task
+Observing Individuals | Checkbox | Used to control security and which users are able to view the Task
+Pending Reason | Text | If a task is in a `Pending` status, this field is required and displayed in the App
+Resolution | Text | If a task is in a `Complete` status, this field is displayed and should provide an outcome. (e.g. for an Approval, this field may display the Decision)
+Scheduled Date | Date/Time | This field is used to store and display when the task is scheduled to be completed
+Summary | Text |This field should give a high level description of what the Task is for
+Status      | Select | There are 4 valid Status options in Queue for all types of tasks.
+              - In Progress
+              - Pending
+              - Complete
+              - Cancelled
+
 ### Form Type Reference
 Form Types are used to group forms within Kinetic Request CE. The following Form Types have been defined within the Queue app.
 1. Automated -- Automated Forms are forms that are created via workflow (Kinetic Task Processes). These forms do not show up when clicking the "Create New Task" button, or when creating a new sub-task as they are designed to be created via workflow.
 2. Task -- Forms of type `Task` will show up when creating a new Task from within the Queue App. These forms are also able to be subtasks.
 3. Subtask -- Forms of type `Subtask` will only show up when creating a Subtask from a parent Task.
-* All Tasks are Subtasks, but Subtasks are not Tasks *
+4. Template -- Forms of type `Template` are used for creating new Tasks within the Queue System, and are configured with all required fields.
+* All Tasks are Subtasks, but Subtasks are not Tasks
 
 
 ### Attribute Reference
