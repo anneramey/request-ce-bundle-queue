@@ -42,11 +42,7 @@ Pending Reason | Text | If a task is in a `Pending` status, this field is requir
 Resolution | Text | If a task is in a `Complete` status, this field is displayed and should provide an outcome. (e.g. for an Approval, this field may display the Decision)
 Scheduled Date | Date/Time | This field is used to store and display when the task is scheduled to be completed
 Summary | Text |This field should give a high level description of what the Task is for
-Status      | Select | There are 4 valid Status options in Queue for all types of tasks.
-              - In Progress
-              - Pending
-              - Complete
-              - Cancelled
+Status      | Select | There are 4 valid Status options in Queue for all types of tasks.<br>**In Progress**<br>**Pending**<br>**Complete**<br>**Cancelled**
 
 ### Form Type Reference
 Form Types are used to group forms within Kinetic Request CE. The following Form Types have been defined within the Queue app.
