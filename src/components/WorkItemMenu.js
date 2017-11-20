@@ -8,7 +8,7 @@ const globals = import('../globals');
 /* eslint-disable */
 export const WorkItemMenu = ({
   isOpen,
-  close,
+  closeModal,
   queueItem,
   handleSave,
   onFormLoaded,
@@ -19,13 +19,13 @@ export const WorkItemMenu = ({
 }) => (
   <Modal
     isOpen={isOpen}
-    toggle={close}
+    toggle={closeModal}
     style={{ display: visible ? '' : 'none' }}
     size="lg"
   >
     <div className="modal-header">
       <h4 className="modal-title">
-        <button type="button" className="btn btn-link" onClick={close}>
+        <button type="button" className="btn btn-link" onClick={closeModal}>
           Cancel
         </button>
         <span>{review ? 'Review' : 'Work'} It</span>
@@ -64,17 +64,32 @@ export const WorkItemMenuContainer = compose(
   withState('page', 'setPage', null),
   withState('completed', 'setCompleted', false),
   withHandlers({
-    onFormLoaded: ({ page, close, setVisible, setForm, setPage }) => form => {
+    closeModal: ({ setPage, close, setVisible }) => () => {
+      setPage(null);
+      setVisible(false);
+      close();
+    },
+  }),
+  withHandlers({
+    onFormLoaded: ({
+      page,
+      closeModal,
+      setVisible,
+      setForm,
+      setPage,
+    }) => form => {
       setVisible(true);
       setForm(form);
 
       if (page === null) {
         setPage(form.page().id());
       } else if (page === form.page().id()) {
-        close();
+        console.log('closing');
+
+        closeModal();
       }
     },
-    handleFormCompleted: ({ close, onCompleted, setCompleted }) => (
+    handleFormCompleted: ({ closeModal, onCompleted, setCompleted }) => (
       data,
       actions,
     ) => {
@@ -84,7 +99,7 @@ export const WorkItemMenuContainer = compose(
       }
 
       if (data.submission.currentPage === null) {
-        close();
+        closeModal();
       } else {
         setCompleted(true);
       }
