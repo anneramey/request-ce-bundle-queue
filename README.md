@@ -31,13 +31,21 @@ Attribute Name | Description     | Example
 -------------- | --------------  | --------------
 Icon           | The [Font Awesome Icons](http://fontawesome.io/icons/) Font Awesome icon used to represent this kapp. | `fa-list-ul`
 Description    | A short description of what this kapp is used for, typically displayed on the Kapp Listing (home) Page | `When you have work to do, you’ll see it here. Queue helps teams get work done in a snap.`
+Owning Team   | The Owning Team attribute is used to control who has access to administer the kapp. Users that are a part of the team set here can create new forms, and update the Kapp's settings. | `Queue Admins`
 _**Notification Template Name - Create_ | The Name of the Notification Template to use when a Task in Queue is been created | `Task Created`
-_**Notification Template Name - Complete_ | The Name of the Notification Template to use when a Task in Queue is been submitted | `Task Completed - Ad-hoc Task`
-_**Owning Team_    | The Owning Team attribute is used to control who has access to administer the kapp. Users that are a part of the team set here can create new forms, and update the Kapp's settings. | `Queue Admins` 
+_**Notification Template Name - Complete_ | The Name of the Notification Template to use when a Task in Queue is been submitted | `Task Completed`
 
 ### Form Attributes
 Attribute Name | Description     | Example
 -------------- | --------------  | --------------
+Assignment Type | Dictates if the App should present an assignment selector before displaying a form. If not set on a given form, the App will present a Assignment Selector before displaying the form when creating the Task. If set to `None` the form builder will need to display the `Assigned Team` / `Assigned Individual` fields or default them. | `None`
+Discussion Id | The Id of the Discussion related to this form. Typically where form owners can collaborate on form changes. | `<discussion guid>`
+Owning Team   | Dictates who can create a new task using this form from within the app. If left blank, anyone with access to the Queue App can create new tasks using this form.  | `Human Resources`
+Permitted Subtasks | Dictates which subtasks are allowed to be created / related to tasks that use this form. If left blank, any sub-tasks can be added to tasks created with this form. This attribute allows multiple values which should be the `Form Slug` of the desired sub-task | `adhoc-approval`
+Prohibit Subtasks | Setting this value to `True` will not allow a user to create sub-tasks on a task created using this form. | `True`
+_**Notification Template Name - Create_ | The Name of the Notification Template to use when a Task for this form is created | `Task Created`
+_**Notification Template Name - Complete_ | The Name of the Notification Template to use when a Task for this form is submitted | `Task Completed - Ad-hoc Task`
+
 
 ## Command Reference
 * `yarn start` will run the project in development mode (requires Kinetic
