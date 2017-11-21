@@ -5,6 +5,8 @@ import { actions } from '../redux/modules/workMenu';
 import { Modal, ModalBody, ModalFooter } from 'reactstrap';
 import { CoreForm } from 'react-kinetic-core';
 
+const globals = import('../globals');
+
 export const WorkMenu = ({
   queueItem,
   complete,
@@ -33,6 +35,7 @@ export const WorkMenu = ({
       <ModalBody>
         <div style={{ margin: '1em' }}>
           <CoreForm
+            globals={globals}
             submission={queueItem.id}
             review={queueItem.coreState !== 'Draft'}
             onLoaded={handleLoaded}
