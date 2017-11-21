@@ -11,20 +11,20 @@ export const WorkMenu = ({
   queueItem,
   complete,
   mode,
-  closeWorkMenu,
+  handleCloseClick,
   handleLoaded,
   handleUpdated,
   handleCompleted,
   handleSaveClick,
 }) =>
   queueItem && (
-    <Modal isOpen toggle={closeWorkMenu} size="lg">
+    <Modal isOpen toggle={handleCloseClick} size="lg">
       <div className="modal-header">
         <h4 className="modal-title">
           <button
             type="button"
             className="btn btn-link"
-            onClick={closeWorkMenu}
+            onClick={handleCloseClick}
           >
             Close
           </button>
@@ -106,6 +106,10 @@ export const WorkMenuContainer = compose(
       },
       handleSaveClick: () => () => {
         kineticForm.submitPage();
+      },
+      handleCloseClick: props => () => {
+        props.closeWorkMenu();
+        props.setComplete(false);
       },
     };
   }),
