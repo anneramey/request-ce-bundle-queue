@@ -7,6 +7,7 @@ import { QueueItemContainer } from './QueueItem/QueueItem';
 import { QueueListContainer } from './queueList/QueueListContainer';
 import { NewItemMenuContainer } from './newItemMenu/NewItemMenuContainer';
 import { ModalFormContainer } from '../lib/react-kinops-components/src/components/Modals/ModalFormContainer';
+import { WorkMenuContainer } from './WorkMenu';
 
 export const Content = () => (
   <div className="content">
@@ -23,5 +24,6 @@ export const Content = () => (
     <FilterMenuContainer />
     <NewItemMenuContainer />
     <ModalFormContainer />
+    <WorkMenuContainer />
   </div>
 );

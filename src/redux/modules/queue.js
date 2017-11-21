@@ -14,8 +14,6 @@ export const types = {
   SET_LIST_STATUS: namespace('queue', 'SET_LIST_STATUS'),
   SET_PREVIEW_ITEM: namespace('queue', 'SET_PREVIEW_ITEM'),
   TOGGLE_SORT_DIRECTION: namespace('queue', 'TOGGLE_SORT_DIRECTION'),
-  OPEN_WORK_MENU: namespace('queue', 'OPEN_WORK_MENU'),
-  CLOSE_WORK_MENU: namespace('queue', 'CLOSE_WORK_MENU'),
 
   OPEN_PREVIEW: namespace('queue', 'OPEN_PREVIEW'),
   CLOSE_PREVIEW: namespace('queue', 'CLOSE_PREVIEW'),
@@ -37,8 +35,6 @@ export const actions = {
   setListStatus: withPayload(types.SET_LIST_STATUS),
   setPreviewItem: withPayload(types.SET_PREVIEW_ITEM),
   toggleSortDirection: noPayload(types.TOGGLE_SORT_DIRECTION),
-  openWorkMenu: noPayload(types.OPEN_WORK_MENU),
-  closeWorkMenu: noPayload(types.CLOSE_WORK_MENU),
 
   openPreview: withPayload(types.OPEN_PREVIEW),
   closePreview: noPayload(types.CLOSE_PREVIEW),
@@ -58,15 +54,9 @@ export const State = Record({
   lists: Map(),
   listStatus: null,
   previewItem: null,
-  workMenuOpen: false,
   newItemMenuOpen: false,
   newItemMenuOptions: Map(),
 });
-
-export const isItemComplete = queueItem =>
-  queueItem.values.Status &&
-  (queueItem.values.Status === 'Complete' ||
-    queueItem.values.Status === 'Cancelled');
 
 export const reducer = (state = State(), { type, payload }) => {
   switch (type) {
@@ -91,10 +81,6 @@ export const reducer = (state = State(), { type, payload }) => {
         'sortDirection',
         state.sortDirection === 'ASC' ? 'DESC' : 'ASC',
       );
-    case types.OPEN_WORK_MENU:
-      return state.set('workMenuOpen', true);
-    case types.CLOSE_WORK_MENU:
-      return state.set('workMenuOpen', false);
     case types.OPEN_NEW_MENU:
       return state
         .set('newItemMenuOpen', true)
