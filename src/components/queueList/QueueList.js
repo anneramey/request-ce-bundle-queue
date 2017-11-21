@@ -6,9 +6,7 @@ import refreshIcon from 'font-awesome-svg-png/white/svg/refresh.svg';
 import filterIcon from '../../images/filter.svg';
 import sortAscIcon from '../../images/sort_asc.svg';
 import sortDescIcon from '../../images/sort_desc.svg';
-/* import { isItemComplete } from '../../redux/modules/queue'; */
 import { QueueListItem, QueueListItemSmall } from './QueueListItem';
-import { WorkItemMenuContainer } from '../WorkItemMenu';
 import { QueueItemPreview } from './QueueItemPreview';
 
 const WallyMessage = ({ filter }) => {
@@ -44,36 +42,21 @@ export const QueueList = ({
   filter,
   queueItems,
   openFilterMenu,
-  workMenuOpen,
-  workItem,
-  handleCompleted,
-  openDropdownItem,
   handleItemClick,
   previewItem,
   closePreview,
-  toggleItemMenu,
-  toggleWorkMenu,
-  profile,
-  grabItem,
   sortDirection,
   toggleSortDirection,
   refresh,
   isSmallLayout,
+  handleGrabbed,
+  handleWorked,
 }) => (
   <div className="two-panels">
     {!filter ? (
       <WallyBadFilter />
     ) : (
       <div className="left-panel">
-        {workItem && (
-          <WorkItemMenuContainer
-            close={toggleWorkMenu(null)}
-            isOpen={workMenuOpen}
-            queueItem={workItem}
-            onCompleted={handleCompleted}
-            review={workItem.coreState !== 'Draft'}
-          />
-        )}
         <div className="controls">
           <h6>
             {filter.name || 'Adhoc'}
@@ -122,11 +105,8 @@ export const QueueList = ({
                       key={queueItem.id}
                       handleItemClick={handleItemClick}
                       queueItem={queueItem}
-                      openDropdownItem={openDropdownItem}
-                      toggleItemMenu={toggleItemMenu}
-                      toggleWorkMenu={toggleWorkMenu}
-                      profile={profile}
-                      grabItem={grabItem}
+                      handleGrabbed={handleGrabbed}
+                      handleWorked={handleWorked}
                     />
                   ),
               )}
@@ -143,9 +123,8 @@ export const QueueList = ({
           <QueueItemPreview
             queueItem={previewItem}
             closePreview={closePreview}
-            toggleWorkMenu={toggleWorkMenu}
-            profile={profile}
-            grabItem={grabItem}
+            handleGrabbed={handleGrabbed}
+            handleWorked={handleWorked}
           />
         </div>
       )}

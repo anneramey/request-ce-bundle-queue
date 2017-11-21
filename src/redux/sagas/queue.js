@@ -1,7 +1,6 @@
-import { select, call, put, all, takeEvery } from 'redux-saga/effects';
+import { select, call, put, takeEvery } from 'redux-saga/effects';
 import moment from 'moment';
 import { CoreAPI } from 'react-kinetic-core';
-import isArray from 'isarray';
 import isFunction from 'is-function';
 
 import { types, actions } from '../modules/queue';
@@ -229,11 +228,8 @@ export function* updateQueueItemTask(action) {
   });
 
   if (submission) {
-    if (isFunction(action.payload.successAction)) {
-      const result = action.payload.successAction(submission);
-      yield isArray(result)
-        ? all(result.map(action => put(action)))
-        : put(result);
+    if (isFunction(action.payload.onSuccess)) {
+      action.payload.onSuccess(submission);
     }
   } else {
     yield put(errorActions.addError('Failed to update item!'));

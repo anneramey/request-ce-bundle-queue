@@ -1,16 +1,12 @@
 import React from 'react';
-import {
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from 'reactstrap';
+import { UncontrolledDropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SVGInline from 'react-svg-inline';
 import commentsIcon from 'font-awesome-svg-png/black/svg/comments.svg';
 import vEllipsisIcon from 'font-awesome-svg-png/white/svg/ellipsis-v.svg';
 import { TimeAgo } from '../TimeAgo';
 import { StatusParagraph } from '../StatusParagraph';
+import { WallyButtonContainer } from '../WallyButton';
 
 const AssignmentParagraph = ({ values }) => (
   <p className="assignment">
@@ -52,12 +48,9 @@ const DueOrCloseDate = ({ queueItem }) => {
 
 export const QueueListItem = ({
   queueItem,
-  openDropdownItem,
-  toggleItemMenu,
-  toggleWorkMenu,
   handleItemClick,
-  profile,
-  grabItem,
+  handleGrabbed,
+  handleWorked,
 }) => {
   const { createdAt, updatedAt, id, values } = queueItem;
 
@@ -91,7 +84,7 @@ export const QueueListItem = ({
         </ul>
       </div>
       <div className="actions">
-        <Dropdown isOpen={id === openDropdownItem} toggle={toggleItemMenu(id)}>
+        <UncontrolledDropdown>
           <DropdownToggle className="btn-ellipsis">
             <SVGInline svg={vEllipsisIcon} className="icon" />
           </DropdownToggle>
@@ -99,20 +92,17 @@ export const QueueListItem = ({
             <Link to={`/item/${id}`} className="dropdown-item">
               More Details
             </Link>
-            {queueItem.values['Assigned Individual'] === profile.username ? (
-              <DropdownItem onClick={toggleWorkMenu(queueItem)}>
-                Work Task
-              </DropdownItem>
-            ) : (
-              <DropdownItem onClick={grabItem(queueItem)}>
-                Grab Task
-              </DropdownItem>
-            )}
+            <WallyButtonContainer
+              className="dropdown-item"
+              queueItem={queueItem}
+              onGrabbed={handleGrabbed}
+              onWorked={handleWorked}
+            />
             <Link to={`/item/${id}/discussions`} className="dropdown-item">
               Discuss
             </Link>
           </DropdownMenu>
-        </Dropdown>
+        </UncontrolledDropdown>
       </div>
     </li>
   );
