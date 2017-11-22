@@ -18,8 +18,9 @@ These instructions will get you a copy of the project up and running on your loc
   - Set the "Kapp Display Page" to "webpack.jsp?bundleName=request-ce-bundle-kinops-queue"
 3. CD into this project and type `yarn install`
 4. Next type in `yarn start` to start the development web server.
-5. Navigate to http://localhost:3000/<YOUR_SPACE_SLUG>/<YOUR_KAPP_SLUG>
-6. If this is the first time running the Queue Kapp, a setup wizard will walk you through the rest!
+5. You will be prompted to enter in your Kinetic Web server address and a name for the project
+6. Navigate to http://localhost:3000/<YOUR_SPACE_SLUG>/<YOUR_KAPP_SLUG>
+7. If this is the first time running the Queue Kapp, a setup wizard will walk you through the rest!
 
 ## Kapp Configuration References
 The Queue Application leverages different type of Kinetic Request CE configurations for driving logic within the App. These configurations have been outlined below.
