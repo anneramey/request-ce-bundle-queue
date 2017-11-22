@@ -63,8 +63,15 @@ export const reducer = (state = State(), { type, payload }) => {
     case types.SET_ADHOC_FILTER:
       return state.set('adhocFilter', payload);
     case types.SET_LIST_ITEMS:
+      // If there was a preview item and it was in the new list that was
+      // retrieved we want to update the previewItem state so the preview panel
+      // reflects the latest data.
+      const updatedPreviewItem =
+        state.previewItem &&
+        payload.list.find(item => item.id === state.previewItem.id);
       return state
         .setIn(['lists', payload.filter], List(payload.list))
+        .set('previewItem', updatedPreviewItem || state.previewItem)
         .set('listStatus', null);
     case types.SET_LIST_STATUS:
       return state.set('listStatus', payload);
