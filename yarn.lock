@@ -4222,9 +4222,9 @@ kind-of@^4.0.0:
   dependencies:
     is-buffer "^1.1.5"
 
-kinops-react-scripts@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/kinops-react-scripts/-/kinops-react-scripts-0.7.0.tgz#2450802d0993ca8dcfc56d8de6e1543a0f42692e"
+kinops-react-scripts@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/kinops-react-scripts/-/kinops-react-scripts-0.8.0.tgz#92805a354bd5d2460776d1249e927a0587bcfcac"
   dependencies:
     autoprefixer "7.1.6"
     babel-core "6.26.0"
