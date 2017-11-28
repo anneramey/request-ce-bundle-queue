@@ -7,6 +7,7 @@ import { reducer as alerts } from './modules/alerts';
 import { reducer as modalForm } from './modules/modalForm';
 import { reducer as discussions } from './modules/discussions';
 import { reducer as kinops } from '../lib/react-kinops-components';
+import { reducer as workMenu } from './modules/workMenu';
 
 export default {
   errors: errorsReducer,
@@ -18,4 +19,5 @@ export default {
   modalForm,
   discussions,
   kinops,
+  workMenu,
 };

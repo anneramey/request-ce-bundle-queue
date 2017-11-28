@@ -6,13 +6,13 @@ import { originLink } from '../../utils/links';
 import { TimeAgo } from '../TimeAgo';
 import { AssignmentBadge } from '../QueueItem/AssignmentBadge';
 import { StatusParagraph } from '../StatusParagraph';
+import { WallyButtonContainer } from '../WallyButton';
 
 export const QueueItemPreview = ({
   queueItem,
   closePreview,
-  toggleWorkMenu,
-  profile,
-  grabItem,
+  handleGrabbed,
+  handleWorked,
 }) => {
   return (
     <div className="item-preview">
@@ -62,21 +62,12 @@ export const QueueItemPreview = ({
         </li>
       </ul>
       <div className="preview-actions">
-        {queueItem.values['Assigned Individual'] === profile.username ? (
-          <button
-            className="btn btn-primary work-grab-button"
-            onClick={toggleWorkMenu(queueItem)}
-          >
-            {queueItem.coreState === 'Draft' ? 'Work' : 'Review'} It
-          </button>
-        ) : (
-          <button
-            className="btn btn-primary work-grab-button"
-            onClick={grabItem(queueItem)}
-          >
-            Grab It
-          </button>
-        )}
+        <WallyButtonContainer
+          className="btn btn-primary work-grab-button"
+          queueItem={queueItem}
+          onGrabbed={handleGrabbed}
+          onWorked={handleWorked}
+        />
         <Link
           className="btn btn-primary work-grab-button"
           to={`/item/${queueItem.id}`}

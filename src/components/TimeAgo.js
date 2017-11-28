@@ -8,15 +8,18 @@ const TIME_AGO_INTERVAL = 10000;
 export class TimeAgo extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      formatted: moment(props.timestamp).format(TIME_FORMAT),
-      timeAgo: moment(props.timestamp).fromNow(),
-    };
+    this.state = this.getState(props);
     this.tick = this.tick.bind(this);
   }
 
   componentDidMount() {
     this.interval = setInterval(this.tick, TIME_AGO_INTERVAL);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.timestamp !== nextProps.timestamp) {
+      this.setState(this.getState(nextProps));
+    }
   }
 
   componentWillUnmount() {
@@ -25,6 +28,13 @@ export class TimeAgo extends Component {
 
   tick() {
     this.setState({ timeAgo: moment(this.props.timestamp).fromNow() });
+  }
+
+  getState(props) {
+    return {
+      formatted: moment(props.timestamp).format(TIME_FORMAT),
+      timeAgo: moment(props.timestamp).fromNow(),
+    };
   }
 
   render() {

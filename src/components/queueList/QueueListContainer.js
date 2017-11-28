@@ -1,16 +1,8 @@
-import {
-  compose,
-  lifecycle,
-  withHandlers,
-  withProps,
-  withState,
-} from 'recompose';
+import { compose, lifecycle, withHandlers, withProps } from 'recompose';
 import { connect } from 'react-redux';
-
 import { getFilterByPath } from '../../redux/modules/app';
 import { actions as queueActions } from '../../redux/modules/queue';
 import { actions as filterMenuActions } from '../../redux/modules/filterMenu';
-
 import { QueueList } from './QueueList';
 
 const mapStateToProps = state => ({
@@ -19,10 +11,8 @@ const mapStateToProps = state => ({
   queueItems: state.queue.lists.get(
     getFilterByPath(state, state.router.location.pathname),
   ),
-  workMenuOpen: state.queue.workMenuOpen,
   previewItem: state.queue.previewItem,
   sortDirection: state.queue.sortDirection,
-  profile: state.app.profile,
   isSmallLayout: state.layout.get('size') === 'small',
 });
 
@@ -30,11 +20,8 @@ const mapDispatchToProps = {
   openPreview: queueActions.openPreview,
   closePreview: queueActions.closePreview,
   openFilterMenu: filterMenuActions.open,
-  openWorkMenu: queueActions.openWorkMenu,
-  closeWorkMenu: queueActions.closeWorkMenu,
   toggleSortDirection: queueActions.toggleSortDirection,
   fetchList: queueActions.fetchList,
-  updateQueueItem: queueActions.updateQueueItem,
 };
 
 export const QueueListContainer = compose(
@@ -42,49 +29,14 @@ export const QueueListContainer = compose(
   withProps(({ sortDirection, queueItems }) => ({
     queueItems: sortDirection === 'DESC' ? queueItems.reverse() : queueItems,
   })),
-  withState('openDropdownItem', 'setOpenDropdownItem', null),
-  withState('workItem', 'setWorkItem', null),
   withHandlers({
     openFilterMenu: props => () => props.openFilterMenu(props.filter),
-    toggleItemMenu: ({
-      openDropdownItem,
-      setOpenDropdownItem,
-    }) => item => () => {
-      if (openDropdownItem) {
-        setOpenDropdownItem(null);
-      } else {
-        setOpenDropdownItem(item);
-      }
+    handleGrabbed: props => updatedItem => {
+      props.openPreview(updatedItem);
+      props.fetchList(props.filter);
     },
-    toggleWorkMenu: ({
-      workItem,
-      setWorkItem,
-      openWorkMenu,
-      closeWorkMenu,
-    }) => item => () => {
-      if (workItem) {
-        setWorkItem(null);
-        closeWorkMenu();
-      } else {
-        setWorkItem(item);
-        openWorkMenu();
-      }
-    },
-    grabItem: ({ filter, profile, updateQueueItem }) => item => () => {
-      updateQueueItem({
-        id: item.id,
-        values: {
-          'Assigned Individual': profile.username,
-          'Assigned Individual Display Name': profile.displayName,
-        },
-        successAction: updatedItem => [
-          queueActions.openPreview(updatedItem),
-          queueActions.fetchList(filter),
-        ],
-      });
-    },
-    handleCompleted: ({ filter, fetchList }) => () => {
-      fetchList(filter);
+    handleWorked: props => parameter => {
+      props.fetchList(props.filter);
     },
     handleItemClick: ({ openPreview }) => item => () => openPreview(item),
     refresh: ({ filter, fetchList }) => () => fetchList(filter),
@@ -101,7 +53,6 @@ export const QueueListContainer = compose(
       }
     },
     componentWillUnmount() {
-      this.props.closeWorkMenu();
       this.props.closePreview();
     },
   }),

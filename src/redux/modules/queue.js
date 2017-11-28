@@ -14,8 +14,6 @@ export const types = {
   SET_LIST_STATUS: namespace('queue', 'SET_LIST_STATUS'),
   SET_PREVIEW_ITEM: namespace('queue', 'SET_PREVIEW_ITEM'),
   TOGGLE_SORT_DIRECTION: namespace('queue', 'TOGGLE_SORT_DIRECTION'),
-  OPEN_WORK_MENU: namespace('queue', 'OPEN_WORK_MENU'),
-  CLOSE_WORK_MENU: namespace('queue', 'CLOSE_WORK_MENU'),
 
   OPEN_PREVIEW: namespace('queue', 'OPEN_PREVIEW'),
   CLOSE_PREVIEW: namespace('queue', 'CLOSE_PREVIEW'),
@@ -37,8 +35,6 @@ export const actions = {
   setListStatus: withPayload(types.SET_LIST_STATUS),
   setPreviewItem: withPayload(types.SET_PREVIEW_ITEM),
   toggleSortDirection: noPayload(types.TOGGLE_SORT_DIRECTION),
-  openWorkMenu: noPayload(types.OPEN_WORK_MENU),
-  closeWorkMenu: noPayload(types.CLOSE_WORK_MENU),
 
   openPreview: withPayload(types.OPEN_PREVIEW),
   closePreview: noPayload(types.CLOSE_PREVIEW),
@@ -58,23 +54,24 @@ export const State = Record({
   lists: Map(),
   listStatus: null,
   previewItem: null,
-  workMenuOpen: false,
   newItemMenuOpen: false,
   newItemMenuOptions: Map(),
 });
-
-export const isItemComplete = queueItem =>
-  queueItem.values.Status &&
-  (queueItem.values.Status === 'Complete' ||
-    queueItem.values.Status === 'Cancelled');
 
 export const reducer = (state = State(), { type, payload }) => {
   switch (type) {
     case types.SET_ADHOC_FILTER:
       return state.set('adhocFilter', payload);
     case types.SET_LIST_ITEMS:
+      // If there was a preview item and it was in the new list that was
+      // retrieved we want to update the previewItem state so the preview panel
+      // reflects the latest data.
+      const updatedPreviewItem =
+        state.previewItem &&
+        payload.list.find(item => item.id === state.previewItem.id);
       return state
         .setIn(['lists', payload.filter], List(payload.list))
+        .set('previewItem', updatedPreviewItem || state.previewItem)
         .set('listStatus', null);
     case types.SET_LIST_STATUS:
       return state.set('listStatus', payload);
@@ -91,10 +88,6 @@ export const reducer = (state = State(), { type, payload }) => {
         'sortDirection',
         state.sortDirection === 'ASC' ? 'DESC' : 'ASC',
       );
-    case types.OPEN_WORK_MENU:
-      return state.set('workMenuOpen', true);
-    case types.CLOSE_WORK_MENU:
-      return state.set('workMenuOpen', false);
     case types.OPEN_NEW_MENU:
       return state
         .set('newItemMenuOpen', true)
