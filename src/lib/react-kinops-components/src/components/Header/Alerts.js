@@ -26,10 +26,9 @@ export const Alerts = ({ alerts, fetchAlerts }) => (
       </div>
       <ul className="alerts-list">
         {alerts.map(alert => (
-          <li className="alert-item">
+          <li key={alert.id} className="alert-item">
             <h1>
               <a
-                key={alert.id}
                 href={
                   alert.values.URL ||
                   `${bundle.spaceLocation()}?page=alerts#id-${alert.id}`

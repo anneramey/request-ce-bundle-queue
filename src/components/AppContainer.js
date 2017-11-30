@@ -1,13 +1,12 @@
 import { connect } from 'react-redux';
 import { compose, lifecycle } from 'recompose';
-
 import { actions as appActions } from '../lib/react-kinops-components';
 import { actions } from '../redux/modules/app';
 import { actions as alertsActions } from '../redux/modules/alerts';
 
 import { App } from './App';
 
-const mapStateToProps = state  => ({
+const mapStateToProps = state => ({
   loading: state.app.loading || state.kinops.loading,
 });
 
