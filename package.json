@@ -1,8 +1,7 @@
 {
   "name": "request-ce-bundle-queue",
   "version": "0.0.0",
-  "description":
-    "The Queue Kapp is a lightweight work-order and tasking system designed to work with Kinetic Request CE.",
+  "description": "The Queue Kapp is a lightweight work-order and tasking system designed to work with Kinetic Request CE.",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -15,9 +14,9 @@
     "enzyme-adapter-react-15": "^1.0.1",
     "enzyme-to-json": "^3.1.2",
     "jest-immutable-matchers": "^1.5.0",
+    "kinops-react-scripts": "0.6.0",
     "modularscale-sass": "^3.0.3",
     "prettier": "^1.7.4",
-    "kinops-react-scripts": "0.6.0",
     "react-test-renderer": "^15.6.1"
   },
   "dependencies": {
@@ -40,6 +39,7 @@
     "react-avatar": "^2.4.0",
     "react-document-title": "^2.0.3",
     "react-dom": "^15.6.1",
+    "react-dropzone": "^4.2.3",
     "react-helmet": "^5.2.0",
     "react-kinetic-core": "0.3.1",
     "react-redux": "^5.0.6",

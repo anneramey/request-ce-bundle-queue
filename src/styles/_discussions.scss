@@ -214,6 +214,7 @@
     flex: 1;
     padding: 12px;
     background-color: #d3dce7;
+
     .placeholder {
       color: #a8b7c7;
       position: absolute;
@@ -223,6 +224,7 @@
       }
     }
   }
+
   .message-input {
     max-height: 48px;
     overflow-y: scroll;
