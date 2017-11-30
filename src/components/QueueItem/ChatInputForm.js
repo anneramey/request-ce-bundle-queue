@@ -64,6 +64,7 @@ class ChatInput extends Component {
       this.state.fileAttachment,
     );
     this.htmlElement.innerText = '';
+    this.setState({ fileAttachment: null });
   }
 
   handleChatHotKey(e) {

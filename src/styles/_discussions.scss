@@ -50,6 +50,35 @@
           border: 4px solid;
         }
       }
+      .message-upload {
+        display: flex;
+        align-items: flex-end;
+        flex-direction: column;
+        .upload-image {
+          display: flex;
+          height: 116px;
+
+          img {
+            height: 100%;
+            width: auto;
+          }
+        }
+
+        .upload-filename {
+        }
+
+        // &.message-mine {
+        //   .upload-description {
+        //     order: -1;
+        //   }
+        // }
+
+        // &.message-other {
+        //   .upload-image {
+        //     order: -1;
+        //   }
+        // }
+      }
       .meta {
         @include ms-respond(font-size, -2);
         line-height: 1.5rem;
