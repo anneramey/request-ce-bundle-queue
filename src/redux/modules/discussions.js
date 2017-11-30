@@ -89,7 +89,10 @@ export const actions = {
   receiveMessage: withPayload(types.MESSAGE_RX),
   updateMessage: withPayload(types.MESSAGE_UPDATE),
   receiveBadMessage: withPayload(types.MESSAGE_BAD_RX),
-  sendMessage: withPayload(types.MESSAGE_TX),
+  sendMessage: (message, attachment) => ({
+    type: types.MESSAGE_TX,
+    payload: { message, attachment },
+  }),
 
   // Modal dialog state.
   openModal: withPayload(types.OPEN_MODAL),

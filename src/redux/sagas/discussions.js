@@ -122,8 +122,9 @@ function* presenceKeepAlive(guid, responseUrl) {
 
 const openWebSocket = (guid, responseUrl) =>
   new WebSocket(
-    `${window.location.protocol === 'http:' ? 'ws' : 'wss'}://${window.location
-      .host}${responseUrl}/api/v1/issues/${guid}/issue_socket`,
+    `${window.location.protocol === 'http:' ? 'ws' : 'wss'}://${
+      window.location.host
+    }${responseUrl}/api/v1/issues/${guid}/issue_socket`,
   );
 
 export function* watchDiscussionSocket() {
@@ -241,6 +242,16 @@ const updateSubmissionDiscussionId = ({ id, guid }) =>
 export function* createIssueTask({ payload }) {
   const responseUrl = yield select(state => state.app.discussionServerUrl);
   const { name, description, submission, onSuccess } = payload;
+
+  // First we need to determine if the user is authenticated in Response.
+  const { error: authenticationError } = yield call(
+    fetchResponseProfile,
+    responseUrl,
+  );
+  if (authenticationError) {
+    yield call(getResponseAuthentication, responseUrl);
+  }
+
   const { issue, error } = yield call(
     createIssue,
     { name, description },
@@ -324,12 +335,32 @@ const sendMessage = params => {
   );
 };
 
+const sendAttachment = params => {
+  const { message, attachment, guid, responseUrl } = params;
+  const formData = new FormData();
+  formData.append('upload[description]', message);
+  formData.append('upload[file]', attachment);
+
+  return axios.post(`${responseUrl}/api/v1/issues/${guid}/uploads`, formData, {
+    withCredentials: true,
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+};
+
 export function* sendMessageTask(action) {
   const { guid, responseUrl } = yield select(state => ({
     guid: state.discussions.issueGuid,
     responseUrl: state.app.discussionServerUrl,
   }));
-  yield call(sendMessage, { guid, responseUrl, body: action.payload });
+
+  const { message, attachment } = action.payload;
+
+  if (attachment) {
+    // Do the sending an attachment part.
+    yield call(sendAttachment, { guid, responseUrl, message, attachment });
+  } else {
+    yield call(sendMessage, { guid, responseUrl, body: message });
+  }
 }
 
 export const fetchResponseProfile = responseUrl =>
