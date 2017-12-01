@@ -52,8 +52,16 @@
       }
       .message-upload {
         display: flex;
-        align-items: flex-end;
         flex-direction: column;
+
+        &.message-other {
+          align-items: flex-start;
+        }
+
+        &.message-mine {
+          align-items: flex-end;
+        }
+
         .upload-image {
           display: flex;
           height: 116px;
@@ -66,18 +74,6 @@
 
         .upload-filename {
         }
-
-        // &.message-mine {
-        //   .upload-description {
-        //     order: -1;
-        //   }
-        // }
-
-        // &.message-other {
-        //   .upload-image {
-        //     order: -1;
-        //   }
-        // }
       }
       .meta {
         @include ms-respond(font-size, -2);
