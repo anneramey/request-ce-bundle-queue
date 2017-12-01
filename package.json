@@ -30,7 +30,7 @@
     "connected-react-router": "^4.2.3",
     "font-awesome-svg-png": "^1.2.2",
     "history": "^4.7.2",
-    "immutable": "4.0.0-rc.2",
+    "immutable": "4.0.0-rc.9",
     "is-function": "^1.0.1",
     "isarray": "^2.0.2",
     "jquery": "^3.2.1",
