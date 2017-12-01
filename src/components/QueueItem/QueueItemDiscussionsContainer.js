@@ -42,7 +42,7 @@ const mapDispatchToProps = {
   joinDiscussion: actions.joinDiscussion,
   leaveDiscussion: actions.leaveDiscussion,
   stopConnection: actions.stopConnection,
-  loadMoreMessages: actions.loadMoreMessages,
+  fetchMoreMessages: actions.fetchMoreMessages,
   addWarn: notificationActions.addWarn,
   createDiscussion: actions.createIssue,
   openModal: actions.openModal,
@@ -69,14 +69,15 @@ const createInvitation = props => () => {
 };
 
 const handleScrollToTop = ({
+  discussion,
   hasMoreMessages,
   loadingMoreMessages,
-  loadMoreMessages,
+  fetchMoreMessages,
 }) => () => {
   // If there are more messages to retrieve and a message fetch
   // is not currently in progress.
   if (hasMoreMessages && !loadingMoreMessages) {
-    loadMoreMessages();
+    fetchMoreMessages(discussion.issue.guid);
   }
 };
 
@@ -112,7 +113,6 @@ const handleScrolled = ({
 
 const joinOrCreateDiscussion = ({
   joinDiscussion,
-  leaveDiscussion,
   addWarn,
   createDiscussion,
   setCurrentItem,
@@ -120,7 +120,6 @@ const joinOrCreateDiscussion = ({
   const discussionId = queueItem ? queueItem.values['Discussion Id'] : null;
 
   if (discussionId) {
-    leaveDiscussion();
     joinDiscussion(discussionId);
   } else if (queueItem) {
     createDiscussion(
@@ -173,8 +172,8 @@ export const QueueItemDiscussionsContainer = compose(
       this.props.joinOrCreateDiscussion(this.props.queueItem);
     },
     componentWillUnmount() {
-      this.props.stopConnection();
-      this.props.leaveDiscussion();
+      this.props.stopConnection(this.props.discussion.issue.guid);
+      this.props.leaveDiscussion(this.props.discussion.issue.guid);
     },
     componentWillReceiveProps(nextProps) {
       // Join a different discussion if the discussion ID has changed.
@@ -182,6 +181,8 @@ export const QueueItemDiscussionsContainer = compose(
         this.props.queueItem.values['Discussion Id'] !==
         nextProps.queueItem.values['Discussion Id']
       ) {
+        this.props.stopConnection(this.props.discussion.issue.guid);
+        this.props.leaveDiscussion(this.props.discussion.issue.guid);
         this.props.joinOrCreateDiscussion(nextProps.queueItem);
       }
       // Process the messages if the contents have changed.

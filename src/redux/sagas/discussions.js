@@ -2,6 +2,7 @@ import { eventChannel, delay } from 'redux-saga';
 import {
   take,
   call,
+  cancel,
   cancelled,
   put,
   race,
@@ -168,14 +169,13 @@ const openWebSocket = (guid, responseUrl) =>
   );
 
 export function* watchDiscussionSocket(action) {
-  // eslint-disable-next-line
-  while (true) {
-    const responseUrl = yield select(selectServerUrl);
-    const guid = action.payload;
-    let socket = openWebSocket(guid, responseUrl);
-    let socketChannel = yield call(registerChannel, socket);
+  const responseUrl = yield select(selectServerUrl);
+  const guid = action.payload;
+  let socket = openWebSocket(guid, responseUrl);
+  let socketChannel = yield call(registerChannel, socket);
 
-    const { cancel, reconnect } = yield race({
+  while (true) {
+    const { disconnect, reconnect } = yield race({
       task: [
         call(incomingMessages, socketChannel, guid),
         call(presenceKeepAlive, guid, responseUrl),
@@ -183,15 +183,16 @@ export function* watchDiscussionSocket(action) {
         // call(outgoingMessages, socket),
       ],
       reconnect: take(types.RECONNECT),
-      cancel: take(types.DISCONNECT),
+      disconnect: take(types.DISCONNECT),
     });
 
     if (reconnect) {
       socket = openWebSocket(guid, responseUrl);
       socketChannel = yield call(registerChannel, socket);
     }
-    if (cancel) {
-      socketChannel.close();
+
+    if (disconnect && disconnect.payload === guid) {
+      yield cancel();
     }
   }
 }
@@ -362,8 +363,10 @@ export function* fetchMoreMessagesTask({ payload }) {
 
   if (messages) {
     yield all([
-      put(actions.setHasMoreMessages(messages.length === MESSAGE_LIMIT)),
-      put(actions.setMoreMessages(messages)),
+      put(
+        actions.setHasMoreMessages(payload, messages.length === MESSAGE_LIMIT),
+      ),
+      put(actions.setMoreMessages(payload, messages)),
     ]);
   }
 }

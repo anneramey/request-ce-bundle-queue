@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
-import { List } from 'immutable';
 import SVGInline from 'react-svg-inline';
 import Avatar from 'react-avatar';
 import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';

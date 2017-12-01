@@ -1,6 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
 
 export const LoadMoreMessages = ({ discussion }) => {
   let title = 'Load More Messages';
@@ -25,18 +23,3 @@ export const LoadMoreMessages = ({ discussion }) => {
     </div>
   );
 };
-
-// const mapStateToProps = (state, props) => {
-//   const discussion = state.discussions.discussions.get(props.discussionGuid);
-
-//   return {
-//     loading: discussion.loadingMoreMessages,
-//     hasMore: discussion.hasMoreMessages,
-//     messagesLoading: discussion.messagesLoading,
-//     hasMessages: discussion.messages.size > 0,
-//   };
-// };
-
-// export const LoadMoreMessagesContainer = compose(connect(mapStateToProps))(
-//   LoadMoreMessages,
-// );
