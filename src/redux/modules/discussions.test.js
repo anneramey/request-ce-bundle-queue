@@ -1,4 +1,4 @@
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 import * as matchers from 'jest-immutable-matchers';
 import {
   reducer,
@@ -6,6 +6,7 @@ import {
   types,
   formatMessages,
   partitionListBy,
+  Discussion,
   State,
 } from './discussions';
 
@@ -372,6 +373,496 @@ describe('formatMessages', () => {
           List([message1, message0]),
         ]),
       ]),
+    );
+  });
+});
+
+describe('reducer', () => {
+  test('INIT', () => {
+    expect(reducer(undefined, {})).toEqualImmutable(State());
+  });
+
+  test('JOIN_DISCUSSION', () => {
+    const state = State();
+    const action = actions.joinDiscussion('abc123');
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        discussions: Map({
+          abc123: Discussion(),
+        }),
+      }),
+    );
+  });
+
+  test('LEAVE_DISCUSSION', () => {
+    const issue = { guid: 'abc123' };
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({ issue }),
+        foobar: Discussion({ issue: { guid: 'foobar' } }),
+      }),
+    });
+    const action = actions.leaveDiscussion('foobar');
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        discussions: Map({
+          abc123: Discussion({ issue }),
+        }),
+      }),
+    );
+  });
+
+  test('FETCH_MORE_MESSAGES', () => {
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({ loadingMoreMessages: false }),
+        foobar: Discussion({ loadingMoreMessages: false }),
+      }),
+    });
+    const action = actions.fetchMoreMessages('foobar');
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        discussions: Map({
+          abc123: Discussion({ loadingMoreMessages: false }),
+          foobar: Discussion({ loadingMoreMessages: true }),
+        }),
+      }),
+    );
+  });
+
+  test('SET_ISSUE', () => {
+    const issue = { id: 'abc123' };
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({ issue: null }),
+        foobar: Discussion({ issue: null }),
+      }),
+    });
+    const action = actions.setIssue(issue);
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        discussions: Map({
+          abc123: Discussion({ issue }),
+          foobar: Discussion({ issue: null }),
+        }),
+      }),
+    );
+  });
+
+  test('SET_MESSAGES', () => {
+    const messages = [{ id: 0, text: 'foo' }, { id: 1, text: 'bar' }];
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({ messagesLoading: true }),
+        foobar: Discussion({ messagesLoading: true }),
+      }),
+    });
+    const action = actions.setMessages('abc123', messages);
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        discussions: Map({
+          abc123: Discussion({
+            messagesLoading: false,
+            messages: List(messages),
+          }),
+          foobar: Discussion({ messagesLoading: true }),
+        }),
+      }),
+    );
+  });
+
+  test('SET_MORE_MESSAGES', () => {
+    const messages = [{ id: 0, text: 'foo' }, { id: 1, text: 'bar' }];
+    const newMessage = { id: 2, text: 'baz' };
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({
+          messagesLoading: true,
+          loadingMoreMessages: true,
+          messages: List(messages),
+        }),
+        foobar: Discussion({
+          messagesLoading: true,
+          loadingMoreMessages: true,
+          message: List(),
+        }),
+      }),
+    });
+    const action = actions.setMoreMessages('abc123', [newMessage]);
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        discussions: Map({
+          abc123: Discussion({
+            messagesLoading: false,
+            loadingMoreMessages: false,
+            messages: List([...messages, newMessage]),
+          }),
+          foobar: Discussion({
+            messagesLoading: true,
+            loadingMoreMessages: true,
+            message: List(),
+          }),
+        }),
+      }),
+    );
+  });
+
+  test('SET_HAS_MORE_MESSAGES', () => {
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({ hasMoreMessages: true }),
+        foobar: Discussion({ hasMoreMessages: true }),
+      }),
+    });
+    const action = actions.setHasMoreMessages('abc123', false);
+    console.log(action);
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        discussions: Map({
+          abc123: Discussion({ hasMoreMessages: false }),
+          foobar: Discussion({ hasMoreMessages: true }),
+        }),
+      }),
+    );
+  });
+
+  test('SET_JOIN_ERROR', () => {
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({ joinError: '' }),
+        foobar: Discussion({ joinError: '' }),
+      }),
+    });
+    const action = actions.setJoinError('abc123', 'ERROR!');
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        discussions: Map({
+          abc123: Discussion({ joinError: 'ERROR!' }),
+          foobar: Discussion({ joinError: '' }),
+        }),
+      }),
+    );
+  });
+
+  test('SET_PARTICIPANTS', () => {
+    const participants = [{ id: '1', name: 'Alex' }, { id: '2', name: 'Sam' }];
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({ participants: Map() }),
+        foobar: Discussion({ participants: Map() }),
+      }),
+    });
+    const action = actions.setParticipants('abc123', participants);
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        discussions: Map({
+          abc123: Discussion({
+            participants: Map({
+              '1': participants[0],
+              '2': participants[1],
+            }),
+          }),
+          foobar: Discussion({ participants: Map() }),
+        }),
+      }),
+    );
+  });
+
+  test('ADD_PRESENCE', () => {
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({
+          participants: Map({
+            '1': { id: '1', name: 'Alex', present: false },
+            '2': { id: '2', name: 'Sam', present: false },
+          }),
+        }),
+        foobar: Discussion({ participants: Map() }),
+      }),
+    });
+    const action = actions.addPresence('abc123', '2');
+    expect(
+      reducer(state, action).getIn([
+        'discussions',
+        'abc123',
+        'participants',
+        '2',
+      ]).present,
+    ).toBe(true);
+  });
+
+  test('REMOVE_PRESENCE', () => {
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({
+          participants: Map({
+            '1': { id: '1', name: 'Alex', present: true },
+            '2': { id: '2', name: 'Sam', present: true },
+          }),
+        }),
+        foobar: Discussion({ participants: Map() }),
+      }),
+    });
+    const action = actions.removePresence('abc123', '1');
+    expect(
+      reducer(state, action).getIn([
+        'discussions',
+        'abc123',
+        'participants',
+        '1',
+      ]).present,
+    ).toBe(false);
+  });
+
+  test('ADD_PARTICIPANT', () => {
+    const oldParticipant = { id: '1', name: 'Alex' };
+    const newParticipant = { id: '2', name: 'Sam' };
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({
+          participants: Map({
+            '1': oldParticipant,
+          }),
+        }),
+        foobar: Discussion({ participants: Map() }),
+      }),
+    });
+    const action = actions.addParticipant('abc123', newParticipant);
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        discussions: Map({
+          abc123: Discussion({
+            participants: Map({
+              '1': oldParticipant,
+              '2': newParticipant,
+            }),
+          }),
+          foobar: Discussion({ participants: Map() }),
+        }),
+      }),
+    );
+  });
+
+  test('REMOVE_PARTICIPANT', () => {
+    const oldParticipant = { id: '1', name: 'Alex' };
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({
+          participants: Map({
+            '1': oldParticipant,
+            '2': { id: '2', name: 'Sam', present: false },
+          }),
+        }),
+        foobar: Discussion({ participants: Map() }),
+      }),
+    });
+    const action = actions.removeParticipant('abc123', { id: '2' });
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        discussions: Map({
+          abc123: Discussion({
+            participants: Map({
+              '1': oldParticipant,
+            }),
+          }),
+          foobar: Discussion({ participants: Map() }),
+        }),
+      }),
+    );
+  });
+
+  test('SET_INVITES', () => {
+    const invites = [{ id: '1' }, { id: '2' }];
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({ invites: List() }),
+        foobar: Discussion({ invites: List() }),
+      }),
+    });
+    const action = actions.setInvites('abc123', invites);
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        discussions: Map({
+          abc123: Discussion({ invites: List(invites) }),
+          foobar: Discussion({ invites: List() }),
+        }),
+      }),
+    );
+  });
+
+  test('ADD_INVITE', () => {
+    const invites = [{ id: '1' }, { id: '2' }];
+    const newInvite = { id: '3' };
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({ invites: List(invites) }),
+        foobar: Discussion({ invites: List() }),
+      }),
+    });
+    const action = actions.addInvite('abc123', newInvite);
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        discussions: Map({
+          abc123: Discussion({ invites: List([...invites, newInvite]) }),
+          foobar: Discussion({ invites: List() }),
+        }),
+      }),
+    );
+  });
+
+  test('REMOVE_INVITE', () => {
+    const invites = [{ id: '1' }, { id: '2' }];
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({ invites: List(invites) }),
+        foobar: Discussion({ invites: List() }),
+      }),
+    });
+    const action = actions.removeInvite('abc123', invites[0]);
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        discussions: Map({
+          abc123: Discussion({ invites: List([invites[1]]) }),
+          foobar: Discussion({ invites: List() }),
+        }),
+      }),
+    );
+  });
+
+  test('MESSAGE_RX', () => {
+    const messages = [{ text: 'foo' }, { text: 'bar' }];
+    const newMessage = { text: 'baz' };
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({ messages: List(messages) }),
+        foobar: Discussion({ messages: List() }),
+      }),
+    });
+    const action = actions.receiveMessage('abc123', newMessage);
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        discussions: Map({
+          abc123: Discussion({ messages: List([newMessage, ...messages]) }),
+          foobar: Discussion({ messages: List() }),
+        }),
+      }),
+    );
+  });
+
+  test('MESSAGE_BAD_RX', () => {
+    const badMessages = [{ text: 'foo' }, { text: 'bar' }];
+    const newBadMessage = { text: 'baz' };
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({ badMessages: List(badMessages) }),
+        foobar: Discussion({ badMessages: List() }),
+      }),
+    });
+    const action = actions.receiveBadMessage('abc123', newBadMessage);
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        discussions: Map({
+          abc123: Discussion({
+            badMessages: List([...badMessages, newBadMessage]),
+          }),
+          foobar: Discussion({ badMessages: List() }),
+        }),
+      }),
+    );
+  });
+
+  test('RECONNECT', () => {
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({ reconnecting: false, connected: true }),
+        foobar: Discussion({ reconnecting: false, connected: true }),
+      }),
+    });
+    const action = actions.reconnect('abc123');
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        discussions: Map({
+          abc123: Discussion({ reconnecting: true, connected: false }),
+          foobar: Discussion({ reconnecting: false, connected: true }),
+        }),
+      }),
+    );
+  });
+
+  test('SET_CONNECTED', () => {
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({ connected: false }),
+        foobar: Discussion({ connected: false }),
+      }),
+    });
+    const action = actions.setConnected('abc123', true);
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        discussions: Map({
+          abc123: Discussion({ connected: true }),
+          foobar: Discussion({ connected: false }),
+        }),
+      }),
+    );
+  });
+
+  test('OPEN_MODAL', () => {
+    const state = State({
+      activeDiscussion: null,
+      currentOpenModals: List(),
+    });
+    const action = actions.openModal('abc123', 'participants');
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        activeDiscussion: 'abc123',
+        currentOpenModals: List(['participants']),
+      }),
+    );
+  });
+
+  test('CLOSE_MODAL', () => {
+    const state = State({
+      activeDiscussion: 'abc123',
+      currentOpenModals: List(['participants', 'invitation']),
+    });
+    const action1 = actions.closeModal('invitation');
+    expect(reducer(state, action1)).toEqualImmutable(
+      State({
+        activeDiscussion: 'abc123',
+        currentOpenModals: List(['participants']),
+      }),
+    );
+    const action2 = actions.closeModal();
+    expect(reducer(state, action2)).toEqualImmutable(
+      State({
+        activeDiscussion: 'abc123',
+        currentOpenModals: List(),
+      }),
+    );
+  });
+
+  test('CREATE_INVITE', () => {
+    const state = State({ invitationPending: false });
+    const action = actions.createInvite();
+    expect(reducer(state, action)).toEqualImmutable(
+      State({ invitationPending: true }),
+    );
+  });
+
+  test('CREATE_INVITE_DONE', () => {
+    const state = State({ invitationPending: true });
+    const action = actions.createInviteDone();
+    expect(reducer(state, action)).toEqualImmutable(
+      State({ invitationPending: false }),
+    );
+  });
+
+  test('SET_INVITATION_FIELD', () => {
+    const state = State({ invitationFields: Map({ name: 'S' }) });
+    const action = actions.setInvitationField('name', 'T');
+    expect(reducer(state, action)).toEqualImmutable(
+      State({ invitationFields: Map({ name: 'T' }) }),
     );
   });
 });

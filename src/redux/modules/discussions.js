@@ -8,11 +8,9 @@ export const types = {
   LEAVE_DISCUSSION: namespace('discussions', 'LEAVE_DISCUSSION'),
   SET_ISSUE: namespace('discussions', 'SET_ISSUE'),
   CREATE_ISSUE: namespace('discussion', 'CREATE_ISSUE'),
-  FETCH_INVITES: namespace('discussions', 'FETCH_INVITES'),
   CREATE_INVITE: namespace('discussions', 'CREATE_INVITE'),
   CREATE_INVITE_DONE: namespace('discussions', 'CREATE_INVITE_DONE'),
   ADD_INVITE: namespace('discussions', 'ADD_INVITE'),
-  DELETE_INVITE: namespace('discussions', 'REMOVE_INVITE'),
   SET_INVITES: namespace('discussions', 'SET_INVITES'),
   REMOVE_INVITE: namespace('discussions', 'REMOVE_INVITE'),
   RESEND_INVITE: namespace('discussions', 'RESEND_INVITE'),
@@ -45,87 +43,71 @@ export const types = {
 
 export const actions = {
   joinDiscussion: withPayload(types.JOIN_DISCUSSION),
-  leaveDiscussion: noPayload(types.LEAVE_DISCUSSION),
+  leaveDiscussion: withPayload(types.LEAVE_DISCUSSION),
   // API-bsased actions.
   setIssue: withPayload(types.SET_ISSUE),
   createIssue: (name, description = '', submission, onSuccess) => ({
     type: types.CREATE_ISSUE,
     payload: { name, description, submission, onSuccess },
   }),
-  loadMoreMessages: noPayload(types.FETCH_MORE_MESSAGES),
-  setMessages: withPayload(types.SET_MESSAGES),
-  setMoreMessages: withPayload(types.SET_MORE_MESSAGES),
-  setHasMoreMessages: withPayload(types.SET_HAS_MORE_MESSAGES),
-  setJoinError: withPayload(types.SET_JOIN_ERROR),
-  setParticipants: withPayload(types.SET_PARTICIPANTS),
-  addPresence: withPayload(types.ADD_PRESENCE),
-  removePresence: withPayload(types.REMOVE_PRESENCE),
-  addParticipant: withPayload(types.ADD_PARTICIPANT),
-  removeParticipant: withPayload(types.REMOVE_PARTICIPANT),
+  fetchMoreMessages: withPayload(types.FETCH_MORE_MESSAGES),
+  setMessages: withPayload(types.SET_MESSAGES, 'guid', 'messages'),
+  setMoreMessages: withPayload(types.SET_MORE_MESSAGES, 'guid', 'messages'),
+  setHasMoreMessages: withPayload(types.SET_HAS_MORE_MESSAGES, 'guid', 'more'),
+  setJoinError: withPayload(types.SET_JOIN_ERROR, 'guid', 'joinError'),
+  setParticipants: withPayload(types.SET_PARTICIPANTS, 'guid', 'participants'),
+  addPresence: withPayload(types.ADD_PRESENCE, 'guid', 'participantGuid'),
+  removePresence: withPayload(types.REMOVE_PRESENCE, 'guid', 'participantGuid'),
+  addParticipant: withPayload(types.ADD_PARTICIPANT, 'guid', 'participant'),
+  removeParticipant: withPayload(
+    types.REMOVE_PARTICIPANT,
+    'guid',
+    'participant',
+  ),
 
   // Invitation API calls
-  fetchInvites: withPayload(types.FETCH_INVITES),
-  createInvite: (guid, email, note) => ({
-    type: types.CREATE_INVITE,
-    payload: { guid, email, note },
-  }),
-  createInviteDone: noPayload(types.CREATE_INVITE_DONE),
-  // API call to remove one.
-  deleteInvite: (guid, inviteId) => ({
-    type: types.REMOVE_INVITE,
-    payload: { guid, inviteId },
-  }),
+  createInvite: withPayload(types.CREATE_INVITE, 'guid', 'email', 'note'),
+  createInviteDone: withPayload(types.CREATE_INVITE_DONE),
 
   // Invitation data management.
-  setInvites: withPayload(types.SET_INVITES),
-  addInvite: withPayload(types.ADD_INVITE),
-  removeInvite: withPayload(types.REMOVE_INVITE),
+  setInvites: withPayload(types.SET_INVITES, 'guid', 'invites'),
+  addInvite: withPayload(types.ADD_INVITE, 'guid', 'invite'),
+  removeInvite: withPayload(types.REMOVE_INVITE, 'guid', 'invite'),
 
   // Socket-based actions.
   startConnection: withPayload(types.CONNECT),
-  stopConnection: noPayload(types.DISCONNECT),
-  reconnect: noPayload(types.RECONNECT),
-  setConnected: withPayload(types.SET_CONNECTED),
-  receiveMessage: withPayload(types.MESSAGE_RX),
+  stopConnection: withPayload(types.DISCONNECT),
+  reconnect: withPayload(types.RECONNECT),
+  setConnected: withPayload(types.SET_CONNECTED, 'guid', 'connected'),
+  receiveMessage: withPayload(types.MESSAGE_RX, 'guid', 'message'),
   updateMessage: withPayload(types.MESSAGE_UPDATE),
-  receiveBadMessage: withPayload(types.MESSAGE_BAD_RX),
-  sendMessage: withPayload(types.MESSAGE_TX),
+  receiveBadMessage: withPayload(types.MESSAGE_BAD_RX, 'guid', 'badMessage'),
+  sendMessage: withPayload(types.MESSAGE_TX, 'id', 'message'),
 
   // Modal dialog state.
-  openModal: withPayload(types.OPEN_MODAL),
+  openModal: withPayload(types.OPEN_MODAL, 'guid', 'modalType'),
   closeModal: withPayload(types.CLOSE_MODAL),
-  setInvitationField: (field, value) => ({
-    type: types.SET_INVITATION_FIELD,
-    payload: { field, value },
-  }),
+  setInvitationField: withPayload(types.SET_INVITATION_FIELD, 'field', 'value'),
 };
 
-/**
- * Selects all messages from the 'discussions' store.
- * @param {} state
- * @returns [] messages
- */
-export const selectAllMessages = state => state.discussions.messages;
-export const selectIssue = state => state.discussions.issue;
-export const selectLoading = state =>
-  state.discussions.messagesLoading || state.discussions.issueLoading;
-
-export const State = Record({
-  issueGuid: '',
-  issue: {},
+export const Discussion = Record({
+  issue: null,
   messages: List(),
   badMessages: List(),
   messagesLoading: true,
   lastReceived: '2014-01-01',
   hasMoreMessages: true,
-  issueLoading: false,
   loadingMoreMessages: false,
   joinError: '',
   connected: false,
   reconnecting: false,
-  participants: List(),
-  inviteSending: false,
+  participants: Map(),
   invites: List(),
+});
+
+export const State = Record({
+  discussions: Map(),
+  activeDiscussion: null,
   currentOpenModals: List(),
   invitationFields: Map({}),
   invitationPending: false,
@@ -171,85 +153,111 @@ export const formatMessages = messages =>
     messages.reverse().filterNot(isSystemMessage),
   ).map(dateList => partitionListBy(differentAuthor, dateList));
 
-export const reducer = (state = State(), action) => {
-  switch (action.type) {
+export const reducer = (state = State(), { type, payload }) => {
+  switch (type) {
     case types.JOIN_DISCUSSION:
-      return state.set('issueGuid', action.payload);
+      return state.setIn(['discussions', payload], Discussion());
     case types.LEAVE_DISCUSSION:
-      return State();
+      return state.update('discussions', map => map.delete(payload));
     case types.FETCH_MORE_MESSAGES:
-      return state.set('loadingMoreMessages', true);
+      return state.setIn(['discussions', payload, 'loadingMoreMessages'], true);
     case types.SET_ISSUE:
-      return state.set('issue', action.payload).set('issueLoading', false);
+      return state.updateIn(['discussions', payload.id], discussion =>
+        discussion.set('issue', payload),
+      );
     case types.SET_MESSAGES:
-      return state
-        .set('messagesLoading', false)
-        .set('messages', List(action.payload))
-        .set('lastReceived', new Date().toTimeString());
+      return state.updateIn(['discussions', payload.guid], discussion =>
+        discussion
+          .set('messagesLoading', false)
+          .set('messages', List(payload.messages)),
+      );
     case types.SET_MORE_MESSAGES:
-      return state
-        .set('messagesLoading', false)
-        .set('loadingMoreMessages', false)
-        .update('messages', messages => messages.concat(List(action.payload)))
-        .set('lastReceived', new Date().toTimeString());
+      return state.updateIn(['discussions', payload.guid], discussion =>
+        discussion
+          .set('messagesLoading', false)
+          .set('loadingMoreMessages', false)
+          .update('messages', list => list.concat(payload.messages)),
+      );
     case types.SET_HAS_MORE_MESSAGES:
-      return state.set('hasMoreMessages', action.payload);
+      return state.setIn(
+        ['discussions', payload.guid, 'hasMoreMessages'],
+        payload.more,
+      );
     case types.SET_JOIN_ERROR:
-      return state.set('joinError', action.payload);
+      return state.setIn(
+        ['discussions', payload.guid, 'joinError'],
+        payload.joinError,
+      );
     case types.SET_PARTICIPANTS:
-      return state.set('participants', List(action.payload));
-    case types.ADD_PRESENCE:
-      return state.update('participants', participants =>
-        participants.update(
-          participants.findIndex(p => p.guid === action.payload),
-          p => ({ ...p, present: true }),
+      return state.setIn(
+        ['discussions', payload.guid, 'participants'],
+        List(payload.participants).reduce(
+          (reduction, participant) =>
+            reduction.set(participant.id, participant),
+          Map(),
         ),
+      );
+    case types.ADD_PRESENCE:
+      return state.updateIn(
+        ['discussions', payload.guid, 'participants', payload.participantGuid],
+        participant => ({ ...participant, present: true }),
       );
     case types.REMOVE_PRESENCE:
-      return state.update('participants', participants =>
-        participants.update(
-          participants.findIndex(p => p.guid === action.payload),
-          p => ({ ...p, present: false }),
-        ),
+      return state.updateIn(
+        ['discussions', payload.guid, 'participants', payload.participantGuid],
+        participant => ({ ...participant, present: false }),
       );
     case types.ADD_PARTICIPANT:
-      return state.update('participants', participants =>
-        participants.push(action.payload),
+      return state.setIn(
+        ['discussions', payload.guid, 'participants', payload.participant.id],
+        payload.participant,
       );
     case types.REMOVE_PARTICIPANT:
-      return state.update('participants', participants =>
-        participants.delete(
-          participants.findIndex(p => p.guid === action.payload.guid),
-        ),
-      );
+      return state.deleteIn([
+        'discussions',
+        payload.guid,
+        'participants',
+        payload.participant.id,
+      ]);
     case types.SET_INVITES:
-      return state.set('invites', List(action.payload));
+      return state.setIn(
+        ['discussions', payload.guid, 'invites'],
+        List(payload.invites),
+      );
     case types.ADD_INVITE:
-      return state.update('invites', invites => invites.push(action.payload));
+      return state.updateIn(['discussions', payload.guid, 'invites'], invites =>
+        invites.push(payload.invite),
+      );
     case types.REMOVE_INVITE:
-      return state.update('invites', invites =>
-        invites.delete(invites.findIndex(i => i.guid === action.payload.guid)),
+      return state.updateIn(['discussions', payload.guid, 'invites'], invites =>
+        invites.delete(invites.findIndex(i => i.id === payload.invite.id)),
       );
-    case types.MESSAGE_UPDATE:
-      return state;
     case types.MESSAGE_RX:
-      return state
-        .update('messages', messages => messages.unshift(action.payload))
-        .set('lastReceived', new Date().toTimeString());
-    case types.MESSAGE_BAD_RX:
-      return state.update('badMessages', m => m.push(action.payload));
-    case types.RECONNECT:
-      return state.set('reconnecting', true).set('connected', false);
-    case types.SET_CONNECTED:
-      return state.set('connected', action.payload);
-    case types.OPEN_MODAL:
-      return state.update('currentOpenModals', list =>
-        list.push(action.payload),
+      return state.updateIn(
+        ['discussions', payload.guid, 'messages'],
+        messages => messages.unshift(payload.message),
       );
+    case types.MESSAGE_BAD_RX:
+      return state.updateIn(['discussions', payload.guid, 'badMessages'], m =>
+        m.push(payload.badMessage),
+      );
+    case types.RECONNECT:
+      return state.updateIn(['discussions', payload], discussion =>
+        discussion.set('reconnecting', true).set('connected', false),
+      );
+    case types.SET_CONNECTED:
+      return state.setIn(
+        ['discussions', payload.guid, 'connected'],
+        payload.connected,
+      );
+    case types.OPEN_MODAL:
+      return state
+        .set('activeDiscussion', payload.guid)
+        .update('currentOpenModals', list => list.push(payload.modalType));
     case types.CLOSE_MODAL:
-      return action.payload
+      return payload
         ? state.update('currentOpenModals', list =>
-            list.filter(item => item !== action.payload),
+            list.filter(item => item !== payload),
           )
         : state.delete('currentOpenModals');
     case types.CREATE_INVITE:
@@ -257,10 +265,7 @@ export const reducer = (state = State(), action) => {
     case types.CREATE_INVITE_DONE:
       return state.set('invitationPending', false);
     case types.SET_INVITATION_FIELD:
-      return state.setIn(
-        ['invitationFields', action.payload.field],
-        action.payload.value,
-      );
+      return state.setIn(['invitationFields', payload.field], payload.value);
     default:
       return state;
   }
