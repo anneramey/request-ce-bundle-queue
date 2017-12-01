@@ -43,12 +43,18 @@ const getUploadImage = (message, discussionServerUrl) => {
 
 const UploadMessage = ({ message, messageOwner, discussionServerUrl }) => (
   <div className={`message message-upload message-${messageOwner} img-fluid`}>
-    <div className="upload-image">
+    <a
+      className="upload-image"
+      href={getUploadImage(message, discussionServerUrl)}
+      target="_blank"
+    >
       <img
         src={getUploadImage(message, discussionServerUrl)}
-        alt={message.messageable.description}
+        alt={
+          message.messageable.description || message.messageable.file_file_name
+        }
       />
-    </div>
+    </a>
     {!message.messageable.file_content_type.startsWith('image') && (
       <div className="upload-filename">
         <small>{message.messageable.file_file_name}</small>

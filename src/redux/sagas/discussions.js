@@ -111,6 +111,42 @@ function* presenceKeepAlive(guid, responseUrl) {
     yield delay(3000);
   }
 }
+
+const fetchUploads = (guid, responseUrl) =>
+  axios.request({
+    url: `${responseUrl}/api/v1/issues/${guid}/uploads`,
+    withCredentials: true,
+  });
+
+function* uploadProcessingPoller(guid, responseUrl) {
+  while (true) {
+    const fileUploads = yield select(
+      state => state.discussions.processingUploads,
+    );
+
+    // If there are any file uploads to process.
+    if (fileUploads.size > 0) {
+      // Call the /uploads API for all uploads.
+      let { data } = yield call(fetchUploads, guid, responseUrl);
+      const uploads = fileUploads
+        .map(up => ({
+          processing: up,
+          upload: data.find(
+            u => u.guid === up.messageable.guid && u.file_processing === false,
+          ),
+        }))
+        .filter(up => up.upload)
+        .map(up => put(actions.applyUpload(up.processing.guid, up.upload)));
+
+      // Loop over each local upload and find it in the response, use for
+      for (let i = 0; i < uploads.size; i++) {
+        yield uploads.get(i);
+      }
+      // If it is found and it is complete, dispatch an update upload message.
+    }
+    yield delay(3000);
+  }
+}
 // Turned this off because the Rails impl doesn't handle incoming messages.
 // function* outgoingMessages(socket) {}
 //   // eslint-disable-next-line
@@ -140,6 +176,7 @@ export function* watchDiscussionSocket() {
       task: [
         call(incomingMessages, socketChannel),
         call(presenceKeepAlive, guid, responseUrl),
+        call(uploadProcessingPoller, guid, responseUrl),
         // call(outgoingMessages, socket),
       ],
       reconnect: take(types.RECONNECT),
@@ -413,6 +450,24 @@ export function* joinDiscussionTask(action) {
   }
 }
 
+const isProcessing = message =>
+  message.messageable_type === 'Upload' &&
+  (message.messageable.file_processing ||
+    message.messageable.file_processing === null);
+
+export function* queueProcessingUploadsTask({ payload }) {
+  let queue = [];
+  if (payload instanceof Array) {
+    queue = payload.filter(isProcessing);
+  } else if (isProcessing(payload)) {
+    queue = [payload];
+  }
+
+  if (queue.length > 0) {
+    yield put(actions.queueUploads(queue));
+  }
+}
+
 export function* watchDiscussion() {
   yield all([
     takeEvery(types.MESSAGE_TX, sendMessageTask),
@@ -420,5 +475,11 @@ export function* watchDiscussion() {
     takeLatest(types.JOIN_DISCUSSION, joinDiscussionTask),
     takeLatest(types.CREATE_ISSUE, createIssueTask),
     takeEvery(types.CREATE_INVITE, createInviteTask),
+    takeEvery(
+      [types.SET_MESSAGES, types.SET_MORE_MESSAGES, types.MESSAGE_RX],
+      queueProcessingUploadsTask,
+    ),
   ]);
 }
+
+// Handle processing uploads in saga, not reducers.

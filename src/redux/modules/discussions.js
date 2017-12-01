@@ -27,6 +27,9 @@ export const types = {
   ADD_PARTICIPANT: namespace('discussions', 'ADD_PARTICIPANT'),
   REMOVE_PARTICIPANT: namespace('discussions', 'REMOVE_PARTICIPANT'),
 
+  APPLY_UPLOAD: namespace('discussions', 'APPLY_UPLOAD'),
+  QUEUE_UPLOADS: namespace('discussions', 'QUEUE_UPLOAD'),
+
   // Socket-based actions.
   CONNECT: namespace('discussions', 'CONNECT'),
   DISCONNECT: namespace('discussions', 'DISCONNECT'),
@@ -81,6 +84,12 @@ export const actions = {
   addInvite: withPayload(types.ADD_INVITE),
   removeInvite: withPayload(types.REMOVE_INVITE),
 
+  applyUpload: (guid, upload) => ({
+    type: types.APPLY_UPLOAD,
+    payload: { guid, upload },
+  }),
+  queueUploads: withPayload(types.QUEUE_UPLOADS),
+
   // Socket-based actions.
   startConnection: withPayload(types.CONNECT),
   stopConnection: noPayload(types.DISCONNECT),
@@ -118,6 +127,7 @@ export const State = Record({
   issue: {},
   messages: List(),
   badMessages: List(),
+  processingUploads: List(),
   messagesLoading: true,
   lastReceived: '2014-01-01',
   hasMoreMessages: true,
@@ -232,6 +242,24 @@ export const reducer = (state = State(), action) => {
     case types.REMOVE_INVITE:
       return state.update('invites', invites =>
         invites.delete(invites.findIndex(i => i.guid === action.payload.guid)),
+      );
+    case types.APPLY_UPLOAD:
+      return state
+        .update('processingUploads', up =>
+          up.filterNot(item => item.guid === action.payload.guid),
+        )
+        .update('messages', messages =>
+          messages.update(
+            messages.findIndex(message => message.guid === action.payload.guid),
+            message => {
+              message.messageable = action.payload.upload;
+              return { ...message, messageable: action.payload.upload };
+            },
+          ),
+        );
+    case types.QUEUE_UPLOADS:
+      return state.update('processingUploads', uploads =>
+        uploads.concat(action.payload),
       );
     case types.MESSAGE_UPDATE:
       return state;

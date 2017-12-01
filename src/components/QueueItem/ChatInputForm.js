@@ -82,7 +82,6 @@ class ChatInput extends Component {
   }
 
   handleAttachmentDrop(files) {
-    console.log(files);
     // Store the dropped/selected file.
     this.setState({ fileAttachment: files[0] });
 
@@ -173,7 +172,10 @@ class ChatInput extends Component {
   }
 
   isChatInputInvalid() {
-    return !this.htmlElement || this.htmlElement.innerText.trim() === '';
+    const valid =
+      (this.htmlElement && this.htmlElement.innerText.trim() !== '') ||
+      this.state.fileAttachment !== null;
+    return !valid;
   }
 
   render() {
