@@ -60,7 +60,7 @@ export const QueueItemDiscussions = props => {
   return discussion ? (
     <div className="discussions">
       {!isSmallLayout && <Messages {...props} />}
-      {!isSmallLayout && <ChatInputForm />}
+      {!isSmallLayout && <ChatInputForm discussion={discussion} />}
       <Modal
         isOpen={isSmallLayout || !currentOpenModals.isEmpty()}
         toggle={closeAll}
@@ -101,7 +101,7 @@ export const QueueItemDiscussions = props => {
         ) : isSmallLayout ? (
           <ModalBody>
             <Messages {...props} />
-            <ChatInputForm />
+            <ChatInputForm discussion={discussion} />
           </ModalBody>
         ) : (
           <div>Nothing to display</div>

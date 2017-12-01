@@ -19,6 +19,8 @@ import { types, actions } from '../modules/discussions';
 
 export const MESSAGE_LIMIT = 25;
 
+const selectServerUrl = state => state.app.discussionServerUrl;
+
 // Supporting documentation:
 // * https://medium.com/@ebakhtarov/bidirectional-websockets-with-redux-saga-bfd5b677c7e7
 // * https://github.com/redux-saga/redux-saga/issues/51#issuecomment-230083283
@@ -136,7 +138,9 @@ function* uploadProcessingPoller(guid, responseUrl) {
           ),
         }))
         .filter(up => up.upload)
-        .map(up => put(actions.applyUpload(up.processing.guid, up.upload)));
+        .map(up =>
+          put(actions.applyUpload(guid, up.processing.guid, up.upload)),
+        );
 
       // Loop over each local upload and find it in the response, use for
       for (let i = 0; i < uploads.size; i++) {
@@ -166,7 +170,7 @@ const openWebSocket = (guid, responseUrl) =>
 export function* watchDiscussionSocket(action) {
   // eslint-disable-next-line
   while (true) {
-    const responseUrl = yield select(state => state.app.discussionServerUrl);
+    const responseUrl = yield select(selectServerUrl);
     const guid = action.payload;
     let socket = openWebSocket(guid, responseUrl);
     let socketChannel = yield call(registerChannel, socket);
@@ -246,7 +250,7 @@ export const removeInvite = (guid, inviteId, note, responseUrl) =>
     .catch(response => ({ error: response }));
 
 export function* createInviteTask({ payload }) {
-  const responseUrl = yield select(state => state.app.discussionServerUrl);
+  const responseUrl = yield select(selectServerUrl);
   const { error } = yield call(
     createInvite,
     payload.guid,
@@ -276,7 +280,7 @@ const updateSubmissionDiscussionId = ({ id, guid }) =>
 // Step 2: Call the API to create the issue.
 // Step 3: If a submission is provided, update its "Discussion Id"
 export function* createIssueTask({ payload }) {
-  const responseUrl = yield select(state => state.app.discussionServerUrl);
+  const responseUrl = yield select(selectServerUrl);
   const { name, description, submission, onSuccess } = payload;
 
   // First we need to determine if the user is authenticated in Response.
@@ -386,12 +390,9 @@ const sendAttachment = params => {
 };
 
 export function* sendMessageTask(action) {
-  const { guid, responseUrl } = yield select(state => ({
-    guid: state.discussions.issueGuid,
-    responseUrl: state.app.discussionServerUrl,
-  }));
+  const responseUrl = yield select(selectServerUrl);
 
-  const { message, attachment } = action.payload;
+  const { guid, message, attachment } = action.payload;
 
   if (attachment) {
     // Do the sending an attachment part.
@@ -416,7 +417,7 @@ export const getResponseAuthentication = responseUrl =>
     .catch(response => ({ error: response }));
 
 export function* joinDiscussionTask(action) {
-  const responseUrl = yield select(state => state.app.discussionServerUrl);
+  const responseUrl = yield select(selectServerUrl);
   // First we need to determine if the user is authenticated in Response.
   const { error } = yield call(fetchResponseProfile, responseUrl);
   if (error) {
@@ -459,14 +460,14 @@ const isProcessing = message =>
 
 export function* queueProcessingUploadsTask({ payload }) {
   let queue = [];
-  if (payload instanceof Array) {
-    queue = payload.filter(isProcessing);
-  } else if (isProcessing(payload)) {
-    queue = [payload];
+  if (payload.messages) {
+    queue = payload.messages.filter(isProcessing);
+  } else if (payload.message && isProcessing(payload.message)) {
+    queue = [payload.message];
   }
 
   if (queue.length > 0) {
-    yield put(actions.queueUploads(queue));
+    yield put(actions.queueUploads(payload.guid, queue));
   }
 }
 
@@ -484,5 +485,3 @@ export function* watchDiscussion() {
     takeEvery(types.CONNECT, watchDiscussionSocket),
   ]);
 }
-
-// Handle processing uploads in saga, not reducers.

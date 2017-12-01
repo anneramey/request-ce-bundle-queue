@@ -88,7 +88,7 @@ export const actions = {
   receiveMessage: withPayload(types.MESSAGE_RX, 'guid', 'message'),
   updateMessage: withPayload(types.MESSAGE_UPDATE),
   receiveBadMessage: withPayload(types.MESSAGE_BAD_RX, 'guid', 'badMessage'),
-  sendMessage: withPayload(types.MESSAGE_TX, 'id', 'message', 'attachment'),
+  sendMessage: withPayload(types.MESSAGE_TX, 'guid', 'message', 'attachment'),
 
   // Modal dialog state.
   openModal: withPayload(types.OPEN_MODAL, 'guid', 'modalType'),
@@ -244,7 +244,7 @@ export const reducer = (state = State(), { type, payload }) => {
         .updateIn(['discussions', payload.guid, 'processingUploads'], up =>
           up.filterNot(item => item.guid === payload.messageGuid),
         )
-        .update(['discussions', payload.guid, 'messages'], messages =>
+        .updateIn(['discussions', payload.guid, 'messages'], messages =>
           messages.update(
             messages.findIndex(message => message.guid === payload.messageGuid),
             message => {
@@ -254,7 +254,7 @@ export const reducer = (state = State(), { type, payload }) => {
           ),
         );
     case types.QUEUE_UPLOADS:
-      return state.update(
+      return state.updateIn(
         ['discussions', payload.guid, 'processingUploads'],
         uploads => uploads.concat(payload.uploads),
       );
