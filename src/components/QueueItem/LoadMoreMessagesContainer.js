@@ -18,7 +18,7 @@ export const LoadMoreMessages = ({ discussion }) => {
     subtitle = 'There are no more messages to load, you are at the beginning.';
   }
 
-  return discussion.discussionmessagesLoading ? null : (
+  return discussion.messagesLoading ? null : (
     <div className="load-more-messages">
       <h5>{title}</h5>
       <h6>{subtitle}</h6>

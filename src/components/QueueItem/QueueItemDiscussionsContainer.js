@@ -51,8 +51,6 @@ const mapDispatchToProps = {
   createInviteDone: actions.createInviteDone,
 };
 
-const openParticipants = props => () => props.openModal('participants');
-const openInvitation = props => () => props.openModal('invitation');
 const closeCurrent = props => () => {
   props.closeModal(props.currentOpenModals.last());
   props.createInviteDone();
@@ -64,7 +62,7 @@ const closeAll = props => () => {
 
 const createInvitation = props => () => {
   props.createInvite(
-    props.discussion.guid,
+    props.discussion.issue.guid,
     props.invitationFields.get('email'),
     props.invitationFields.get('notes'),
   );
@@ -162,8 +160,6 @@ export const QueueItemDiscussionsContainer = compose(
     handleScrollToBottom,
     handleScrollToMiddle,
     handleScrollToTop,
-    openParticipants,
-    openInvitation,
     closeCurrent,
     closeAll,
     createInvitation,

@@ -208,7 +208,12 @@ class ChatInput extends Component {
               </DropdownItem>
               <DropdownItem
                 className="icon-wrapper"
-                onClick={() => this.props.openModal('invitation')}
+                onClick={() =>
+                  this.props.openModal(
+                    this.props.discussion.issue.guid,
+                    'invitation',
+                  )
+                }
               >
                 <SVGInline svg={userPlusIcon} className="icon" />Invite Person
               </DropdownItem>
