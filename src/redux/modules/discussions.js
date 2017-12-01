@@ -25,6 +25,9 @@ export const types = {
   ADD_PARTICIPANT: namespace('discussions', 'ADD_PARTICIPANT'),
   REMOVE_PARTICIPANT: namespace('discussions', 'REMOVE_PARTICIPANT'),
 
+  APPLY_UPLOAD: namespace('discussions', 'APPLY_UPLOAD'),
+  QUEUE_UPLOADS: namespace('discussions', 'QUEUE_UPLOAD'),
+
   // Socket-based actions.
   CONNECT: namespace('discussions', 'CONNECT'),
   DISCONNECT: namespace('discussions', 'DISCONNECT'),
@@ -74,6 +77,9 @@ export const actions = {
   addInvite: withPayload(types.ADD_INVITE, 'guid', 'invite'),
   removeInvite: withPayload(types.REMOVE_INVITE, 'guid', 'invite'),
 
+  applyUpload: withPayload(types.APPLY_UPLOAD, 'guid', 'messageGuid', 'upload'),
+  queueUploads: withPayload(types.QUEUE_UPLOADS, 'guid', 'uploads'),
+
   // Socket-based actions.
   startConnection: withPayload(types.CONNECT),
   stopConnection: withPayload(types.DISCONNECT),
@@ -82,7 +88,7 @@ export const actions = {
   receiveMessage: withPayload(types.MESSAGE_RX, 'guid', 'message'),
   updateMessage: withPayload(types.MESSAGE_UPDATE),
   receiveBadMessage: withPayload(types.MESSAGE_BAD_RX, 'guid', 'badMessage'),
-  sendMessage: withPayload(types.MESSAGE_TX, 'id', 'message'),
+  sendMessage: withPayload(types.MESSAGE_TX, 'id', 'message', 'attachment'),
 
   // Modal dialog state.
   openModal: withPayload(types.OPEN_MODAL, 'guid', 'modalType'),
@@ -94,6 +100,7 @@ export const Discussion = Record({
   issue: null,
   messages: List(),
   badMessages: List(),
+  processingUploads: List(),
   messagesLoading: true,
   lastReceived: '2014-01-01',
   hasMoreMessages: true,
@@ -162,7 +169,7 @@ export const reducer = (state = State(), { type, payload }) => {
     case types.FETCH_MORE_MESSAGES:
       return state.setIn(['discussions', payload, 'loadingMoreMessages'], true);
     case types.SET_ISSUE:
-      return state.updateIn(['discussions', payload.id], discussion =>
+      return state.updateIn(['discussions', payload.guid], discussion =>
         discussion.set('issue', payload),
       );
     case types.SET_MESSAGES:
@@ -232,6 +239,27 @@ export const reducer = (state = State(), { type, payload }) => {
       return state.updateIn(['discussions', payload.guid, 'invites'], invites =>
         invites.delete(invites.findIndex(i => i.id === payload.invite.id)),
       );
+    case types.APPLY_UPLOAD:
+      return state
+        .updateIn(['discussions', payload.guid, 'processingUploads'], up =>
+          up.filterNot(item => item.guid === payload.messageGuid),
+        )
+        .update(['discussions', payload.guid, 'messages'], messages =>
+          messages.update(
+            messages.findIndex(message => message.guid === payload.messageGuid),
+            message => {
+              message.messageable = payload.upload;
+              return { ...message, messageable: payload.upload };
+            },
+          ),
+        );
+    case types.QUEUE_UPLOADS:
+      return state.update(
+        ['discussions', payload.guid, 'processingUploads'],
+        uploads => uploads.concat(payload.uploads),
+      );
+    case types.MESSAGE_UPDATE:
+      return state;
     case types.MESSAGE_RX:
       return state.updateIn(
         ['discussions', payload.guid, 'messages'],

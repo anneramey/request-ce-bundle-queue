@@ -3,7 +3,7 @@ import { watchApp } from './sagas/app';
 import { watchQueue } from './sagas/queue';
 import { watchErrors } from './sagas/errors';
 import { watchAlerts } from './sagas/alerts';
-import { watchDiscussion, watchDiscussionSocket } from './sagas/discussions';
+import { watchDiscussion } from './sagas/discussions';
 import { watchKinops } from '../lib/react-kinops-components';
 
 export function* sagas() {
@@ -13,7 +13,6 @@ export function* sagas() {
     watchQueue(),
     watchAlerts(),
     watchDiscussion(),
-    watchDiscussionSocket(),
     watchKinops(),
   ]);
 }

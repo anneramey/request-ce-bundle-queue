@@ -52,44 +52,44 @@ function registerChannel(socket) {
   });
 }
 
-function* incomingMessages(socketChannel) {
+function* incomingMessages(socketChannel, guid) {
   try {
     // eslint-disable-next-line
     while (true) {
       const data = yield take(socketChannel);
       switch (data.action) {
         case 'message:create':
-          yield put(actions.receiveMessage(data.message));
+          yield put(actions.receiveMessage(guid, data.message));
           break;
         case 'message:update':
-          yield put(actions.updateMessage(data.message));
+          yield put(actions.updateMessage(guid, data.message));
           break;
         case 'presence:add':
-          yield put(actions.addPresence(data.user));
+          yield put(actions.addPresence(guid, data.user));
           break;
         case 'presence:remove':
-          yield put(actions.removePresence(data.user));
+          yield put(actions.removePresence(guid, data.user));
           break;
         case 'participant:create':
-          yield put(actions.addParticipant(data.participant));
+          yield put(actions.addParticipant(guid, data.participant));
           break;
         case 'participant:delete':
-          yield put(actions.removeParticipant(data.participant));
+          yield put(actions.removeParticipant(guid, data.participant));
           break;
         case 'invite:create':
-          yield put(actions.addInvite(data.invite));
+          yield put(actions.addInvite(guid, data.invite));
           break;
         case 'invite:delete':
-          yield put(actions.removeInvite(data.invite));
+          yield put(actions.removeInvite(guid, data.invite));
           break;
         case 'reconnect':
-          yield put(actions.reconnect());
+          yield put(actions.reconnect(guid));
           break;
         case 'connected':
-          yield put(actions.setConnected(true));
+          yield put(actions.setConnected(guid, true));
           break;
         default:
-          yield put(actions.receiveBadMessage(data));
+          yield put(actions.receiveBadMessage(guid, data));
       }
     }
   } finally {
@@ -111,6 +111,42 @@ function* presenceKeepAlive(guid, responseUrl) {
     yield delay(3000);
   }
 }
+
+const fetchUploads = (guid, responseUrl) =>
+  axios.request({
+    url: `${responseUrl}/api/v1/issues/${guid}/uploads`,
+    withCredentials: true,
+  });
+
+function* uploadProcessingPoller(guid, responseUrl) {
+  while (true) {
+    const fileUploads = yield select(
+      state => state.discussions.discussions.get(guid).processingUploads,
+    );
+
+    // If there are any file uploads to process.
+    if (fileUploads.size > 0) {
+      // Call the /uploads API for all uploads.
+      let { data } = yield call(fetchUploads, guid, responseUrl);
+      const uploads = fileUploads
+        .map(up => ({
+          processing: up,
+          upload: data.find(
+            u => u.guid === up.messageable.guid && u.file_processing === false,
+          ),
+        }))
+        .filter(up => up.upload)
+        .map(up => put(actions.applyUpload(up.processing.guid, up.upload)));
+
+      // Loop over each local upload and find it in the response, use for
+      for (let i = 0; i < uploads.size; i++) {
+        yield uploads.get(i);
+      }
+      // If it is found and it is complete, dispatch an update upload message.
+    }
+    yield delay(3000);
+  }
+}
 // Turned this off because the Rails impl doesn't handle incoming messages.
 // function* outgoingMessages(socket) {}
 //   // eslint-disable-next-line
@@ -122,14 +158,14 @@ function* presenceKeepAlive(guid, responseUrl) {
 
 const openWebSocket = (guid, responseUrl) =>
   new WebSocket(
-    `${window.location.protocol === 'http:' ? 'ws' : 'wss'}://${window.location
-      .host}${responseUrl}/api/v1/issues/${guid}/issue_socket`,
+    `${window.location.protocol === 'http:' ? 'ws' : 'wss'}://${
+      window.location.host
+    }${responseUrl}/api/v1/issues/${guid}/issue_socket`,
   );
 
-export function* watchDiscussionSocket() {
+export function* watchDiscussionSocket(action) {
   // eslint-disable-next-line
   while (true) {
-    const action = yield take(types.CONNECT);
     const responseUrl = yield select(state => state.app.discussionServerUrl);
     const guid = action.payload;
     let socket = openWebSocket(guid, responseUrl);
@@ -137,8 +173,9 @@ export function* watchDiscussionSocket() {
 
     const { cancel, reconnect } = yield race({
       task: [
-        call(incomingMessages, socketChannel),
+        call(incomingMessages, socketChannel, guid),
         call(presenceKeepAlive, guid, responseUrl),
+        call(uploadProcessingPoller, guid, responseUrl),
         // call(outgoingMessages, socket),
       ],
       reconnect: take(types.RECONNECT),
@@ -241,6 +278,16 @@ const updateSubmissionDiscussionId = ({ id, guid }) =>
 export function* createIssueTask({ payload }) {
   const responseUrl = yield select(state => state.app.discussionServerUrl);
   const { name, description, submission, onSuccess } = payload;
+
+  // First we need to determine if the user is authenticated in Response.
+  const { error: authenticationError } = yield call(
+    fetchResponseProfile,
+    responseUrl,
+  );
+  if (authenticationError) {
+    yield call(getResponseAuthentication, responseUrl);
+  }
+
   const { issue, error } = yield call(
     createIssue,
     { name, description },
@@ -293,15 +340,17 @@ const fetchMessages = ({ guid, lastReceived, offset, responseUrl }) =>
     .then(response => ({ messages: response.data }))
     .catch(response => ({ error: response }));
 
-const selectFetchMessageSettings = state => ({
-  guid: state.discussions.issueGuid,
-  offset: state.discussions.messages.size,
-  lastReceived: state.discussions.lastReceived,
-  responseUrl: state.app.discussionServerUrl,
-});
+const selectFetchMessageSettings = guid => state => {
+  return {
+    guid,
+    offset: state.discussions.discussions.get(guid).messages.size,
+    lastReceived: state.discussions.discussions.get(guid).lastReceived,
+    responseUrl: state.app.discussionServerUrl,
+  };
+};
 
-export function* fetchMoreMessagesTask(action) {
-  const params = yield select(selectFetchMessageSettings);
+export function* fetchMoreMessagesTask({ payload }) {
+  const params = yield select(selectFetchMessageSettings(payload));
   const { messages } = yield call(fetchMessages, {
     ...params,
     lastReceived: '',
@@ -324,12 +373,32 @@ const sendMessage = params => {
   );
 };
 
+const sendAttachment = params => {
+  const { message, attachment, guid, responseUrl } = params;
+  const formData = new FormData();
+  formData.append('upload[description]', message);
+  formData.append('upload[file]', attachment);
+
+  return axios.post(`${responseUrl}/api/v1/issues/${guid}/uploads`, formData, {
+    withCredentials: true,
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+};
+
 export function* sendMessageTask(action) {
   const { guid, responseUrl } = yield select(state => ({
     guid: state.discussions.issueGuid,
     responseUrl: state.app.discussionServerUrl,
   }));
-  yield call(sendMessage, { guid, responseUrl, body: action.payload });
+
+  const { message, attachment } = action.payload;
+
+  if (attachment) {
+    // Do the sending an attachment part.
+    yield call(sendAttachment, { guid, responseUrl, message, attachment });
+  } else {
+    yield call(sendMessage, { guid, responseUrl, body: message });
+  }
 }
 
 export const fetchResponseProfile = responseUrl =>
@@ -354,7 +423,8 @@ export function* joinDiscussionTask(action) {
     yield call(getResponseAuthentication, responseUrl);
   }
 
-  const params = yield select(selectFetchMessageSettings);
+  const guid = action.payload;
+  const params = yield select(selectFetchMessageSettings(guid));
 
   const {
     issue: { issue, error: issueError },
@@ -362,9 +432,9 @@ export function* joinDiscussionTask(action) {
     participants: { participants, error: participantsError },
     invites: { invites, error: invitesErrors },
   } = yield all({
-    issue: call(fetchIssue, params.guid, responseUrl),
-    participants: call(fetchParticipants, params.guid, responseUrl),
-    invites: call(fetchInvites, params.guid, responseUrl),
+    issue: call(fetchIssue, guid, responseUrl),
+    participants: call(fetchParticipants, guid, responseUrl),
+    invites: call(fetchInvites, guid, responseUrl),
     messages: call(fetchMessages, params),
   });
 
@@ -373,12 +443,30 @@ export function* joinDiscussionTask(action) {
   } else {
     yield all([
       put(actions.setIssue(issue)),
-      put(actions.setMessages(messages)),
-      put(actions.setHasMoreMessages(messages.length === MESSAGE_LIMIT)),
-      put(actions.setParticipants(participants)),
-      put(actions.setInvites(invites)),
+      put(actions.setMessages(guid, messages)),
+      put(actions.setHasMoreMessages(guid, messages.length === MESSAGE_LIMIT)),
+      put(actions.setParticipants(guid, participants)),
+      put(actions.setInvites(guid, invites)),
       put(actions.startConnection(params.guid)),
     ]);
+  }
+}
+
+const isProcessing = message =>
+  message.messageable_type === 'Upload' &&
+  (message.messageable.file_processing ||
+    message.messageable.file_processing === null);
+
+export function* queueProcessingUploadsTask({ payload }) {
+  let queue = [];
+  if (payload instanceof Array) {
+    queue = payload.filter(isProcessing);
+  } else if (isProcessing(payload)) {
+    queue = [payload];
+  }
+
+  if (queue.length > 0) {
+    yield put(actions.queueUploads(queue));
   }
 }
 
@@ -389,5 +477,12 @@ export function* watchDiscussion() {
     takeLatest(types.JOIN_DISCUSSION, joinDiscussionTask),
     takeLatest(types.CREATE_ISSUE, createIssueTask),
     takeEvery(types.CREATE_INVITE, createInviteTask),
+    takeEvery(
+      [types.SET_MESSAGES, types.SET_MORE_MESSAGES, types.MESSAGE_RX],
+      queueProcessingUploadsTask,
+    ),
+    takeEvery(types.CONNECT, watchDiscussionSocket),
   ]);
 }
+
+// Handle processing uploads in saga, not reducers.

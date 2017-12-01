@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Modal, ModalBody, ModalFooter } from 'reactstrap';
 import downArrow from 'font-awesome-svg-png/black/svg/arrow-down.svg';
 import SVGInline from 'react-svg-inline';
-import { LoadMoreMessagesContainer } from './LoadMoreMessagesContainer';
+import { LoadMoreMessages } from './LoadMoreMessagesContainer';
 import { MessagesDateContainer } from './MessagesDate';
 import { ChatInputForm } from './ChatInputForm';
 import { ScrollHelper } from './ScrollHelper';
@@ -12,6 +12,7 @@ import { ParticipantsDialogContainer } from './ParticipantsDialog';
 import { InvitationDialogContainer } from './InvitationDialog';
 
 const Messages = ({
+  discussion,
   handleScrolled,
   profile,
   formattedMessages,
@@ -21,7 +22,7 @@ const Messages = ({
 }) => (
   <div className="messages">
     <ScrollHelper ref={registerScrollHelper} onScrollTo={handleScrolled}>
-      <LoadMoreMessagesContainer />
+      <LoadMoreMessages discussion={discussion} />
       {formattedMessages.map(messagesForDate => (
         <MessagesDateContainer
           key={messagesForDate.first().first().created_at}
@@ -30,7 +31,7 @@ const Messages = ({
         />
       ))}
     </ScrollHelper>
-    <ParticipantsHeaderContainer />
+    <ParticipantsHeaderContainer discussion={discussion} />
     {unreadMessages && (
       <button
         type="button"
@@ -47,6 +48,7 @@ const Messages = ({
 export const QueueItemDiscussions = props => {
   const {
     queueItem,
+    discussion,
     currentOpenModals,
     closeCurrent,
     closeAll,
@@ -54,7 +56,8 @@ export const QueueItemDiscussions = props => {
     invitationButtonEnabled,
     isSmallLayout,
   } = props;
-  return (
+
+  return discussion ? (
     <div className="discussions">
       {!isSmallLayout && <Messages {...props} />}
       {!isSmallLayout && <ChatInputForm />}
@@ -89,7 +92,7 @@ export const QueueItemDiscussions = props => {
         </div>
         {currentOpenModals.last() === 'participants' ? (
           <ModalBody>
-            <ParticipantsDialogContainer />
+            <ParticipantsDialogContainer discussion={discussion} />
           </ModalBody>
         ) : currentOpenModals.last() === 'invitation' ? (
           <ModalBody>
@@ -117,5 +120,5 @@ export const QueueItemDiscussions = props => {
         )}
       </Modal>
     </div>
-  );
+  ) : null;
 };

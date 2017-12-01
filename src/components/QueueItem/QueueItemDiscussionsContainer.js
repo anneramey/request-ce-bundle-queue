@@ -14,18 +14,28 @@ import { actions as queueActions } from '../../redux/modules/queue';
 
 import { QueueItemDiscussions } from './QueueItemDiscussions';
 
-const mapStateToProps = state => ({
-  queueItem: state.queue.currentItem,
-  discussionGuid: state.discussions.issueGuid,
-  profile: state.app.profile,
-  messages: state.discussions.messages,
-  hasMoreMessages: state.discussions.hasMoreMessages,
-  loadingMoreMessages: state.discussions.loadingMoreMessages,
-  currentOpenModals: state.discussions.currentOpenModals,
-  invitationFields: state.discussions.invitationFields,
-  invitationPending: state.discussions.invitationPending,
-  isSmallLayout: state.layout.get('size') === 'small',
-});
+const mapStateToProps = state => {
+  const discussionId = state.queue.currentItem
+    ? state.queue.currentItem.values['Discussion Id']
+    : null;
+
+  const discussion =
+    discussionId && state.discussions.discussions.get(discussionId);
+
+  return {
+    queueItem: state.queue.currentItem,
+    // discussionGuid: discussionId,
+    profile: state.app.profile,
+    discussion,
+    messages: discussion ? discussion.messages : List(),
+    hasMoreMessages: discussion && discussion.hasMoreMessages,
+    loadingMoreMessages: discussion && discussion.loadingMoreMessages,
+    currentOpenModals: state.discussions.currentOpenModals,
+    invitationFields: state.discussions.invitationFields,
+    invitationPending: state.discussions.invitationPending,
+    isSmallLayout: state.layout.get('size') === 'small',
+  };
+};
 
 const mapDispatchToProps = {
   setCurrentItem: queueActions.setCurrentItem,
@@ -54,7 +64,7 @@ const closeAll = props => () => {
 
 const createInvitation = props => () => {
   props.createInvite(
-    props.discussionGuid,
+    props.discussion.guid,
     props.invitationFields.get('email'),
     props.invitationFields.get('notes'),
   );

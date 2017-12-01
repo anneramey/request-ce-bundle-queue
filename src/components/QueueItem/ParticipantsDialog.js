@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
+import { List } from 'immutable';
 import SVGInline from 'react-svg-inline';
 import Avatar from 'react-avatar';
 import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
@@ -19,13 +20,13 @@ export const ParticipantsDialog = props => (
       </button>
     </h4>
     <ul className="participants-list">
-      {props.participants.sortBy(p => p.name).map(p => (
+      {props.discussion.participants.sortBy(p => p.name).map(p => (
         <li className={`${p.present ? 'present' : ''}`} key={p.email}>
           <Avatar size={26} src={p.avatar_url} name={p.name} round />
           {p.name}
         </li>
       ))}
-      {props.invites.map(invite => (
+      {props.discussion.invites.map(invite => (
         <li key={invite.email}>
           <Avatar size={26} round name={invite.email} />
           {invite.email} <span className="subtext">invited</span>
@@ -35,17 +36,12 @@ export const ParticipantsDialog = props => (
   </div>
 );
 
-export const mapStateToProps = state => ({
-  participants: state.discussions.participants,
-  invites: state.discussions.invites,
-});
-
 export const mapDispatchToProps = {
   openModal: actions.openModal,
 };
 
 export const ParticipantsDialogContainer = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(null, mapDispatchToProps),
   withHandlers({
     openInvitation: props => () => props.openModal('invitation'),
   }),

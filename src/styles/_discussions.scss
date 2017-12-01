@@ -50,6 +50,31 @@
           border: 4px solid;
         }
       }
+      .message-upload {
+        display: flex;
+        flex-direction: column;
+
+        &.message-other {
+          align-items: flex-start;
+        }
+
+        &.message-mine {
+          align-items: flex-end;
+        }
+
+        .upload-image {
+          display: flex;
+          height: 116px;
+
+          img {
+            height: 100%;
+            width: auto;
+          }
+        }
+
+        .upload-filename {
+        }
+      }
       .meta {
         @include ms-respond(font-size, -2);
         line-height: 1.5rem;
@@ -214,6 +239,7 @@
     flex: 1;
     padding: 12px;
     background-color: #d3dce7;
+
     .placeholder {
       color: #a8b7c7;
       position: absolute;
@@ -223,6 +249,7 @@
       }
     }
   }
+
   .message-input {
     max-height: 48px;
     overflow-y: scroll;
