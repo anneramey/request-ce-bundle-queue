@@ -1,6 +1,6 @@
 import { Record, List, Map } from 'immutable';
 import moment from 'moment';
-import { namespace, withPayload } from '../../utils';
+import { namespace, noPayload, withPayload } from '../../utils';
 
 export const types = {
   // API-based actions.
@@ -70,7 +70,7 @@ export const actions = {
 
   // Invitation API calls
   createInvite: withPayload(types.CREATE_INVITE, 'guid', 'email', 'note'),
-  createInviteDone: withPayload(types.CREATE_INVITE_DONE),
+  createInviteDone: noPayload(types.CREATE_INVITE_DONE),
 
   // Invitation data management.
   setInvites: withPayload(types.SET_INVITES, 'guid', 'invites'),
@@ -86,7 +86,7 @@ export const actions = {
   reconnect: withPayload(types.RECONNECT),
   setConnected: withPayload(types.SET_CONNECTED, 'guid', 'connected'),
   receiveMessage: withPayload(types.MESSAGE_RX, 'guid', 'message'),
-  updateMessage: withPayload(types.MESSAGE_UPDATE),
+  updateMessage: withPayload(types.MESSAGE_UPDATE, 'guid', 'message'),
   receiveBadMessage: withPayload(types.MESSAGE_BAD_RX, 'guid', 'badMessage'),
   sendMessage: withPayload(types.MESSAGE_TX, 'guid', 'message', 'attachment'),
 
