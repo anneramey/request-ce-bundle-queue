@@ -431,7 +431,7 @@ describe('reducer', () => {
   });
 
   test('SET_ISSUE', () => {
-    const issue = { id: 'abc123' };
+    const issue = { guid: 'abc123' };
     const state = State({
       discussions: Map({
         abc123: Discussion({ issue: null }),
