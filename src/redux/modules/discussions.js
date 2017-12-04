@@ -247,10 +247,7 @@ export const reducer = (state = State(), { type, payload }) => {
         .updateIn(['discussions', payload.guid, 'messages'], messages =>
           messages.update(
             messages.findIndex(message => message.guid === payload.messageGuid),
-            message => {
-              message.messageable = payload.upload;
-              return { ...message, messageable: payload.upload };
-            },
+            message => ({ ...message, messageable: payload.upload }),
           ),
         );
     case types.QUEUE_UPLOADS:
