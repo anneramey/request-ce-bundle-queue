@@ -17,12 +17,13 @@ const {
   fetchCurrentItemTask,
   updateQueueItemTask,
   prepareStatusFilter,
-  prepareTeamsFilter,
-  prepareAssignmentFilter,
   prepareDateRangeFilter,
   getSubmissionDate,
   sortSubmissions,
   buildSearch,
+  prepareUnassignedFilter,
+  prepareMineFilter,
+  prepareTeammatesFilter,
 } = require('./queue');
 
 const findQuery = (searcher, value) =>
@@ -45,6 +46,206 @@ describe('queue saga', () => {
       };
     });
 
+    describe('#prepareUnassignedFilter', () => {
+      test('does not add to the query if unassigned is false', () => {
+        prepareUnassignedFilter(
+          searcher,
+          filter.setIn(['assignments', 'unassigned'], false),
+          appSettings,
+        );
+        expect(searcher.query).toEqual([]);
+      });
+
+      test('does not add to the query if user is in no teams', () => {
+        prepareUnassignedFilter(
+          searcher,
+          filter.setIn(['assignments', 'unassigned'], true),
+          { ...appSettings, myTeams: List() },
+        );
+        expect(searcher.query).toEqual([]);
+      });
+
+      test('queries unassigned for all my teams if filter does not include teams', () => {
+        prepareUnassignedFilter(
+          searcher,
+          filter.setIn(['assignments', 'unassigned'], true),
+          appSettings,
+        );
+        expect(searcher.query).toEqual([
+          {
+            op: 'and',
+            context: [
+              { lvalue: 'values[Assigned Individual]', op: 'eq', rvalue: null },
+              {
+                lvalue: 'values[Assigned Team]',
+                op: 'in',
+                rvalue: ['REAL_TEAM'],
+              },
+            ],
+          },
+        ]);
+      });
+
+      test('queries unassigned for intersection of my teams and filters teams', () => {
+        prepareUnassignedFilter(
+          searcher,
+          filter
+            .setIn(['assignments', 'unassigned'], true)
+            .set('teams', List(['REAL_TEAM', 'OTHER_TEAM'])),
+          {
+            ...appSettings,
+            myTeams: List([{ name: 'REAL_TEAM' }, { name: 'FAKE_TEAM' }]),
+          },
+        );
+        expect(searcher.query).toEqual([
+          {
+            op: 'and',
+            context: [
+              { lvalue: 'values[Assigned Individual]', op: 'eq', rvalue: null },
+              {
+                lvalue: 'values[Assigned Team]',
+                op: 'in',
+                rvalue: ['REAL_TEAM'],
+              },
+            ],
+          },
+        ]);
+      });
+    });
+
+    describe('#prepareMineFilter', () => {
+      test('does not add to the query if mine is false', () => {
+        prepareMineFilter(
+          searcher,
+          filter.setIn(['assignments', 'mine'], false),
+          appSettings,
+        );
+        expect(searcher.query).toEqual([]);
+      });
+
+      test('queries by assigned individual == me', () => {
+        prepareMineFilter(
+          searcher,
+          filter.setIn(['assignments', 'mine'], true),
+          appSettings,
+        );
+        expect(searcher.query).toEqual([
+          {
+            op: 'and',
+            context: [
+              {
+                lvalue: 'values[Assigned Individual]',
+                op: 'eq',
+                rvalue: 'me@mine.com',
+              },
+            ],
+          },
+        ]);
+      });
+
+      test('also queries by teams if the filter contains teams', () => {
+        prepareMineFilter(
+          searcher,
+          filter
+            .setIn(['assignments', 'mine'], true)
+            .set('teams', List(['REAL_TEAM', 'OTHER_TEAM'])),
+          appSettings,
+        );
+        expect(searcher.query).toEqual([
+          {
+            op: 'and',
+            context: [
+              {
+                lvalue: 'values[Assigned Team]',
+                op: 'in',
+                rvalue: ['REAL_TEAM', 'OTHER_TEAM'],
+              },
+              {
+                lvalue: 'values[Assigned Individual]',
+                op: 'eq',
+                rvalue: 'me@mine.com',
+              },
+            ],
+          },
+        ]);
+      });
+    });
+
+    describe('#prepareTeammatesFilter', () => {
+      test('does not add to the query if teammates is false', () => {
+        prepareTeammatesFilter(
+          searcher,
+          filter.setIn(['assignments', 'teammates'], false),
+          appSettings,
+        );
+        expect(searcher.query).toEqual([]);
+      });
+
+      test('does not add to the query if user is has no teammates', () => {
+        prepareTeammatesFilter(
+          searcher,
+          filter.setIn(['assignments', 'teammates'], true),
+          { ...appSettings, myTeammates: List() },
+        );
+        expect(searcher.query).toEqual([]);
+      });
+
+      test('queries by my teammates and my teams by default', () => {
+        prepareTeammatesFilter(
+          searcher,
+          filter.setIn(['assignments', 'teammates'], true),
+          appSettings,
+        );
+        expect(searcher.query).toEqual([
+          {
+            op: 'and',
+            context: [
+              {
+                lvalue: 'values[Assigned Individual]',
+                op: 'in',
+                rvalue: ['you@yours.com'],
+              },
+              {
+                lvalue: 'values[Assigned Team]',
+                op: 'in',
+                rvalue: ['REAL_TEAM'],
+              },
+            ],
+          },
+        ]);
+      });
+
+      test('if teams filter is applied queries by an intersection of my teams and filter teams', () => {
+        prepareTeammatesFilter(
+          searcher,
+          filter
+            .setIn(['assignments', 'teammates'], true)
+            .set('teams', List(['REAL_TEAM', 'OTHER_TEAM'])),
+          {
+            ...appSettings,
+            myTeams: List([{ name: 'REAL_TEAM' }, { name: 'FAKE_TEAM' }]),
+          },
+        );
+        expect(searcher.query).toEqual([
+          {
+            op: 'and',
+            context: [
+              {
+                lvalue: 'values[Assigned Individual]',
+                op: 'in',
+                rvalue: ['you@yours.com'],
+              },
+              {
+                lvalue: 'values[Assigned Team]',
+                op: 'in',
+                rvalue: ['REAL_TEAM'],
+              },
+            ],
+          },
+        ]);
+      });
+    });
+
     describe('#prepareStatusFilter', () => {
       test('it uses the active statuses if there are no statuses', () => {
         searcher = prepareStatusFilter(searcher, filter);
@@ -60,111 +261,6 @@ describe('queue saga', () => {
         const query = findQuery(searcher, 'values[Status]');
         expect(query.rvalue).toContain('FAKE_STATUS');
         expect(query.op).toBe('eq');
-      });
-    });
-
-    describe('#prepareTeamsFilter', () => {
-      test('uses the teams provided to it', () => {
-        filter = filter.set('teams', List(['FAKE_TEAM']));
-        searcher = prepareTeamsFilter(searcher, filter, appSettings);
-        const query = findQuery(searcher, 'values[Assigned Team]');
-        expect(query.rvalue).toContain('FAKE_TEAM');
-        expect(query.rvalue).not.toContain('REAL_TEAM');
-      });
-
-      test('uses the profile teams if not provided', () => {
-        searcher = prepareTeamsFilter(searcher, filter, appSettings);
-        const query = findQuery(searcher, 'values[Assigned Team]');
-        expect(query.rvalue).toContain('REAL_TEAM');
-      });
-    });
-
-    describe('#prepareAssignmentFilter', () => {
-      test('when "byIndividuals" is checked', () => {
-        filter = filter
-          .updateIn(['assignments', 'byIndividuals'], () => true)
-          .updateIn(['assignments', 'individuals'], () => List(['none@of.us']));
-        searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-        const query = findQuery(searcher, 'values[Assigned Individual]');
-        expect(query.op).toBe('in');
-        expect(query.rvalue).toContain('none@of.us');
-        expect(query.rvalue).toHaveLength(1);
-      });
-
-      test('when "unassigned" is checked', () => {
-        filter = filter.setIn(['assignments', 'unassigned'], true);
-        searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-        expect(searcher.query.length).toBe(1);
-        expect(searcher.query[0].op).toBe('or');
-        expect(searcher.query[0].context.length).toBe(1);
-        expect(searcher.query[0].context[0].op).toBe('eq');
-        expect(searcher.query[0].context[0].lvalue).toBe(
-          'values[Assigned Individual]',
-        );
-        expect(searcher.query[0].context[0].rvalue).toBe(null);
-      });
-
-      test('when "mine" is checked', () => {
-        filter = filter.setIn(['assignments', 'mine'], true);
-        searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-        expect(searcher.query.length).toBe(1);
-        expect(searcher.query[0].op).toBe('or');
-        expect(searcher.query[0].context.length).toBe(1);
-        expect(searcher.query[0].context[0].op).toBe('eq');
-        expect(searcher.query[0].context[0].lvalue).toBe(
-          'values[Assigned Individual]',
-        );
-        expect(searcher.query[0].context[0].rvalue).toBe('me@mine.com');
-      });
-
-      test('when "teammates" is checked', () => {
-        filter = filter.setIn(['assignments', 'teammates'], true);
-        searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-        expect(searcher.query.length).toBe(1);
-        expect(searcher.query[0].op).toBe('or');
-        expect(searcher.query[0].context.length).toBe(1);
-        expect(searcher.query[0].context[0].op).toBe('in');
-        expect(searcher.query[0].context[0].lvalue).toBe(
-          'values[Assigned Individual]',
-        );
-        expect(searcher.query[0].context[0].rvalue.toJS()).toEqual([
-          'you@yours.com',
-        ]);
-      });
-
-      describe('when a combination is checked', () => {
-        test('mine and teammates', () => {
-          filter = filter
-            .setIn(['assignments', 'mine'], true)
-            .setIn(['assignments', 'teammates'], true);
-          searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-          expect(searcher.query.length).toBe(1);
-          expect(searcher.query[0].op).toBe('or');
-          expect(searcher.query[0].context.length).toBe(2);
-          expect(searcher.query[0].context[0].op).toBe('eq');
-          expect(searcher.query[0].context[0].lvalue).toBe(
-            'values[Assigned Individual]',
-          );
-          expect(searcher.query[0].context[0].rvalue).toEqual('me@mine.com');
-          expect(searcher.query[0].context[1].op).toBe('in');
-          expect(searcher.query[0].context[1].lvalue).toBe(
-            'values[Assigned Individual]',
-          );
-          expect(searcher.query[0].context[1].rvalue.toJS()).toEqual([
-            'you@yours.com',
-          ]);
-        });
-
-        describe('when none are checked', () => {
-          test('mine and teammates', () => {
-            filter = filter
-              .setIn(['assignments', 'mine'], false)
-              .setIn(['assignments', 'teammates'], false)
-              .setIn(['assignments', 'unassigned'], false);
-            searcher = prepareAssignmentFilter(searcher, filter, appSettings);
-            expect(searcher.query.length).toBe(0);
-          });
-        });
       });
     });
 
