@@ -36,7 +36,7 @@ pipeline {
         script {
           BUNDLE = sh(returnStdout: true, script: 'echo `expr "$GIT_URL" : \'^.*/request-ce-bundle-\\(.*\\)\\.git$\'`').trim()
           VERSION = env.BRANCH_NAME == "master" ? "v1" : "develop"
-          OPTIONS = '--acl public-read --metadata "cache-control=must-revalidate; max-age: 0" --delete'
+          OPTIONS = '--acl public-read --cache-control="must-revalidate; max-age: 0" --delete'
           sh "/var/lib/jenkins/.local/bin/aws s3 sync build s3://kinops.io/bundles/hydrogen/${BUNDLE}/${VERSION} ${OPTIONS}"
         }
 
