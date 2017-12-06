@@ -420,7 +420,7 @@ describe('queue saga', () => {
     beforeEach(() => {
       action = { payload: { name: 'Filter Name' } };
       appSettings = {};
-      search = {};
+      search = { search: {}, assignmentContext: [{}] };
       response = { submissions: [] };
     });
 
@@ -436,7 +436,7 @@ describe('queue saga', () => {
         );
         // Execute the search.
         expect(saga.next(search).value).toEqual(
-          call(CoreAPI.searchSubmissions, { search }),
+          call(CoreAPI.searchSubmissions, { search: search.search }),
         );
         // Return an error.
         expect(saga.next({ serverError: 'some error' }).value).toEqual(
@@ -457,7 +457,7 @@ describe('queue saga', () => {
         );
         // Execute the search.
         expect(saga.next(search).value).toEqual(
-          call(CoreAPI.searchSubmissions, { search }),
+          call(CoreAPI.searchSubmissions, { search: search.search }),
         );
         // Return an error.
         expect(saga.next({ nextPageToken: 'some token' }).value).toEqual(
@@ -478,7 +478,7 @@ describe('queue saga', () => {
         );
         // Execute the search.
         expect(saga.next(search).value).toEqual(
-          call(CoreAPI.searchSubmissions, { search }),
+          call(CoreAPI.searchSubmissions, { search: search.search }),
         );
         // It sorts the submissions
         expect(saga.next(response).value).toEqual(
@@ -503,7 +503,7 @@ describe('queue saga', () => {
     describe('when request is successful', () => {
       test('it sets the list items', () => {
         const include =
-          'details,values,attributes,form,children,children.form,children.values,form.attributes';
+          'details,values,attributes,form,children,children.details,children.form,children.values,form.attributes';
         const saga = fetchCurrentItemTask(action);
 
         // Execute the search.
@@ -519,12 +519,12 @@ describe('queue saga', () => {
 
   describe('#updateQueueItemTask', () => {
     const include =
-      'details,values,attributes,form,children,children.form,children.values,form.attributes';
+      'details,values,attributes,form,children,children.details,children.form,children.values,form.attributes';
     const id = 'abc123';
     const values = { 'Assigned Individual': 'Me' };
     const response = { submission: { id: 'abc123', values: {} } };
     describe('when update is successful', () => {
-      describe('when given no success action creators', () => {
+      describe('when given no callback', () => {
         it('calls updateSubmission but does not dispatch any other actions', () => {
           const saga = updateQueueItemTask({ payload: { id, values } });
           expect(saga.next().value).toEqual(
@@ -534,39 +534,17 @@ describe('queue saga', () => {
         });
       });
 
-      describe('when success action callback returns a single action', () => {
-        it('calls updateSubmission and returns a "put" effect for the action', () => {
-          const successAction = payload => ({ type: 'TEST', payload });
+      describe('when onSuccess callback is passed in payload', () => {
+        it('calls the callback with the updated sumbission', () => {
+          const onSuccess = jest.fn();
           const saga = updateQueueItemTask({
-            payload: { id, values, successAction },
+            payload: { id, values, onSuccess },
           });
           expect(saga.next().value).toEqual(
             call(CoreAPI.updateSubmission, { id, values, include }),
           );
-          expect(saga.next(response).value).toEqual(
-            put({ type: 'TEST', payload: response.submission }),
-          );
-        });
-      });
-
-      describe('when success action callback returns an array of actions', () => {
-        it('calls updateSubmission and returns an "all" effect for the array of actions', () => {
-          const successAction = payload => [
-            { type: 'TEST', payload },
-            { type: 'TEST2', payload: 'hardcoded' },
-          ];
-          const saga = updateQueueItemTask({
-            payload: { id, values, successAction },
-          });
-          expect(saga.next().value).toEqual(
-            call(CoreAPI.updateSubmission, { id, values, include }),
-          );
-          expect(saga.next(response).value).toEqual(
-            all([
-              put({ type: 'TEST', payload: response.submission }),
-              put({ type: 'TEST2', payload: 'hardcoded' }),
-            ]),
-          );
+          expect(saga.next(response).done).toBe(true);
+          expect(onSuccess.mock.calls).toEqual([[response.submission]]);
         });
       });
     });
