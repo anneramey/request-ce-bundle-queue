@@ -20,7 +20,7 @@ pipeline {
       steps {
         echo 'Re-enable tests when they are fixed'
         sh 'CI=true yarn test:ci'
-        junit(testResults: 'test-report.xml', healthScaleFactor: 1)
+        junit(testResults: 'junit.xml', healthScaleFactor: 1)
       }
     }
     stage('Build') {
