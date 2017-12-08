@@ -8,14 +8,14 @@
     "test": "react-scripts test --env=jsdom",
     "format": "prettier \"src/**/*.{js,jsx,json,css,scss}\" --write",
     "eject": "react-scripts eject",
-    "test:ci": "jest --ci --testResultsProcessor=./node_modules/jest-junit-reporter"
+    "test:ci": "react-scripts test --env=jsdom --testResultsProcessor=./node_modules/jest-junit"
   },
   "devDependencies": {
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-15": "^1.0.1",
     "enzyme-to-json": "^3.1.2",
     "jest-immutable-matchers": "^1.5.0",
-    "jest-junit-reporter": "^1.1.0",
+    "jest-junit": "^3.3.0",
     "kinops-react-scripts": "^0.8.0",
     "modularscale-sass": "^3.0.3",
     "prettier": "^1.7.4",

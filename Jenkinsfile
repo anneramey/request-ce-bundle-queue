@@ -19,8 +19,8 @@ pipeline {
     stage('Test') {
       steps {
         echo 'Re-enable tests when they are fixed'
-        /* sh 'yarn test:ci'
-        junit(testResults: 'test-report.xml', healthScaleFactor: 1) */
+        sh 'CI=true yarn test:ci'
+        junit(testResults: 'junit.xml', healthScaleFactor: 1)
       }
     }
     stage('Build') {
@@ -36,7 +36,7 @@ pipeline {
         script {
           BUNDLE = sh(returnStdout: true, script: 'echo `expr "$GIT_URL" : \'^.*/request-ce-bundle-\\(.*\\)\\.git$\'`').trim()
           VERSION = env.BRANCH_NAME == "master" ? "v1" : "develop"
-          OPTIONS = '--acl public-read --metadata "cache-control=must-revalidate; max-age: 0" --delete'
+          OPTIONS = '--acl public-read --cache-control="must-revalidate; max-age: 0" --delete'
           sh "/var/lib/jenkins/.local/bin/aws s3 sync build s3://kinops.io/bundles/hydrogen/${BUNDLE}/${VERSION} ${OPTIONS}"
         }
 

@@ -729,6 +729,71 @@ describe('reducer', () => {
     );
   });
 
+  test('APPLY_UPLOAD', () => {
+    const processingUploads = [
+      { guid: '1', message: 'one' },
+      { guid: '2', message: 'two' },
+      { guid: '3', message: 'three' },
+    ];
+    const messages = [
+      { guid: '1', message: 'one', messageable: { data: 'one' } },
+      { guid: '2', message: 'two', messageable: { data: 'two' } },
+      { guid: '3', message: 'three', messageable: { data: 'three' } },
+    ];
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({
+          processingUploads: List(processingUploads),
+          messages: List(messages),
+        }),
+      }),
+    });
+    const upload = { data: 'new' };
+    const action = actions.applyUpload('abc123', '3', upload);
+    const after = reducer(state, action);
+    expect(
+      after.getIn(['discussions', 'abc123', 'processingUploads']),
+    ).toEqualImmutable(List(processingUploads.slice(0, 2)));
+    expect(after.getIn(['discussions', 'abc123', 'messages', 0])).toEqual(
+      messages[0],
+    );
+    expect(after.getIn(['discussions', 'abc123', 'messages', 1])).toEqual(
+      messages[1],
+    );
+    expect(after.getIn(['discussions', 'abc123', 'messages', 2])).toEqual({
+      ...messages[2],
+      messageable: upload,
+    });
+  });
+
+  test('QUEUE_UPLOADS', () => {
+    const originalUploads = [
+      { guid: '1', message: 'one' },
+      { guid: '2', message: 'two' },
+    ];
+    const state = State({
+      discussions: Map({
+        abc123: Discussion({ processingUploads: List(originalUploads) }),
+        foobar: Discussion({ processingUploads: List() }),
+      }),
+    });
+    const newUploads = [
+      { guid: '3', message: 'three' },
+      { guid: '4', message: 'four' },
+    ];
+    const action = actions.queueUploads('abc123', newUploads);
+    expect(reducer(state, action)).toEqualImmutable(
+      State({
+        discussions: Map({
+          abc123: Discussion({
+            processingUploads: List([...originalUploads, ...newUploads]),
+          }),
+          foobar: Discussion({ processingUploads: List() }),
+        }),
+      }),
+    );
+  });
+
   test('MESSAGE_RX', () => {
     const messages = [{ text: 'foo' }, { text: 'bar' }];
     const newMessage = { text: 'baz' };
