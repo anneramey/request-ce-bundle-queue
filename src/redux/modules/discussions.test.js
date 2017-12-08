@@ -515,7 +515,6 @@ describe('reducer', () => {
       }),
     });
     const action = actions.setHasMoreMessages('abc123', false);
-    console.log(action);
     expect(reducer(state, action)).toEqualImmutable(
       State({
         discussions: Map({
