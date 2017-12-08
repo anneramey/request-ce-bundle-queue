@@ -11,27 +11,39 @@ import {
   takeEvery,
   takeLatest,
 } from 'redux-saga/effects';
-import axios from 'axios';
 import { CoreAPI } from 'react-kinetic-core';
 
 import { SUBMISSION_INCLUDES } from './queue';
 import { actions as errorActions } from '../modules/errors';
 import { types, actions } from '../modules/discussions';
 
-export const MESSAGE_LIMIT = 25;
+import {
+  MESSAGE_LIMIT,
+  sendMessage,
+  sendAttachment,
+  fetchMessages,
+  fetchIssue,
+  createIssue,
+  touchIssuePresence,
+  fetchUploads,
+  fetchInvites,
+  createInvite,
+  fetchParticipants,
+  fetchResponseProfile,
+  getResponseAuthentication,
+} from '../../utils/discussion_api';
 
-const selectServerUrl = state => state.app.discussionServerUrl;
+export const selectServerUrl = state => state.app.discussionServerUrl;
 
 // Supporting documentation:
 // * https://medium.com/@ebakhtarov/bidirectional-websockets-with-redux-saga-bfd5b677c7e7
 // * https://github.com/redux-saga/redux-saga/issues/51#issuecomment-230083283
 
 // Register socket events to the Saga event channel.
-function registerChannel(socket) {
+export function registerChannel(socket) {
   /* eslint-disable no-param-reassign */
   return eventChannel(emit => {
     socket.onopen = () => {
-      window.console.log('Connected!');
       emit({ action: 'connected' });
     };
 
@@ -55,7 +67,7 @@ function registerChannel(socket) {
   });
 }
 
-function* incomingMessages(socketChannel, guid) {
+export function* incomingMessages(socketChannel, guid) {
   try {
     // eslint-disable-next-line
     while (true) {
@@ -102,26 +114,14 @@ function* incomingMessages(socketChannel, guid) {
   }
 }
 
-const touchIssuePresence = (guid, responseUrl) =>
-  axios.request({
-    url: `${responseUrl}/api/v1/issues/${guid}/present`,
-    withCredentials: true,
-  });
-
-function* presenceKeepAlive(guid, responseUrl) {
+export function* presenceKeepAlive(guid, responseUrl) {
   while (true) {
     yield call(touchIssuePresence, guid, responseUrl);
-    yield delay(3000);
+    yield call(delay, 3000);
   }
 }
 
-const fetchUploads = (guid, responseUrl) =>
-  axios.request({
-    url: `${responseUrl}/api/v1/issues/${guid}/uploads`,
-    withCredentials: true,
-  });
-
-function* uploadProcessingPoller(guid, responseUrl) {
+export function* uploadProcessingPoller(guid, responseUrl) {
   while (true) {
     const fileUploads = yield select(
       state => state.discussions.discussions.get(guid).processingUploads,
@@ -143,15 +143,14 @@ function* uploadProcessingPoller(guid, responseUrl) {
           put(actions.applyUpload(guid, up.processing.guid, up.upload)),
         );
 
-      // Loop over each local upload and find it in the response, use for
-      for (let i = 0; i < uploads.size; i++) {
-        yield uploads.get(i);
+      if (uploads.size > 0) {
+        yield all(uploads.toJS());
       }
-      // If it is found and it is complete, dispatch an update upload message.
     }
-    yield delay(3000);
+    yield call(delay, 3000);
   }
 }
+
 // Turned this off because the Rails impl doesn't handle incoming messages.
 // function* outgoingMessages(socket) {}
 //   // eslint-disable-next-line
@@ -196,59 +195,6 @@ export function* watchDiscussionSocket(action) {
     }
   }
 }
-
-const fetchIssue = (guid, responseUrl) =>
-  axios
-    .get(`${responseUrl}/api/v1/issues/${guid}`, { withCredentials: true })
-    .then(response => ({ issue: response.data }))
-    .catch(response => ({ error: response }));
-
-const createIssue = (issue, responseUrl) =>
-  axios
-    .post(`${responseUrl}/api/v1/issues`, issue, { withCredentials: true })
-    .then(response => ({ issue: response.data }))
-    .catch(response => ({ error: response }));
-
-const fetchInvites = (guid, responseUrl) =>
-  axios
-    .request({
-      url: `${responseUrl}/api/v1/issues/${guid}/invites`,
-      method: 'get',
-      withCredentials: true,
-    })
-    .then(response => ({ invites: response.data }))
-    .catch(response => ({ error: response }));
-
-const createInvite = (guid, email, note, responseUrl) =>
-  axios
-    .request({
-      url: `${responseUrl}/api/v1/issues/${guid}/invites`,
-      method: 'post',
-      withCredentials: true,
-      data: { email, note, group_invite: false },
-    })
-    .then(response => ({ invite: response.data }))
-    .catch(response => ({ error: response }));
-
-export const resendInvite = (guid, inviteId, note, responseUrl) =>
-  axios
-    .request({
-      url: `${responseUrl}/api/v1/issues/${guid}/invites/${inviteId}`,
-      method: 'post',
-      withCredentials: true,
-    })
-    .then(response => ({ invite: response.data }))
-    .catch(response => ({ error: response }));
-
-export const removeInvite = (guid, inviteId, note, responseUrl) =>
-  axios
-    .request({
-      url: `${responseUrl}/api/v1/issues/${guid}/invites/${inviteId}`,
-      method: 'delete',
-      withCredentials: true,
-    })
-    .then(response => ({ invite: response.data }))
-    .catch(response => ({ error: response }));
 
 export function* createInviteTask({ payload }) {
   const responseUrl = yield select(selectServerUrl);
@@ -323,29 +269,7 @@ export function* createIssueTask({ payload }) {
   }
 }
 
-const fetchParticipants = (guid, responseUrl) =>
-  axios
-    .request({
-      url: `${responseUrl}/api/v1/issues/${guid}/participants`,
-      withCredentials: true,
-    })
-    .then(response => ({ participants: response.data }))
-    .catch(response => ({ error: response }));
-
-const fetchMessages = ({ guid, lastReceived, offset, responseUrl }) =>
-  axios
-    .get(`${responseUrl}/api/v1/issues/${guid}/messages`, {
-      withCredentials: true,
-      params: {
-        last_received: lastReceived || '2014-01-01',
-        limit: MESSAGE_LIMIT,
-        offset: offset ? offset : 0,
-      },
-    })
-    .then(response => ({ messages: response.data }))
-    .catch(response => ({ error: response }));
-
-const selectFetchMessageSettings = guid => state => {
+export const selectFetchMessageSettings = guid => state => {
   return {
     guid,
     offset: state.discussions.discussions.get(guid).messages.size,
@@ -371,27 +295,6 @@ export function* fetchMoreMessagesTask({ payload }) {
   }
 }
 
-const sendMessage = params => {
-  const { body, guid, responseUrl } = params;
-  return axios.post(
-    `${responseUrl}/api/v1/issues/${guid}/messages`,
-    { body },
-    { withCredentials: true },
-  );
-};
-
-const sendAttachment = params => {
-  const { message, attachment, guid, responseUrl } = params;
-  const formData = new FormData();
-  formData.append('upload[description]', message);
-  formData.append('upload[file]', attachment);
-
-  return axios.post(`${responseUrl}/api/v1/issues/${guid}/uploads`, formData, {
-    withCredentials: true,
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
-};
-
 export function* sendMessageTask(action) {
   const responseUrl = yield select(selectServerUrl);
 
@@ -404,20 +307,6 @@ export function* sendMessageTask(action) {
     yield call(sendMessage, { guid, responseUrl, body: message });
   }
 }
-
-export const fetchResponseProfile = responseUrl =>
-  axios
-    .get(`${responseUrl}/api/v1/me`, { withCredentials: true })
-    .then(response => ({ profile: response.data }))
-    .catch(response => ({ error: response }));
-
-export const getResponseAuthentication = responseUrl =>
-  axios
-    .get(`${responseUrl}/users/auth/kinetic_core`, {
-      withCredentials: true,
-    })
-    .then(response => ({ profile: response.data }))
-    .catch(response => ({ error: response }));
 
 export function* joinDiscussionTask(action) {
   const responseUrl = yield select(selectServerUrl);
