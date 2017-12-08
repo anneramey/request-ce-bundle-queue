@@ -1,7 +1,8 @@
 import { delay } from 'redux-saga';
-import { select, put, call, all } from 'redux-saga/effects';
+import { select, put, call, all, race, take } from 'redux-saga/effects';
 import { List } from 'immutable';
-import { actions } from '../modules/discussions';
+import { actions, types } from '../modules/discussions';
+import { types as errorTypes } from '../modules/errors';
 
 global.bundle = {
   apiLocation: () => '/acme/app/api/v1',
@@ -12,10 +13,18 @@ const {
   sendAttachment,
   fetchMessages,
   fetchUploads,
+  fetchIssue,
+  createIssue,
+  fetchParticipants,
+  fetchInvites,
+  createInvite,
+  fetchResponseProfile,
+  getResponseAuthentication,
   touchIssuePresence,
 } = require('../../utils/discussion_api');
 
 const {
+  updateSubmissionDiscussionId,
   sendMessageTask,
   fetchMoreMessagesTask,
   registerChannel,
@@ -23,7 +32,12 @@ const {
   uploadProcessingPoller,
   queueProcessingUploadsTask,
   presenceKeepAlive,
+  joinDiscussionTask,
   selectServerUrl,
+  createInviteTask,
+  createIssueTask,
+  watchDiscussionSocket,
+  openWebSocket,
 } = require('./discussions');
 
 const ISSUE_GUID = 'issue-guid';
@@ -264,6 +278,40 @@ describe('discussion saga', () => {
     });
   });
 
+  describe('#watchDiscussionSocket', () => {
+    let action;
+    let socket;
+    let socketChannel;
+
+    beforeEach(() => {
+      action = { payload: ISSUE_GUID };
+      socket = {};
+      socketChannel = {};
+    });
+
+    test('happy path', () => {
+      const saga = watchDiscussionSocket(action);
+      expect(saga.next().value).toEqual(select(selectServerUrl));
+      expect(saga.next(RESPONSE_URL).value).toEqual(
+        call(openWebSocket, ISSUE_GUID, RESPONSE_URL),
+      );
+      expect(saga.next(socket).value).toEqual(call(registerChannel, socket));
+
+      // Enter the loop - the first thing that should happen is to kick off the race.
+      expect(saga.next(socketChannel).value).toEqual(
+        race({
+          task: [
+            call(incomingMessages, socketChannel, ISSUE_GUID),
+            call(presenceKeepAlive, ISSUE_GUID, RESPONSE_URL),
+            call(uploadProcessingPoller, ISSUE_GUID, RESPONSE_URL),
+          ],
+          reconnect: take(types.RECONNECT),
+          disconnect: take(types.DISCONNECT),
+        }),
+      );
+    });
+  });
+
   describe('#uploadProcessingPoller', () => {
     let message;
     let upload;
@@ -347,6 +395,43 @@ describe('discussion saga', () => {
     });
   });
 
+  describe('queueProcessingUploadsTask', () => {
+    describe('when action is a collection of messages', () => {
+      test('it queues only uploads in processing', () => {
+        const messages = [
+          // Not processing, isn't the correct type.
+          {
+            messageable_type: 'NotUpload',
+            messageable: { file_processing: true },
+          },
+          // Not processing, is flagged as completed.
+          {
+            messageable_type: 'Upload',
+            messageable: { file_processing: false },
+          },
+          // Processing, is flagged as processing.
+          {
+            messageable_type: 'Upload',
+            messageable: { file_processing: true },
+          },
+          // Processing, awaiting processing job.
+          {
+            messageable_type: 'Upload',
+            messageable: { file_processing: null },
+          },
+        ];
+
+        const saga = queueProcessingUploadsTask({
+          payload: { guid: ISSUE_GUID, messages },
+        });
+        const result = saga.next().value;
+        expect(result.PUT).toBeDefined();
+        expect(result.PUT.action.payload.uploads).toBeDefined();
+        expect(result.PUT.action.payload.uploads).toHaveLength(2);
+      });
+    });
+  });
+
   describe('#presenceKeepAlive', () => {
     test('it touches presence and delays 3s', () => {
       const saga = presenceKeepAlive(ISSUE_GUID, RESPONSE_URL);
@@ -354,6 +439,262 @@ describe('discussion saga', () => {
         call(touchIssuePresence, ISSUE_GUID, RESPONSE_URL),
       );
       expect(saga.next().value).toEqual(call(delay, 3000));
+    });
+  });
+
+  describe('#joinDiscussionTask', () => {
+    describe('all calls occur successfully', () => {
+      test('when fetching Response profile fails it attempts to reauthenticate', () => {
+        const action = { payload: ISSUE_GUID };
+
+        const saga = joinDiscussionTask(action);
+        expect(saga.next().value).toEqual(select(selectServerUrl));
+        expect(saga.next(RESPONSE_URL).value).toEqual(
+          call(fetchResponseProfile, RESPONSE_URL),
+        );
+        expect(saga.next({ error: 'error message ' }).value).toEqual(
+          call(getResponseAuthentication, RESPONSE_URL),
+        );
+      });
+
+      test('happy path', () => {
+        const action = { payload: ISSUE_GUID };
+        const messageParams = { guid: ISSUE_GUID, params: 'abc' };
+        const apiResults = {
+          issue: { issue: { guid: ISSUE_GUID } },
+          messages: { messages: [{ message: 'text' }] },
+          participants: { participants: [{ participant: 'person' }] },
+          invites: { invites: [{ invites: 'vendor' }] },
+        };
+
+        const saga = joinDiscussionTask(action);
+        expect(saga.next().value).toEqual(select(selectServerUrl));
+        expect(saga.next(RESPONSE_URL).value).toEqual(
+          call(fetchResponseProfile, RESPONSE_URL),
+        );
+        // This is the selectFetchMessageSettings call.
+        expect(saga.next(RESPONSE_URL).value.SELECT).toBeDefined();
+        expect(saga.next(messageParams).value).toEqual(
+          all({
+            issue: call(fetchIssue, ISSUE_GUID, RESPONSE_URL),
+            participants: call(fetchParticipants, ISSUE_GUID, RESPONSE_URL),
+            invites: call(fetchInvites, ISSUE_GUID, RESPONSE_URL),
+            messages: call(fetchMessages, messageParams),
+          }),
+        );
+
+        expect(saga.next(apiResults).value).toEqual(
+          all([
+            put(actions.setIssue(apiResults.issue.issue)),
+            put(actions.setMessages(ISSUE_GUID, apiResults.messages.messages)),
+            put(actions.setHasMoreMessages(ISSUE_GUID, false)),
+            put(
+              actions.setParticipants(
+                ISSUE_GUID,
+                apiResults.participants.participants,
+              ),
+            ),
+            put(actions.setInvites(ISSUE_GUID, apiResults.invites.invites)),
+            put(actions.startConnection(ISSUE_GUID)),
+          ]),
+        );
+      });
+    });
+  });
+
+  describe('#createIssueTask', () => {
+    let action;
+    let issue;
+
+    beforeEach(() => {
+      action = {
+        payload: {
+          name: 'name',
+          description: 'description',
+        },
+      };
+
+      issue = { guid: ISSUE_GUID };
+    });
+    describe('when not authenticated with Response', () => {
+      test('it attempts to authenticate with Response', () => {
+        const saga = createIssueTask(action);
+        expect(saga.next().value).toEqual(select(selectServerUrl));
+        expect(saga.next(RESPONSE_URL).value).toEqual(
+          call(fetchResponseProfile, RESPONSE_URL),
+        );
+
+        expect(saga.next({ error: 'error message ' }).value).toEqual(
+          call(getResponseAuthentication, RESPONSE_URL),
+        );
+      });
+    });
+
+    test('it creates an issue', () => {
+      const saga = createIssueTask(action);
+      expect(saga.next().value).toEqual(select(selectServerUrl));
+      expect(saga.next(RESPONSE_URL).value).toEqual(
+        call(fetchResponseProfile, RESPONSE_URL),
+      );
+      expect(saga.next({}).value).toEqual(
+        call(
+          createIssue,
+          {
+            name: action.payload.name,
+            description: action.payload.description,
+          },
+          RESPONSE_URL,
+        ),
+      );
+    });
+    describe('when successful', () => {
+      describe('when there is a submission', () => {
+        test('it updates the submission', () => {
+          action.payload.submission = { id: 'submissionId' };
+
+          const saga = createIssueTask(action);
+          expect(saga.next().value).toEqual(select(selectServerUrl));
+          expect(saga.next(RESPONSE_URL).value).toEqual(
+            call(fetchResponseProfile, RESPONSE_URL),
+          );
+          expect(saga.next({}).value).toEqual(
+            call(
+              createIssue,
+              {
+                name: action.payload.name,
+                description: action.payload.description,
+              },
+              RESPONSE_URL,
+            ),
+          );
+
+          expect(saga.next({ issue }).value).toEqual(
+            call(updateSubmissionDiscussionId, {
+              id: action.payload.submission.id,
+              guid: ISSUE_GUID,
+            }),
+          );
+        });
+      });
+
+      describe('when there is a success callback', () => {
+        test('it calls the callback', () => {
+          action.payload.onSuccess = jest.fn();
+
+          const saga = createIssueTask(action);
+          expect(saga.next().value).toEqual(select(selectServerUrl));
+          expect(saga.next(RESPONSE_URL).value).toEqual(
+            call(fetchResponseProfile, RESPONSE_URL),
+          );
+          expect(saga.next({}).value).toEqual(
+            call(
+              createIssue,
+              {
+                name: action.payload.name,
+                description: action.payload.description,
+              },
+              RESPONSE_URL,
+            ),
+          );
+
+          saga.next({ issue });
+          expect(action.payload.onSuccess).toHaveBeenCalledWith(
+            issue,
+            undefined,
+          );
+        });
+
+        test('it calls the callback with the updated submission', () => {
+          action.payload.submission = { id: 'submissionId' };
+          action.payload.onSuccess = jest.fn();
+
+          const saga = createIssueTask(action);
+          expect(saga.next().value).toEqual(select(selectServerUrl));
+          expect(saga.next(RESPONSE_URL).value).toEqual(
+            call(fetchResponseProfile, RESPONSE_URL),
+          );
+          expect(saga.next({}).value).toEqual(
+            call(
+              createIssue,
+              {
+                name: action.payload.name,
+                description: action.payload.description,
+              },
+              RESPONSE_URL,
+            ),
+          );
+
+          expect(saga.next({ issue }).value).toEqual(
+            call(updateSubmissionDiscussionId, {
+              id: action.payload.submission.id,
+              guid: ISSUE_GUID,
+            }),
+          );
+
+          saga.next({ submission: action.payload.submission });
+          expect(action.payload.onSuccess).toHaveBeenCalledWith(
+            issue,
+            action.payload.submission,
+          );
+        });
+      });
+    });
+  });
+
+  describe('#createInviteTask', () => {
+    let action;
+
+    beforeEach(() => {
+      action = {
+        payload: {
+          guid: ISSUE_GUID,
+          email: 'fake@email.com',
+          note: 'please join',
+        },
+      };
+    });
+
+    describe('when successful', () => {
+      test('sets the invite creation as done and closes the modal', () => {
+        const saga = createInviteTask(action);
+        expect(saga.next().value).toEqual(select(selectServerUrl));
+        expect(saga.next(RESPONSE_URL).value).toEqual(
+          call(
+            createInvite,
+            action.payload.guid,
+            action.payload.email,
+            action.payload.note,
+            RESPONSE_URL,
+          ),
+        );
+
+        expect(saga.next({}).value).toEqual(
+          all([
+            put(actions.createInviteDone()),
+            put(actions.closeModal('invitation')),
+          ]),
+        );
+      });
+    });
+
+    describe('when unsuccessful', () => {
+      test('it toasts an error notification', () => {
+        const saga = createInviteTask(action);
+        expect(saga.next().value).toEqual(select(selectServerUrl));
+        expect(saga.next(RESPONSE_URL).value).toEqual(
+          call(
+            createInvite,
+            action.payload.guid,
+            action.payload.email,
+            action.payload.note,
+            RESPONSE_URL,
+          ),
+        );
+
+        expect(
+          saga.next({ error: 'error message ' }).value.PUT.action.type,
+        ).toEqual(errorTypes.ADD_NOTIFICATION);
+      });
     });
   });
 });

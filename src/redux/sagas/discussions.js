@@ -160,7 +160,7 @@ export function* uploadProcessingPoller(guid, responseUrl) {
 //   }
 // }
 
-const openWebSocket = (guid, responseUrl) =>
+export const openWebSocket = (guid, responseUrl) =>
   new WebSocket(
     `${window.location.protocol === 'http:' ? 'ws' : 'wss'}://${
       window.location.host
@@ -170,7 +170,7 @@ const openWebSocket = (guid, responseUrl) =>
 export function* watchDiscussionSocket(action) {
   const responseUrl = yield select(selectServerUrl);
   const guid = action.payload;
-  let socket = openWebSocket(guid, responseUrl);
+  let socket = yield call(openWebSocket, guid, responseUrl);
   let socketChannel = yield call(registerChannel, socket);
 
   while (true) {
@@ -216,7 +216,7 @@ export function* createInviteTask({ payload }) {
   }
 }
 
-const updateSubmissionDiscussionId = ({ id, guid }) =>
+export const updateSubmissionDiscussionId = ({ id, guid }) =>
   CoreAPI.updateSubmission({
     id,
     values: { 'Discussion Id': guid },
