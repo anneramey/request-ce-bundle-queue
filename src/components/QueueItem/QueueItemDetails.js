@@ -14,6 +14,16 @@ import { TimeAgo } from '../TimeAgo';
 import { StatusParagraph } from '../StatusParagraph';
 import { QueueListItemSmall } from '../queueList/QueueListItem';
 
+const showOriginLink = queueItem =>
+  queueItem.parent &&
+  queueItem.origin &&
+  queueItem.parent.id === queueItem.origin.id;
+
+const showParentLink = queueItem =>
+  queueItem.parent &&
+  ((queueItem.origin && queueItem.origin.id !== queueItem.parent.id) ||
+    queueItem.origin === null);
+
 export const QueueItemDetails = ({
   queueItem,
   isAssigning,
@@ -54,7 +64,7 @@ export const QueueItemDetails = ({
           assignments={assignments}
         />
       )}
-      {queueItem.origin && (
+      {showOriginLink(queueItem) && (
         <a
           className="btn btn-primary btn-inverse request-button"
           href={originLink(queueItem)}
@@ -63,6 +73,15 @@ export const QueueItemDetails = ({
           View Original Request
         </a>
       )}
+      {showParentLink(queueItem) && (
+        <Link
+          to={`/item/${queueItem.parent.id}`}
+          className="btn btn-primary btn-inverse request-button"
+        >
+          View Parent
+        </Link>
+      )}
+
       <ul className="list-group timestamps">
         <li className="list-group-item timestamp">
           <span className="label">Due</span>
