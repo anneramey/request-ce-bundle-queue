@@ -60,7 +60,12 @@ const UploadMessage = ({ message, messageOwner, discussionServerUrl }) => (
         <small>{message.messageable.file_file_name}</small>
       </div>
     )}
-    <div className="upload-description">{message.messageable.description}</div>
+    {message.messageable.description !== null &&
+      message.messageable.description !== '' && (
+        <div className="upload-description">
+          {message.messageable.description}
+        </div>
+      )}
   </div>
 );
 
