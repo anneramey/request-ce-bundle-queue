@@ -4,9 +4,20 @@ import { compose, withHandlers } from 'recompose';
 import { ModalBody } from 'reactstrap';
 import { actions } from '../../redux/modules/filterMenu';
 
-export const AssignmentSection = ({ filter, toggleAssignmentHandler }) => (
+export const AssignmentSection = ({
+  filter,
+  toggleAssignmentHandler,
+  appliedAssignments,
+}) => (
   <ModalBody className="filter-section">
-    <h5>Assignment</h5>
+    <h5>
+      Assignment<br />
+      {appliedAssignments.size === 0 && (
+        <small className="text-danger text-small">
+          No assignments selected.
+        </small>
+      )}
+    </h5>
     <label htmlFor="assignment-mine">
       <input
         type="checkbox"

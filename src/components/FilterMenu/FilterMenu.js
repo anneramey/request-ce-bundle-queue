@@ -22,6 +22,7 @@ export const FilterMenu = ({
   applyFilterHandler,
   showSection,
   currentFilter,
+  appliedAssignments,
 }) => (
   <Modal isOpen={isOpen} toggle={close}>
     <div className="modal-header">
@@ -57,13 +58,17 @@ export const FilterMenu = ({
         filterName={filterName}
         handleChangeFilterName={handleChangeFilterName}
         handleSaveFilter={handleSaveFilter}
+        appliedAssignments={appliedAssignments}
       />
     )}
     {activeSection === 'teams' && (
       <TeamsSectionContainer filter={currentFilter} teams={teams} />
     )}
     {activeSection === 'assignment' && (
-      <AssignmentSectionContainer filter={currentFilter} />
+      <AssignmentSectionContainer
+        filter={currentFilter}
+        appliedAssignments={appliedAssignments}
+      />
     )}
     {activeSection === 'status' && (
       <StatusSectionContainer filter={currentFilter} />
@@ -79,7 +84,7 @@ export const FilterMenu = ({
         <button
           type="button"
           className="btn btn-primary"
-          disabled={!isDirty}
+          disabled={!isDirty || appliedAssignments.size === 0}
           onClick={applyFilterHandler}
         >
           Apply Filter

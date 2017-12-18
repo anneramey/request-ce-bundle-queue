@@ -1,5 +1,4 @@
 import React from 'react';
-import { List } from 'immutable';
 import { ModalBody } from 'reactstrap';
 import SVGInline from 'react-svg-inline';
 import chevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg';
@@ -15,20 +14,14 @@ const ListSummary = ({ type, list }) =>
     </span>
   ));
 
-const AssignmentSummary = ({ assignments }) => {
-  const appliedAssignments = List([
-    assignments.mine && 'Mine',
-    assignments.teammates && 'Teammates',
-    assignments.unassigned && 'Unassigned',
-  ]).filter(assignmentType => !!assignmentType);
-  return (
-    appliedAssignments.size > 0 &&
-    (appliedAssignments.size === 1 ? (
-      <span>{appliedAssignments.get(0)}</span>
-    ) : (
-      <span>{appliedAssignments.size} Presets</span>
-    ))
-  );
+const AssignmentSummary = ({ appliedAssignments }) => {
+  if (appliedAssignments.size === 0) {
+    return <span className="text-danger">No assignments selected.</span>;
+  } else if (appliedAssignments.size === 1) {
+    return <span>{appliedAssignments.get(0)}</span>;
+  }
+
+  return <span>{appliedAssignments.size} Presets</span>;
 };
 
 export const MainSection = ({
@@ -37,6 +30,7 @@ export const MainSection = ({
   filterName,
   handleChangeFilterName,
   handleSaveFilter,
+  appliedAssignments,
 }) => (
   <ModalBody className="main-section">
     <ul className="list-group button-list">
@@ -58,7 +52,7 @@ export const MainSection = ({
           onClick={() => showSection('assignment')}
         >
           <span className="button-title">Assignment</span>
-          <AssignmentSummary assignments={filter.assignments} />
+          <AssignmentSummary appliedAssignments={appliedAssignments} />
           <SVGInline svg={chevronRightIcon} className="icon" />
         </button>
       </li>
@@ -107,7 +101,7 @@ export const MainSection = ({
         type="button"
         className="btn btn-primary btn-inverse"
         onClick={handleSaveFilter}
-        disabled={filterName === ''}
+        disabled={filterName === '' || appliedAssignments.size === 0}
       >
         {filter && filter.type === 'custom' && filter.name === filterName
           ? 'Save'

@@ -1,11 +1,24 @@
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
-import { is } from 'immutable';
+import { is, List } from 'immutable';
 import { push } from 'connected-react-router';
 import { FilterMenu } from './FilterMenu';
 import { actions } from '../../redux/modules/filterMenu';
 import { actions as queueActions } from '../../redux/modules/queue';
 import { actions as appActions } from '../../redux/modules/app';
+
+const selectAppliedAssignments = state => {
+  if (state.filterMenu.get('currentFilter')) {
+    const assignments = state.filterMenu.get('currentFilter').assignments;
+
+    return List([
+      assignments.mine && 'Mine',
+      assignments.teammates && 'Teammates',
+      assignments.unassigned && 'Unassigned',
+    ]).filter(assignmentType => !!assignmentType);
+  }
+  return List([]);
+};
 
 export const mapStateToProps = state => ({
   teams: state.app.myTeams,
@@ -17,6 +30,7 @@ export const mapStateToProps = state => ({
     state.filterMenu.get('initialFilter'),
   ),
   filterName: state.filterMenu.get('filterName'),
+  appliedAssignments: selectAppliedAssignments(state),
 });
 
 export const mapDispatchToProps = {
