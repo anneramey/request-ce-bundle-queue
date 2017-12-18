@@ -30,7 +30,7 @@ export const Sidebar = ({
     >
       Create New Task
     </button>
-    <h6>Default Lists</h6>
+    <h6>Default Filters</h6>
     <Nav vertical className="filter-nav">
       <NavItem>
         <NavLink
@@ -68,7 +68,7 @@ export const Sidebar = ({
       )}
     </Nav>
     <h6 className="d-flex justify-content-between icon-wrapper">
-      My Lists
+      My Filters
       <button className="btn btn-sidebar" onClick={handleNewPersonalFilter}>
         <SVGInline svg={plusIcon} className="icon" />
       </button>
