@@ -58,7 +58,7 @@ export const QueueItemDiscussions = props => {
   } = props;
 
   return discussion ? (
-    <div className="discussions">
+    <div className="queue-item-discussions">
       {!isSmallLayout && <Messages {...props} />}
       {!isSmallLayout && <ChatInputForm discussion={discussion} />}
       <Modal

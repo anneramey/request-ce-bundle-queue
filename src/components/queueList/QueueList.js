@@ -6,8 +6,7 @@ import refreshIcon from 'font-awesome-svg-png/white/svg/refresh.svg';
 import filterIcon from '../../images/filter.svg';
 import sortAscIcon from '../../images/sort_asc.svg';
 import sortDescIcon from '../../images/sort_desc.svg';
-import { QueueListItem, QueueListItemSmall } from './QueueListItem';
-import { QueueItemPreview } from './QueueItemPreview';
+import { QueueListItemSmall } from './QueueListItem';
 
 const WallyMessage = ({ filter }) => {
   if (filter.type === 'adhoc') {
@@ -42,91 +41,64 @@ export const QueueList = ({
   filter,
   queueItems,
   openFilterMenu,
-  handleItemClick,
-  previewItem,
-  closePreview,
   sortDirection,
   toggleSortDirection,
   refresh,
-  isSmallLayout,
-  handleGrabbed,
-  handleWorked,
-}) => (
-  <div className="two-panels">
-    {!filter ? (
-      <WallyBadFilter />
-    ) : (
-      <div className="left-panel">
-        <div className="controls">
-          <h6>
-            {filter.name || 'Adhoc'}
-            <br />
-            <small>by Due Date</small>
-          </h6>
-          <div className="buttons">
-            <button
-              type="button"
-              className="btn btn-link icon-wrapper"
-              onClick={refresh}
-            >
-              <SVGInline svg={refreshIcon} className="icon" />
-            </button>
-            <button
-              type="button"
-              className="btn btn-link icon-wrapper"
-              onClick={toggleSortDirection}
-            >
-              <SVGInline
-                className="icon"
-                svg={sortDirection === 'ASC' ? sortAscIcon : sortDescIcon}
-              />
-            </button>
-            <button
-              type="button"
-              className="btn btn-link icon-wrapper"
-              onClick={openFilterMenu}
-            >
-              <SVGInline svg={filterIcon} className="icon" />
-            </button>
-          </div>
-        </div>
-        <div className="submissions">
-          {queueItems && queueItems.size > 0 ? (
-            <ul className="list-group">
-              {queueItems.map(
-                queueItem =>
-                  isSmallLayout ? (
-                    <QueueListItemSmall
-                      queueItem={queueItem}
-                      key={queueItem.id}
-                    />
-                  ) : (
-                    <QueueListItem
-                      key={queueItem.id}
-                      handleItemClick={handleItemClick}
-                      queueItem={queueItem}
-                      handleGrabbed={handleGrabbed}
-                      handleWorked={handleWorked}
-                    />
-                  ),
-              )}
-            </ul>
-          ) : (
-            <WallyMessage filter={filter} />
-          )}
+}) =>
+  !filter ? (
+    <WallyBadFilter />
+  ) : (
+    <div className="queue-list">
+      <div className="controls">
+        <h6>
+          {filter.name || 'Adhoc'}
+          <br />
+          <small>by Due Date</small>
+        </h6>
+        <div className="buttons">
+          <button
+            type="button"
+            className="btn btn-link icon-wrapper"
+            onClick={refresh}
+          >
+            <SVGInline svg={refreshIcon} className="icon" />
+          </button>
+          <button
+            type="button"
+            className="btn btn-link icon-wrapper"
+            onClick={toggleSortDirection}
+          >
+            <SVGInline
+              className="icon"
+              svg={sortDirection === 'ASC' ? sortAscIcon : sortDescIcon}
+            />
+          </button>
+          <button
+            type="button"
+            className="btn btn-link icon-wrapper"
+            onClick={openFilterMenu}
+          >
+            <SVGInline svg={filterIcon} className="icon" />
+          </button>
         </div>
       </div>
-    )}
-    {!isSmallLayout &&
-      previewItem && (
-        <div className="right-panel">
-          <QueueItemPreview
-            queueItem={previewItem}
-            closePreview={closePreview}
-            handleGrabbed={handleGrabbed}
-            handleWorked={handleWorked}
-          />
+      <div className="queue-list-content">
+        <div className="scrollable-content">
+          <div className="submissions">
+            {queueItems && queueItems.size > 0 ? (
+              <ul className="list-group">
+                {queueItems.map(queueItem => (
+                  <QueueListItemSmall
+                    queueItem={queueItem}
+                    key={queueItem.id}
+                  />
+                ))}
+              </ul>
+            ) : (
+              <WallyMessage filter={filter} />
+            )}
+          </div>
         </div>
-      )}
-  </div>
-);
+      </div>
+    </div>
+  );

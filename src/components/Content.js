@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-
 import { NotificationsContainer } from './notifications/NotificationsContainer';
 import { FilterMenuContainer } from './FilterMenu/FilterMenuContainer';
 import { QueueItemContainer } from './QueueItem/QueueItem';
@@ -10,7 +9,7 @@ import { ModalFormContainer } from '../lib/react-kinops-components/src/component
 import { WorkMenuContainer } from './WorkMenu';
 
 export const Content = () => (
-  <div className="content">
+  <div>
     <NotificationsContainer />
     <Route path="/" exact render={() => <Redirect to="/list/Mine" />} />
     <Route path="/list/:filter" component={QueueListContainer} />
@@ -20,7 +19,6 @@ export const Content = () => (
       path="/queue/filter/__show__/details/:id/summary"
       render={({ match }) => <Redirect to={`/item/${match.params.id}`} />}
     />
-
     <FilterMenuContainer />
     <NewItemMenuContainer />
     <ModalFormContainer />
