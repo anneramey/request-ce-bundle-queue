@@ -28,6 +28,20 @@
       color: #222;
     }
 
+    .actions {
+      display: flex;
+
+      .assignment-badge {
+        flex: 1;
+      }
+
+      .wally-button {
+        border-radius: 0;
+        margin: 1.5rem 0;
+        padding: 0 1.5rem;
+      }
+    }
+
     pre {
       color: $blue1;
       @include ms-respond(font-size, -2);
@@ -46,15 +60,6 @@
     .icon {
       width: 2rem;
     }
-  }
-
-  .wally-button {
-    position: fixed;
-    bottom: 1rem;
-    line-height: 1.75rem;
-    margin-left: -45%;
-    width: 90%;
-    left: 50%;
   }
 
   .subtasks-section {

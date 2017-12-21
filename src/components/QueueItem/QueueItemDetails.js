@@ -34,6 +34,7 @@ export const QueueItemDetails = ({
   assignments,
   openNewItemMenu,
   prohibitSubtasks,
+  refreshQueueItem,
 }) => (
   <div className="queue-item-details">
     <div className="scrollable-content">
@@ -70,10 +71,10 @@ export const QueueItemDetails = ({
             />
           )}
           <WallyButtonContainer
-            className="btn btn-primary work-grab-button"
+            className="btn btn-primary wally-button"
             queueItem={queueItem}
-            onWorked={() => console.log('onWorked...')}
-            onGrabbed={() => console.log('onGrabbed')}
+            onWorked={refreshQueueItem}
+            onGrabbed={refreshQueueItem}
           />
         </div>
         {showOriginLink(queueItem) && (
@@ -161,6 +162,7 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = {
   updateQueueItem: actions.updateQueueItem,
   openNewItemMenu: actions.openNewItemMenu,
+  fetchCurrentItem: actions.fetchCurrentItem,
 };
 
 export const QueueItemDetailsContainer = compose(
@@ -203,5 +205,6 @@ export const QueueItemDetailsContainer = compose(
         originId: queueItem.origin ? queueItem.origin.id : queueItem.id,
       });
     },
+    refreshQueueItem: props => () => props.fetchCurrentItem(props.queueItem.id),
   }),
 )(QueueItemDetails);
