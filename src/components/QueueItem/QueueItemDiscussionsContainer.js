@@ -26,6 +26,7 @@ const mapStateToProps = state => {
     queueItem: state.queue.currentItem,
     // discussionGuid: discussionId,
     profile: state.app.profile,
+    discussionId,
     discussion,
     messages: discussion ? discussion.messages : List(),
     hasMoreMessages: discussion && discussion.hasMoreMessages,
@@ -111,27 +112,16 @@ const handleScrolled = ({
   }
 };
 
-const joinOrCreateDiscussion = ({
-  joinDiscussion,
-  addWarn,
-  createDiscussion,
-  setCurrentItem,
-}) => queueItem => {
-  const discussionId = queueItem ? queueItem.values['Discussion Id'] : null;
-
-  if (discussionId) {
-    joinDiscussion(discussionId);
-  } else if (queueItem) {
-    createDiscussion(
-      queueItem.label || 'Queue Discussion',
-      queueItem.values['Details'] || '',
-      queueItem,
-      (issue, submission) => {
-        setCurrentItem(submission);
-        joinDiscussion(issue.guid);
-      },
-    );
-  }
+const createDiscussion = props => () => {
+  props.createDiscussion(
+    props.queueItem.label || 'Queue Discussion',
+    props.queueItem.values['Details'] || '',
+    props.queueItem,
+    (issue, submission) => {
+      props.setCurrentItem(submission);
+      props.joinDiscussion(issue.guid);
+    },
+  );
 };
 
 export const QueueItemDiscussionsContainer = compose(
@@ -155,7 +145,7 @@ export const QueueItemDiscussionsContainer = compose(
     };
   }),
   withHandlers({
-    joinOrCreateDiscussion,
+    createDiscussion,
     handleScrollToBottom,
     handleScrollToMiddle,
     handleScrollToTop,
@@ -169,21 +159,26 @@ export const QueueItemDiscussionsContainer = compose(
   lifecycle({
     componentWillMount() {
       this.props.setFormattedMessages(formatMessages(this.props.messages));
-      this.props.joinOrCreateDiscussion(this.props.queueItem);
+      if (this.props.discussionId) {
+        this.props.joinDiscussion(this.props.discussionId);
+      }
     },
     componentWillUnmount() {
-      this.props.stopConnection(this.props.discussion.issue.guid);
-      this.props.leaveDiscussion(this.props.discussion.issue.guid);
+      if (this.props.discussionId) {
+        this.props.stopConnection(this.props.discussionId);
+        this.props.leaveDiscussion(this.props.discussionId);
+      }
     },
     componentWillReceiveProps(nextProps) {
       // Join a different discussion if the discussion ID has changed.
-      if (
-        this.props.queueItem.values['Discussion Id'] !==
-        nextProps.queueItem.values['Discussion Id']
-      ) {
-        this.props.stopConnection(this.props.discussion.issue.guid);
-        this.props.leaveDiscussion(this.props.discussion.issue.guid);
-        this.props.joinOrCreateDiscussion(nextProps.queueItem);
+      if (this.props.discussionId !== nextProps.discussionId) {
+        if (this.props.discussionId) {
+          this.props.stopConnection(this.props.discussionId);
+          this.props.leaveDiscussion(this.props.discussionId);
+        }
+        if (nextProps.discussionId) {
+          this.props.joinDiscussion(nextProps.discussionId);
+        }
       }
       // Process the messages if the contents have changed.
       if (!this.props.messages.equals(nextProps.messages)) {

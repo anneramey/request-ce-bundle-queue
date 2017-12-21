@@ -1,8 +1,11 @@
 .queue-item-discussions {
+  background-color: $white;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 
   .messages {
+    background-color: #f7f7f7;
     flex: 1;
     position: relative;
     .message-wrapper {
@@ -289,6 +292,21 @@
 
     button.view-all {
       margin-left: auto;
+    }
+  }
+
+  .empty-discussion {
+    background-color: $gray4;
+    border-radius: 0.5rem;
+    margin: 1rem;
+    text-align: center;
+
+    h6 {
+      color: $blue1;
+    }
+
+    button {
+      color: $blue2;
     }
   }
 }

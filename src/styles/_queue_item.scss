@@ -11,7 +11,7 @@
     flex-direction: column;
     padding: 0;
     .back-link {
-      border-bottom: 1px solid $gray4;
+      border-bottom: 2px solid $gray4;
       color: $blue1;
       flex: 1;
       font-size: 14px;
@@ -30,6 +30,7 @@
 
     .queue-item-details {
       flex: 6;
+      border-right: 2px solid $gray4;
     }
 
     .queue-item-discussions {

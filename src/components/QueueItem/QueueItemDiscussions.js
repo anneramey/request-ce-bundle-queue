@@ -52,6 +52,7 @@ export const QueueItemDiscussions = props => {
     currentOpenModals,
     closeCurrent,
     closeAll,
+    createDiscussion,
     createInvitation,
     invitationButtonEnabled,
     isSmallLayout,
@@ -120,5 +121,16 @@ export const QueueItemDiscussions = props => {
         )}
       </Modal>
     </div>
-  ) : null;
+  ) : (
+    <div className="queue-item-discussions">
+      <div className="empty-discussion">
+        <h6>No discussion to display</h6>
+        <p>
+          <button onClick={createDiscussion} className="btn btn-link">
+            Create a new discussion
+          </button>
+        </p>
+      </div>
+    </div>
+  );
 };
