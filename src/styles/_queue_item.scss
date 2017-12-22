@@ -30,10 +30,10 @@
 
     .queue-item-details {
       flex: 6;
-      border-right: 2px solid $gray4;
     }
 
     .queue-item-discussions {
+      border-left: 2px solid $gray4;
       flex: 4;
     }
   }

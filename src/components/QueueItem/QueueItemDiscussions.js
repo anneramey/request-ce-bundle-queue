@@ -59,14 +59,10 @@ export const QueueItemDiscussions = props => {
   } = props;
 
   return discussion ? (
-    <div className="queue-item-discussions">
+    <div className="queue-item-discussions hidden-sm-down">
       {!isSmallLayout && <Messages {...props} />}
       {!isSmallLayout && <ChatInputForm discussion={discussion} />}
-      <Modal
-        isOpen={isSmallLayout || !currentOpenModals.isEmpty()}
-        toggle={closeAll}
-        size="md"
-      >
+      <Modal isOpen={!currentOpenModals.isEmpty()} toggle={closeAll} size="md">
         <div className="modal-header">
           <h4 className="modal-title">
             {currentOpenModals.isEmpty() ? (
@@ -83,7 +79,7 @@ export const QueueItemDiscussions = props => {
               </button>
             )}
             <span>
-              {currentOpenModals.isEmpty()
+              {currentOpenModals.last() === 'discussion'
                 ? 'Discussion'
                 : currentOpenModals.last() === 'participants'
                   ? 'All Participants'
@@ -99,8 +95,8 @@ export const QueueItemDiscussions = props => {
           <ModalBody>
             <InvitationDialogContainer createInvitation={createInvitation} />
           </ModalBody>
-        ) : isSmallLayout ? (
-          <ModalBody>
+        ) : currentOpenModals.last() === 'discussion' ? (
+          <ModalBody className="queue-item-discussions-modal-body">
             <Messages {...props} />
             <ChatInputForm discussion={discussion} />
           </ModalBody>
@@ -122,7 +118,7 @@ export const QueueItemDiscussions = props => {
       </Modal>
     </div>
   ) : (
-    <div className="queue-item-discussions">
+    <div className="queue-item-discussions hidden-sm-down">
       <div className="empty-discussion">
         <h6>No discussion to display</h6>
         <p>

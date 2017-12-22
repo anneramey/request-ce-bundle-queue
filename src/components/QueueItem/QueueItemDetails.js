@@ -7,6 +7,7 @@ import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
 import commentsIcon from 'font-awesome-svg-png/black/svg/comments.svg';
 import { selectAssignments } from '../../redux/modules/app';
 import { actions } from '../../redux/modules/queue';
+import { actions as discussionActions } from '../../redux/modules/discussions';
 import { originLink } from '../../utils/links';
 import { AssignmentSelector } from './AssignmentSelector';
 import { AssignmentBadge } from './AssignmentBadge';
@@ -35,17 +36,25 @@ export const QueueItemDetails = ({
   openNewItemMenu,
   prohibitSubtasks,
   refreshQueueItem,
+  openDiscussion,
+  createDiscussion,
 }) => (
   <div className="queue-item-details">
     <div className="scrollable-content">
       <div className="general">
-        <Link
-          to={`/item/${queueItem.id}/discussions`}
+        <button
+          onClick={
+            queueItem.values['Discussion Id'] === null
+              ? createDiscussion
+              : openDiscussion
+          }
           className="btn btn-primary btn-inverse discussion-button icon-wrapper hidden-md-up"
         >
           <SVGInline svg={commentsIcon} className="icon" />
-          View Discussion
-        </Link>
+          {queueItem.values['Discussion Id'] === null
+            ? 'Create Discussion'
+            : 'View Discussion'}
+        </button>
         <StatusParagraph queueItem={queueItem} />
         <h1>
           {queueItem.form.name} ({queueItem.handle})
@@ -94,7 +103,6 @@ export const QueueItemDetails = ({
             View Parent
           </Link>
         )}
-
         <ul className="list-group timestamps">
           <li className="list-group-item timestamp">
             <span className="label">Due</span>
@@ -163,6 +171,9 @@ export const mapDispatchToProps = {
   updateQueueItem: actions.updateQueueItem,
   openNewItemMenu: actions.openNewItemMenu,
   fetchCurrentItem: actions.fetchCurrentItem,
+  setCurrentItem: actions.setCurrentItem,
+  openModal: discussionActions.openModal,
+  createDiscussion: discussionActions.createIssue,
 };
 
 export const QueueItemDetailsContainer = compose(
@@ -206,5 +217,17 @@ export const QueueItemDetailsContainer = compose(
       });
     },
     refreshQueueItem: props => () => props.fetchCurrentItem(props.queueItem.id),
+    openDiscussion: props => () =>
+      props.openModal(props.queueItem.values['Discussion Id'], 'discussion'),
+    createDiscussion: props => () =>
+      props.createDiscussion(
+        props.queueItem.label || 'Queue Discussion',
+        props.queueItem.values['Details'] || '',
+        props.queueItem,
+        (issue, submission) => {
+          props.setCurrentItem(submission);
+          props.openModal(issue.guid, 'discussion');
+        },
+      ),
   }),
 )(QueueItemDetails);
