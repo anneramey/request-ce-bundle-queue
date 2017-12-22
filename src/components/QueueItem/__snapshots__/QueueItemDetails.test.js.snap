@@ -39,28 +39,29 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "host",
     "props": Object {
-      "children": Array [
-        <div
-          className="general"
+      "children": <div
+        className="scrollable-content"
 >
-          <Link
-                    className="btn btn-primary btn-inverse discussion-button icon-wrapper hidden-md-up"
-                    replace={false}
-                    to="/item/id/discussions"
-          >
-                    <SVGInline
-                              className="icon"
-                              classSuffix="-svg"
-                              cleanup={Array []}
-                              cleanupExceptions={Array []}
-                              component="span"
-                              svg="comments.svg"
-                    />
-                    View Discussion
-          </Link>
-          <Unknown
-                    queueItem={
-                              Object {
+        <div
+                className="general"
+        >
+                <button
+                        className="btn btn-primary btn-inverse discussion-button icon-wrapper hidden-md-up"
+                        onClick={undefined}
+                >
+                        <SVGInline
+                                className="icon"
+                                classSuffix="-svg"
+                                cleanup={Array []}
+                                cleanupExceptions={Array []}
+                                component="span"
+                                svg="comments.svg"
+                        />
+                        View Discussion
+                </button>
+                <Unknown
+                        queueItem={
+                                Object {
                                         "children": Array [],
                                         "coreState": "Draft",
                                         "form": Object {
@@ -72,845 +73,159 @@ ShallowWrapper {
                                           "Summary": "this is the summary",
                                         },
                                       }
-                    }
-          />
-          <h1>
-                    test form
-                     (
-                    handle
-                    )
-          </h1>
-          <p
-                    className="summary"
-          >
-                    this is the summary
-          </p>
-          <pre />
-          <Unknown
-                    queueItem={
-                              Object {
-                                        "children": Array [],
-                                        "coreState": "Draft",
-                                        "form": Object {
-                                          "name": "test form",
-                                        },
-                                        "handle": "handle",
-                                        "id": "id",
-                                        "values": Object {
-                                          "Summary": "this is the summary",
-                                        },
-                                      }
-                    }
-                    readOnly={false}
-                    toggle={[Function]}
-          />
-          <ul
-                    className="list-group timestamps"
-          >
-                    <li
-                              className="list-group-item timestamp"
-                    >
-                              <span
+                        }
+                />
+                <h1>
+                        test form
+                         (
+                        handle
+                        )
+                </h1>
+                <p
+                        className="summary"
+                >
+                        this is the summary
+                </p>
+                <pre />
+                <div
+                        className="actions"
+                >
+                        <Unknown
+                                queueItem={
+                                        Object {
+                                                "children": Array [],
+                                                "coreState": "Draft",
+                                                "form": Object {
+                                                  "name": "test form",
+                                                },
+                                                "handle": "handle",
+                                                "id": "id",
+                                                "values": Object {
+                                                  "Summary": "this is the summary",
+                                                },
+                                              }
+                                }
+                                readOnly={false}
+                                toggle={[Function]}
+                        />
+                        <Connect(withProps(withHandlers(Component)))
+                                className="btn btn-primary wally-button"
+                                onGrabbed={undefined}
+                                onWorked={undefined}
+                                queueItem={
+                                        Object {
+                                                "children": Array [],
+                                                "coreState": "Draft",
+                                                "form": Object {
+                                                  "name": "test form",
+                                                },
+                                                "handle": "handle",
+                                                "id": "id",
+                                                "values": Object {
+                                                  "Summary": "this is the summary",
+                                                },
+                                              }
+                                }
+                        />
+                </div>
+                <ul
+                        className="list-group timestamps"
+                >
+                        <li
+                                className="list-group-item timestamp"
+                        >
+                                <span
                                         className="label"
-                              >
+                                >
                                         Due
-                              </span>
-                              <span
+                                </span>
+                                <span
                                         className="value"
-                              >
+                                >
                                         <TimeAgo
-                                                  id="due-date"
-                                                  timestamp={undefined}
+                                                id="due-date"
+                                                timestamp={undefined}
                                         />
-                              </span>
-                    </li>
-                    <li
-                              className="list-group-item timestamp"
-                    >
-                              <span
+                                </span>
+                        </li>
+                        <li
+                                className="list-group-item timestamp"
+                        >
+                                <span
                                         className="label"
-                              >
+                                >
                                         Updated
-                              </span>
-                              <span
+                                </span>
+                                <span
                                         className="value"
-                              >
+                                >
                                         <TimeAgo
-                                                  id="updated-at"
-                                                  timestamp={undefined}
+                                                id="updated-at"
+                                                timestamp={undefined}
                                         />
-                              </span>
-                    </li>
-                    <li
-                              className="list-group-item timestamp"
-                    >
-                              <span
+                                </span>
+                        </li>
+                        <li
+                                className="list-group-item timestamp"
+                        >
+                                <span
                                         className="label"
-                              >
+                                >
                                         Created
-                              </span>
-                              <span
+                                </span>
+                                <span
                                         className="value"
-                              >
+                                >
                                         <TimeAgo
-                                                  id="created-at"
-                                                  timestamp={undefined}
+                                                id="created-at"
+                                                timestamp={undefined}
                                         />
-                              </span>
-                    </li>
-          </ul>
-</div>,
+                                </span>
+                        </li>
+                </ul>
+        </div>
         <div
-          className="subtasks-section"
->
-          <h2>
-                    <span>
-                              Subtasks
-                    </span>
-                    <button
-                              className="btn btn-link"
-                              onClick={[Function]}
-                    >
-                              <SVGInline
+                className="subtasks-section"
+        >
+                <h2>
+                        <span>
+                                Subtasks
+                        </span>
+                        <button
+                                className="btn btn-link"
+                                onClick={[Function]}
+                        >
+                                <SVGInline
                                         className="icon"
                                         classSuffix="-svg"
                                         cleanup={Array []}
                                         cleanupExceptions={Array []}
                                         component="span"
                                         svg="plus.svg"
-                              />
-                    </button>
-          </h2>
-          <ul
-                    className="list-group submissions"
-          >
-                    
-          </ul>
-          <div
-                    className="empty-subtasks"
-          >
-                    <h5>
-                              No Subtasks to display
-                    </h5>
-                    <h6>
-                              Subtasks are an easy way to create smaller and/or related tasks to parent task.
-                    </h6>
-          </div>
+                                />
+                        </button>
+                </h2>
+                <ul
+                        className="list-group submissions"
+                >
+                        
+                </ul>
+                <div
+                        className="empty-subtasks"
+                >
+                        <h5>
+                                No Subtasks to display
+                        </h5>
+                        <h6>
+                                Subtasks are an easy way to create smaller and/or related tasks to parent task.
+                        </h6>
+                </div>
+        </div>
 </div>,
-      ],
-      "className": "details",
+      "className": "queue-item-details",
     },
     "ref": null,
-    "rendered": Array [
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": Array [
-            <Link
-              className="btn btn-primary btn-inverse discussion-button icon-wrapper hidden-md-up"
-              replace={false}
-              to="/item/id/discussions"
->
-              <SVGInline
-                            className="icon"
-                            classSuffix="-svg"
-                            cleanup={Array []}
-                            cleanupExceptions={Array []}
-                            component="span"
-                            svg="comments.svg"
-              />
-              View Discussion
-</Link>,
-            <Unknown
-              queueItem={
-                            Object {
-                                          "children": Array [],
-                                          "coreState": "Draft",
-                                          "form": Object {
-                                            "name": "test form",
-                                          },
-                                          "handle": "handle",
-                                          "id": "id",
-                                          "values": Object {
-                                            "Summary": "this is the summary",
-                                          },
-                                        }
-              }
-/>,
-            <h1>
-              test form
-               (
-              handle
-              )
-</h1>,
-            <p
-              className="summary"
->
-              this is the summary
-</p>,
-            <pre />,
-            <Unknown
-              queueItem={
-                            Object {
-                                          "children": Array [],
-                                          "coreState": "Draft",
-                                          "form": Object {
-                                            "name": "test form",
-                                          },
-                                          "handle": "handle",
-                                          "id": "id",
-                                          "values": Object {
-                                            "Summary": "this is the summary",
-                                          },
-                                        }
-              }
-              readOnly={false}
-              toggle={[Function]}
-/>,
-            false,
-            undefined,
-            undefined,
-            <ul
-              className="list-group timestamps"
->
-              <li
-                            className="list-group-item timestamp"
-              >
-                            <span
-                                          className="label"
-                            >
-                                          Due
-                            </span>
-                            <span
-                                          className="value"
-                            >
-                                          <TimeAgo
-                                                        id="due-date"
-                                                        timestamp={undefined}
-                                          />
-                            </span>
-              </li>
-              <li
-                            className="list-group-item timestamp"
-              >
-                            <span
-                                          className="label"
-                            >
-                                          Updated
-                            </span>
-                            <span
-                                          className="value"
-                            >
-                                          <TimeAgo
-                                                        id="updated-at"
-                                                        timestamp={undefined}
-                                          />
-                            </span>
-              </li>
-              <li
-                            className="list-group-item timestamp"
-              >
-                            <span
-                                          className="label"
-                            >
-                                          Created
-                            </span>
-                            <span
-                                          className="value"
-                            >
-                                          <TimeAgo
-                                                        id="created-at"
-                                                        timestamp={undefined}
-                                          />
-                            </span>
-              </li>
-</ul>,
-          ],
-          "className": "general",
-        },
-        "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "class",
-            "props": Object {
-              "children": Array [
-                <SVGInline
-                  className="icon"
-                  classSuffix="-svg"
-                  cleanup={Array []}
-                  cleanupExceptions={Array []}
-                  component="span"
-                  svg="comments.svg"
-/>,
-                "View Discussion",
-              ],
-              "className": "btn btn-primary btn-inverse discussion-button icon-wrapper hidden-md-up",
-              "replace": false,
-              "to": "/item/id/discussions",
-            },
-            "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "class",
-                "props": Object {
-                  "className": "icon",
-                  "classSuffix": "-svg",
-                  "cleanup": Array [],
-                  "cleanupExceptions": Array [],
-                  "component": "span",
-                  "svg": "comments.svg",
-                },
-                "ref": null,
-                "rendered": null,
-                "type": [Function],
-              },
-              "View Discussion",
-            ],
-            "type": [Function],
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "function",
-            "props": Object {
-              "queueItem": Object {
-                "children": Array [],
-                "coreState": "Draft",
-                "form": Object {
-                  "name": "test form",
-                },
-                "handle": "handle",
-                "id": "id",
-                "values": Object {
-                  "Summary": "this is the summary",
-                },
-              },
-            },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                "test form",
-                " (",
-                "handle",
-                ")",
-              ],
-            },
-            "ref": null,
-            "rendered": Array [
-              "test form",
-              " (",
-              "handle",
-              ")",
-            ],
-            "type": "h1",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": "this is the summary",
-              "className": "summary",
-            },
-            "ref": null,
-            "rendered": "this is the summary",
-            "type": "p",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": undefined,
-            },
-            "ref": null,
-            "rendered": null,
-            "type": "pre",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "function",
-            "props": Object {
-              "queueItem": Object {
-                "children": Array [],
-                "coreState": "Draft",
-                "form": Object {
-                  "name": "test form",
-                },
-                "handle": "handle",
-                "id": "id",
-                "values": Object {
-                  "Summary": "this is the summary",
-                },
-              },
-              "readOnly": false,
-              "toggle": [Function],
-            },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
-          },
-          false,
-          undefined,
-          undefined,
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                <li
-                  className="list-group-item timestamp"
->
-                  <span
-                                    className="label"
-                  >
-                                    Due
-                  </span>
-                  <span
-                                    className="value"
-                  >
-                                    <TimeAgo
-                                                      id="due-date"
-                                                      timestamp={undefined}
-                                    />
-                  </span>
-</li>,
-                <li
-                  className="list-group-item timestamp"
->
-                  <span
-                                    className="label"
-                  >
-                                    Updated
-                  </span>
-                  <span
-                                    className="value"
-                  >
-                                    <TimeAgo
-                                                      id="updated-at"
-                                                      timestamp={undefined}
-                                    />
-                  </span>
-</li>,
-                <li
-                  className="list-group-item timestamp"
->
-                  <span
-                                    className="label"
-                  >
-                                    Created
-                  </span>
-                  <span
-                                    className="value"
-                  >
-                                    <TimeAgo
-                                                      id="created-at"
-                                                      timestamp={undefined}
-                                    />
-                  </span>
-</li>,
-              ],
-              "className": "list-group timestamps",
-            },
-            "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": Array [
-                    <span
-                      className="label"
->
-                      Due
-</span>,
-                    <span
-                      className="value"
->
-                      <TimeAgo
-                                            id="due-date"
-                                            timestamp={undefined}
-                      />
-</span>,
-                  ],
-                  "className": "list-group-item timestamp",
-                },
-                "ref": null,
-                "rendered": Array [
-                  Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "host",
-                    "props": Object {
-                      "children": "Due",
-                      "className": "label",
-                    },
-                    "ref": null,
-                    "rendered": "Due",
-                    "type": "span",
-                  },
-                  Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "host",
-                    "props": Object {
-                      "children": <TimeAgo
-                        id="due-date"
-                        timestamp={undefined}
-/>,
-                      "className": "value",
-                    },
-                    "ref": null,
-                    "rendered": Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "class",
-                      "props": Object {
-                        "id": "due-date",
-                        "timestamp": undefined,
-                      },
-                      "ref": null,
-                      "rendered": null,
-                      "type": [Function],
-                    },
-                    "type": "span",
-                  },
-                ],
-                "type": "li",
-              },
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": Array [
-                    <span
-                      className="label"
->
-                      Updated
-</span>,
-                    <span
-                      className="value"
->
-                      <TimeAgo
-                                            id="updated-at"
-                                            timestamp={undefined}
-                      />
-</span>,
-                  ],
-                  "className": "list-group-item timestamp",
-                },
-                "ref": null,
-                "rendered": Array [
-                  Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "host",
-                    "props": Object {
-                      "children": "Updated",
-                      "className": "label",
-                    },
-                    "ref": null,
-                    "rendered": "Updated",
-                    "type": "span",
-                  },
-                  Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "host",
-                    "props": Object {
-                      "children": <TimeAgo
-                        id="updated-at"
-                        timestamp={undefined}
-/>,
-                      "className": "value",
-                    },
-                    "ref": null,
-                    "rendered": Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "class",
-                      "props": Object {
-                        "id": "updated-at",
-                        "timestamp": undefined,
-                      },
-                      "ref": null,
-                      "rendered": null,
-                      "type": [Function],
-                    },
-                    "type": "span",
-                  },
-                ],
-                "type": "li",
-              },
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": Array [
-                    <span
-                      className="label"
->
-                      Created
-</span>,
-                    <span
-                      className="value"
->
-                      <TimeAgo
-                                            id="created-at"
-                                            timestamp={undefined}
-                      />
-</span>,
-                  ],
-                  "className": "list-group-item timestamp",
-                },
-                "ref": null,
-                "rendered": Array [
-                  Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "host",
-                    "props": Object {
-                      "children": "Created",
-                      "className": "label",
-                    },
-                    "ref": null,
-                    "rendered": "Created",
-                    "type": "span",
-                  },
-                  Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "host",
-                    "props": Object {
-                      "children": <TimeAgo
-                        id="created-at"
-                        timestamp={undefined}
-/>,
-                      "className": "value",
-                    },
-                    "ref": null,
-                    "rendered": Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "class",
-                      "props": Object {
-                        "id": "created-at",
-                        "timestamp": undefined,
-                      },
-                      "ref": null,
-                      "rendered": null,
-                      "type": [Function],
-                    },
-                    "type": "span",
-                  },
-                ],
-                "type": "li",
-              },
-            ],
-            "type": "ul",
-          },
-        ],
-        "type": "div",
-      },
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": Array [
-            <h2>
-              <span>
-                            Subtasks
-              </span>
-              <button
-                            className="btn btn-link"
-                            onClick={[Function]}
-              >
-                            <SVGInline
-                                          className="icon"
-                                          classSuffix="-svg"
-                                          cleanup={Array []}
-                                          cleanupExceptions={Array []}
-                                          component="span"
-                                          svg="plus.svg"
-                            />
-              </button>
-</h2>,
-            <ul
-              className="list-group submissions"
->
-              
-</ul>,
-            <div
-              className="empty-subtasks"
->
-              <h5>
-                            No Subtasks to display
-              </h5>
-              <h6>
-                            Subtasks are an easy way to create smaller and/or related tasks to parent task.
-              </h6>
-</div>,
-          ],
-          "className": "subtasks-section",
-        },
-        "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                <span>
-                  Subtasks
-</span>,
-                <button
-                  className="btn btn-link"
-                  onClick={[Function]}
->
-                  <SVGInline
-                                    className="icon"
-                                    classSuffix="-svg"
-                                    cleanup={Array []}
-                                    cleanupExceptions={Array []}
-                                    component="span"
-                                    svg="plus.svg"
-                  />
-</button>,
-              ],
-            },
-            "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": "Subtasks",
-                },
-                "ref": null,
-                "rendered": "Subtasks",
-                "type": "span",
-              },
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": <SVGInline
-                    className="icon"
-                    classSuffix="-svg"
-                    cleanup={Array []}
-                    cleanupExceptions={Array []}
-                    component="span"
-                    svg="plus.svg"
-/>,
-                  "className": "btn btn-link",
-                  "onClick": [Function],
-                },
-                "ref": null,
-                "rendered": Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "class",
-                  "props": Object {
-                    "className": "icon",
-                    "classSuffix": "-svg",
-                    "cleanup": Array [],
-                    "cleanupExceptions": Array [],
-                    "component": "span",
-                    "svg": "plus.svg",
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": [Function],
-                },
-                "type": "button",
-              },
-            ],
-            "type": "h2",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [],
-              "className": "list-group submissions",
-            },
-            "ref": null,
-            "rendered": Array [],
-            "type": "ul",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                <h5>
-                  No Subtasks to display
-</h5>,
-                <h6>
-                  Subtasks are an easy way to create smaller and/or related tasks to parent task.
-</h6>,
-              ],
-              "className": "empty-subtasks",
-            },
-            "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": "No Subtasks to display",
-                },
-                "ref": null,
-                "rendered": "No Subtasks to display",
-                "type": "h5",
-              },
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": "Subtasks are an easy way to create smaller and/or related tasks to parent task.",
-                },
-                "ref": null,
-                "rendered": "Subtasks are an easy way to create smaller and/or related tasks to parent task.",
-                "type": "h6",
-              },
-            ],
-            "type": "div",
-          },
-        ],
-        "type": "div",
-      },
-    ],
-    "type": "div",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
+    "rendered": Object {
       "instance": null,
       "key": undefined,
       "nodeType": "host",
@@ -919,10 +234,9 @@ ShallowWrapper {
           <div
             className="general"
 >
-            <Link
+            <button
                         className="btn btn-primary btn-inverse discussion-button icon-wrapper hidden-md-up"
-                        replace={false}
-                        to="/item/id/discussions"
+                        onClick={undefined}
             >
                         <SVGInline
                                     className="icon"
@@ -933,7 +247,7 @@ ShallowWrapper {
                                     svg="comments.svg"
                         />
                         View Discussion
-            </Link>
+            </button>
             <Unknown
                         queueItem={
                                     Object {
@@ -962,24 +276,47 @@ ShallowWrapper {
                         this is the summary
             </p>
             <pre />
-            <Unknown
-                        queueItem={
-                                    Object {
-                                                "children": Array [],
-                                                "coreState": "Draft",
-                                                "form": Object {
-                                                  "name": "test form",
-                                                },
-                                                "handle": "handle",
-                                                "id": "id",
-                                                "values": Object {
-                                                  "Summary": "this is the summary",
-                                                },
-                                              }
-                        }
-                        readOnly={false}
-                        toggle={[Function]}
-            />
+            <div
+                        className="actions"
+            >
+                        <Unknown
+                                    queueItem={
+                                                Object {
+                                                            "children": Array [],
+                                                            "coreState": "Draft",
+                                                            "form": Object {
+                                                              "name": "test form",
+                                                            },
+                                                            "handle": "handle",
+                                                            "id": "id",
+                                                            "values": Object {
+                                                              "Summary": "this is the summary",
+                                                            },
+                                                          }
+                                    }
+                                    readOnly={false}
+                                    toggle={[Function]}
+                        />
+                        <Connect(withProps(withHandlers(Component)))
+                                    className="btn btn-primary wally-button"
+                                    onGrabbed={undefined}
+                                    onWorked={undefined}
+                                    queueItem={
+                                                Object {
+                                                            "children": Array [],
+                                                            "coreState": "Draft",
+                                                            "form": Object {
+                                                              "name": "test form",
+                                                            },
+                                                            "handle": "handle",
+                                                            "id": "id",
+                                                            "values": Object {
+                                                              "Summary": "this is the summary",
+                                                            },
+                                                          }
+                                    }
+                        />
+            </div>
             <ul
                         className="list-group timestamps"
             >
@@ -1074,7 +411,7 @@ ShallowWrapper {
             </div>
 </div>,
         ],
-        "className": "details",
+        "className": "scrollable-content",
       },
       "ref": null,
       "rendered": Array [
@@ -1084,10 +421,9 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": Array [
-              <Link
+              <button
                 className="btn btn-primary btn-inverse discussion-button icon-wrapper hidden-md-up"
-                replace={false}
-                to="/item/id/discussions"
+                onClick={undefined}
 >
                 <SVGInline
                                 className="icon"
@@ -1098,7 +434,7 @@ ShallowWrapper {
                                 svg="comments.svg"
                 />
                 View Discussion
-</Link>,
+</button>,
               <Unknown
                 queueItem={
                                 Object {
@@ -1127,25 +463,47 @@ ShallowWrapper {
                 this is the summary
 </p>,
               <pre />,
-              <Unknown
-                queueItem={
-                                Object {
-                                                "children": Array [],
-                                                "coreState": "Draft",
-                                                "form": Object {
-                                                  "name": "test form",
-                                                },
-                                                "handle": "handle",
-                                                "id": "id",
-                                                "values": Object {
-                                                  "Summary": "this is the summary",
-                                                },
-                                              }
-                }
-                readOnly={false}
-                toggle={[Function]}
-/>,
-              false,
+              <div
+                className="actions"
+>
+                <Unknown
+                                queueItem={
+                                                Object {
+                                                                "children": Array [],
+                                                                "coreState": "Draft",
+                                                                "form": Object {
+                                                                  "name": "test form",
+                                                                },
+                                                                "handle": "handle",
+                                                                "id": "id",
+                                                                "values": Object {
+                                                                  "Summary": "this is the summary",
+                                                                },
+                                                              }
+                                }
+                                readOnly={false}
+                                toggle={[Function]}
+                />
+                <Connect(withProps(withHandlers(Component)))
+                                className="btn btn-primary wally-button"
+                                onGrabbed={undefined}
+                                onWorked={undefined}
+                                queueItem={
+                                                Object {
+                                                                "children": Array [],
+                                                                "coreState": "Draft",
+                                                                "form": Object {
+                                                                  "name": "test form",
+                                                                },
+                                                                "handle": "handle",
+                                                                "id": "id",
+                                                                "values": Object {
+                                                                  "Summary": "this is the summary",
+                                                                },
+                                                              }
+                                }
+                />
+</div>,
               undefined,
               undefined,
               <ul
@@ -1211,7 +569,7 @@ ShallowWrapper {
             Object {
               "instance": null,
               "key": undefined,
-              "nodeType": "class",
+              "nodeType": "host",
               "props": Object {
                 "children": Array [
                   <SVGInline
@@ -1225,8 +583,7 @@ ShallowWrapper {
                   "View Discussion",
                 ],
                 "className": "btn btn-primary btn-inverse discussion-button icon-wrapper hidden-md-up",
-                "replace": false,
-                "to": "/item/id/discussions",
+                "onClick": undefined,
               },
               "ref": null,
               "rendered": Array [
@@ -1248,7 +605,7 @@ ShallowWrapper {
                 },
                 "View Discussion",
               ],
-              "type": [Function],
+              "type": "button",
             },
             Object {
               "instance": null,
@@ -1319,28 +676,105 @@ ShallowWrapper {
             Object {
               "instance": null,
               "key": undefined,
-              "nodeType": "function",
+              "nodeType": "host",
               "props": Object {
-                "queueItem": Object {
-                  "children": Array [],
-                  "coreState": "Draft",
-                  "form": Object {
-                    "name": "test form",
-                  },
-                  "handle": "handle",
-                  "id": "id",
-                  "values": Object {
-                    "Summary": "this is the summary",
-                  },
-                },
-                "readOnly": false,
-                "toggle": [Function],
+                "children": Array [
+                  <Unknown
+                    queueItem={
+                                        Object {
+                                                            "children": Array [],
+                                                            "coreState": "Draft",
+                                                            "form": Object {
+                                                              "name": "test form",
+                                                            },
+                                                            "handle": "handle",
+                                                            "id": "id",
+                                                            "values": Object {
+                                                              "Summary": "this is the summary",
+                                                            },
+                                                          }
+                    }
+                    readOnly={false}
+                    toggle={[Function]}
+/>,
+                  false,
+                  <Connect(withProps(withHandlers(Component)))
+                    className="btn btn-primary wally-button"
+                    onGrabbed={undefined}
+                    onWorked={undefined}
+                    queueItem={
+                                        Object {
+                                                            "children": Array [],
+                                                            "coreState": "Draft",
+                                                            "form": Object {
+                                                              "name": "test form",
+                                                            },
+                                                            "handle": "handle",
+                                                            "id": "id",
+                                                            "values": Object {
+                                                              "Summary": "this is the summary",
+                                                            },
+                                                          }
+                    }
+/>,
+                ],
+                "className": "actions",
               },
               "ref": null,
-              "rendered": null,
-              "type": [Function],
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "queueItem": Object {
+                      "children": Array [],
+                      "coreState": "Draft",
+                      "form": Object {
+                        "name": "test form",
+                      },
+                      "handle": "handle",
+                      "id": "id",
+                      "values": Object {
+                        "Summary": "this is the summary",
+                      },
+                    },
+                    "readOnly": false,
+                    "toggle": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                false,
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "className": "btn btn-primary wally-button",
+                    "onGrabbed": undefined,
+                    "onWorked": undefined,
+                    "queueItem": Object {
+                      "children": Array [],
+                      "coreState": "Draft",
+                      "form": Object {
+                        "name": "test form",
+                      },
+                      "handle": "handle",
+                      "id": "id",
+                      "values": Object {
+                        "Summary": "this is the summary",
+                      },
+                    },
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": "div",
             },
-            false,
             undefined,
             undefined,
             Object {
@@ -1783,6 +1217,1196 @@ ShallowWrapper {
           "type": "div",
         },
       ],
+      "type": "div",
+    },
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <div
+          className="scrollable-content"
+>
+          <div
+                    className="general"
+          >
+                    <button
+                              className="btn btn-primary btn-inverse discussion-button icon-wrapper hidden-md-up"
+                              onClick={undefined}
+                    >
+                              <SVGInline
+                                        className="icon"
+                                        classSuffix="-svg"
+                                        cleanup={Array []}
+                                        cleanupExceptions={Array []}
+                                        component="span"
+                                        svg="comments.svg"
+                              />
+                              View Discussion
+                    </button>
+                    <Unknown
+                              queueItem={
+                                        Object {
+                                                  "children": Array [],
+                                                  "coreState": "Draft",
+                                                  "form": Object {
+                                                    "name": "test form",
+                                                  },
+                                                  "handle": "handle",
+                                                  "id": "id",
+                                                  "values": Object {
+                                                    "Summary": "this is the summary",
+                                                  },
+                                                }
+                              }
+                    />
+                    <h1>
+                              test form
+                               (
+                              handle
+                              )
+                    </h1>
+                    <p
+                              className="summary"
+                    >
+                              this is the summary
+                    </p>
+                    <pre />
+                    <div
+                              className="actions"
+                    >
+                              <Unknown
+                                        queueItem={
+                                                  Object {
+                                                            "children": Array [],
+                                                            "coreState": "Draft",
+                                                            "form": Object {
+                                                              "name": "test form",
+                                                            },
+                                                            "handle": "handle",
+                                                            "id": "id",
+                                                            "values": Object {
+                                                              "Summary": "this is the summary",
+                                                            },
+                                                          }
+                                        }
+                                        readOnly={false}
+                                        toggle={[Function]}
+                              />
+                              <Connect(withProps(withHandlers(Component)))
+                                        className="btn btn-primary wally-button"
+                                        onGrabbed={undefined}
+                                        onWorked={undefined}
+                                        queueItem={
+                                                  Object {
+                                                            "children": Array [],
+                                                            "coreState": "Draft",
+                                                            "form": Object {
+                                                              "name": "test form",
+                                                            },
+                                                            "handle": "handle",
+                                                            "id": "id",
+                                                            "values": Object {
+                                                              "Summary": "this is the summary",
+                                                            },
+                                                          }
+                                        }
+                              />
+                    </div>
+                    <ul
+                              className="list-group timestamps"
+                    >
+                              <li
+                                        className="list-group-item timestamp"
+                              >
+                                        <span
+                                                  className="label"
+                                        >
+                                                  Due
+                                        </span>
+                                        <span
+                                                  className="value"
+                                        >
+                                                  <TimeAgo
+                                                            id="due-date"
+                                                            timestamp={undefined}
+                                                  />
+                                        </span>
+                              </li>
+                              <li
+                                        className="list-group-item timestamp"
+                              >
+                                        <span
+                                                  className="label"
+                                        >
+                                                  Updated
+                                        </span>
+                                        <span
+                                                  className="value"
+                                        >
+                                                  <TimeAgo
+                                                            id="updated-at"
+                                                            timestamp={undefined}
+                                                  />
+                                        </span>
+                              </li>
+                              <li
+                                        className="list-group-item timestamp"
+                              >
+                                        <span
+                                                  className="label"
+                                        >
+                                                  Created
+                                        </span>
+                                        <span
+                                                  className="value"
+                                        >
+                                                  <TimeAgo
+                                                            id="created-at"
+                                                            timestamp={undefined}
+                                                  />
+                                        </span>
+                              </li>
+                    </ul>
+          </div>
+          <div
+                    className="subtasks-section"
+          >
+                    <h2>
+                              <span>
+                                        Subtasks
+                              </span>
+                              <button
+                                        className="btn btn-link"
+                                        onClick={[Function]}
+                              >
+                                        <SVGInline
+                                                  className="icon"
+                                                  classSuffix="-svg"
+                                                  cleanup={Array []}
+                                                  cleanupExceptions={Array []}
+                                                  component="span"
+                                                  svg="plus.svg"
+                                        />
+                              </button>
+                    </h2>
+                    <ul
+                              className="list-group submissions"
+                    >
+                              
+                    </ul>
+                    <div
+                              className="empty-subtasks"
+                    >
+                              <h5>
+                                        No Subtasks to display
+                              </h5>
+                              <h6>
+                                        Subtasks are an easy way to create smaller and/or related tasks to parent task.
+                              </h6>
+                    </div>
+          </div>
+</div>,
+        "className": "queue-item-details",
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <div
+              className="general"
+>
+              <button
+                            className="btn btn-primary btn-inverse discussion-button icon-wrapper hidden-md-up"
+                            onClick={undefined}
+              >
+                            <SVGInline
+                                          className="icon"
+                                          classSuffix="-svg"
+                                          cleanup={Array []}
+                                          cleanupExceptions={Array []}
+                                          component="span"
+                                          svg="comments.svg"
+                            />
+                            View Discussion
+              </button>
+              <Unknown
+                            queueItem={
+                                          Object {
+                                                        "children": Array [],
+                                                        "coreState": "Draft",
+                                                        "form": Object {
+                                                          "name": "test form",
+                                                        },
+                                                        "handle": "handle",
+                                                        "id": "id",
+                                                        "values": Object {
+                                                          "Summary": "this is the summary",
+                                                        },
+                                                      }
+                            }
+              />
+              <h1>
+                            test form
+                             (
+                            handle
+                            )
+              </h1>
+              <p
+                            className="summary"
+              >
+                            this is the summary
+              </p>
+              <pre />
+              <div
+                            className="actions"
+              >
+                            <Unknown
+                                          queueItem={
+                                                        Object {
+                                                                      "children": Array [],
+                                                                      "coreState": "Draft",
+                                                                      "form": Object {
+                                                                        "name": "test form",
+                                                                      },
+                                                                      "handle": "handle",
+                                                                      "id": "id",
+                                                                      "values": Object {
+                                                                        "Summary": "this is the summary",
+                                                                      },
+                                                                    }
+                                          }
+                                          readOnly={false}
+                                          toggle={[Function]}
+                            />
+                            <Connect(withProps(withHandlers(Component)))
+                                          className="btn btn-primary wally-button"
+                                          onGrabbed={undefined}
+                                          onWorked={undefined}
+                                          queueItem={
+                                                        Object {
+                                                                      "children": Array [],
+                                                                      "coreState": "Draft",
+                                                                      "form": Object {
+                                                                        "name": "test form",
+                                                                      },
+                                                                      "handle": "handle",
+                                                                      "id": "id",
+                                                                      "values": Object {
+                                                                        "Summary": "this is the summary",
+                                                                      },
+                                                                    }
+                                          }
+                            />
+              </div>
+              <ul
+                            className="list-group timestamps"
+              >
+                            <li
+                                          className="list-group-item timestamp"
+                            >
+                                          <span
+                                                        className="label"
+                                          >
+                                                        Due
+                                          </span>
+                                          <span
+                                                        className="value"
+                                          >
+                                                        <TimeAgo
+                                                                      id="due-date"
+                                                                      timestamp={undefined}
+                                                        />
+                                          </span>
+                            </li>
+                            <li
+                                          className="list-group-item timestamp"
+                            >
+                                          <span
+                                                        className="label"
+                                          >
+                                                        Updated
+                                          </span>
+                                          <span
+                                                        className="value"
+                                          >
+                                                        <TimeAgo
+                                                                      id="updated-at"
+                                                                      timestamp={undefined}
+                                                        />
+                                          </span>
+                            </li>
+                            <li
+                                          className="list-group-item timestamp"
+                            >
+                                          <span
+                                                        className="label"
+                                          >
+                                                        Created
+                                          </span>
+                                          <span
+                                                        className="value"
+                                          >
+                                                        <TimeAgo
+                                                                      id="created-at"
+                                                                      timestamp={undefined}
+                                                        />
+                                          </span>
+                            </li>
+              </ul>
+</div>,
+            <div
+              className="subtasks-section"
+>
+              <h2>
+                            <span>
+                                          Subtasks
+                            </span>
+                            <button
+                                          className="btn btn-link"
+                                          onClick={[Function]}
+                            >
+                                          <SVGInline
+                                                        className="icon"
+                                                        classSuffix="-svg"
+                                                        cleanup={Array []}
+                                                        cleanupExceptions={Array []}
+                                                        component="span"
+                                                        svg="plus.svg"
+                                          />
+                            </button>
+              </h2>
+              <ul
+                            className="list-group submissions"
+              >
+                            
+              </ul>
+              <div
+                            className="empty-subtasks"
+              >
+                            <h5>
+                                          No Subtasks to display
+                            </h5>
+                            <h6>
+                                          Subtasks are an easy way to create smaller and/or related tasks to parent task.
+                            </h6>
+              </div>
+</div>,
+          ],
+          "className": "scrollable-content",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <button
+                  className="btn btn-primary btn-inverse discussion-button icon-wrapper hidden-md-up"
+                  onClick={undefined}
+>
+                  <SVGInline
+                                    className="icon"
+                                    classSuffix="-svg"
+                                    cleanup={Array []}
+                                    cleanupExceptions={Array []}
+                                    component="span"
+                                    svg="comments.svg"
+                  />
+                  View Discussion
+</button>,
+                <Unknown
+                  queueItem={
+                                    Object {
+                                                      "children": Array [],
+                                                      "coreState": "Draft",
+                                                      "form": Object {
+                                                        "name": "test form",
+                                                      },
+                                                      "handle": "handle",
+                                                      "id": "id",
+                                                      "values": Object {
+                                                        "Summary": "this is the summary",
+                                                      },
+                                                    }
+                  }
+/>,
+                <h1>
+                  test form
+                   (
+                  handle
+                  )
+</h1>,
+                <p
+                  className="summary"
+>
+                  this is the summary
+</p>,
+                <pre />,
+                <div
+                  className="actions"
+>
+                  <Unknown
+                                    queueItem={
+                                                      Object {
+                                                                        "children": Array [],
+                                                                        "coreState": "Draft",
+                                                                        "form": Object {
+                                                                          "name": "test form",
+                                                                        },
+                                                                        "handle": "handle",
+                                                                        "id": "id",
+                                                                        "values": Object {
+                                                                          "Summary": "this is the summary",
+                                                                        },
+                                                                      }
+                                    }
+                                    readOnly={false}
+                                    toggle={[Function]}
+                  />
+                  <Connect(withProps(withHandlers(Component)))
+                                    className="btn btn-primary wally-button"
+                                    onGrabbed={undefined}
+                                    onWorked={undefined}
+                                    queueItem={
+                                                      Object {
+                                                                        "children": Array [],
+                                                                        "coreState": "Draft",
+                                                                        "form": Object {
+                                                                          "name": "test form",
+                                                                        },
+                                                                        "handle": "handle",
+                                                                        "id": "id",
+                                                                        "values": Object {
+                                                                          "Summary": "this is the summary",
+                                                                        },
+                                                                      }
+                                    }
+                  />
+</div>,
+                undefined,
+                undefined,
+                <ul
+                  className="list-group timestamps"
+>
+                  <li
+                                    className="list-group-item timestamp"
+                  >
+                                    <span
+                                                      className="label"
+                                    >
+                                                      Due
+                                    </span>
+                                    <span
+                                                      className="value"
+                                    >
+                                                      <TimeAgo
+                                                                        id="due-date"
+                                                                        timestamp={undefined}
+                                                      />
+                                    </span>
+                  </li>
+                  <li
+                                    className="list-group-item timestamp"
+                  >
+                                    <span
+                                                      className="label"
+                                    >
+                                                      Updated
+                                    </span>
+                                    <span
+                                                      className="value"
+                                    >
+                                                      <TimeAgo
+                                                                        id="updated-at"
+                                                                        timestamp={undefined}
+                                                      />
+                                    </span>
+                  </li>
+                  <li
+                                    className="list-group-item timestamp"
+                  >
+                                    <span
+                                                      className="label"
+                                    >
+                                                      Created
+                                    </span>
+                                    <span
+                                                      className="value"
+                                    >
+                                                      <TimeAgo
+                                                                        id="created-at"
+                                                                        timestamp={undefined}
+                                                      />
+                                    </span>
+                  </li>
+</ul>,
+              ],
+              "className": "general",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <SVGInline
+                      className="icon"
+                      classSuffix="-svg"
+                      cleanup={Array []}
+                      cleanupExceptions={Array []}
+                      component="span"
+                      svg="comments.svg"
+/>,
+                    "View Discussion",
+                  ],
+                  "className": "btn btn-primary btn-inverse discussion-button icon-wrapper hidden-md-up",
+                  "onClick": undefined,
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "className": "icon",
+                      "classSuffix": "-svg",
+                      "cleanup": Array [],
+                      "cleanupExceptions": Array [],
+                      "component": "span",
+                      "svg": "comments.svg",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "View Discussion",
+                ],
+                "type": "button",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "queueItem": Object {
+                    "children": Array [],
+                    "coreState": "Draft",
+                    "form": Object {
+                      "name": "test form",
+                    },
+                    "handle": "handle",
+                    "id": "id",
+                    "values": Object {
+                      "Summary": "this is the summary",
+                    },
+                  },
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    "test form",
+                    " (",
+                    "handle",
+                    ")",
+                  ],
+                },
+                "ref": null,
+                "rendered": Array [
+                  "test form",
+                  " (",
+                  "handle",
+                  ")",
+                ],
+                "type": "h1",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "this is the summary",
+                  "className": "summary",
+                },
+                "ref": null,
+                "rendered": "this is the summary",
+                "type": "p",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": undefined,
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "pre",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <Unknown
+                      queueItem={
+                                            Object {
+                                                                  "children": Array [],
+                                                                  "coreState": "Draft",
+                                                                  "form": Object {
+                                                                    "name": "test form",
+                                                                  },
+                                                                  "handle": "handle",
+                                                                  "id": "id",
+                                                                  "values": Object {
+                                                                    "Summary": "this is the summary",
+                                                                  },
+                                                                }
+                      }
+                      readOnly={false}
+                      toggle={[Function]}
+/>,
+                    false,
+                    <Connect(withProps(withHandlers(Component)))
+                      className="btn btn-primary wally-button"
+                      onGrabbed={undefined}
+                      onWorked={undefined}
+                      queueItem={
+                                            Object {
+                                                                  "children": Array [],
+                                                                  "coreState": "Draft",
+                                                                  "form": Object {
+                                                                    "name": "test form",
+                                                                  },
+                                                                  "handle": "handle",
+                                                                  "id": "id",
+                                                                  "values": Object {
+                                                                    "Summary": "this is the summary",
+                                                                  },
+                                                                }
+                      }
+/>,
+                  ],
+                  "className": "actions",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "queueItem": Object {
+                        "children": Array [],
+                        "coreState": "Draft",
+                        "form": Object {
+                          "name": "test form",
+                        },
+                        "handle": "handle",
+                        "id": "id",
+                        "values": Object {
+                          "Summary": "this is the summary",
+                        },
+                      },
+                      "readOnly": false,
+                      "toggle": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  false,
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "className": "btn btn-primary wally-button",
+                      "onGrabbed": undefined,
+                      "onWorked": undefined,
+                      "queueItem": Object {
+                        "children": Array [],
+                        "coreState": "Draft",
+                        "form": Object {
+                          "name": "test form",
+                        },
+                        "handle": "handle",
+                        "id": "id",
+                        "values": Object {
+                          "Summary": "this is the summary",
+                        },
+                      },
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": "div",
+              },
+              undefined,
+              undefined,
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <li
+                      className="list-group-item timestamp"
+>
+                      <span
+                                            className="label"
+                      >
+                                            Due
+                      </span>
+                      <span
+                                            className="value"
+                      >
+                                            <TimeAgo
+                                                                  id="due-date"
+                                                                  timestamp={undefined}
+                                            />
+                      </span>
+</li>,
+                    <li
+                      className="list-group-item timestamp"
+>
+                      <span
+                                            className="label"
+                      >
+                                            Updated
+                      </span>
+                      <span
+                                            className="value"
+                      >
+                                            <TimeAgo
+                                                                  id="updated-at"
+                                                                  timestamp={undefined}
+                                            />
+                      </span>
+</li>,
+                    <li
+                      className="list-group-item timestamp"
+>
+                      <span
+                                            className="label"
+                      >
+                                            Created
+                      </span>
+                      <span
+                                            className="value"
+                      >
+                                            <TimeAgo
+                                                                  id="created-at"
+                                                                  timestamp={undefined}
+                                            />
+                      </span>
+</li>,
+                  ],
+                  "className": "list-group timestamps",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        <span
+                          className="label"
+>
+                          Due
+</span>,
+                        <span
+                          className="value"
+>
+                          <TimeAgo
+                                                    id="due-date"
+                                                    timestamp={undefined}
+                          />
+</span>,
+                      ],
+                      "className": "list-group-item timestamp",
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": "Due",
+                          "className": "label",
+                        },
+                        "ref": null,
+                        "rendered": "Due",
+                        "type": "span",
+                      },
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": <TimeAgo
+                            id="due-date"
+                            timestamp={undefined}
+/>,
+                          "className": "value",
+                        },
+                        "ref": null,
+                        "rendered": Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "class",
+                          "props": Object {
+                            "id": "due-date",
+                            "timestamp": undefined,
+                          },
+                          "ref": null,
+                          "rendered": null,
+                          "type": [Function],
+                        },
+                        "type": "span",
+                      },
+                    ],
+                    "type": "li",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        <span
+                          className="label"
+>
+                          Updated
+</span>,
+                        <span
+                          className="value"
+>
+                          <TimeAgo
+                                                    id="updated-at"
+                                                    timestamp={undefined}
+                          />
+</span>,
+                      ],
+                      "className": "list-group-item timestamp",
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": "Updated",
+                          "className": "label",
+                        },
+                        "ref": null,
+                        "rendered": "Updated",
+                        "type": "span",
+                      },
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": <TimeAgo
+                            id="updated-at"
+                            timestamp={undefined}
+/>,
+                          "className": "value",
+                        },
+                        "ref": null,
+                        "rendered": Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "class",
+                          "props": Object {
+                            "id": "updated-at",
+                            "timestamp": undefined,
+                          },
+                          "ref": null,
+                          "rendered": null,
+                          "type": [Function],
+                        },
+                        "type": "span",
+                      },
+                    ],
+                    "type": "li",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        <span
+                          className="label"
+>
+                          Created
+</span>,
+                        <span
+                          className="value"
+>
+                          <TimeAgo
+                                                    id="created-at"
+                                                    timestamp={undefined}
+                          />
+</span>,
+                      ],
+                      "className": "list-group-item timestamp",
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": "Created",
+                          "className": "label",
+                        },
+                        "ref": null,
+                        "rendered": "Created",
+                        "type": "span",
+                      },
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": <TimeAgo
+                            id="created-at"
+                            timestamp={undefined}
+/>,
+                          "className": "value",
+                        },
+                        "ref": null,
+                        "rendered": Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "class",
+                          "props": Object {
+                            "id": "created-at",
+                            "timestamp": undefined,
+                          },
+                          "ref": null,
+                          "rendered": null,
+                          "type": [Function],
+                        },
+                        "type": "span",
+                      },
+                    ],
+                    "type": "li",
+                  },
+                ],
+                "type": "ul",
+              },
+            ],
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <h2>
+                  <span>
+                                    Subtasks
+                  </span>
+                  <button
+                                    className="btn btn-link"
+                                    onClick={[Function]}
+                  >
+                                    <SVGInline
+                                                      className="icon"
+                                                      classSuffix="-svg"
+                                                      cleanup={Array []}
+                                                      cleanupExceptions={Array []}
+                                                      component="span"
+                                                      svg="plus.svg"
+                                    />
+                  </button>
+</h2>,
+                <ul
+                  className="list-group submissions"
+>
+                  
+</ul>,
+                <div
+                  className="empty-subtasks"
+>
+                  <h5>
+                                    No Subtasks to display
+                  </h5>
+                  <h6>
+                                    Subtasks are an easy way to create smaller and/or related tasks to parent task.
+                  </h6>
+</div>,
+              ],
+              "className": "subtasks-section",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <span>
+                      Subtasks
+</span>,
+                    <button
+                      className="btn btn-link"
+                      onClick={[Function]}
+>
+                      <SVGInline
+                                            className="icon"
+                                            classSuffix="-svg"
+                                            cleanup={Array []}
+                                            cleanupExceptions={Array []}
+                                            component="span"
+                                            svg="plus.svg"
+                      />
+</button>,
+                  ],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Subtasks",
+                    },
+                    "ref": null,
+                    "rendered": "Subtasks",
+                    "type": "span",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": <SVGInline
+                        className="icon"
+                        classSuffix="-svg"
+                        cleanup={Array []}
+                        cleanupExceptions={Array []}
+                        component="span"
+                        svg="plus.svg"
+/>,
+                      "className": "btn btn-link",
+                      "onClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "class",
+                      "props": Object {
+                        "className": "icon",
+                        "classSuffix": "-svg",
+                        "cleanup": Array [],
+                        "cleanupExceptions": Array [],
+                        "component": "span",
+                        "svg": "plus.svg",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    "type": "button",
+                  },
+                ],
+                "type": "h2",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [],
+                  "className": "list-group submissions",
+                },
+                "ref": null,
+                "rendered": Array [],
+                "type": "ul",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <h5>
+                      No Subtasks to display
+</h5>,
+                    <h6>
+                      Subtasks are an easy way to create smaller and/or related tasks to parent task.
+</h6>,
+                  ],
+                  "className": "empty-subtasks",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "No Subtasks to display",
+                    },
+                    "ref": null,
+                    "rendered": "No Subtasks to display",
+                    "type": "h5",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Subtasks are an easy way to create smaller and/or related tasks to parent task.",
+                    },
+                    "ref": null,
+                    "rendered": "Subtasks are an easy way to create smaller and/or related tasks to parent task.",
+                    "type": "h6",
+                  },
+                ],
+                "type": "div",
+              },
+            ],
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
       "type": "div",
     },
   ],
