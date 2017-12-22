@@ -52,12 +52,7 @@ export const QueueListItemSmall = ({ queueItem }) => {
         <h6>
           {queueItem.form.name} ({queueItem.handle})
           {queueItem.values['Discussion Id'] && (
-            <Link
-              className="btn btn-link"
-              to={`/item/${queueItem.id}/discussions`}
-            >
-              <SVGInline svg={commentsIcon} className="icon" />
-            </Link>
+            <SVGInline svg={commentsIcon} className="icon" />
           )}
         </h6>
         <p className="summary">{values.Summary}</p>
