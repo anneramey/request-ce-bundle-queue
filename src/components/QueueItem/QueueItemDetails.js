@@ -135,11 +135,13 @@ export const QueueItemDetails = ({
               </button>
             )}
           </h2>
-          <ul className="list-group submissions">
-            {queueItem.children.map(child => (
-              <QueueListItemSmall key={child.id} queueItem={child} />
-            ))}
-          </ul>
+          {queueItem.children.length > 0 && (
+            <ul className="list-group submissions">
+              {queueItem.children.map(child => (
+                <QueueListItemSmall key={child.id} queueItem={child} />
+              ))}
+            </ul>
+          )}
           {queueItem.children.length < 1 && (
             <div className="empty-subtasks">
               <h5>No Subtasks to display</h5>

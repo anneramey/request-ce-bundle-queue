@@ -80,10 +80,13 @@
       padding-left: 0.75rem;
       margin: 0;
       border-top: 2px solid $gray4;
-      border-bottom: 1px solid $gray4;
       button {
         margin-left: auto;
       }
+    }
+
+    .submissions {
+      border-top: 1px solid $gray4;
     }
 
     .submission {
