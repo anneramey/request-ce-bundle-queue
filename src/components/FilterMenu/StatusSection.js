@@ -4,15 +4,14 @@ import { compose, withHandlers } from 'recompose';
 import { ModalBody } from 'reactstrap';
 import { actions } from '../../redux/modules/filterMenu';
 
-const STATUSES = ['Open', 'Pending', 'Complete', 'Canceled'];
+const STATUSES = ['Open', 'Pending', 'Complete', 'Cancelled'];
 
 export const StatusSection = ({ filter, toggleStatusHandler }) => (
   <ModalBody className="filter-section">
     <h5>Status</h5>
     {STATUSES.map(status => (
-      <label htmlFor={`filter-status-${status}`}>
+      <label htmlFor={`filter-status-${status}`} key={status}>
         <input
-          key={status}
           type="checkbox"
           id={`filter-status-${status}`}
           value={status}

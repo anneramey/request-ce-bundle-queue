@@ -9,12 +9,12 @@ export const Profile = Record({
 export const VALID_STATUSES = List([
   'Open',
   'Pending',
-  'Canceled',
-  'Completed',
+  'Cancelled',
+  'Complete',
 ]);
 
 export const isActiveStatus = status =>
-  status !== 'Completed' && status !== 'Canceled';
+  status !== 'Complete' && status !== 'Cancelled';
 
 export const AssignmentCriteria = Record({
   mine: false,
