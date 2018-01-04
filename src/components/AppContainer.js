@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { compose, lifecycle } from 'recompose';
 import { kinopsModule } from 'react-kinops-common';
-import { actions as toastActions } from 'react-kinops-common/toasts';
 import { actions } from '../redux/modules/app';
 
 import { App } from './App';
@@ -13,7 +12,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   loadApp: kinopsModule.actions.loadApp,
   loadAppSettings: actions.loadAppSettings,
-  addError: toastActions.addError,
 };
 
 export const AppContainer = compose(
@@ -22,8 +20,6 @@ export const AppContainer = compose(
     componentWillMount() {
       this.props.loadApp();
       this.props.loadAppSettings();
-
-      this.props.addError('sdflkjasdflkjsdflkjsdaflkjasdf');
     },
   }),
 )(App);

@@ -9,8 +9,6 @@ import { ModalFormContainer } from 'react-kinops-common';
 import { ToastsContainer } from 'react-kinops-common';
 import { WorkMenuContainer } from './WorkMenu';
 
-import 'react-kinops-common/styles/master.scss';
-
 const globals = import('../globals');
 
 export const Content = () => (
