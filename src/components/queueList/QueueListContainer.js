@@ -12,6 +12,7 @@ const mapStateToProps = state => ({
     getFilterByPath(state, state.router.location.pathname),
   ),
   sortDirection: state.queue.sortDirection,
+  sortBy: getFilterByPath(state, state.router.location.pathname).sortBy,
 });
 
 const mapDispatchToProps = {
