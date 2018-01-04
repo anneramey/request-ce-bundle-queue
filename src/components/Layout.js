@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withHandlers, withState } from 'recompose';
 import Sidebar from 'react-sidebar';
-import { HeaderContainer } from '../lib/react-kinops-components/src/components/Header/HeaderContainer';
+import { HeaderContainer } from 'react-kinops-common';
 
 export const Layout = ({
   sidebarOpen,

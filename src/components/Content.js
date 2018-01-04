@@ -5,11 +5,17 @@ import { FilterMenuContainer } from './FilterMenu/FilterMenuContainer';
 import { QueueItemContainer } from './QueueItem/QueueItem';
 import { QueueListContainer } from './queueList/QueueListContainer';
 import { NewItemMenuContainer } from './newItemMenu/NewItemMenuContainer';
-import { ModalFormContainer } from '../lib/react-kinops-components/src/components/Modals/ModalFormContainer';
+import { ModalFormContainer } from 'react-kinops-common';
+import { ToastsContainer } from 'react-kinops-common';
 import { WorkMenuContainer } from './WorkMenu';
+
+import 'react-kinops-common/styles/master.scss';
+
+const globals = import('../globals');
 
 export const Content = () => (
   <div>
+    <ToastsContainer />
     <NotificationsContainer />
     <Route path="/" exact render={() => <Redirect to="/list/Mine" />} />
     <Route path="/list/:filter" component={QueueListContainer} />
@@ -21,7 +27,7 @@ export const Content = () => (
     />
     <FilterMenuContainer />
     <NewItemMenuContainer />
-    <ModalFormContainer />
+    <ModalFormContainer globals={globals} />
     <WorkMenuContainer />
   </div>
 );
