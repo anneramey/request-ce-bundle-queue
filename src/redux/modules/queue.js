@@ -43,6 +43,24 @@ export const actions = {
   closeNewItemMenu: noPayload(types.CLOSE_NEW_MENU),
 };
 
+export const getPrevNext = state => {
+  const currentFilter = state.app.filters.find(
+    f => f.name === state.app.lastFilterName,
+  );
+  const queueItems = state.queue.lists.get(currentFilter);
+  const currentItemIndex = queueItems.findIndex(
+    item => item.id === state.queue.currentItem.id,
+  );
+  const prevItem =
+    currentItemIndex > 0 ? queueItems.get(currentItemIndex - 1).id : null;
+  const nextItem =
+    currentItemIndex < queueItems.size - 1
+      ? queueItems.get(currentItemIndex + 1).id
+      : null;
+
+  return { prev: prevItem, next: nextItem };
+};
+
 export const State = Record({
   sortDirection: 'ASC',
   currentItem: null,
