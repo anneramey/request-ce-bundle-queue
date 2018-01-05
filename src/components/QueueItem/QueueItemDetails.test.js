@@ -44,9 +44,12 @@ describe('<QueueItemDetails />', () => {
       });
     });
 
-    describe('when the parent and origin are the same', () => {
+    describe('when the parent form is not a queue form', () => {
       test('it renders the button with the appropriate text', () => {
-        props.queueItem.parent = { id: 'id1' };
+        props.queueItem.parent = {
+          id: 'id1',
+          form: { kapp: { slug: 'services' } },
+        };
         props.queueItem.origin = { id: 'id1' };
         const wrapper = shallow(<QueueItemDetails {...props} />);
         const originButton = wrapper.find('.request-button');
@@ -58,21 +61,13 @@ describe('<QueueItemDetails />', () => {
       });
     });
 
-    describe('when the parent and origin are not the same', () => {
+    describe('when the parent form is a queue form', () => {
       test('it renders the button with the appropriate text', () => {
-        props.queueItem.parent = { id: 'id2' };
+        props.queueItem.parent = {
+          id: 'id1',
+          form: { kapp: { slug: 'queue' } },
+        };
         props.queueItem.origin = { id: 'id1' };
-        const wrapper = shallow(<QueueItemDetails {...props} />);
-        const originButton = wrapper.find('.request-button');
-        expect(originButton).toHaveLength(1);
-        expect(originButton.first().prop('children')).toBe('View Parent');
-        expect(originButton.first().prop('to')).toContain(
-          props.queueItem.parent.id,
-        );
-      });
-      test('it still renders if origin is null', () => {
-        props.queueItem.parent = { id: 'id2' };
-        props.queueItem.origin = null;
         const wrapper = shallow(<QueueItemDetails {...props} />);
         const originButton = wrapper.find('.request-button');
         expect(originButton).toHaveLength(1);
