@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withState, withHandlers, withProps } from 'recompose';
 import { Link } from 'react-router-dom';
+import { bundle } from 'react-kinetic-core';
 import SVGInline from 'react-svg-inline';
 import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
 import commentsIcon from 'font-awesome-svg-png/black/svg/comments.svg';
@@ -16,15 +17,17 @@ import { StatusParagraph } from '../StatusParagraph';
 import { QueueListItemSmall } from '../queueList/QueueListItem';
 import { WallyButtonContainer } from '../WallyButton';
 
-const showOriginLink = queueItem =>
+const nonQueueLink = queueItem =>
   queueItem.parent &&
-  queueItem.origin &&
-  queueItem.parent.id === queueItem.origin.id;
+  queueItem.parent.form &&
+  queueItem.parent.form.kapp &&
+  queueItem.parent.form.kapp.slug !== bundle.kappSlug();
 
-const showParentLink = queueItem =>
+const queueLink = queueItem =>
   queueItem.parent &&
-  ((queueItem.origin && queueItem.origin.id !== queueItem.parent.id) ||
-    queueItem.origin === null);
+  queueItem.parent.form &&
+  queueItem.parent.form.kapp &&
+  queueItem.parent.form.kapp.slug === bundle.kappSlug();
 
 export const QueueItemDetails = ({
   queueItem,
@@ -86,7 +89,7 @@ export const QueueItemDetails = ({
             onGrabbed={refreshQueueItem}
           />
         </div>
-        {showOriginLink(queueItem) && (
+        {nonQueueLink(queueItem) && (
           <a
             className="btn btn-primary btn-inverse request-button"
             href={originLink(queueItem)}
@@ -95,7 +98,7 @@ export const QueueItemDetails = ({
             View Original Request
           </a>
         )}
-        {showParentLink(queueItem) && (
+        {queueLink(queueItem) && (
           <Link
             to={`/item/${queueItem.parent.id}`}
             className="btn btn-primary btn-inverse request-button"

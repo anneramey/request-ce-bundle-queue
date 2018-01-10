@@ -6,4 +6,5 @@ Enzyme.configure({ adapter: new Adapter() });
 global.bundle = {
   apiLocation: () => '/acme/app/api/v1',
   spaceLocation: () => '/acme',
+  kappSlug: () => 'queue',
 };

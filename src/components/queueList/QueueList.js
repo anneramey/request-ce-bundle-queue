@@ -8,6 +8,13 @@ import sortAscIcon from '../../images/sort_asc.svg';
 import sortDescIcon from '../../images/sort_desc.svg';
 import { QueueListItemSmall } from './QueueListItem';
 
+const SORT_NAMES = {
+  createdAt: 'Created At',
+  updatedAt: 'Updated At',
+  closedAt: 'Closed At',
+  'Due Date': 'Due Date',
+};
+
 const WallyMessage = ({ filter }) => {
   if (filter.type === 'adhoc') {
     return (
@@ -42,6 +49,7 @@ export const QueueList = ({
   queueItems,
   openFilterMenu,
   sortDirection,
+  sortBy,
   toggleSortDirection,
   refresh,
 }) =>
@@ -53,7 +61,7 @@ export const QueueList = ({
         <h6>
           {filter.name || 'Adhoc'}
           <br />
-          <small>by Due Date</small>
+          <small>by {SORT_NAMES[sortBy]}</small>
         </h6>
         <div className="buttons">
           <button

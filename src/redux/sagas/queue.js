@@ -10,7 +10,7 @@ export const ERROR_STATUS_STRING = 'There was a problem retrieving items.';
 export const TOO_MANY_STATUS_STRING = 'Your filter matches too many items.';
 
 export const SUBMISSION_INCLUDES =
-  'details,values,attributes,form,children,children.details,children.form,children.values,form.attributes';
+  'details,values,attributes,form,children,children.details,children.form,children.values,form.attributes,parent,parent.details,parent.values,parent.form,parent.form.kapp';
 
 export const getAppSettings = state => state.app;
 export const getCurrentItem = state => state.queue.currentItem;

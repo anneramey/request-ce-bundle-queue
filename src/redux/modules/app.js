@@ -4,7 +4,7 @@ import { LOCATION_CHANGE } from 'connected-react-router';
 import { namespace, noPayload, withPayload } from '../../utils';
 import { Profile, Filter, AssignmentCriteria } from '../../records';
 
-export const DEFAULT_DOCUMENTATION_URL = 'https://help.kinops.io/';
+export const DEFAULT_DOCUMENTATION_URL = 'https://help.kinops.io/queue/';
 export const DEFAULT_SUPPORT_URL = 'https://kinops.io/manage/public/support';
 
 const ADHOC_PATH = { path: '/custom', exact: true };
