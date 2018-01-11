@@ -23,6 +23,7 @@ export const FilterMenu = ({
   showSection,
   currentFilter,
   appliedAssignments,
+  errors,
 }) => (
   <Modal isOpen={isOpen} toggle={close}>
     <div className="modal-header">
@@ -59,6 +60,7 @@ export const FilterMenu = ({
         handleChangeFilterName={handleChangeFilterName}
         handleSaveFilter={handleSaveFilter}
         appliedAssignments={appliedAssignments}
+        errors={errors}
       />
     )}
     {activeSection === 'teams' && (
@@ -67,6 +69,7 @@ export const FilterMenu = ({
     {activeSection === 'assignment' && (
       <AssignmentSectionContainer
         filter={currentFilter}
+        errors={errors}
         appliedAssignments={appliedAssignments}
       />
     )}
@@ -74,22 +77,20 @@ export const FilterMenu = ({
       <StatusSectionContainer filter={currentFilter} />
     )}
     {activeSection === 'date' && (
-      <DateRangeSectionContainer filter={currentFilter} />
+      <DateRangeSectionContainer errors={errors} filter={currentFilter} />
     )}
     {activeSection === 'sort' && (
       <SortedBySectionContainer filter={currentFilter} />
     )}
-    {activeSection === null && (
-      <ModalFooter>
-        <button
-          type="button"
-          className="btn btn-primary"
-          disabled={!isDirty || appliedAssignments.size === 0}
-          onClick={applyFilterHandler}
-        >
-          Apply Filter
-        </button>
-      </ModalFooter>
-    )}
+    <ModalFooter>
+      <button
+        type="button"
+        className="btn btn-primary"
+        disabled={!isDirty || !errors.isEmpty()}
+        onClick={applyFilterHandler}
+      >
+        Apply Filter
+      </button>
+    </ModalFooter>
   </Modal>
 );

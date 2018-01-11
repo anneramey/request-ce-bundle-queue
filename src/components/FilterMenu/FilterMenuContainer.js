@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { compose, withHandlers } from 'recompose';
-import { is, List } from 'immutable';
+import { compose, withHandlers, withProps } from 'recompose';
+import { is, List, Map } from 'immutable';
 import { push } from 'connected-react-router';
 import { FilterMenu } from './FilterMenu';
 import { actions } from '../../redux/modules/filterMenu';
@@ -46,8 +46,37 @@ export const mapDispatchToProps = {
   push,
 };
 
+const validateDateRange = filter => {
+  if (
+    (filter.status.includes('Cancelled') ||
+      filter.status.includes('Complete')) &&
+    filter.dateRange.preset === '' &&
+    !filter.dateRange.custom
+  ) {
+    return "A date range is required if Status includes 'Complete' or 'Cancelled'";
+  } else if (filter.dateRange.custom) {
+    if (filter.dateRange.start === '' && filter.dateRange.end === '') {
+      return 'Select a start and end date';
+    } else if (filter.dateRange.start === '' && filter.dateRange.end !== '') {
+      return 'Select a start date';
+    } else if (filter.dateRange.start !== '' && filter.dateRange.end === '') {
+      return 'Select an end date';
+    } else if (filter.dateRange.end <= filter.dateRange.start) {
+      return 'Select an end date after the start date';
+    }
+  }
+};
+
 export const FilterMenuContainer = compose(
   connect(mapStateToProps, mapDispatchToProps),
+  withProps(({ appliedAssignments, currentFilter }) => ({
+    errors: !currentFilter
+      ? Map()
+      : Map({
+          Assignment: appliedAssignments.isEmpty() && 'No assignments selected',
+          'Date Range': validateDateRange(currentFilter),
+        }).filter(value => !!value),
+  })),
   withHandlers({
     applyFilterHandler: props => () => {
       props.setAdhocFilter(

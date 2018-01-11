@@ -6,15 +6,16 @@ import { actions } from '../../redux/modules/filterMenu';
 
 export const AssignmentSection = ({
   filter,
+  errors,
   toggleAssignmentHandler,
   appliedAssignments,
 }) => (
   <ModalBody className="filter-section">
     <h5>
       Assignment<br />
-      {appliedAssignments.size === 0 && (
+      {errors.get('Assignment') && (
         <small className="text-danger text-small">
-          No assignments selected.
+          {errors.get('Assignment')}
         </small>
       )}
     </h5>

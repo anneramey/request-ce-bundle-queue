@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { ModalBody } from 'reactstrap';
 import SVGInline from 'react-svg-inline';
 import chevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg';
@@ -14,15 +15,46 @@ const ListSummary = ({ type, list }) =>
     </span>
   ));
 
-const AssignmentSummary = ({ appliedAssignments }) => {
-  if (appliedAssignments.size === 0) {
-    return <span className="text-danger">No assignments selected.</span>;
+const AssignmentSummary = ({ errors, appliedAssignments }) => {
+  if (errors.get('Assignment')) {
+    return (
+      <span className="validation-error text-danger">
+        {errors.get('Assignment')}
+      </span>
+    );
   } else if (appliedAssignments.size === 1) {
     return <span>{appliedAssignments.get(0)}</span>;
   }
-
   return <span>{appliedAssignments.size} Presets</span>;
 };
+
+const formatTimeline = timeline => {
+  const match = timeline.match(/(.)(.*)At/);
+  return `${match[1].toUpperCase()}${match[2]}`;
+};
+
+const formatPreset = preset => {
+  const match = preset.match(/(\d+)days/);
+  return `${match[1]} days`;
+};
+
+const DateRangeSummary = ({ errors, filter }) =>
+  errors.get('Date Range') ? (
+    <span className="validation-error text-danger">
+      {errors.get('Date Range')}
+    </span>
+  ) : filter.dateRange.preset !== '' ? (
+    <span>
+      {formatTimeline(filter.dateRange.timeline)} in last&nbsp;
+      {formatPreset(filter.dateRange.preset)}
+    </span>
+  ) : filter.dateRange.custom ? (
+    <span style={{ textAlign: 'right' }}>
+      {formatTimeline(filter.dateRange.timeline)} between<br />
+      {moment(filter.dateRange.start).format('l')} and&nbsp;
+      {moment(filter.dateRange.end).format('l')}
+    </span>
+  ) : null;
 
 export const MainSection = ({
   filter,
@@ -31,6 +63,7 @@ export const MainSection = ({
   handleChangeFilterName,
   handleSaveFilter,
   appliedAssignments,
+  errors,
 }) => (
   <ModalBody className="main-section">
     <ul className="list-group button-list">
@@ -52,7 +85,10 @@ export const MainSection = ({
           onClick={() => showSection('assignment')}
         >
           <span className="button-title">Assignment</span>
-          <AssignmentSummary appliedAssignments={appliedAssignments} />
+          <AssignmentSummary
+            errors={errors}
+            appliedAssignments={appliedAssignments}
+          />
           <SVGInline svg={chevronRightIcon} className="icon" />
         </button>
       </li>
@@ -74,6 +110,7 @@ export const MainSection = ({
           onClick={() => showSection('date')}
         >
           <span className="button-title">Date Range</span>
+          <DateRangeSummary errors={errors} filter={filter} />
           <SVGInline svg={chevronRightIcon} className="icon" />
         </button>
       </li>
@@ -101,7 +138,7 @@ export const MainSection = ({
         type="button"
         className="btn btn-primary btn-inverse"
         onClick={handleSaveFilter}
-        disabled={filterName === '' || appliedAssignments.size === 0}
+        disabled={filterName === '' || !errors.isEmpty()}
       >
         {filter && filter.type === 'custom' && filter.name === filterName
           ? 'Save'

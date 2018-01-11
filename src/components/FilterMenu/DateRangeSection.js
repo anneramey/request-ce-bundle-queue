@@ -6,13 +6,22 @@ import { actions } from '../../redux/modules/filterMenu';
 
 export const DateRangeSection = ({
   filter,
+  errors,
   setDateRangeTimelineHandler,
   radioClickHandler,
   setDateRangeStartHandler,
   setDateRangeEndHandler,
 }) => (
   <ModalBody className="filter-section">
-    <h5>Date Range</h5>
+    <h5>
+      Date Range
+      <br />
+      {errors.get('Date Range') && (
+        <small className="text-danger text-small">
+          {errors.get('Date Range')}
+        </small>
+      )}
+    </h5>
     <select
       value={filter.dateRange.timeline}
       onChange={setDateRangeTimelineHandler}
@@ -56,24 +65,28 @@ export const DateRangeSection = ({
       />
       Custom
     </label>
-    <div>
-      <label htmlFor="date-range-custom-start">Start Date*</label>
-      <input
-        type="date"
-        id="date-range-custom-start"
-        value={filter.dateRange.start}
-        onChange={setDateRangeStartHandler}
-      />
-    </div>
-    <div>
-      <label htmlFor="date-range-custom-end">End Date</label>
-      <input
-        type="date"
-        id="date-range-custom-end"
-        value={filter.dateRange.end}
-        onChange={setDateRangeEndHandler}
-      />
-    </div>
+    {filter.dateRange.custom && (
+      <div>
+        <label htmlFor="date-range-custom-start">Start Date*</label>
+        <input
+          type="date"
+          id="date-range-custom-start"
+          value={filter.dateRange.start}
+          onChange={setDateRangeStartHandler}
+        />
+      </div>
+    )}
+    {filter.dateRange.custom && (
+      <div>
+        <label htmlFor="date-range-custom-end">End Date</label>
+        <input
+          type="date"
+          id="date-range-custom-end"
+          value={filter.dateRange.end}
+          onChange={setDateRangeEndHandler}
+        />
+      </div>
+    )}
   </ModalBody>
 );
 

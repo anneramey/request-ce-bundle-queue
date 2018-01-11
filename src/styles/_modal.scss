@@ -117,6 +117,14 @@
       &.main-section {
         justify-content: space-between;
 
+        .button-list .btn-link {
+          .validation-error {
+            max-width: 200px;
+            text-align: right;
+            white-space: normal;
+          }
+        }
+
         // TODO: Review this and make it consistent.
         .save-filter {
           display: flex;

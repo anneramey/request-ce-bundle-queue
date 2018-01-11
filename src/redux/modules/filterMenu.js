@@ -81,13 +81,30 @@ export const reducer = (state = defaultState, { type, payload }) => {
             teams.push(payload),
           );
     case types.TOGGLE_STATUS:
-      return state.getIn(['currentFilter', 'status']).includes(payload)
-        ? state.updateIn(['currentFilter', 'status'], statuses =>
-            statuses.delete(statuses.indexOf(payload)),
+      const currentStatuses = state.getIn(['currentFilter', 'status']);
+      return (
+        state
+          .updateIn(
+            ['currentFilter', 'status'],
+            statuses =>
+              statuses.includes(payload)
+                ? statuses.delete(statuses.indexOf(payload))
+                : statuses.push(payload),
           )
-        : state.updateIn(['currentFilter', 'status'], statuses =>
-            statuses.push(payload),
-          );
+          // If we are adding 'Complete' or 'Cancelled' to statuses and there is
+          // no date range selected we default the date range preset to 30 days.
+          .updateIn(
+            ['currentFilter', 'dateRange', 'preset'],
+            preset =>
+              !currentStatuses.includes('Complete') &&
+              !currentStatuses.includes('Cancelled') &&
+              (payload === 'Complete' || payload === 'Cancelled') &&
+              preset === '' &&
+              !state.getIn(['currentFilter', 'dateRange', 'custom'])
+                ? '30days'
+                : preset,
+          )
+      );
     case types.SET_DATE_RANGE_TIMELINE:
       return state.setIn(['currentFilter', 'dateRange', 'timeline'], payload);
     case types.SET_DATE_RANGE_PRESET:
