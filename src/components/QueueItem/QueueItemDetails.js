@@ -2,12 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withState, withHandlers, withProps } from 'recompose';
 import { Link } from 'react-router-dom';
+import { actions as discussionActions } from 'react-kinops-discussions';
 import SVGInline from 'react-svg-inline';
 import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
 import commentsIcon from 'font-awesome-svg-png/black/svg/comments.svg';
 import { selectAssignments } from '../../redux/modules/app';
 import { actions } from '../../redux/modules/queue';
-import { actions as discussionActions } from '../../redux/modules/discussions';
+
 import { originLink } from '../../utils/links';
 import { AssignmentSelector } from './AssignmentSelector';
 import { AssignmentBadge } from './AssignmentBadge';

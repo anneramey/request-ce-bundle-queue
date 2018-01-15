@@ -2370,6 +2370,12 @@ eslint-plugin-flowtype@2.39.1:
   dependencies:
     lodash "^4.15.0"
 
+eslint-plugin-flowtype@^2.41.0:
+  version "2.41.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.41.0.tgz#fd5221c60ba917c059d7ef69686a99cca09fd871"
+  dependencies:
+    lodash "^4.15.0"
+
 eslint-plugin-import@2.8.0:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.8.0.tgz#fa1b6ef31fcb3c501c09859c1b86f1fc5b986894"
@@ -2385,7 +2391,7 @@ eslint-plugin-import@2.8.0:
     minimatch "^3.0.3"
     read-pkg-up "^2.0.0"
 
-eslint-plugin-jsx-a11y@5.1.1:
+eslint-plugin-jsx-a11y@5.1.1, eslint-plugin-jsx-a11y@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-jsx-a11y/-/eslint-plugin-jsx-a11y-5.1.1.tgz#5c96bb5186ca14e94db1095ff59b3e2bd94069b1"
   dependencies:
@@ -2405,6 +2411,15 @@ eslint-plugin-react@7.4.0:
     has "^1.0.1"
     jsx-ast-utils "^2.0.0"
     prop-types "^15.5.10"
+
+eslint-plugin-react@^7.1.0:
+  version "7.5.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.5.1.tgz#52e56e8d80c810de158859ef07b880d2f56ee30b"
+  dependencies:
+    doctrine "^2.0.0"
+    has "^1.0.1"
+    jsx-ast-utils "^2.0.0"
+    prop-types "^15.6.0"
 
 eslint-scope@^3.7.1:
   version "3.7.1"
@@ -5684,7 +5699,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
   dependencies:
@@ -5845,7 +5860,7 @@ react-autocomplete@^1.7.1:
     dom-scroll-into-view "1.0.1"
     prop-types "^15.5.10"
 
-react-avatar@^2.4.0:
+react-avatar@^2.4.0, react-avatar@^2.5.1:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/react-avatar/-/react-avatar-2.5.1.tgz#5bbe8c1d0a52593d4608fb3d8629da995eeb7095"
   dependencies:
@@ -5931,6 +5946,24 @@ react-kinops-common@^0.1.0:
     font-awesome-svg-png "^1.2.2"
     lodash.isplainobject "^4.0.6"
     lodash.isstring "^4.0.1"
+    react-kinetic-core "^0.3.1"
+    react-svg-inline "^2.0.1"
+    react-transition-group "^1.1.2"
+    reactstrap "^4.8.0"
+
+react-kinops-discussions@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/react-kinops-discussions/-/react-kinops-discussions-0.1.0.tgz#64dc18453cc450b61cf591d40fc6061bae9e73c9"
+  dependencies:
+    deepequal "^0.0.1"
+    eslint-plugin-flowtype "^2.41.0"
+    eslint-plugin-jsx-a11y "^5.1.1"
+    eslint-plugin-react "^7.1.0"
+    font-awesome-svg-png "^1.2.2"
+    lodash.isplainobject "^4.0.6"
+    lodash.isstring "^4.0.1"
+    react-avatar "^2.5.1"
+    react-dropzone "^4.2.3"
     react-kinetic-core "^0.3.1"
     react-svg-inline "^2.0.1"
     react-transition-group "^1.1.2"
