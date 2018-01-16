@@ -110,6 +110,17 @@ export const FilterMenuContainer = compose(
 
       close();
     },
+    handleRemoveFilter: ({
+      removePersonalFilter,
+      currentFilter,
+      push,
+      close,
+    }) => () => {
+      removePersonalFilter(currentFilter);
+
+      push('/list/Mine');
+      close();
+    },
     handleChangeFilterName: ({ setFilterName }) => e =>
       setFilterName(e.target.value),
   }),

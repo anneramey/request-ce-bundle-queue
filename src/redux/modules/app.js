@@ -132,9 +132,8 @@ export const reducer = (state = State(), { type, payload }) => {
         filters.set(filters.findIndex(f => f.name === payload.name), payload),
       );
     case types.REMOVE_PERSONAL_FILTER:
-      return state.update(
-        'myFilters',
-        filters => filters.name === filters.payload,
+      return state.update('myFilters', myFilters =>
+        myFilters.filterNot(f => f.name === payload.name),
       );
     case LOCATION_CHANGE:
       const match =

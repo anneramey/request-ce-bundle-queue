@@ -18,6 +18,7 @@ export const FilterMenu = ({
   filterName,
   handleChangeFilterName,
   handleSaveFilter,
+  handleRemoveFilter,
   activeSection,
   applyFilterHandler,
   showSection,
@@ -59,6 +60,7 @@ export const FilterMenu = ({
         filterName={filterName}
         handleChangeFilterName={handleChangeFilterName}
         handleSaveFilter={handleSaveFilter}
+        handleRemoveFilter={handleRemoveFilter}
         appliedAssignments={appliedAssignments}
         errors={errors}
       />

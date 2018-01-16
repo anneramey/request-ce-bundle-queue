@@ -62,6 +62,7 @@ export const MainSection = ({
   filterName,
   handleChangeFilterName,
   handleSaveFilter,
+  handleRemoveFilter,
   appliedAssignments,
   errors,
 }) => (
@@ -127,10 +128,10 @@ export const MainSection = ({
       </li>
     </ul>
     <div className="save-filter">
-      <label>List Name</label>
+      <label>Filter Name</label>
       <input
         type="text"
-        placeholder="New Save Filter Name"
+        placeholder="New Filter Name"
         value={filterName}
         onChange={handleChangeFilterName}
       />
@@ -144,6 +145,25 @@ export const MainSection = ({
           ? 'Save'
           : 'Save As'}
       </button>
+      {filter &&
+        filter.type === 'custom' &&
+        filter.name.length > 0 && (
+          <button
+            type="button"
+            className="btn btn-primary btn-inverse"
+            style={{
+              marginTop: '0',
+              color: 'red',
+              fontSize: '0.66rem',
+              paddingTop: '0px',
+              paddingBottom: '0px',
+            }}
+            onClick={handleRemoveFilter}
+            disabled={filterName === '' || !errors.isEmpty()}
+          >
+            Delete
+          </button>
+        )}
     </div>
   </ModalBody>
 );
