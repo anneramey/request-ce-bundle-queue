@@ -146,11 +146,10 @@ export const reducer = (state = State(), { type, payload }) => {
         matchPath(payload.location.pathname, ADHOC_PATH) ||
         matchPath(payload.location.pathname, DEFAULT_LIST_PATH) ||
         matchPath(payload.location.pathname, CUSTOM_LIST_PATH);
-      return match
-        ? state
-            .set('lastFilterPath', payload.location.pathname)
-            .set('lastFilterName', match.params.name || 'Adhoc')
-        : state;
+      return state
+        .set('lastFilterPath', match ? payload.location.pathname : state.lastFilterPath)
+        .set('lastFilterName', match ? match.params.name || 'Adhoc' : state.lastFilterName)
+        .set('sidebarOpen', state.layoutSize === 'small' ? false : state.sidebarOpen);
     case types.SET_LAYOUT_SIZE:
       return state.set('layoutSize', payload);
     case types.SET_SIDEBAR_OPEN:
