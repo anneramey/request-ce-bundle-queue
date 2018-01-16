@@ -186,7 +186,7 @@ export function* fetchListTask(action) {
   } else {
     const { submissions, messages, nextPageToken, serverError } = yield call(
       CoreAPI.searchSubmissions,
-      { search },
+      { search, limit: 1000 },
     );
 
     if (serverError || (messages && messages.length > 0)) {
