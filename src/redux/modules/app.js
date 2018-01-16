@@ -17,6 +17,8 @@ export const types = {
   ADD_PERSONAL_FILTER: namespace('app', 'ADD_PERSONAL_FILTER'),
   UPDATE_PERSONAL_FILTER: namespace('app', 'UPDATE_PERSONAL_FILTER'),
   REMOVE_PERSONAL_FILTER: namespace('app', 'REMOVE_PERSONAL_FILTER'),
+  SET_LAYOUT_SIZE: namespace('app', 'SET_LAYOUT_SIZE'),
+  SET_SIDEBAR_OPEN: namespace('app', 'SET_SIDEBAR_OPEN'),
 };
 
 export const actions = {
@@ -25,6 +27,8 @@ export const actions = {
   addPersonalFilter: withPayload(types.ADD_PERSONAL_FILTER),
   updatePersonalFilter: withPayload(types.UPDATE_PERSONAL_FILTER),
   removePersonalFilter: withPayload(types.REMOVE_PERSONAL_FILTER),
+  setLayoutSize: withPayload(types.SET_LAYOUT_SIZE),
+  setSidebarOpen: withPayload(types.SET_SIDEBAR_OPEN),
 };
 
 export const getFilterByPath = (state, pathname) => {
@@ -109,6 +113,8 @@ export const State = Record({
   loading: true,
   lastFilterPath: null,
   lastFilterName: null,
+  layoutSize: 'small',
+  sidebarOpen: true,
 });
 
 export const reducer = (state = State(), { type, payload }) => {
@@ -145,6 +151,10 @@ export const reducer = (state = State(), { type, payload }) => {
             .set('lastFilterPath', payload.location.pathname)
             .set('lastFilterName', match.params.name || 'Adhoc')
         : state;
+    case types.SET_LAYOUT_SIZE:
+      return state.set('layoutSize', payload);
+    case types.SET_SIDEBAR_OPEN:
+      return state.set('sidebarOpen', payload);
     default:
       return state;
   }

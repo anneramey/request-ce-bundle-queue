@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose, withHandlers, withState } from 'recompose';
+import { compose, withHandlers } from 'recompose';
+import { actions } from '../redux/modules/app';
 import Sidebar from 'react-sidebar';
 import { HeaderContainer } from '../lib/react-kinops-components/src/components/Header/HeaderContainer';
 
@@ -28,13 +29,17 @@ export const Layout = ({
 );
 
 export const mapStateToProps = state => ({
-  isLarge: state.layout.get('size') !== 'small',
+  isLarge: state.app.layoutSize !== 'small',
+  sidebarOpen: state.app.sidebarOpen,
 });
 
+const mapDispatchToProps = {
+  setSidebarOpen: actions.setSidebarOpen,
+};
+
 export const LayoutContainer = compose(
-  connect(mapStateToProps),
-  withState('sidebarOpen', 'setSidebarOpen', ({ isLarge }) => isLarge),
+  connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
-    toggleSidebarOpen: props => () => props.setSidebarOpen(isOpen => !isOpen),
+    toggleSidebarOpen: props => () => props.setSidebarOpen(!props.sidebarOpen),
   }),
 )(Layout);
