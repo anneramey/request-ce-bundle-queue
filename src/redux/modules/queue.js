@@ -43,7 +43,11 @@ export const actions = {
   closeNewItemMenu: noPayload(types.CLOSE_NEW_MENU),
 };
 
-export const getPrevNext = state => {
+export const selectPrevAndNext = state => {
+  if (state.app.lastFilterName === null) {
+    return null;
+  }
+
   const currentFilter = state.app.filters.find(
     f => f.name === state.app.lastFilterName,
   );
