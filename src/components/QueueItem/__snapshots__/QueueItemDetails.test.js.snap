@@ -60,6 +60,7 @@ ShallowWrapper {
                         View Discussion
                 </button>
                 <Unknown
+                        prevAndNext={undefined}
                         queueItem={
                                 Object {
                                         "children": Array [],
@@ -205,11 +206,6 @@ ShallowWrapper {
                                 />
                         </button>
                 </h2>
-                <ul
-                        className="list-group submissions"
-                >
-                        
-                </ul>
                 <div
                         className="empty-subtasks"
                 >
@@ -249,6 +245,7 @@ ShallowWrapper {
                         View Discussion
             </button>
             <Unknown
+                        prevAndNext={undefined}
                         queueItem={
                                     Object {
                                                 "children": Array [],
@@ -394,11 +391,6 @@ ShallowWrapper {
                                     />
                         </button>
             </h2>
-            <ul
-                        className="list-group submissions"
-            >
-                        
-            </ul>
             <div
                         className="empty-subtasks"
             >
@@ -436,6 +428,7 @@ ShallowWrapper {
                 View Discussion
 </button>,
               <Unknown
+                prevAndNext={undefined}
                 queueItem={
                                 Object {
                                                 "children": Array [],
@@ -612,6 +605,7 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "function",
               "props": Object {
+                "prevAndNext": undefined,
                 "queueItem": Object {
                   "children": Array [],
                   "coreState": "Draft",
@@ -1064,11 +1058,7 @@ ShallowWrapper {
                                 />
                 </button>
 </h2>,
-              <ul
-                className="list-group submissions"
->
-                
-</ul>,
+              false,
               <div
                 className="empty-subtasks"
 >
@@ -1159,18 +1149,7 @@ ShallowWrapper {
               ],
               "type": "h2",
             },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": Array [],
-                "className": "list-group submissions",
-              },
-              "ref": null,
-              "rendered": Array [],
-              "type": "ul",
-            },
+            false,
             Object {
               "instance": null,
               "key": undefined,
@@ -1248,6 +1227,7 @@ ShallowWrapper {
                               View Discussion
                     </button>
                     <Unknown
+                              prevAndNext={undefined}
                               queueItem={
                                         Object {
                                                   "children": Array [],
@@ -1393,11 +1373,6 @@ ShallowWrapper {
                                         />
                               </button>
                     </h2>
-                    <ul
-                              className="list-group submissions"
-                    >
-                              
-                    </ul>
                     <div
                               className="empty-subtasks"
                     >
@@ -1437,6 +1412,7 @@ ShallowWrapper {
                             View Discussion
               </button>
               <Unknown
+                            prevAndNext={undefined}
                             queueItem={
                                           Object {
                                                         "children": Array [],
@@ -1582,11 +1558,6 @@ ShallowWrapper {
                                           />
                             </button>
               </h2>
-              <ul
-                            className="list-group submissions"
-              >
-                            
-              </ul>
               <div
                             className="empty-subtasks"
               >
@@ -1624,6 +1595,7 @@ ShallowWrapper {
                   View Discussion
 </button>,
                 <Unknown
+                  prevAndNext={undefined}
                   queueItem={
                                     Object {
                                                       "children": Array [],
@@ -1800,6 +1772,7 @@ ShallowWrapper {
                 "key": undefined,
                 "nodeType": "function",
                 "props": Object {
+                  "prevAndNext": undefined,
                   "queueItem": Object {
                     "children": Array [],
                     "coreState": "Draft",
@@ -2252,11 +2225,7 @@ ShallowWrapper {
                                     />
                   </button>
 </h2>,
-                <ul
-                  className="list-group submissions"
->
-                  
-</ul>,
+                false,
                 <div
                   className="empty-subtasks"
 >
@@ -2347,18 +2316,7 @@ ShallowWrapper {
                 ],
                 "type": "h2",
               },
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": Array [],
-                  "className": "list-group submissions",
-                },
-                "ref": null,
-                "rendered": Array [],
-                "type": "ul",
-              },
+              false,
               Object {
                 "instance": null,
                 "key": undefined,

@@ -436,7 +436,10 @@ describe('queue saga', () => {
         );
         // Execute the search.
         expect(saga.next(search).value).toEqual(
-          call(CoreAPI.searchSubmissions, { search: search.search }),
+          call(CoreAPI.searchSubmissions, {
+            search: search.search,
+            limit: 1000,
+          }),
         );
         // Return an error.
         expect(saga.next({ serverError: 'some error' }).value).toEqual(
@@ -457,7 +460,10 @@ describe('queue saga', () => {
         );
         // Execute the search.
         expect(saga.next(search).value).toEqual(
-          call(CoreAPI.searchSubmissions, { search: search.search }),
+          call(CoreAPI.searchSubmissions, {
+            search: search.search,
+            limit: 1000,
+          }),
         );
         // Return an error.
         expect(saga.next({ nextPageToken: 'some token' }).value).toEqual(
@@ -478,7 +484,10 @@ describe('queue saga', () => {
         );
         // Execute the search.
         expect(saga.next(search).value).toEqual(
-          call(CoreAPI.searchSubmissions, { search: search.search }),
+          call(CoreAPI.searchSubmissions, {
+            search: search.search,
+            limit: 1000,
+          }),
         );
         // It sorts the submissions
         expect(saga.next(response).value).toEqual(
