@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
 import { actions } from '../redux/modules/app';
 import Sidebar from 'react-sidebar';
-import { HeaderContainer } from '../lib/react-kinops-components/src/components/Header/HeaderContainer';
+import { HeaderContainer } from 'react-kinops-common';
 
 export const Layout = ({
   sidebarOpen,
@@ -29,7 +29,7 @@ export const Layout = ({
 );
 
 export const mapStateToProps = state => ({
-  isLarge: state.app.layoutSize !== 'small',
+  isLarge: state.layout.get('size') !== 'small',
   sidebarOpen: state.app.sidebarOpen,
 });
 

@@ -2,6 +2,15 @@ import { compose, createStore, combineReducers, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import reducers from './reducers';
+import {
+  reducers as kinopsReducers,
+  sagas as kinopsSagas,
+  combineSagas,
+} from 'react-kinops-common';
+import {
+  sagas as discussionSagas,
+  reducers as discussionReducers,
+} from 'react-kinops-discussions';
 import { sagas } from './sagas';
 
 export const configureStore = history => {
@@ -17,7 +26,13 @@ export const configureStore = history => {
   // module.  Note that we also have some connected react router and redux form
   // setup going on here as well.
   const store = createStore(
-    connectRouter(history)(combineReducers({ ...reducers })),
+    connectRouter(history)(
+      combineReducers({
+        ...reducers,
+        ...kinopsReducers,
+        ...discussionReducers,
+      }),
+    ),
     composeEnhancers(
       applyMiddleware(routerMiddleware(history), sagaMiddleware),
     ),
@@ -26,7 +41,7 @@ export const configureStore = history => {
   // After we've created the store using the saga middleware we will start
   // the run it and pass it the saga watcher so that it can start watching
   // for applicable actions.
-  sagaMiddleware.run(sagas);
+  sagaMiddleware.run(combineSagas([sagas, kinopsSagas, discussionSagas]));
 
   // Enable hot module replacement so that file changes are automatically
   // communicated to the browser when running in development mode

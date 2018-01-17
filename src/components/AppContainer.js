@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
 import { compose, lifecycle } from 'recompose';
-import { actions as appActions } from '../lib/react-kinops-components';
+import { kinopsModule } from 'react-kinops-common';
 import { actions } from '../redux/modules/app';
-import { actions as alertsActions } from '../redux/modules/alerts';
 
 import { App } from './App';
 
@@ -11,9 +10,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  loadApp: appActions.loadApp,
+  loadApp: kinopsModule.actions.loadApp,
   loadAppSettings: actions.loadAppSettings,
-  fetchAlerts: alertsActions.fetchAlerts,
 };
 
 export const AppContainer = compose(
@@ -22,7 +20,6 @@ export const AppContainer = compose(
     componentWillMount() {
       this.props.loadApp();
       this.props.loadAppSettings();
-      this.props.fetchAlerts();
     },
   }),
 )(App);
