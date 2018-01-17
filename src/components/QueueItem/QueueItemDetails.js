@@ -6,8 +6,10 @@ import { bundle } from 'react-kinetic-core';
 import SVGInline from 'react-svg-inline';
 import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
 import commentsIcon from 'font-awesome-svg-png/black/svg/comments.svg';
+import chevronRightIcon from 'font-awesome-svg-png/black/svg/chevron-right.svg';
+import chevronLeftIcon from 'font-awesome-svg-png/black/svg/chevron-left.svg';
 import { selectAssignments } from '../../redux/modules/app';
-import { actions } from '../../redux/modules/queue';
+import { actions, getPrevNext } from '../../redux/modules/queue';
 import { actions as discussionActions } from '../../redux/modules/discussions';
 import { originLink } from '../../utils/links';
 import { AssignmentSelector } from './AssignmentSelector';
@@ -41,6 +43,7 @@ export const QueueItemDetails = ({
   refreshQueueItem,
   openDiscussion,
   createDiscussion,
+  prevAndNext,
 }) => (
   <div className="queue-item-details">
     <div className="scrollable-content">
@@ -59,6 +62,30 @@ export const QueueItemDetails = ({
             : 'View Discussion'}
         </button>
         <StatusParagraph queueItem={queueItem} />
+        {prevAndNext !== null && (
+          <span>
+            {prevAndNext.prev !== null && (
+              <Link to={`/item/${prevAndNext.prev}`} className="btn">
+                <SVGInline
+                  svg={chevronLeftIcon}
+                  className="icon"
+                  role="button"
+                  tabIndex={0}
+                />
+              </Link>
+            )}
+            {prevAndNext.next !== null && (
+              <Link to={`/item/${prevAndNext.next}`} className="btn">
+                <SVGInline
+                  svg={chevronRightIcon}
+                  className="icon"
+                  role="button"
+                  tabIndex={0}
+                />
+              </Link>
+            )}
+          </span>
+        )}
         <h1>
           {queueItem.form.name} ({queueItem.handle})
         </h1>
@@ -170,6 +197,7 @@ const getAttr = (form, attrName) => {
 export const mapStateToProps = state => ({
   queueItem: state.queue.currentItem,
   assignments: selectAssignments(state).toJS(),
+  prevAndNext: state.app.lastFilterName === null ? null : getPrevNext(state),
 });
 
 export const mapDispatchToProps = {
