@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { compose, lifecycle } from 'recompose';
-import { kinopsModule } from 'react-kinops-common';
+import { actions as kinopsActions } from 'react-kinops-common/kinops';
 import { actions } from '../redux/modules/app';
 
 import { App } from './App';
@@ -10,7 +10,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  loadApp: kinopsModule.actions.loadApp,
+  loadApp: kinopsActions.loadApp,
   loadAppSettings: actions.loadAppSettings,
 };
 

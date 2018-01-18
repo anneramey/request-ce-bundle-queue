@@ -1,7 +1,5 @@
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
-import { List } from 'immutable';
-
 import { actions } from 'react-kinops-discussions';
 
 import { QueueItemDiscussions } from './QueueItemDiscussions';

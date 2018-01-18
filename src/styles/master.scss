@@ -1,27 +1,16 @@
-@import 'variables';
-@import 'mixins';
-@import 'base';
+@import '~react-kinops-common/styles/variables';
+@import '~react-kinops-common/styles/mixins';
 @import '~modularscale-sass/stylesheets/modularscale';
 
 @import 'list-group';
 @import 'sidebar';
-@import 'icons';
+
 @import 'submissions';
-@import 'notifications';
-@import 'modal';
 @import 'queue_list';
 @import 'queue_item';
 @import 'queue_item_details';
 @import 'queue_item_discussions';
-@import 'discussion_dialogs';
-@import 'navbar';
 @import 'assignments';
-@import 'forms';
-@import 'tables';
-@import 'buttons';
-@import 'alerts';
-@import 'profile';
-@import 'type';
 @import 'status';
 // Temporary
 @import 'temp';
