@@ -32,7 +32,8 @@
       flex: 6;
     }
 
-    .queue-item-discussions {
+    // Make the discussion box fit in the right sidebar.
+    .kinops-discussions {
       border-left: 2px solid $gray4;
       flex: 4;
     }
