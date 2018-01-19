@@ -19,6 +19,9 @@
   .queue-item-content {
     display: flex;
     flex-grow: 1;
+    // flex-basis helps ensure scrolling for the queue-item-details panel works
+    // properly in IE11
+    flex-basis: 0;
     flex-direction: row;
 
     .queue-item-details {
