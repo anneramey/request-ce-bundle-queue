@@ -90,23 +90,16 @@ export const QueueList = ({
           </button>
         </div>
       </div>
-      <div className="queue-list-content">
-        <div className="scrollable-content">
-          <div className="submissions">
-            {queueItems && queueItems.size > 0 ? (
-              <ul className="list-group">
-                {queueItems.map(queueItem => (
-                  <QueueListItemSmall
-                    queueItem={queueItem}
-                    key={queueItem.id}
-                  />
-                ))}
-              </ul>
-            ) : (
-              <WallyMessage filter={filter} />
-            )}
-          </div>
-        </div>
+      <div className="queue-list-content submissions">
+        {queueItems && queueItems.size > 0 ? (
+          <ul className="list-group">
+            {queueItems.map(queueItem => (
+              <QueueListItemSmall queueItem={queueItem} key={queueItem.id} />
+            ))}
+          </ul>
+        ) : (
+          <WallyMessage filter={filter} />
+        )}
       </div>
     </div>
   );

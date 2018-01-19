@@ -1,12 +1,13 @@
 .queue-list {
   margin-top: $header-height;
-  height: $page-height;
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
 
   .controls {
     border-bottom: 2px solid $gray4;
     display: flex;
+    flex-shrink: 0;
     padding: 0 1.5rem;
     h6 {
       color: $blue1;
@@ -29,16 +30,7 @@
   }
 
   .queue-list-content {
-    flex: 1;
-    position: relative;
-
-    .scrollable-content {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      overflow-y: scroll;
-    }
+    flex-grow: 1;
+    overflow-y: auto;
   }
 }

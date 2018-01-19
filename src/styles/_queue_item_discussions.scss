@@ -16,7 +16,7 @@
       height: 100%;
       width: 100%;
       padding: 1.5rem;
-      overflow-y: scroll;
+      overflow-y: auto;
     }
     .messages-group {
       display: flex;
@@ -172,7 +172,6 @@
   }
   .new-message {
     display: flex;
-    min-height: 48px;
     padding: 0;
     overflow: visible;
     button {
@@ -259,7 +258,7 @@
 
     .message-input {
       max-height: 48px;
-      overflow-y: scroll;
+      overflow-y: auto;
       overflow-wrap: break-word;
       color: #54698d;
 

@@ -9,8 +9,8 @@
       flex-direction: column;
       height: 100%;
       .modal-body {
-        flex: 1;
-        overflow-y: scroll;
+        flex: 1 0 0;
+        overflow-y: auto;
         -webkit-overflow-scrolling: touch;
       }
     }
@@ -22,7 +22,6 @@
     .modal-content {
       border: none;
       box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.5);
-      min-height: 38rem;
     }
   }
 }
@@ -43,7 +42,6 @@
         display: flex;
         justify-content: center;
         position: relative;
-        flex: 1;
         font-size: 1rem;
         margin: 0;
         line-height: 1;
@@ -94,9 +92,8 @@
           .btn.btn-link {
             font-size: 0.875rem;
             padding: 0.875rem 1rem;
-            flex: 1;
+            flex-grow: 1;
             display: flex;
-            justify-content: flex-end;
             .button-title {
               font-weight: 600;
               margin-right: auto;
@@ -129,6 +126,7 @@
         .save-filter {
           display: flex;
           flex-direction: column;
+          margin-top: 2rem;
 
           label {
             height: 17px;
@@ -162,6 +160,7 @@
         }
       }
       &.filter-section {
+        padding-bottom: 3rem;
         h5 {
           color: $blue1;
           font-size: 1rem;
@@ -187,7 +186,7 @@
     .modal-footer {
       padding: 0;
       .btn.btn-primary {
-        flex: 1;
+        flex-grow: 1;
         border-radius: 0;
         padding: 1rem;
       }
