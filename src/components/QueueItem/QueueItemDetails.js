@@ -43,118 +43,120 @@ export const QueueItemDetails = ({
   createDiscussion,
 }) => (
   <div className="queue-item-details">
-    <div className="general">
-      <button
-        onClick={
-          queueItem.values['Discussion Id'] === null
-            ? createDiscussion
-            : openDiscussion
-        }
-        className="btn btn-primary btn-inverse discussion-button icon-wrapper hidden-md-up"
-      >
-        <SVGInline svg={commentsIcon} className="icon" />
-        {queueItem.values['Discussion Id'] === null
-          ? 'Create Discussion'
-          : 'View Discussion'}
-      </button>
-      <StatusParagraph queueItem={queueItem} />
-      <h1>
-        {queueItem.form.name} ({queueItem.handle})
-      </h1>
-      <p className="summary">{queueItem.values.Summary}</p>
-      <pre>{queueItem.values.Details}</pre>
-      <div className="actions">
-        {!isAssigning && (
-          <AssignmentBadge
-            queueItem={queueItem}
-            toggle={
-              queueItem.coreState === 'Draft' ? toggleAssigning : undefined
-            }
-            readOnly={queueItem.coreState !== 'Draft'}
-          />
-        )}
-        {isAssigning && (
-          <AssignmentSelector
-            toggle={setIsAssigning}
-            onSelect={setAssignment}
-            isAssigning={isAssigning}
-            assignments={assignments}
-          />
-        )}
-        <WallyButtonContainer
-          className="btn btn-primary wally-button"
-          queueItem={queueItem}
-          onWorked={refreshQueueItem}
-          onGrabbed={refreshQueueItem}
-        />
-      </div>
-      {nonQueueLink(queueItem) && (
-        <a
-          className="btn btn-primary btn-inverse request-button"
-          href={originLink(queueItem)}
-          target="_blank"
+    <div className="scroll-wrapper">
+      <div className="general">
+        <button
+          onClick={
+            queueItem.values['Discussion Id'] === null
+              ? createDiscussion
+              : openDiscussion
+          }
+          className="btn btn-primary btn-inverse discussion-button icon-wrapper hidden-md-up"
         >
-          View Original Request
-        </a>
-      )}
-      {queueLink(queueItem) && (
-        <Link
-          to={`/item/${queueItem.parent.id}`}
-          className="btn btn-primary btn-inverse request-button"
-        >
-          View Parent
-        </Link>
-      )}
-      <ul className="list-group timestamps">
-        <li className="list-group-item timestamp">
-          <span className="label">Due</span>
-          <span className="value">
-            <TimeAgo timestamp={queueItem.values['Due Date']} id="due-date" />
-          </span>
-        </li>
-        <li className="list-group-item timestamp">
-          <span className="label">Updated</span>
-          <span className="value">
-            <TimeAgo timestamp={queueItem.updatedAt} id="updated-at" />
-          </span>
-        </li>
-        <li className="list-group-item timestamp">
-          <span className="label">Created</span>
-          <span className="value">
-            <TimeAgo timestamp={queueItem.createdAt} id="created-at" />
-          </span>
-        </li>
-      </ul>
-    </div>
-
-    {!prohibitSubtasks && (
-      <div className="subtasks-section">
-        <h2>
-          <span>Subtasks</span>
-          {queueItem.coreState === 'Draft' && (
-            <button className="btn btn-link" onClick={openNewItemMenu}>
-              <SVGInline svg={plusIcon} className="icon" />
-            </button>
+          <SVGInline svg={commentsIcon} className="icon" />
+          {queueItem.values['Discussion Id'] === null
+            ? 'Create Discussion'
+            : 'View Discussion'}
+        </button>
+        <StatusParagraph queueItem={queueItem} />
+        <h1>
+          {queueItem.form.name} ({queueItem.handle})
+        </h1>
+        <p className="summary">{queueItem.values.Summary}</p>
+        <pre>{queueItem.values.Details}</pre>
+        <div className="actions">
+          {!isAssigning && (
+            <AssignmentBadge
+              queueItem={queueItem}
+              toggle={
+                queueItem.coreState === 'Draft' ? toggleAssigning : undefined
+              }
+              readOnly={queueItem.coreState !== 'Draft'}
+            />
           )}
-        </h2>
-        {queueItem.children.length > 0 && (
-          <ul className="list-group submissions">
-            {queueItem.children.map(child => (
-              <QueueListItemSmall key={child.id} queueItem={child} />
-            ))}
-          </ul>
+          {isAssigning && (
+            <AssignmentSelector
+              toggle={setIsAssigning}
+              onSelect={setAssignment}
+              isAssigning={isAssigning}
+              assignments={assignments}
+            />
+          )}
+          <WallyButtonContainer
+            className="btn btn-primary wally-button"
+            queueItem={queueItem}
+            onWorked={refreshQueueItem}
+            onGrabbed={refreshQueueItem}
+          />
+        </div>
+        {nonQueueLink(queueItem) && (
+          <a
+            className="btn btn-primary btn-inverse request-button"
+            href={originLink(queueItem)}
+            target="_blank"
+          >
+            View Original Request
+          </a>
         )}
-        {queueItem.children.length < 1 && (
-          <div className="empty-subtasks">
-            <h5>No Subtasks to display</h5>
-            <h6>
-              Subtasks are an easy way to create smaller and/or related tasks to
-              parent task.
-            </h6>
-          </div>
+        {queueLink(queueItem) && (
+          <Link
+            to={`/item/${queueItem.parent.id}`}
+            className="btn btn-primary btn-inverse request-button"
+          >
+            View Parent
+          </Link>
         )}
+        <ul className="list-group timestamps">
+          <li className="list-group-item timestamp">
+            <span className="label">Due</span>
+            <span className="value">
+              <TimeAgo timestamp={queueItem.values['Due Date']} id="due-date" />
+            </span>
+          </li>
+          <li className="list-group-item timestamp">
+            <span className="label">Updated</span>
+            <span className="value">
+              <TimeAgo timestamp={queueItem.updatedAt} id="updated-at" />
+            </span>
+          </li>
+          <li className="list-group-item timestamp">
+            <span className="label">Created</span>
+            <span className="value">
+              <TimeAgo timestamp={queueItem.createdAt} id="created-at" />
+            </span>
+          </li>
+        </ul>
       </div>
-    )}
+
+      {!prohibitSubtasks && (
+        <div className="subtasks-section">
+          <h2>
+            <span>Subtasks</span>
+            {queueItem.coreState === 'Draft' && (
+              <button className="btn btn-link" onClick={openNewItemMenu}>
+                <SVGInline svg={plusIcon} className="icon" />
+              </button>
+            )}
+          </h2>
+          {queueItem.children.length > 0 && (
+            <ul className="list-group submissions">
+              {queueItem.children.map(child => (
+                <QueueListItemSmall key={child.id} queueItem={child} />
+              ))}
+            </ul>
+          )}
+          {queueItem.children.length < 1 && (
+            <div className="empty-subtasks">
+              <h5>No Subtasks to display</h5>
+              <h6>
+                Subtasks are an easy way to create smaller and/or related tasks
+                to parent task.
+              </h6>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   </div>
 );
 
