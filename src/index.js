@@ -4,11 +4,12 @@ import { Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { createHashHistory } from 'history';
-import { createLayoutListeners } from 'react-kinops-common/layout';
+import { LayoutModule } from 'react-kinops-common';
 
 import { AppContainer } from './components/AppContainer';
 import { configureStore } from './redux/store';
-// import { actions } from './redux/modules/layout';
+
+const { createLayoutListeners } = LayoutModule;
 
 // This src/index.js file is the main entry into the React application.  It does
 // not contain much application code, instead it is mostly boilerplate code that

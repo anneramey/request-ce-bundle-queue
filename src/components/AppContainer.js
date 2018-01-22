@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
 import { compose, lifecycle } from 'recompose';
-import { actions as kinopsActions } from 'react-kinops-common/kinops';
+import { KinopsModule } from 'react-kinops-common';
 import { actions } from '../redux/modules/app';
 
 import { App } from './App';
+
+const { actions: kinopsActions } = KinopsModule;
 
 const mapStateToProps = state => ({
   loading: state.app.loading || state.kinops.loading,
