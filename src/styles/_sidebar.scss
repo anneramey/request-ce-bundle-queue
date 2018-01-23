@@ -13,12 +13,12 @@
 
   h6 {
     color: $blue0;
-    font-size: .75rem;
+    font-size: 0.75rem;
     padding: 0.75rem 1.5rem;
-    margin: .75rem 0 0 0;
+    margin: 0.75rem 0 0 0;
     text-transform: uppercase;
-    .btn{
-      .icon-svg{
+    .btn {
+      .icon-svg {
         height: 0.75rem;
         widows: 0.75rem;
       }
@@ -26,15 +26,15 @@
   }
 
   .btn {
-    font-size: .875rem;
+    font-size: 0.875rem;
     margin: 0 auto;
     &.btn-primary {
       background-color: $orange1;
       border: none;
       margin: 0 1.5rem;
       line-height: 1.75rem;
-      margin-bottom: .75rem;
-      &:hover{
+      margin-bottom: 0.75rem;
+      &:hover {
         color: $white;
         background-color: darken($orange1, 25%);
       }
@@ -43,13 +43,14 @@
 
   .nav-link {
     color: $gray;
+    line-height: normal;
   }
 
   .filter-nav {
     .nav-link {
       border-left: 3px solid white;
-      margin: 0 0 .75rem 0;
-      font-size: .875rem;
+      margin: 0 0 0.75rem 0;
+      font-size: 0.875rem;
       padding: 0.25rem 1.5rem;
       transition: border-left-color 0.5s, color 0.5s;
       .icon {
@@ -71,9 +72,9 @@
   .bottom-nav {
     .nav-link {
       border-bottom: 1px solid $gray3;
-      font-size: .875rem;
-      padding: 0.625rem .75rem .5625rem;
-      margin: 0 .75rem;
+      font-size: 0.875rem;
+      padding: 0.625rem 0.75rem 0.5625rem;
+      margin: 0 0.75rem;
       text-transform: uppercase;
     }
   }
