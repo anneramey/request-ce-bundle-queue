@@ -2,6 +2,7 @@ import { takeEvery } from 'redux-saga';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import { List } from 'immutable';
 import { CoreAPI } from 'react-kinetic-core';
+import { LayoutModule } from 'react-kinops-common';
 
 import { getAttributeValue } from '../../utils';
 
@@ -13,6 +14,8 @@ import {
 } from '../modules/app';
 
 import { filterReviver } from '../../records';
+
+const { types: layoutTypes } = LayoutModule;
 
 const PROFILE_INCLUDES =
   'attributes,profileAttributes,memberships,memberships.team,memberships.team.attributes,memberships.team.memberships,memberships.team.memberships.user';
@@ -125,6 +128,10 @@ export function* updatePersonalFilterTask() {
   }
 }
 
+export function* setSize({ payload }) {
+  yield put(actions.setLayoutSize(payload));
+}
+
 export function* watchApp() {
   yield takeEvery(types.LOAD_APP_SETTINGS, fetchAppSettingsTask);
   yield takeLatest(
@@ -135,4 +142,5 @@ export function* watchApp() {
     ],
     updatePersonalFilterTask,
   );
+  yield takeEvery(layoutTypes.SET_SIZE, setSize);
 }
