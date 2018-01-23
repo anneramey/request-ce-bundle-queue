@@ -4,13 +4,23 @@ import { compose, withHandlers } from 'recompose';
 import { actions } from '../redux/modules/app';
 import Sidebar from 'react-sidebar';
 import { HeaderContainer } from 'react-kinops-common';
+import { Route, Redirect } from 'react-router-dom';
+import { NotificationsContainer } from './notifications/NotificationsContainer';
+import { FilterMenuContainer } from './FilterMenu/FilterMenuContainer';
+import { QueueItemContainer } from './QueueItem/QueueItem';
+import { QueueListContainer } from './queueList/QueueListContainer';
+import { NewItemMenuContainer } from './newItemMenu/NewItemMenuContainer';
+import { ModalFormContainer } from 'react-kinops-common';
+import { ToastsContainer } from 'react-kinops-common';
+import { WorkMenuContainer } from './WorkMenu';
+
+const globals = import('../globals');
 
 export const Layout = ({
   sidebarOpen,
   isLarge,
   toggleSidebarOpen,
   setSidebarOpen,
-  mainContent,
   sidebarContent,
 }) => (
   <div className="layout">
@@ -22,8 +32,22 @@ export const Layout = ({
       docked={sidebarOpen && isLarge}
       onSetOpen={setSidebarOpen}
       sidebarClassName={`sidebar-content ${isLarge ? 'drawer' : 'overlay'}`}
+      contentClassName="main-content"
     >
-      {mainContent}
+      <ToastsContainer />
+      <NotificationsContainer />
+      <Route path="/" exact render={() => <Redirect to="/list/Mine" />} />
+      <Route path="/list/:filter" component={QueueListContainer} />
+      <Route path="/custom" component={QueueListContainer} />
+      <Route path="/item/:id" component={QueueItemContainer} />
+      <Route
+        path="/queue/filter/__show__/details/:id/summary"
+        render={({ match }) => <Redirect to={`/item/${match.params.id}`} />}
+      />
+      <FilterMenuContainer />
+      <NewItemMenuContainer />
+      <ModalFormContainer globals={globals} />
+      <WorkMenuContainer />
     </Sidebar>
   </div>
 );

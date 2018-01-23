@@ -44,7 +44,7 @@ export const QueueItemDetails = ({
   prevAndNext,
 }) => (
   <div className="queue-item-details">
-    <div className="scrollable-content">
+    <div className="scroll-wrapper">
       <div className="general">
         <button
           onClick={

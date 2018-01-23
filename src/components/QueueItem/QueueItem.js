@@ -12,14 +12,12 @@ export const QueueItem = ({ lastFilterPath, lastFilterName, queueItem }) =>
   queueItem !== null && (
     <div className="queue-item">
       {lastFilterName && (
-        <div className="controls">
-          <Link to={lastFilterPath} className="back-link">
-            <div className="icon-wrapper">
-              <SVGInline svg={chevronLeftIcon} className="icon" />
-              {lastFilterName}
-            </div>
-          </Link>
-        </div>
+        <Link to={lastFilterPath} className="back-link">
+          <div className="icon-wrapper">
+            <SVGInline svg={chevronLeftIcon} className="icon" />
+            {lastFilterName}
+          </div>
+        </Link>
       )}
       <div className="queue-item-content">
         <QueueItemDetailsContainer />
