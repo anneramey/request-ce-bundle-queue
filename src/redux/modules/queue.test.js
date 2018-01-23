@@ -22,12 +22,12 @@ describe('reducer', () => {
   });
 
   describe('SET_LIST_ITEMS', () => {
-    test('sets value in lists using the filter as the key listStatus to null', () => {
+    test('sets value in lists using the filter as the key statuses to null', () => {
       const filter1 = Filter({ name: 'Filter 1' });
       const filter2 = Filter({ name: 'Filter 2' });
       const state = State({
         lists: Map([[filter1, List()], [filter2, List()]]),
-        listStatus: 'Failed',
+        statuses: Map([[filter1, 'error'], [filter2, 'error']]),
         previewItem: null,
       });
       const queueItems = [{ id: 'foo' }, { id: 'bar' }, { id: 'baz' }];
@@ -35,7 +35,7 @@ describe('reducer', () => {
       expect(reducer(state, action).lists).toEqualImmutable(
         Map([[filter1, List(queueItems)], [filter2, List()]]),
       );
-      expect(reducer(state, action).listStatus).toBeNull();
+      expect(reducer(state, action).statuses.get(filter1)).toBeNull();
       expect(reducer(state, action).previewItem).toBeNull();
     });
 
@@ -60,10 +60,11 @@ describe('reducer', () => {
   });
 
   describe('SET_LIST_STATUS', () => {
-    test('sets listStatus to the payload value', () => {
-      const state = State({ listStatus: null });
-      const action = actions.setListStatus('Failed');
-      expect(reducer(state, action).listStatus).toEqual('Failed');
+    test('sets statuses entry for the filter to the payload status value', () => {
+      const filter = Filter({ name: 'Filter' });
+      const state = State();
+      const action = actions.setListStatus(filter, 'Failed');
+      expect(reducer(state, action).statuses.get(filter)).toEqual('Failed');
     });
   });
 

@@ -190,10 +190,10 @@ export function* fetchListTask(action) {
     );
 
     if (serverError || (messages && messages.length > 0)) {
-      yield put(actions.setListStatus(ERROR_STATUS_STRING));
+      yield put(actions.setListStatus(filter, ERROR_STATUS_STRING));
       yield put(errorActions.addError('Failed to retrieve items!'));
     } else if (nextPageToken) {
-      yield put(actions.setListStatus(TOO_MANY_STATUS_STRING));
+      yield put(actions.setListStatus(filter, TOO_MANY_STATUS_STRING));
     } else {
       // Post-process results:
       const sortedSubmissions = yield call(

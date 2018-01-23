@@ -443,7 +443,7 @@ describe('queue saga', () => {
         );
         // Return an error.
         expect(saga.next({ serverError: 'some error' }).value).toEqual(
-          put(actions.setListStatus(ERROR_STATUS_STRING)),
+          put(actions.setListStatus(action.payload, ERROR_STATUS_STRING)),
         );
       });
     });
@@ -467,7 +467,7 @@ describe('queue saga', () => {
         );
         // Return an error.
         expect(saga.next({ nextPageToken: 'some token' }).value).toEqual(
-          put(actions.setListStatus(TOO_MANY_STATUS_STRING)),
+          put(actions.setListStatus(action.payload, TOO_MANY_STATUS_STRING)),
         );
       });
     });
