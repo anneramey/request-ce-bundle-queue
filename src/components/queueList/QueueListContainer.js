@@ -1,27 +1,38 @@
 import { compose, lifecycle, withHandlers, withProps } from 'recompose';
 import { connect } from 'react-redux';
 import { getFilterByPath } from '../../redux/modules/app';
-import { actions as queueActions } from '../../redux/modules/queue';
+import {
+  actions as queueActions,
+  selectQueueItemPage,
+} from '../../redux/modules/queue';
 import { actions as filterMenuActions } from '../../redux/modules/filterMenu';
 import { QueueList } from './QueueList';
 
-const mapStateToProps = state => ({
-  pathname: state.router.location.pathname,
-  filter: getFilterByPath(state, state.router.location.pathname),
-  queueItems: state.queue.lists.get(
-    getFilterByPath(state, state.router.location.pathname),
-  ),
-  statusMessage: state.queue.statuses.get(
-    getFilterByPath(state, state.router.location.pathname),
-  ),
-  sortDirection: state.queue.sortDirection,
-  sortBy: getFilterByPath(state, state.router.location.pathname).sortBy,
-});
+const mapStateToProps = state => {
+  const filter = getFilterByPath(state, state.router.location.pathname);
+  const queueItems = selectQueueItemPage(state);
+  const currentList = state.queue.lists.get(filter);
+  const totalItems = currentList ? currentList.size : 0;
+
+  return {
+    pathname: state.router.location.pathname,
+    filter,
+    queueItems,
+    totalItems,
+    hasPrevPage: state.queue.offset !== 0,
+    hasNextPage: totalItems > state.queue.limit + state.queue.offset,
+    statusMessage: state.queue.statuses.get(filter),
+    sortDirection: state.queue.sortDirection,
+    sortBy: filter.sortBy,
+  };
+};
 
 const mapDispatchToProps = {
   openFilterMenu: filterMenuActions.open,
   toggleSortDirection: queueActions.toggleSortDirection,
   fetchList: queueActions.fetchList,
+  gotoPrevPage: queueActions.gotoPrevPage,
+  gotoNextPage: queueActions.gotoNextPage,
 };
 
 export const QueueListContainer = compose(

@@ -6,6 +6,8 @@ import refreshIcon from 'font-awesome-svg-png/white/svg/refresh.svg';
 import filterIcon from '../../images/filter.svg';
 import sortAscIcon from '../../images/sort_asc.svg';
 import sortDescIcon from '../../images/sort_desc.svg';
+import caretLeft from 'font-awesome-svg-png/white/svg/caret-left.svg';
+import caretRight from 'font-awesome-svg-png/white/svg/caret-right.svg';
 import { QueueListItemSmall } from './QueueListItem';
 import { TOO_MANY_STATUS_STRING } from '../../redux/sagas/queue';
 
@@ -65,6 +67,11 @@ export const QueueList = ({
   sortBy,
   toggleSortDirection,
   refresh,
+  totalItems,
+  hasPrevPage,
+  hasNextPage,
+  gotoPrevPage,
+  gotoNextPage,
 }) =>
   !filter ? (
     <WallyBadFilter />
@@ -77,6 +84,23 @@ export const QueueList = ({
           <small>by {SORT_NAMES[sortBy]}</small>
         </h6>
         <div className="buttons">
+          <button
+            type="button"
+            className="btn btn-link icon-wrapper"
+            disabled={!hasPrevPage}
+            onClick={gotoPrevPage}
+          >
+            <SVGInline svg={caretLeft} className="icon" />
+          </button>
+          <button
+            type="button"
+            className="btn btn-link icon-wrapper"
+            disabled={!hasNextPage}
+            onClick={gotoNextPage}
+          >
+            <SVGInline svg={caretRight} className="icon" />
+          </button>
+
           <button
             type="button"
             className="btn btn-link icon-wrapper"

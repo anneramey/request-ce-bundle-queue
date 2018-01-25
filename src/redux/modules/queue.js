@@ -3,6 +3,7 @@ import { LOCATION_CHANGE } from 'connected-react-router';
 
 import { namespace, withPayload, noPayload } from '../../utils';
 import { Filter, AssignmentCriteria } from '../../records';
+import { getFilterByPath } from '../../redux/modules/app';
 
 export const types = {
   SET_ADHOC_FILTER: namespace('queue', 'SET_ADHOC_FILTER'),
@@ -20,6 +21,9 @@ export const types = {
 
   OPEN_NEW_MENU: namespace('queue', 'OPEN_NEW_MENU'),
   CLOSE_NEW_MENU: namespace('queue', 'CLOSE_NEW_MENU'),
+
+  GOTO_PREV_PAGE: namespace('queue', 'GOTO_PREV_PAGE'),
+  GOTO_NEXT_PAGE: namespace('queue', 'GOTO_NEXT_PAGE'),
 };
 
 export const actions = {
@@ -44,6 +48,9 @@ export const actions = {
 
   openNewItemMenu: withPayload(types.OPEN_NEW_MENU),
   closeNewItemMenu: noPayload(types.CLOSE_NEW_MENU),
+
+  gotoPrevPage: noPayload(types.GOTO_PREV_PAGE),
+  gotoNextPage: noPayload(types.GOTO_NEXT_PAGE),
 };
 
 export const selectPrevAndNext = state => {
@@ -68,6 +75,16 @@ export const selectPrevAndNext = state => {
   return { prev: prevItem, next: nextItem };
 };
 
+export const selectQueueItemPage = state => {
+  const currentList = state.queue.lists.get(
+    getFilterByPath(state, state.router.location.pathname),
+  );
+
+  return currentList
+    ? currentList.skip(state.queue.offset).take(state.queue.limit)
+    : List();
+};
+
 export const State = Record({
   sortDirection: 'ASC',
   currentItem: null,
@@ -81,6 +98,10 @@ export const State = Record({
   previewItem: null,
   newItemMenuOpen: false,
   newItemMenuOptions: Map(),
+
+  // List pagination
+  offset: 0,
+  limit: 10,
 });
 
 export const reducer = (state = State(), { type, payload }) => {
@@ -97,7 +118,8 @@ export const reducer = (state = State(), { type, payload }) => {
       return state
         .setIn(['lists', payload.filter], List(payload.list))
         .set('previewItem', updatedPreviewItem || state.previewItem)
-        .setIn(['statuses', payload.filter], null);
+        .setIn(['statuses', payload.filter], null)
+        .set('offset', 0);
     case types.SET_LIST_STATUS:
       return state.setIn(['statuses', payload.filter], payload.status);
     case types.FETCH_CURRENT_ITEM:
@@ -119,8 +141,16 @@ export const reducer = (state = State(), { type, payload }) => {
         .set('newItemMenuOptions', Map(payload));
     case types.CLOSE_NEW_MENU:
       return state.set('newItemMenuOpen', false).remove('newItemMenuOptions');
+    case types.GOTO_PREV_PAGE:
+      return state.set(
+        'offset',
+        state.offset - state.limit < 0 ? 0 : state.offset - state.limit,
+      );
+    case types.GOTO_NEXT_PAGE:
+      return state.set('offset', state.offset + state.limit);
+
     case LOCATION_CHANGE:
-      return state.set('sortDirection', 'ASC');
+      return state.set('sortDirection', 'ASC').set('offset', 0);
     default:
       return state;
   }
