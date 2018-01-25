@@ -11,6 +11,9 @@ const mapStateToProps = state => ({
   queueItems: state.queue.lists.get(
     getFilterByPath(state, state.router.location.pathname),
   ),
+  statusMessage: state.queue.statuses.get(
+    getFilterByPath(state, state.router.location.pathname),
+  ),
   sortDirection: state.queue.sortDirection,
   sortBy: getFilterByPath(state, state.router.location.pathname).sortBy,
 });

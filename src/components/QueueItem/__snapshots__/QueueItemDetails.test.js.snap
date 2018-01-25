@@ -40,7 +40,7 @@ ShallowWrapper {
     "nodeType": "host",
     "props": Object {
       "children": <div
-        className="scrollable-content"
+        className="scroll-wrapper"
 >
         <div
                 className="general"
@@ -403,7 +403,7 @@ ShallowWrapper {
             </div>
 </div>,
         ],
-        "className": "scrollable-content",
+        "className": "scroll-wrapper",
       },
       "ref": null,
       "rendered": Array [
@@ -1207,7 +1207,7 @@ ShallowWrapper {
       "nodeType": "host",
       "props": Object {
         "children": <div
-          className="scrollable-content"
+          className="scroll-wrapper"
 >
           <div
                     className="general"
@@ -1570,7 +1570,7 @@ ShallowWrapper {
               </div>
 </div>,
           ],
-          "className": "scrollable-content",
+          "className": "scroll-wrapper",
         },
         "ref": null,
         "rendered": Array [

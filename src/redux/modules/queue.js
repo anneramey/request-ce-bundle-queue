@@ -32,7 +32,10 @@ export const actions = {
     type: types.SET_LIST_ITEMS,
     payload: { filter, list },
   }),
-  setListStatus: withPayload(types.SET_LIST_STATUS),
+  setListStatus: (filter, status) => ({
+    type: types.SET_LIST_STATUS,
+    payload: { filter, status },
+  }),
   setPreviewItem: withPayload(types.SET_PREVIEW_ITEM),
   toggleSortDirection: noPayload(types.TOGGLE_SORT_DIRECTION),
 
@@ -74,7 +77,7 @@ export const State = Record({
     assignments: AssignmentCriteria({ mine: true }),
   }),
   lists: Map(),
-  listStatus: null,
+  statuses: Map(),
   previewItem: null,
   newItemMenuOpen: false,
   newItemMenuOptions: Map(),
@@ -94,9 +97,9 @@ export const reducer = (state = State(), { type, payload }) => {
       return state
         .setIn(['lists', payload.filter], List(payload.list))
         .set('previewItem', updatedPreviewItem || state.previewItem)
-        .set('listStatus', null);
+        .setIn(['statuses', payload.filter], null);
     case types.SET_LIST_STATUS:
-      return state.set('listStatus', payload);
+      return state.setIn(['statuses', payload.filter], payload.status);
     case types.FETCH_CURRENT_ITEM:
       return state.set('currentItemLoading', true);
     case types.SET_CURRENT_ITEM:

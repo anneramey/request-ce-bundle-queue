@@ -7,7 +7,8 @@ import { types, actions } from '../modules/queue';
 import { actions as errorActions } from '../modules/errors';
 
 export const ERROR_STATUS_STRING = 'There was a problem retrieving items.';
-export const TOO_MANY_STATUS_STRING = 'Your filter matches too many items.';
+export const TOO_MANY_STATUS_STRING =
+  'Your filter matches too many items. Try a more specific filter.';
 
 export const SUBMISSION_INCLUDES =
   'details,values,attributes,form,children,children.details,children.form,children.values,form.attributes,parent,parent.details,parent.values,parent.form,parent.form.kapp';
@@ -190,10 +191,10 @@ export function* fetchListTask(action) {
     );
 
     if (serverError || (messages && messages.length > 0)) {
-      yield put(actions.setListStatus(ERROR_STATUS_STRING));
+      yield put(actions.setListStatus(filter, ERROR_STATUS_STRING));
       yield put(errorActions.addError('Failed to retrieve items!'));
     } else if (nextPageToken) {
-      yield put(actions.setListStatus(TOO_MANY_STATUS_STRING));
+      yield put(actions.setListStatus(filter, TOO_MANY_STATUS_STRING));
     } else {
       // Post-process results:
       const sortedSubmissions = yield call(

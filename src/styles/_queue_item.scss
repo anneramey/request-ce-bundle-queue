@@ -1,32 +1,23 @@
 .queue-item {
   margin-top: $header-height;
-  min-height: $page-height;
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
-  position: relative;
 
-  .controls {
-    border-bottom: none;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    .back-link {
-      border-bottom: 2px solid $gray4;
-      color: $blue1;
-      flex: 1;
-      font-size: 14px;
-      padding: 0.75rem 1rem;
-      text-decoration: none;
-      .icon {
-        margin-right: 0.5em;
-      }
+  .back-link {
+    border-bottom: 2px solid $gray4;
+    color: $blue1;
+    font-size: 14px;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    .icon {
+      margin-right: 0.5em;
     }
   }
 
   .queue-item-content {
     display: flex;
-    flex: 1;
-    flex-direction: row;
+    flex-grow: 1;
 
     .queue-item-details {
       flex: 6;

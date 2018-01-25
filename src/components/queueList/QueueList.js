@@ -7,6 +7,7 @@ import filterIcon from '../../images/filter.svg';
 import sortAscIcon from '../../images/sort_asc.svg';
 import sortDescIcon from '../../images/sort_desc.svg';
 import { QueueListItemSmall } from './QueueListItem';
+import { TOO_MANY_STATUS_STRING } from '../../redux/sagas/queue';
 
 const SORT_NAMES = {
   createdAt: 'Created At',
@@ -15,7 +16,7 @@ const SORT_NAMES = {
   'Due Date': 'Due Date',
 };
 
-const WallyMessage = ({ filter }) => {
+const WallyEmptyMessage = ({ filter }) => {
   if (filter.type === 'adhoc') {
     return (
       <div className="wally">
@@ -36,6 +37,17 @@ const WallyMessage = ({ filter }) => {
   );
 };
 
+const WallyErrorMessage = ({ message }) => {
+  return (
+    <div className="wally">
+      <h5>{message === TOO_MANY_STATUS_STRING ? 'Too Many Items' : 'Error'}</h5>
+      <SVGInline svg={wallyMissingImage} />
+      <h6>{message}</h6>
+      <h5>Try again</h5>
+    </div>
+  );
+};
+
 const WallyBadFilter = () => (
   <div className="wally">
     <h5>Invalid List</h5>
@@ -47,6 +59,7 @@ const WallyBadFilter = () => (
 export const QueueList = ({
   filter,
   queueItems,
+  statusMessage,
   openFilterMenu,
   sortDirection,
   sortBy,
@@ -90,23 +103,18 @@ export const QueueList = ({
           </button>
         </div>
       </div>
-      <div className="queue-list-content">
-        <div className="scrollable-content">
-          <div className="submissions">
-            {queueItems && queueItems.size > 0 ? (
-              <ul className="list-group">
-                {queueItems.map(queueItem => (
-                  <QueueListItemSmall
-                    queueItem={queueItem}
-                    key={queueItem.id}
-                  />
-                ))}
-              </ul>
-            ) : (
-              <WallyMessage filter={filter} />
-            )}
-          </div>
-        </div>
+      <div className="queue-list-content submissions">
+        {statusMessage ? (
+          <WallyErrorMessage message={statusMessage} />
+        ) : queueItems && queueItems.size > 0 ? (
+          <ul className="list-group">
+            {queueItems.map(queueItem => (
+              <QueueListItemSmall queueItem={queueItem} key={queueItem.id} />
+            ))}
+          </ul>
+        ) : (
+          <WallyEmptyMessage filter={filter} />
+        )}
       </div>
     </div>
   );
