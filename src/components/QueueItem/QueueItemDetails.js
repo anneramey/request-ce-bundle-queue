@@ -176,6 +176,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = {
   updateQueueItem: actions.updateQueueItem,
+  setCurrentItem: actions.setCurrentItem,
   openNewItemMenu: actions.openNewItemMenu,
   fetchCurrentItem: actions.fetchCurrentItem,
   setCurrentItem: actions.setCurrentItem,
@@ -197,7 +198,10 @@ export const QueueItemDetailsContainer = compose(
   withHandlers({
     toggleAssigning: ({ setIsAssigning, isAssigning }) => () =>
       setIsAssigning(!isAssigning),
-    setAssignment: ({ queueItem, updateQueueItem }) => (_v, assignment) => {
+    setAssignment: ({ queueItem, updateQueueItem, setCurrentItem }) => (
+      _v,
+      assignment,
+    ) => {
       const teamParts = assignment.team.split('::');
       const values = {
         'Assigned Individual': assignment.username,
@@ -209,7 +213,7 @@ export const QueueItemDetailsContainer = compose(
       updateQueueItem({
         id: queueItem.id,
         values,
-        successAction: actions.setCurrentItem,
+        onSuccess: setCurrentItem,
       });
     },
     openNewItemMenu: ({
