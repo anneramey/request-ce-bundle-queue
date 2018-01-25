@@ -5957,8 +5957,8 @@ react-kinops-common@^0.3.3:
     reactstrap "^4.8.0"
 
 react-kinops-discussions@^0.1.1:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/react-kinops-discussions/-/react-kinops-discussions-0.1.3.tgz#c5b84f548002fb34a3cd9b0e53d3c2a8d242c8c5"
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/react-kinops-discussions/-/react-kinops-discussions-0.1.4.tgz#4bb146c9f9dcfe57cb77121411fa46e23ebec558"
   dependencies:
     deepequal "^0.0.1"
     eslint-plugin-flowtype "^2.41.0"
