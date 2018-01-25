@@ -16,7 +16,7 @@ export const QueueItemDiscussions = props => {
       )}
     />
   ) : (
-    <div className="queue-item-discussions hidden-sm-down">
+    <div className="kinops-discussions hidden-sm-down">
       <div className="empty-discussion">
         <h6>No discussion to display</h6>
         <p>
