@@ -28,6 +28,8 @@
     "bootstrap-select": "^1.12.4",
     "classnames": "^2.2.5",
     "connected-react-router": "^4.2.3",
+    "datatables.net": "^1.10.16",
+    "datatables.net-dt": "^1.10.16",
     "font-awesome-svg-png": "^1.2.2",
     "history": "^4.7.2",
     "immutable": "4.0.0-rc.9",

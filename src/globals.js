@@ -18,5 +18,7 @@ window.jQuery = jquery;
 window.moment = moment;
 window._ = underscore;
 
+require('datatables.net');
+require('datatables.net-dt/css/jquery.dataTables.css');
 require('bootstrap-select/dist/js/bootstrap-select');
 require('./lib/kd-typeahead/kd-typeahead');
