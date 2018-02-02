@@ -29,12 +29,12 @@ const getStatusReason = queueItem => {
 
 const PrevAndNextGroup = ({ prevAndNext }) => (
   <ButtonGroup className="queue-details-nav btn-group-xs">
-    <LinkContainer to={`/item/${prevAndNext.prev}`}>
+    <LinkContainer to={prevAndNext.prev || ''}>
       <Button color="secondary" outline disabled={!prevAndNext.prev}>
         <SVGInline svg={caretLeft} className="icon" />
       </Button>
     </LinkContainer>
-    <LinkContainer to={`/item/${prevAndNext.next}`}>
+    <LinkContainer to={prevAndNext.next || ''}>
       <Button color="secondary" outline disabled={!prevAndNext.next}>
         <SVGInline svg={caretRight} className="icon" />
       </Button>

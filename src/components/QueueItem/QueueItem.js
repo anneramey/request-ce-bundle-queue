@@ -4,33 +4,33 @@ import { compose, lifecycle } from 'recompose';
 import { Link } from 'react-router-dom';
 import SVGInline from 'react-svg-inline';
 import chevronLeftIcon from 'font-awesome-svg-png/black/svg/chevron-left.svg';
+import { getFilterByPath, buildFilterPath } from '../../redux/modules/app';
 import { actions } from '../../redux/modules/queue';
 import { QueueItemDetailsContainer } from './QueueItemDetails';
 import { QueueItemDiscussionsContainer } from './QueueItemDiscussionsContainer';
 
-export const QueueItem = ({ lastFilterPath, lastFilterName, queueItem }) =>
+export const QueueItem = ({ filter, queueItem }) =>
   queueItem !== null && (
     <div className="queue-item">
-      {lastFilterName && (
-        <Link to={lastFilterPath} className="back-link">
+      {filter && (
+        <Link to={buildFilterPath(filter)} className="back-link">
           <div className="icon-wrapper">
             <SVGInline svg={chevronLeftIcon} className="icon" />
-            {lastFilterName}
+            {filter.name || 'Adhoc'}
           </div>
         </Link>
       )}
       <div className="queue-item-content">
-        <QueueItemDetailsContainer />
+        <QueueItemDetailsContainer filter={filter} />
         <QueueItemDiscussionsContainer />
       </div>
     </div>
   );
 
 export const mapStateToProps = (state, props) => ({
-  queueItem: state.queue.currentItem,
-  lastFilterPath: state.app.lastFilterPath,
-  lastFilterName: state.app.lastFilterName,
   id: props.match.params.id,
+  filter: getFilterByPath(state, props.location.pathname),
+  queueItem: state.queue.currentItem,
 });
 
 export const mapDispatchToProps = {

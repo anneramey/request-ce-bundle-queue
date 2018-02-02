@@ -168,10 +168,10 @@ const getAttr = (form, attrName) => {
   return attrConfig && attrConfig.values[0];
 };
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state, props) => ({
   queueItem: state.queue.currentItem,
   assignments: selectAssignments(state).toJS(),
-  prevAndNext: selectPrevAndNext(state),
+  prevAndNext: selectPrevAndNext(state, props.filter),
 });
 
 export const mapDispatchToProps = {
@@ -179,7 +179,6 @@ export const mapDispatchToProps = {
   setCurrentItem: actions.setCurrentItem,
   openNewItemMenu: actions.openNewItemMenu,
   fetchCurrentItem: actions.fetchCurrentItem,
-  setCurrentItem: actions.setCurrentItem,
   openModal: discussionActions.openModal,
   createDiscussion: discussionActions.createIssue,
 };

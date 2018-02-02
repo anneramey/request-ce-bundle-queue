@@ -4,6 +4,7 @@ import SVGInline from 'react-svg-inline';
 import commentsIcon from 'font-awesome-svg-png/black/svg/comments.svg';
 import { TimeAgo } from '../TimeAgo';
 import { StatusParagraph } from '../StatusParagraph';
+import { buildFilterPath } from '../../redux/modules/app';
 
 const AssignmentParagraph = ({ values }) => (
   <p className="assignment">
@@ -43,11 +44,14 @@ const DueOrCloseDate = ({ queueItem }) => {
   }
 };
 
-export const QueueListItemSmall = ({ queueItem }) => {
+export const QueueListItemSmall = ({ queueItem, filter }) => {
   const { createdAt, updatedAt, id, values } = queueItem;
   return (
     <li className="submission list-group-item">
-      <Link to={`/item/${id}`} className="summary-group">
+      <Link
+        to={`${buildFilterPath(filter)}/item/${id}`}
+        className="summary-group"
+      >
         <StatusParagraph queueItem={queueItem} />
         <h6>
           {queueItem.form.name} ({queueItem.handle})

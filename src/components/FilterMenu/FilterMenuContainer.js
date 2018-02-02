@@ -82,7 +82,7 @@ export const FilterMenuContainer = compose(
       props.setAdhocFilter(
         props.currentFilter.set('name', '').set('type', 'adhoc'),
       );
-      props.push('/custom');
+      props.push('/adhoc');
       props.close();
     },
     handleSaveFilter: ({

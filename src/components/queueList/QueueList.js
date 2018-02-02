@@ -67,13 +67,14 @@ export const QueueList = ({
   sortBy,
   toggleSortDirection,
   refresh,
-  totalItems,
   hasPrevPage,
   hasNextPage,
   gotoPrevPage,
   gotoNextPage,
+  isExact,
 }) =>
-  !filter ? (
+  isExact &&
+  (!filter ? (
     <WallyBadFilter />
   ) : (
     <div className="queue-list">
@@ -133,7 +134,11 @@ export const QueueList = ({
         ) : queueItems && queueItems.size > 0 ? (
           <ul className="list-group">
             {queueItems.map(queueItem => (
-              <QueueListItemSmall queueItem={queueItem} key={queueItem.id} />
+              <QueueListItemSmall
+                queueItem={queueItem}
+                key={queueItem.id}
+                filter={filter}
+              />
             ))}
           </ul>
         ) : (
@@ -141,4 +146,4 @@ export const QueueList = ({
         )}
       </div>
     </div>
-  );
+  ));
