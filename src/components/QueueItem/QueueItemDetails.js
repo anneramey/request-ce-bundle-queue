@@ -179,7 +179,6 @@ export const mapDispatchToProps = {
   setCurrentItem: actions.setCurrentItem,
   openNewItemMenu: actions.openNewItemMenu,
   fetchCurrentItem: actions.fetchCurrentItem,
-  setCurrentItem: actions.setCurrentItem,
   openModal: discussionActions.openModal,
   createDiscussion: discussionActions.createIssue,
 };

@@ -12,11 +12,14 @@ import moment from 'moment';
 import underscore from 'underscore';
 import 'bootstrap-select/dist/css/bootstrap-select.css';
 import './lib/kd-typeahead/kd-typeahead.css';
+import 'font-awesome/css/font-awesome.css';
 
 window.$ = jquery;
 window.jQuery = jquery;
 window.moment = moment;
 window._ = underscore;
+// This is required for kd-typeahead
+window.Bloodhound = require('typeahead.js');
 
 require('datatables.net');
 require('datatables.net-dt/css/jquery.dataTables.css');
