@@ -7,6 +7,7 @@ import 'react-kinops-common/styles/master.scss';
 import 'react-kinops-discussions/styles/master.scss';
 import { LayoutContainer } from './Layout';
 import { SidebarContainer } from './SidebarContainer';
+import { PageTitle } from './PageTitle';
 
 export const App = ({ loading }) => (
   <div>
@@ -18,7 +19,9 @@ export const App = ({ loading }) => (
       {/*<link rel="stylesheet" href="//basehold.it/12/11/168/224/0.2" />*/}
     </Helmet>
     {loading ? (
-      <div />
+      <div>
+        <PageTitle parts={[]} />
+      </div>
     ) : (
       <div className="app">
         <LayoutContainer sidebarContent={<SidebarContainer />} />

@@ -8,6 +8,7 @@ import sortAscIcon from '../../images/sort_asc.svg';
 import sortDescIcon from '../../images/sort_desc.svg';
 import { QueueListItemSmall } from './QueueListItem';
 import { TOO_MANY_STATUS_STRING } from '../../redux/sagas/queue';
+import { PageTitle } from '../PageTitle';
 
 const SORT_NAMES = {
   createdAt: 'Created At',
@@ -70,6 +71,7 @@ export const QueueList = ({
     <WallyBadFilter />
   ) : (
     <div className="queue-list">
+      <PageTitle parts={[filter.name || 'Adhoc']} />
       <div className="controls">
         <h6>
           {filter.name || 'Adhoc'}

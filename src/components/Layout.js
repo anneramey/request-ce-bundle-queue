@@ -14,6 +14,8 @@ import { ModalFormContainer } from 'react-kinops-common';
 import { ToastsContainer } from 'react-kinops-common';
 import { WorkMenuContainer } from './WorkMenu';
 
+import { FormPreview } from './FormPreview';
+
 const globals = import('../globals');
 
 export const Layout = ({
@@ -36,6 +38,13 @@ export const Layout = ({
     >
       <ToastsContainer />
       <NotificationsContainer />
+      <Route
+        path="/submissions/:id"
+        exact
+        render={({ match }) => <Redirect to={`/item/${match.params.id}`} />}
+      />
+      <Route path="/forms/:slug" exact component={FormPreview} />
+      />
       <Route path="/" exact render={() => <Redirect to="/list/Mine" />} />
       <Route path="/list/:filter" component={QueueListContainer} />
       <Route path="/custom" component={QueueListContainer} />

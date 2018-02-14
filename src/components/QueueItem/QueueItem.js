@@ -7,6 +7,7 @@ import chevronLeftIcon from 'font-awesome-svg-png/black/svg/chevron-left.svg';
 import { actions } from '../../redux/modules/queue';
 import { QueueItemDetailsContainer } from './QueueItemDetails';
 import { QueueItemDiscussionsContainer } from './QueueItemDiscussionsContainer';
+import { PageTitle } from '../PageTitle';
 
 export const QueueItem = ({ lastFilterPath, lastFilterName, queueItem }) =>
   queueItem !== null && (
@@ -20,6 +21,12 @@ export const QueueItem = ({ lastFilterPath, lastFilterName, queueItem }) =>
         </Link>
       )}
       <div className="queue-item-content">
+        <PageTitle
+          parts={[
+            queueItem ? queueItem.handle : '',
+            lastFilterName ? lastFilterName : '',
+          ]}
+        />
         <QueueItemDetailsContainer />
         <QueueItemDiscussionsContainer />
       </div>
