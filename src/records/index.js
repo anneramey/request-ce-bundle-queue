@@ -57,7 +57,7 @@ export const Filter = Record({
 });
 
 export const filterReviver = filterJSON => {
-  const status = List(filterJSON.statuses);
+  const status = List(filterJSON.status);
   const teams = List(filterJSON.teams);
   const assignments = assignmentCriteriaReviver(filterJSON.assignments);
   const dateRange = DateRangeCriteria(filterJSON.dateRange);

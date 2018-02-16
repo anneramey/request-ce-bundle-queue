@@ -50,10 +50,11 @@ export const selectPrevAndNext = state => {
   if (state.app.lastFilterName === null) {
     return null;
   }
-
-  const currentFilter = state.app.filters.find(
-    f => f.name === state.app.lastFilterName,
-  );
+  const allFilters = state.app.filters.concat(state.app.myFilters);
+  const currentFilter =
+    state.app.lastFilterName === 'Adhoc'
+      ? state.queue.adhocFilter
+      : allFilters.find(f => f.name === state.app.lastFilterName);
   const queueItems = state.queue.lists.get(currentFilter);
   const currentItemIndex = queueItems.findIndex(
     item => item.id === state.queue.currentItem.id,
