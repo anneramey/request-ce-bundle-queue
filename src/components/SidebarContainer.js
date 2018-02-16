@@ -2,7 +2,7 @@ import { compose, lifecycle, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 import { Filter } from '../records';
-import { getFilterByPath } from '../redux/modules/app';
+import { getFilterByPath, selectMyTeamForms } from '../redux/modules/app';
 import { actions } from '../redux/modules/queue';
 import { actions as filterMenuActions } from '../redux/modules/filterMenu';
 import { Sidebar } from './Sidebar';
@@ -24,6 +24,8 @@ const mapStateToProps = state => ({
     ]),
   hasTeammates: state.app.myTeammates.size > 0,
   hasTeams: state.app.myTeams.size > 0,
+  hasForms:
+    selectMyTeamForms(state).filter(form => form.type === 'Task').length > 0,
 });
 
 const mapDispatchToProps = {

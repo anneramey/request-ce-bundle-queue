@@ -21,15 +21,18 @@ export const Sidebar = ({
   myFilters,
   hasTeammates,
   hasTeams,
+  hasForms,
 }) => (
   <div className="sidebar">
-    <button
-      type="button"
-      className="btn btn-primary"
-      onClick={handleOpenNewItemMenu}
-    >
-      Create New Task
-    </button>
+    {hasForms && (
+      <button
+        type="button"
+        className="btn btn-primary"
+        onClick={handleOpenNewItemMenu}
+      >
+        Create New Task
+      </button>
+    )}
     <h6>Default Filters</h6>
     <Nav vertical className="filter-nav">
       <NavItem>
