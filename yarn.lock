@@ -5915,7 +5915,7 @@ react-addons-shallow-compare@^15.6.0:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
 
-react-autocomplete@^1.7.1:
+react-autocomplete@^1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/react-autocomplete/-/react-autocomplete-1.8.1.tgz#ebbbc400006aa91ad538b2d14727b9e7e5d06310"
   dependencies:
