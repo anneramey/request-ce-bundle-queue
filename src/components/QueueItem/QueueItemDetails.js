@@ -9,8 +9,8 @@ import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
 import commentsIcon from 'font-awesome-svg-png/black/svg/comments.svg';
 import { selectAssignments } from '../../redux/modules/app';
 import { actions, selectPrevAndNext } from '../../redux/modules/queue';
-import { originLink } from '../../utils/links';
 import { AssignmentSelector } from './AssignmentSelector';
+import { ViewOriginalRequest } from './ViewOriginalRequest';
 import { AssignmentBadge } from './AssignmentBadge';
 import { TimeAgo } from '../TimeAgo';
 import { StatusParagraph } from '../StatusParagraph';
@@ -91,13 +91,7 @@ export const QueueItemDetails = ({
           />
         </div>
         {nonQueueLink(queueItem) && (
-          <a
-            className="btn btn-primary btn-inverse request-button"
-            href={originLink(queueItem)}
-            target="_blank"
-          >
-            View Original Request
-          </a>
+          <ViewOriginalRequest queueItem={queueItem} />
         )}
         {queueLink(queueItem) && (
           <Link
