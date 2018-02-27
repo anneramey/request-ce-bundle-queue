@@ -6073,9 +6073,9 @@ react-kinetic-core@^0.3.2:
     react-redux "^5.0.4"
     redux "^3.6.0"
 
-react-kinops-common@^0.3.3:
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/react-kinops-common/-/react-kinops-common-0.3.6.tgz#5ee66e76013d379d2802892949de8ace3787ef3b"
+react-kinops-common@^0.3.7:
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/react-kinops-common/-/react-kinops-common-0.3.7.tgz#eda1f44669fde68165e5a6403edcb2d0173b8067"
   dependencies:
     deepequal "^0.0.1"
     eslint-config-react-app "^2.0.1"
@@ -6091,9 +6091,9 @@ react-kinops-common@^0.3.3:
     react-transition-group "^1.1.2"
     reactstrap "^4.8.0"
 
-react-kinops-discussions@^0.1.1:
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/react-kinops-discussions/-/react-kinops-discussions-0.1.9.tgz#d4a9517879a2edc2c9696d630960d9567a54b07d"
+react-kinops-discussions@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/react-kinops-discussions/-/react-kinops-discussions-0.2.2.tgz#5a8500193ee0862fa75afe92efe6aa8a36854860"
   dependencies:
     deepequal "^0.0.1"
     eslint-plugin-flowtype "^2.41.0"
