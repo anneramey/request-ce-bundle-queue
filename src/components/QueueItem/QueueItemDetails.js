@@ -4,9 +4,6 @@ import { compose, withState, withHandlers, withProps } from 'recompose';
 import { Link } from 'react-router-dom';
 import { bundle } from 'react-kinetic-core';
 import { actions as discussionActions } from 'react-kinops-discussions';
-import SVGInline from 'react-svg-inline';
-import plusIcon from 'font-awesome-svg-png/black/svg/plus.svg';
-import commentsIcon from 'font-awesome-svg-png/black/svg/comments.svg';
 import { selectAssignments } from '../../redux/modules/app';
 import { actions, selectPrevAndNext } from '../../redux/modules/queue';
 import { AssignmentSelector } from './AssignmentSelector';
@@ -54,7 +51,12 @@ export const QueueItemDetails = ({
           }
           className="btn btn-primary btn-inverse discussion-button icon-wrapper hidden-md-up"
         >
-          <SVGInline svg={commentsIcon} className="icon" />
+          <span className="icon">
+            <span
+              className="fa fa-comments"
+              style={{ color: '#7e8083', fontSize: '16px' }}
+            />
+          </span>
           {queueItem.values['Discussion Id'] === null
             ? 'Create Discussion'
             : 'View Discussion'}
@@ -129,7 +131,9 @@ export const QueueItemDetails = ({
             <span>Subtasks</span>
             {queueItem.coreState === 'Draft' && (
               <button className="btn btn-link" onClick={openNewItemMenu}>
-                <SVGInline svg={plusIcon} className="icon" />
+                <span className="icon">
+                  <span className="fa fa-plus" style={{ color: '#7e8083' }} />
+                </span>
               </button>
             )}
           </h2>

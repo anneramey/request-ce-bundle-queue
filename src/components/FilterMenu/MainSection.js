@@ -1,8 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 import { ModalBody } from 'reactstrap';
-import SVGInline from 'react-svg-inline';
-import chevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg';
 import { SORT_OPTIONS } from '../FilterMenu/SortedBySection';
 
 const ListSummary = ({ type, list }) =>
@@ -76,7 +74,12 @@ export const MainSection = ({
         >
           <span className="button-title">Teams</span>
           <ListSummary type="Teams" list={filter.teams} />
-          <SVGInline svg={chevronRightIcon} className="icon" />
+          <span className="icon">
+            <span
+              className="fa fa-angle-right"
+              style={{ color: '#7e8083', fontSize: '16px' }}
+            />
+          </span>
         </button>
       </li>
       <li className="list-group-item">
@@ -90,7 +93,12 @@ export const MainSection = ({
             errors={errors}
             appliedAssignments={appliedAssignments}
           />
-          <SVGInline svg={chevronRightIcon} className="icon" />
+          <span className="icon">
+            <span
+              className="fa fa-angle-right"
+              style={{ color: '#7e8083', fontSize: '16px' }}
+            />
+          </span>
         </button>
       </li>
       <li className="list-group-item">
@@ -101,7 +109,12 @@ export const MainSection = ({
         >
           <span className="button-title">Status</span>
           <ListSummary type="Statuses" list={filter.status} />
-          <SVGInline svg={chevronRightIcon} className="icon" />
+          <span className="icon">
+            <span
+              className="fa fa-angle-right"
+              style={{ color: '#7e8083', fontSize: '16px' }}
+            />
+          </span>
         </button>
       </li>
       <li className="list-group-item">
@@ -112,7 +125,12 @@ export const MainSection = ({
         >
           <span className="button-title">Date Range</span>
           <DateRangeSummary errors={errors} filter={filter} />
-          <SVGInline svg={chevronRightIcon} className="icon" />
+          <span className="icon">
+            <span
+              className="fa fa-angle-right"
+              style={{ color: '#7e8083', fontSize: '16px' }}
+            />
+          </span>
         </button>
       </li>
       <li className="list-group-item">
@@ -123,7 +141,12 @@ export const MainSection = ({
         >
           <span className="button-title">Sorted By</span>
           <span>{SORT_OPTIONS.get(filter.sortBy).label}</span>
-          <SVGInline svg={chevronRightIcon} className="icon" />
+          <span className="icon">
+            <span
+              className="fa fa-angle-right"
+              style={{ color: '#7e8083', fontSize: '16px' }}
+            />
+          </span>
         </button>
       </li>
     </ul>

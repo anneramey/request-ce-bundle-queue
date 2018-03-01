@@ -1,8 +1,5 @@
 import React from 'react';
 import { Modal, ModalBody, ModalFooter } from 'reactstrap';
-import SVGInline from 'react-svg-inline';
-import chevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg';
-import chevronLeftIcon from 'font-awesome-svg-png/black/svg/chevron-left.svg';
 import { CoreForm } from 'react-kinetic-core';
 import { AssignmentSelector } from '../QueueItem/AssignmentSelector';
 
@@ -22,7 +19,12 @@ const FormList = ({ myTeamForms, handleFormClick, permittedSubtasks }) => (
             onClick={handleFormClick(form)}
           >
             <span className="button-title">{form.name}</span>
-            <SVGInline svg={chevronRightIcon} className="icon" />
+            <span className="icon">
+              <span
+                className="fa fa-angle-right"
+                style={{ color: '#7e8083', fontSize: '16px' }}
+              />
+            </span>
           </button>
         </li>
       ))}
@@ -39,7 +41,12 @@ const FormsBackButton = ({ handleFormClick }) => (
     className="btn btn-link back-button icon-wrapper"
     onClick={handleFormClick(null)}
   >
-    <SVGInline svg={chevronLeftIcon} className="icon" />
+    <span className="icon">
+      <span
+        className="fa fa-chevron-left"
+        style={{ color: '#7e8083', fontSize: '16px' }}
+      />
+    </span>
     Forms
   </button>
 );
@@ -50,7 +57,12 @@ const AssignmentBackButton = ({ handleAssignmentClick }) => (
     className="btn btn-link back-button icon-wrapper"
     onClick={handleAssignmentClick(null)}
   >
-    <SVGInline svg={chevronLeftIcon} className="icon" />
+    <span className="icon">
+      <span
+        className="fa fa-chevron-left"
+        style={{ color: '#7e8083', fontSize: '16px' }}
+      />
+    </span>
     Assignment
   </button>
 );

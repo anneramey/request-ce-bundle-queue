@@ -2,10 +2,6 @@ import React from 'react';
 import SVGInline from 'react-svg-inline';
 import wallyHappyImage from '../../images/wally-happy.svg';
 import wallyMissingImage from '../../images/wally-missing.svg';
-import refreshIcon from 'font-awesome-svg-png/white/svg/refresh.svg';
-import filterIcon from '../../images/filter.svg';
-import sortAscIcon from '../../images/sort_asc.svg';
-import sortDescIcon from '../../images/sort_desc.svg';
 import { QueueListItemSmall } from './QueueListItem';
 import { TOO_MANY_STATUS_STRING } from '../../redux/sagas/queue';
 import { PageTitle } from '../PageTitle';
@@ -84,24 +80,45 @@ export const QueueList = ({
             className="btn btn-link icon-wrapper"
             onClick={refresh}
           >
-            <SVGInline svg={refreshIcon} className="icon" />
+            <span className="icon">
+              <span
+                className="fa fa-fw fa-refresh"
+                style={{ fontSize: '16px', color: '#7e8083' }}
+              />
+            </span>
           </button>
           <button
             type="button"
             className="btn btn-link icon-wrapper"
             onClick={toggleSortDirection}
           >
-            <SVGInline
-              className="icon"
-              svg={sortDirection === 'ASC' ? sortAscIcon : sortDescIcon}
-            />
+            {sortDirection === 'ASC' ? (
+              <span className="icon">
+                <span
+                  className="fa fa-fw fa-sort-amount-asc"
+                  style={{ fontSize: '16px', color: '#7e8083' }}
+                />
+              </span>
+            ) : (
+              <span className="icon">
+                <span
+                  className="fa fa-fw fa-sort-amount-desc "
+                  style={{ fontSize: '16px', color: '#7e8083' }}
+                />
+              </span>
+            )}
           </button>
           <button
             type="button"
             className="btn btn-link icon-wrapper"
             onClick={openFilterMenu}
           >
-            <SVGInline svg={filterIcon} className="icon" />
+            <span className="icon">
+              <span
+                className="fa fa-fw fa-sliders"
+                style={{ fontSize: '16px', color: '#7e8083' }}
+              />
+            </span>
           </button>
         </div>
       </div>

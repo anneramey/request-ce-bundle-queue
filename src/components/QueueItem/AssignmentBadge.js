@@ -1,7 +1,5 @@
 import React from 'react';
-import SVGInline from 'react-svg-inline';
 import classNames from 'classnames';
-import chevronRightIcon from 'font-awesome-svg-png/black/svg/chevron-right.svg';
 
 export const AssignmentBadge = ({ queueItem, toggle, readOnly }) => (
   <div
@@ -22,13 +20,15 @@ export const AssignmentBadge = ({ queueItem, toggle, readOnly }) => (
       </div>
     </div>
     {!readOnly && (
-      <SVGInline
-        svg={chevronRightIcon}
-        className="icon"
-        onClick={toggle}
-        role="button"
-        tabIndex={0}
-      />
+      <span className="icon">
+        <span
+          className="fa fa-chevron-right icon"
+          onClick={toggle}
+          role="button"
+          tabIndex={0}
+          style={{ color: '#7e8083', fontSize: '16px' }}
+        />
+      </span>
     )}
   </div>
 );

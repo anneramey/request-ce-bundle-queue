@@ -1,13 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Nav, NavItem } from 'reactstrap';
-import SVGInline from 'react-svg-inline';
-import plusIcon from 'font-awesome-svg-png/white/svg/plus.svg';
-import userIcon from 'font-awesome-svg-png/white/svg/user.svg';
-import usersIcon from 'font-awesome-svg-png/white/svg/users.svg';
-import inboxIcon from 'font-awesome-svg-png/white/svg/inbox.svg';
-import starIcon from 'font-awesome-svg-png/white/svg/star-o.svg';
-import filledStarIcon from 'font-awesome-svg-png/white/svg/star.svg';
 //import chevronRightIcon from 'font-awesome-svg-png/black/svg/angle-right.svg';
 
 const formatCount = count => (count >= 1000 ? '999+' : `${count}`);
@@ -41,7 +34,9 @@ export const Sidebar = ({
           className="nav-link icon-wrapper"
           activeClassName="active"
         >
-          <SVGInline svg={userIcon} className="icon" />
+          <span className="icon">
+            <span className="fa fa-fw fa-user" style={{ fontSize: '16px' }} />
+          </span>
           Mine ({formatCount(counts.get('Mine', 0))})
         </NavLink>
       </NavItem>
@@ -52,7 +47,12 @@ export const Sidebar = ({
             className="nav-link icon-wrapper"
             activeClassName="active"
           >
-            <SVGInline svg={usersIcon} className="icon" />
+            <span className="icon">
+              <span
+                className="fa fa-fw fa-users"
+                style={{ fontSize: '16px' }}
+              />
+            </span>
             Teammates ({formatCount(counts.get('Teammates', 0))})
           </NavLink>
         </NavItem>
@@ -64,7 +64,12 @@ export const Sidebar = ({
             className="nav-link icon-wrapper"
             activeClassName="active"
           >
-            <SVGInline svg={inboxIcon} className="icon" />
+            <span className="icon">
+              <span
+                className="fa fa-fw fa-inbox"
+                style={{ fontSize: '16px' }}
+              />
+            </span>
             Unassigned ({formatCount(counts.get('Unassigned', 0))})
           </NavLink>
         </NavItem>
@@ -73,7 +78,9 @@ export const Sidebar = ({
     <h6 className="d-flex justify-content-between icon-wrapper">
       My Filters
       <button className="btn btn-sidebar" onClick={handleNewPersonalFilter}>
-        <SVGInline svg={plusIcon} className="icon" />
+        <span className="icon">
+          <span className="fa fa-plus" style={{ color: '#7e8083' }} />
+        </span>
       </button>
     </h6>
     <Nav vertical className="filter-nav">
@@ -84,7 +91,12 @@ export const Sidebar = ({
             className="nav-link icon-wrapper"
             activeClassName="active"
           >
-            <SVGInline svg={starIcon} className="icon" />
+            <span className="icon">
+              <span
+                className="fa fa-fw fa-star-o"
+                style={{ fontSize: '16px' }}
+              />
+            </span>
             {`${filter.name}`}
           </NavLink>
         </NavItem>
@@ -92,7 +104,12 @@ export const Sidebar = ({
       {myFilters.size === 0 && (
         <NavItem>
           <i className="nav-link icon-wrapper">
-            <SVGInline svg={filledStarIcon} className="icon" />
+            <span className="icon">
+              <span
+                className="fa fa-filled-star"
+                style={{ fontSize: '16px' }}
+              />
+            </span>
             None Configured
           </i>
         </NavItem>

@@ -1,7 +1,5 @@
 import React from 'react';
 import { Modal, ModalFooter } from 'reactstrap';
-import SVGInline from 'react-svg-inline';
-import chevronLeftIcon from 'font-awesome-svg-png/black/svg/chevron-left.svg';
 import { MainSection } from './MainSection';
 import { AssignmentSectionContainer } from './AssignmentSection';
 import { TeamsSectionContainer } from './TeamsSection';
@@ -48,7 +46,12 @@ export const FilterMenu = ({
           className="btn btn-link back-button icon-wrapper"
           onClick={() => showSection(null)}
         >
-          <SVGInline svg={chevronLeftIcon} className="icon" />
+          <span className="icon">
+            <span
+              className="fa fa-chevron-left"
+              style={{ color: '#7e8083', fontSize: '16px' }}
+            />
+          </span>
           Filters
         </button>
       )}
