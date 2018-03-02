@@ -1,11 +1,6 @@
 import React from 'react';
-import SVGInline from 'react-svg-inline';
 import { UncontrolledTooltip, ButtonGroup, Button } from 'reactstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import solidCircle from 'font-awesome-svg-png/white/svg/circle.svg';
-import emptyCircle from 'font-awesome-svg-png/white/svg/circle-o.svg';
-import caretLeft from 'font-awesome-svg-png/white/svg/caret-left.svg';
-import caretRight from 'font-awesome-svg-png/white/svg/caret-right.svg';
 
 const CLOSED_STATUSES = ['Cancelled', 'Complete'];
 
@@ -31,12 +26,22 @@ const PrevAndNextGroup = ({ prevAndNext }) => (
   <ButtonGroup className="queue-details-nav btn-group-xs">
     <LinkContainer to={`/item/${prevAndNext.prev}`}>
       <Button color="secondary" outline disabled={!prevAndNext.prev}>
-        <SVGInline svg={caretLeft} className="icon" />
+        <span className="icon">
+          <span
+            className="fa fa-fw fa-caret-left"
+            style={{ color: '#7e8083' }}
+          />
+        </span>
       </Button>
     </LinkContainer>
     <LinkContainer to={`/item/${prevAndNext.next}`}>
       <Button color="secondary" outline disabled={!prevAndNext.next}>
-        <SVGInline svg={caretRight} className="icon" />
+        <span className="icon">
+          <span
+            className="fa fa-fw fa-caret-right"
+            style={{ color: '#7e8083' }}
+          />
+        </span>
       </Button>
     </LinkContainer>
   </ButtonGroup>
@@ -45,14 +50,19 @@ const PrevAndNextGroup = ({ prevAndNext }) => (
 export const StatusParagraph = ({ queueItem, prevAndNext }) => (
   <div className="status-paragraph">
     <p className={getStatusClass(queueItem.values.Status)}>
-      <SVGInline
-        svg={
-          CLOSED_STATUSES.includes(queueItem.values.Status)
-            ? solidCircle
-            : emptyCircle
-        }
-        className="icon"
-      />
+      {CLOSED_STATUSES.includes(queueItem.values.Status) ? (
+        <span className="icon">
+          <span className="fa fa-fw fa-circle" style={{ fontSize: '10px' }} />
+        </span>
+      ) : (
+        <span className="icon">
+          <span
+            className="fa fa-fw fa-circle-o "
+            style={{ fontSize: '10px' }}
+          />
+        </span>
+      )}
+
       {queueItem.values.Status}
       <span className="status-reason" id={getStatusId(queueItem)}>
         {getStatusReason(queueItem)}

@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import SVGInline from 'react-svg-inline';
-import commentsIcon from 'font-awesome-svg-png/black/svg/comments.svg';
 import { TimeAgo } from '../TimeAgo';
 import { StatusParagraph } from '../StatusParagraph';
 
@@ -52,7 +50,12 @@ export const QueueListItemSmall = ({ queueItem }) => {
         <h6>
           {queueItem.form.name} ({queueItem.handle})
           {queueItem.values['Discussion Id'] && (
-            <SVGInline svg={commentsIcon} className="icon" />
+            <span className="icon">
+              <span
+                className="fa fa-fw fa-comments"
+                style={{ fontSize: '16px' }}
+              />
+            </span>
           )}
         </h6>
         <p className="summary">{values.Summary}</p>
