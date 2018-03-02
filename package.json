@@ -18,7 +18,7 @@
     "jest-junit": "^3.3.0",
     "kinops-react-scripts": "^0.8.0",
     "modularscale-sass": "^3.0.3",
-    "prettier": "^1.7.4",
+    "prettier": "1.11.1",
     "react-test-renderer": "^15.6.1"
   },
   "dependencies": {
