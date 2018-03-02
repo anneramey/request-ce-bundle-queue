@@ -6,12 +6,13 @@ import { actions } from '../../redux/modules/queue';
 import { QueueItemDetailsContainer } from './QueueItemDetails';
 import { QueueItemDiscussionsContainer } from './QueueItemDiscussionsContainer';
 import { PageTitle } from '../PageTitle';
+import { getFilterByPath, buildFilterPath } from '../../redux/modules/app';
 
-export const QueueItem = ({ lastFilterPath, lastFilterName, queueItem }) =>
+export const QueueItem = ({ filter, queueItem }) =>
   queueItem !== null && (
     <div className="queue-item">
-      {lastFilterName && (
-        <Link to={lastFilterPath} className="back-link">
+      {filter && (
+        <Link to={buildFilterPath(filter)} className="back-link">
           <div className="icon-wrapper">
             <span className="icon">
               <span
@@ -19,7 +20,7 @@ export const QueueItem = ({ lastFilterPath, lastFilterName, queueItem }) =>
                 style={{ fontSize: '16px' }}
               />
             </span>
-            {lastFilterName}
+            {filter.name || 'Adhoc'}
           </div>
         </Link>
       )}
@@ -27,20 +28,19 @@ export const QueueItem = ({ lastFilterPath, lastFilterName, queueItem }) =>
         <PageTitle
           parts={[
             queueItem ? queueItem.handle : '',
-            lastFilterName ? lastFilterName : '',
+            filter ? filter.name || 'Adhoc' : '',
           ]}
         />
-        <QueueItemDetailsContainer />
+        <QueueItemDetailsContainer filter={filter} />
         <QueueItemDiscussionsContainer />
       </div>
     </div>
   );
 
 export const mapStateToProps = (state, props) => ({
-  queueItem: state.queue.currentItem,
-  lastFilterPath: state.app.lastFilterPath,
-  lastFilterName: state.app.lastFilterName,
   id: props.match.params.id,
+  filter: getFilterByPath(state, props.location.pathname),
+  queueItem: state.queue.currentItem,
 });
 
 export const mapDispatchToProps = {

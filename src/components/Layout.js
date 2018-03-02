@@ -46,8 +46,12 @@ export const Layout = ({
       <Route path="/forms/:slug" exact component={FormPreview} />
       <Route path="/" exact render={() => <Redirect to="/list/Mine" />} />
       <Route path="/list/:filter" component={QueueListContainer} />
-      <Route path="/custom" component={QueueListContainer} />
-      <Route path="/item/:id" component={QueueItemContainer} />
+      <Route path="/custom/:filter" component={QueueListContainer} />
+      <Route path="/adhoc" component={QueueListContainer} />
+      <Route
+        path="/(list|custom|adhoc)?/:filter?/item/:id"
+        component={QueueItemContainer}
+      />
       <Route
         path="/queue/filter/__show__/details/:id/summary"
         render={({ match }) => <Redirect to={`/item/${match.params.id}`} />}

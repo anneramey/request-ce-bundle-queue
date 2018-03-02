@@ -62,8 +62,17 @@ export const QueueList = ({
   sortBy,
   toggleSortDirection,
   refresh,
+  hasPrevPage,
+  hasNextPage,
+  gotoPrevPage,
+  gotoNextPage,
+  isExact,
+  count,
+  limit,
+  offset,
 }) =>
-  !filter ? (
+  isExact &&
+  (!filter ? (
     <WallyBadFilter />
   ) : (
     <div className="queue-list">
@@ -74,6 +83,37 @@ export const QueueList = ({
           <br />
           <small>by {SORT_NAMES[sortBy]}</small>
         </h6>
+        {count > 0 ? (
+          <div className="nav-buttons">
+            <button
+              type="button"
+              className="btn btn-link icon-wrapper"
+              disabled={!hasPrevPage}
+              onClick={gotoPrevPage}
+            >
+              <span className="icon">
+                <span className="fa fa-fw fa-caret-left" />
+              </span>
+            </button>
+            <strong>
+              {offset + 1}-{offset + queueItems.size}
+            </strong>
+            {' of '}
+            <strong>{count}</strong>
+            <button
+              type="button"
+              className="btn btn-link icon-wrapper"
+              disabled={!hasNextPage}
+              onClick={gotoNextPage}
+            >
+              <span className="icon">
+                <span className="fa fa-fw fa-caret-right" />
+              </span>
+            </button>
+          </div>
+        ) : (
+          <span />
+        )}
         <div className="buttons">
           <button
             type="button"
@@ -128,7 +168,11 @@ export const QueueList = ({
         ) : queueItems && queueItems.size > 0 ? (
           <ul className="list-group">
             {queueItems.map(queueItem => (
-              <QueueListItemSmall queueItem={queueItem} key={queueItem.id} />
+              <QueueListItemSmall
+                queueItem={queueItem}
+                key={queueItem.id}
+                filter={filter}
+              />
             ))}
           </ul>
         ) : (
@@ -136,4 +180,4 @@ export const QueueList = ({
         )}
       </div>
     </div>
-  );
+  ));

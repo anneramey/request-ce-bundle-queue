@@ -18,7 +18,7 @@
     "jest-junit": "^3.3.0",
     "kinops-react-scripts": "^0.8.0",
     "modularscale-sass": "^3.0.3",
-    "prettier": "^1.7.4",
+    "prettier": "1.11.1",
     "react-test-renderer": "^15.6.1"
   },
   "dependencies": {
@@ -48,7 +48,7 @@
     "react-helmet": "^5.2.0",
     "react-kinetic-core": "^0.3.3",
     "react-kinops-common": "^0.3.8",
-    "react-kinops-discussions": "^0.2.4",
+    "react-kinops-discussions": "^0.2.6",
     "react-redux": "^5.0.6",
     "react-router-bootstrap": "^0.24.4",
     "react-router-dom": "^4.2.2",

@@ -7,10 +7,6 @@ import { Profile, Filter, AssignmentCriteria } from '../../records';
 export const DEFAULT_DOCUMENTATION_URL = 'https://help.kinops.io/queue/';
 export const DEFAULT_SUPPORT_URL = 'https://kinops.io/manage/public/support';
 
-const ADHOC_PATH = { path: '/custom', exact: true };
-const DEFAULT_LIST_PATH = { path: '/list/:name', exact: true };
-const CUSTOM_LIST_PATH = { path: '/custom/:name', exact: true };
-
 export const types = {
   LOAD_APP_SETTINGS: namespace('app', 'LOAD_APP_SETTINGS'),
   SET_APP_SETTINGS: namespace('app', 'SET_APP_SETTINGS'),
@@ -31,6 +27,10 @@ export const actions = {
   setSidebarOpen: withPayload(types.SET_SIDEBAR_OPEN),
 };
 
+const ADHOC_PATH = { path: '/adhoc', exact: false };
+const DEFAULT_LIST_PATH = { path: '/list/:name', exact: false };
+const CUSTOM_LIST_PATH = { path: '/custom/:name', exact: false };
+
 export const getFilterByPath = (state, pathname) => {
   const findByName = name => filter => filter.name === name;
   const adhocMatch = matchPath(pathname, ADHOC_PATH);
@@ -42,6 +42,18 @@ export const getFilterByPath = (state, pathname) => {
     return state.app.filters.find(findByName(defaultListMatch.params.name));
   } else if (customListMatch) {
     return state.app.myFilters.find(findByName(customListMatch.params.name));
+  }
+};
+
+export const buildFilterPath = filter => {
+  if (!filter) {
+    return '';
+  } else if (filter.type === 'default') {
+    return `/list/${filter.name}`;
+  } else if (filter.type === 'custom') {
+    return `/custom/${filter.name}`;
+  } else {
+    return '/adhoc';
   }
 };
 
@@ -111,8 +123,6 @@ export const State = Record({
   myFilters: List(),
   forms: List(),
   loading: true,
-  lastFilterPath: null,
-  lastFilterName: null,
   layoutSize: 'small',
   sidebarOpen: true,
 });
@@ -142,14 +152,9 @@ export const reducer = (state = State(), { type, payload }) => {
         myFilters.filterNot(f => f.name === payload.name),
       );
     case LOCATION_CHANGE:
-      const match =
-        matchPath(payload.location.pathname, ADHOC_PATH) ||
-        matchPath(payload.location.pathname, DEFAULT_LIST_PATH) ||
-        matchPath(payload.location.pathname, CUSTOM_LIST_PATH);
-      return state
-        .set('lastFilterPath', match ? payload.location.pathname : state.lastFilterPath)
-        .set('lastFilterName', match ? match.params.name || 'Adhoc' : state.lastFilterName)
-        .set('sidebarOpen', state.layoutSize === 'small' ? false : state.sidebarOpen);
+      return state.layoutSize === 'small'
+        ? state.set('sidebarOpen', false)
+        : state;
     case types.SET_LAYOUT_SIZE:
       return state.set('layoutSize', payload);
     case types.SET_SIDEBAR_OPEN:

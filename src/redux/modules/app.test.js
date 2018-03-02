@@ -19,7 +19,8 @@ const state = {
 describe('getFilterByPath', () => {
   describe('matches adhoc filter', () => {
     it('should return the adhocFilter property from queue state', () => {
-      expect(getFilterByPath(state, '/custom').name).toBe('Adhoc');
+      expect(getFilterByPath(state, '/adhoc').name).toBe('Adhoc');
+      expect(getFilterByPath(state, '/adhoc/foo/bar').name).toBe('Adhoc');
     });
   });
 
@@ -29,6 +30,9 @@ describe('getFilterByPath', () => {
         'Everything',
       );
       expect(getFilterByPath(state, '/custom/Everything/').name).toBe(
+        'Everything',
+      );
+      expect(getFilterByPath(state, '/custom/Everything/foo/bar').name).toBe(
         'Everything',
       );
     });
@@ -41,6 +45,9 @@ describe('getFilterByPath', () => {
     it('should return the default filter with matching name', () => {
       expect(getFilterByPath(state, '/list/Mine/').name).toBe('Mine');
     });
+    it('should return the default filter with matching name', () => {
+      expect(getFilterByPath(state, '/list/Mine/foo/bar').name).toBe('Mine');
+    });
   });
 
   describe('does not match any filter type', () => {
@@ -48,11 +55,9 @@ describe('getFilterByPath', () => {
       expect(getFilterByPath(state, '/')).toBeUndefined();
       expect(getFilterByPath(state, '/x')).toBeUndefined();
       expect(getFilterByPath(state, '/list')).toBeUndefined();
-      expect(getFilterByPath(state, '/list/x')).toBeUndefined();
-      expect(getFilterByPath(state, '/list/Mine/x')).toBeUndefined();
+      expect(getFilterByPath(state, '/list/other')).toBeUndefined();
+      expect(getFilterByPath(state, '/custom')).toBeUndefined();
       expect(getFilterByPath(state, '/custom/other')).toBeUndefined();
-      expect(getFilterByPath(state, '/custom/Everything/x')).toBeUndefined();
-      expect(getFilterByPath(state, '/list/Mine/x')).toBeUndefined();
     });
   });
 });

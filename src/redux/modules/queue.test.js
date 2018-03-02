@@ -36,26 +36,6 @@ describe('reducer', () => {
         Map([[filter1, List(queueItems)], [filter2, List()]]),
       );
       expect(reducer(state, action).statuses.get(filter1)).toBeNull();
-      expect(reducer(state, action).previewItem).toBeNull();
-    });
-
-    test('if there is a preview item and it is in the payloads list, preview item should be updated', () => {
-      const previewItem = { id: 'other' };
-      const state = State({ previewItem });
-      const action = actions.setListItems(Filter({ name: 'Filter 1' }), [
-        { id: 'foo' },
-        { id: 'bar' },
-        { id: 'baz' },
-      ]);
-      expect(reducer(state, action).previewItem).toBe(previewItem);
-    });
-
-    test('if there is a preview item and it is not in the payloads list, preview item should not be updated', () => {
-      const previewItem = { id: 'bar' };
-      const state = State({ previewItem });
-      const list = [{ id: 'foo' }, { id: 'bar' }, { id: 'baz' }];
-      const action = actions.setListItems(Filter({ name: 'Filter 1' }), list);
-      expect(reducer(state, action).previewItem).toBe(list[1]);
     });
   });
 
@@ -86,34 +66,19 @@ describe('reducer', () => {
     });
   });
 
-  describe('OPEN_PREVIEW', () => {
-    test('sets previewItem to the payload value', () => {
-      const state = State({ previewItem: null });
-      const queueItem = {};
-      const action = actions.openPreview(queueItem);
-      expect(reducer(state, action).previewItem).toBe(queueItem);
-    });
-  });
-
-  describe('CLOSE_PREVIEW', () => {
-    test('sets previewItem to null', () => {
-      const state = State({ previewItem: {} });
-      const action = actions.closePreview();
-      expect(reducer(state, action).previewItem).toBeNull();
-    });
-  });
-
-  describe('TOGGLE_SORT_DIRECTION', () => {
-    test('sets sortDirection to ASC from DESC', () => {
+  describe('SET_SORT_DIRECTION', () => {
+    test('sets sortDirection to the payload value', () => {
       const state = State({ sortDirection: 'DESC' });
-      const action = actions.toggleSortDirection();
+      const action = actions.setSortDirection('ASC');
       expect(reducer(state, action).sortDirection).toEqual('ASC');
     });
+  });
 
-    test('sets sortDirection to DESC from ASC', () => {
-      const state = State({ sortDirection: 'ASC' });
-      const action = actions.toggleSortDirection();
-      expect(reducer(state, action).sortDirection).toEqual('DESC');
+  describe('SET_OFFSET', () => {
+    test('sets offset to the payload value', () => {
+      const state = State({ offset: 0 });
+      const action = actions.setOffset(10);
+      expect(reducer(state, action).offset).toEqual(10);
     });
   });
 
@@ -147,14 +112,6 @@ describe('reducer', () => {
       const action = actions.closeNewItemMenu();
       expect(reducer(state, action).newItemMenuOpen).toEqual(false);
       expect(reducer(state, action).newItemMenuOptions).toEqualImmutable(Map());
-    });
-  });
-
-  describe('LOCATION_CHANGE', () => {
-    test('sets sortDirection to ASC from anything', () => {
-      const state = State({ sortDirection: 'foo' });
-      const action = actions.toggleSortDirection();
-      expect(reducer(state, action).sortDirection).toEqual('ASC');
     });
   });
 });
