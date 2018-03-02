@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose, lifecycle } from 'recompose';
 import { Link } from 'react-router-dom';
-import SVGInline from 'react-svg-inline';
-import chevronLeftIcon from 'font-awesome-svg-png/black/svg/chevron-left.svg';
 import { actions } from '../../redux/modules/queue';
 import { QueueItemDetailsContainer } from './QueueItemDetails';
 import { QueueItemDiscussionsContainer } from './QueueItemDiscussionsContainer';
@@ -15,7 +13,12 @@ export const QueueItem = ({ lastFilterPath, lastFilterName, queueItem }) =>
       {lastFilterName && (
         <Link to={lastFilterPath} className="back-link">
           <div className="icon-wrapper">
-            <SVGInline svg={chevronLeftIcon} className="icon" />
+            <span className="icon">
+              <span
+                className="fa fa-fw fa-chevron-left"
+                style={{ fontSize: '16px' }}
+              />
+            </span>
             {lastFilterName}
           </div>
         </Link>
