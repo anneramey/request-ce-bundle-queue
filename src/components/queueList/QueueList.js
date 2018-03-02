@@ -72,6 +72,9 @@ export const QueueList = ({
   gotoPrevPage,
   gotoNextPage,
   isExact,
+  count,
+  limit,
+  offset,
 }) =>
   isExact &&
   (!filter ? (
@@ -93,7 +96,11 @@ export const QueueList = ({
           >
             <SVGInline svg={caretLeft} className="icon" />
           </button>
-          <strong>984-999 </strong> of <strong>999</strong>
+          <strong>
+            {offset + 1}-{offset + limit}
+          </strong>
+          {' of '}
+          <strong>{count}</strong>
           <button
             type="button"
             className="btn btn-link icon-wrapper"

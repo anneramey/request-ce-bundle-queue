@@ -34,6 +34,7 @@ export const QueueListContainer = compose(
   withProps(({ sortDirection, queueItems, limit, offset }) => ({
     hasPrevPage: offset !== 0,
     hasNextPage: queueItems.size > limit + offset,
+    count: queueItems.size,
     queueItems: (sortDirection === 'DESC' ? queueItems.reverse() : queueItems)
       .skip(offset)
       .take(limit),
