@@ -84,7 +84,7 @@ export const QueueList = ({
           <br />
           <small>by {SORT_NAMES[sortBy]}</small>
         </h6>
-        <div className="buttons">
+        <div className="nav-buttons">
           <button
             type="button"
             className="btn btn-link icon-wrapper"
@@ -93,6 +93,7 @@ export const QueueList = ({
           >
             <SVGInline svg={caretLeft} className="icon" />
           </button>
+          <strong>984-999 </strong> of <strong>999</strong>
           <button
             type="button"
             className="btn btn-link icon-wrapper"
@@ -101,7 +102,8 @@ export const QueueList = ({
           >
             <SVGInline svg={caretRight} className="icon" />
           </button>
-
+        </div>
+        <div className="buttons">
           <button
             type="button"
             className="btn btn-link icon-wrapper"
