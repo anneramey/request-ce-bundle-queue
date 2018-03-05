@@ -57,7 +57,7 @@ export const QueueListItemSmall = ({ queueItem, filter }) => {
             <span className="icon">
               <span
                 className="fa fa-fw fa-comments"
-                style={{ fontSize: '16px' }}
+                style={{ color: '#7e8083', fontSize: '16px' }}
               />
             </span>
           )}
