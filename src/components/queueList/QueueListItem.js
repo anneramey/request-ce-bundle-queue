@@ -54,10 +54,10 @@ export const QueueListItemSmall = ({ queueItem, filter }) => {
         <h6>
           {queueItem.form.name} ({queueItem.handle})
           {queueItem.values['Discussion Id'] && (
-            <span className="icon">
+            <span className="btn icon">
               <span
                 className="fa fa-fw fa-comments"
-                style={{ color: '#7e8083', fontSize: '16px' }}
+                style={{ color: 'rgb(9, 84, 130)', fontSize: '16px' }}
               />
             </span>
           )}
