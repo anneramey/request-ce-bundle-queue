@@ -6484,9 +6484,9 @@ react-kinops-common@^0.3.8:
     react-transition-group "^1.1.2"
     reactstrap "^4.8.0"
 
-react-kinops-discussions@^0.2.6:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/react-kinops-discussions/-/react-kinops-discussions-0.2.6.tgz#6950e1a5f384f529a04dab06464c304f1f8fd2b6"
+react-kinops-discussions@^0.2.7:
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/react-kinops-discussions/-/react-kinops-discussions-0.2.7.tgz#5374e858a6404476b1659726343eb7073308306b"
   dependencies:
     deepequal "^0.0.1"
     eslint-plugin-flowtype "^2.41.0"
